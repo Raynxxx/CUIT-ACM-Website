@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+  {% if title -%}
+    <title>{{ title }} - CUIT ACM Team</title>
+  {%- else -%}
+    <title>CUIT ACM Team</title>
+  {%- endif %}
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/bootstrap/css/bootstrap.min.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/dist/css/AdminLTE.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/dist/css/skins/_all-skins.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  {%- block head -%}{%- endblock -%}
+</head>
+<body class="skin-blue layout-top-nav">
+<div class="wrapper">
+  <header class="main-header">
+    <nav class="navbar navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="" class="navbar-brand">CUIT <b>ACM</b> Team</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('main.ranklist') }}">水题榜</a></li>
+            <li><a href="{{ url_for('main.status') }}">提交</a></li>
+            <li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>
+            <li><a href="{{ url_for('main.book_list') }}">图书</a></li>
+            <li><a href="http://222.18.167.49/" target="_blank">校内OJ</a></li>
+            <li><a href="{{ url_for('main.about') }}">关于我们</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {%- if current_user.is_authenticated() -%}
+              <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <img src="{{ current_user.gravatar(size=256) }}" class="user-image" alt="User Image">
+              <span class="hidden-xs">{{ current_user.name }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
+
+                <p>
+                  {{ current_user.name }}
+                  <small>注册于 {{ current_user.create_time }}</small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="{{ url_for('profile.index') }}" class="btn btn-default btn-flat">个人信息</a>
+                  {%- if current_user.rights -%}
+                    <a href="{{ url_for('admin.index') }}" class="btn btn-default btn-flat">管理员功能</a>
+                  {%- endif -%}
+                </div>
+                <div class="pull-right">
+                  <a href="{{ url_for('main.logout') }}" class="btn btn-default btn-flat">注销</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+            {%- else -%}
+              <li id="login-button"><a id="login" href="{{ url_for('main.login') }}">登录</a></li>
+            {%- endif -%}
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+  </header>
+  <!-- Fixed navbar -->
+
+  <div class="content-wrapper" style="min-height: 299px;">
+    <div class="content">
+      {% block content -%}{%- endblock %}
+    </div>
+  </div>
+</div>
+<footer class="main-footer">
+  The MIT License (MIT) | <a href="https://github.com/Z2Y/CUITOJHelper-WebServer"><b>Project Homepage</b></a> | Copyright &copy;
+  2015. All rights reserved.
+  <p class="pull-right hidden-xs">若发现Bug请发送邮件至 <a href="mailto:raynxxx@outlook.com">Rayn</a> 或者
+    <a href="mailto:277507631@qq.com">zzy</a></p>
+</footer>
+<a href="#" class="back_to_top">Top</a>
+<!-- Javascript -->
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/dist/js/app.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/fastclick/fastclick.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/tools.js') }}"></script>
+<script>
+  $(document).ready(function () {
+    $('.content-wrapper').hide().fadeIn(500);
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+{%- block script -%}{%- endblock -%}
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% extends "profile/base.html" %}
+{% block content %}
+   <div class="span6">
+    <div class="block block-solid">
+        <div class="block-header">
+            <h3 class="block-title"><i class="fa fa-list-ol"></i> <span>修改资料</span></h3>
+        </div>
+        <div class="block-content">
+            <form id="modifyinfoForm" method="post"  class="form-sign">
+                {{ user_modify_form.hidden_tag() }}
+                {{ user_modify_form.name(class='input-block-level required', id="inputname",  placeholder="真实姓名") }}
+                {{ user_modify_form.stu_id(class='input-block-level required', id="inputSno", placeholder="学号") }}
+                {{ user_modify_form.email(class='input-block-level required', id="inputEmail", placeholder="邮箱") }}
+                {{ user_modify_form.phone(class='input-block-level required', id="inputPhone", placeholder="电话") }}
+                {{ user_modify_form.school(class='input-block-level required', id="inputSchool", placeholder="学校") }}
+                {{ user_modify_form.situation(class='input-block-level required', id="inputSituation", placeholder="现状") }}
+                {{ user_modify_form.motto(class='input-block-level required', id="inputMotto", placeholder="Motto") }}
+                {{ user_modify_form.submit(class='btn btn-primary') }}
+                <div class="alert alert-error alert-block hide"  id="add-info" style="margin: 20px auto 5px auto">
+                    <button type="button" class="close">&times;</button>
+                    <span id="add-info-text"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="span4">
+        <div class="block block-solid">
+            <div class="block-header">
+                <h3 class="block-title"><i class="fa fa-list-ol"></i> <span>修改密码</span></h3>
+            </div>
+            <div class="block-content">
+                <form id="modifypwdForm">
+                    {{ pwd_form.hidden_tag() }}
+                    {{ pwd_form.username(style="display:none", id="mUsername", placeholder="用户名") }}
+                    {{ pwd_form.password(class='input-block-level required', id="mPassword", placeholder="密码") }}
+                    {{ pwd_form.verifypassword(class='input-block-level required', id="mPassword2", placeholder="验证密码") }}
+                    {{ pwd_form.submit(class='btn btn-primary') }}
+                    <div class="alert alert-error alert-block hide" id="mod-info" style="margin: 20px auto 5px auto">
+                        <button type="button" class="close">&times;</button>
+                        <ul>
+                            <span id="mod-info-text"></span>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{%- block script -%}
+    <script>
+    $(document).ready(function () {
+        $("button.close").click(function () {
+            $(".alert").slideUp();
+        });
+        $('#modifyinfoForm').submit(function () {
+            $.post("{{ url_for('ajax.modify_userinfo') }}", $('#modifyinfoForm').serialize()).success(
+                    function (data) {
+                        $("#add-info-text").html(data);
+                        $("#add-info").hide().fadeIn(200);
+
+                    }
+            );
+            return false;
+        });
+        $('#modifypwdForm').submit(function () {
+            $.post("{{ url_for('ajax.modify_pwd') }}", $('#modifypwdForm').serialize()).success(
+                    function (data) {
+                        $("#mod-info-text").html(data);
+                        $("#mod-info").hide().fadeIn(200);
+
+                    }
+            );
+            return false;
+        });
+    });
+    </script>
+{%- endblock -%}

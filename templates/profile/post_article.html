@@ -1,0 +1,76 @@
+{% extends "profile/base.html" %}
+{% block content %}
+    <div class="container">
+    <div class="block block-solid">
+        <div class="block-header">
+            <h3 class="block-title"><i class="fa fa-list-ol"></i> <span>发布文章</span></h3>
+        </div>
+        <div class="block-content">
+            <form id="postForm" method="post"  class="form-sign">
+                {{ form.hidden_tag() }}
+                {{ form.sid(style="display:none") }}
+                <div class="iform-group">
+                    <label class="iform-label" for="inputTitle">标题:</label>
+                    {{ form.title(class="iform-control required",id="inputTitle", placeholder="标题") }}
+                </div>
+                <div class="iform-group">
+                    <label class="iform-label" for="inputShortcut">摘要:</label>
+                    {{ form.shortcut(class=' required',id="inputShortcut", rows="6", style="resize:none;" , placeholder="摘要") }}
+                </div>
+                <div class="iform-group">
+                    <label class="iform-label" for="inputContent">正文:</label>
+                    {{ form.content(class='required', id="inputContent" , rows="25", style="resize:none;" , placeholder="正文") }}
+                </div>
+                <div class="iform-group">
+                    <label class="iform-label" for="inputTag">标签:</label>
+                    {{ form.tags(class='iform-control required', id="inputTag" , placeholder="标签") }}
+                </div>
+                <div class="iform-group">
+                    <label class="iform-label" for="inputTag">相关题目:</label>
+                    <div class="iform-control">
+                        {{ form.problem_oj_name(class="pull-left") }}
+                        {{ form.problem_pid(class="pull-left", placeholder="题目ID（可以留空）", style="margin:0 10px 0 10px")}}
+                    </div>
+                </div>
+                <div class="iform-group">
+                    <div class="iform-label"></div>
+                    {{ form.submit(class='btn btn-primary', value='提交') }}
+                </div>
+
+                <div class="alert alert-error alert-block hide"  id="post-info" style="margin: 20px auto 5px auto">
+                    <button type="button" class="close">&times;</button>
+                    <span id="post-info-text"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{%- block script -%}
+<script>
+    $(document).ready(function () {
+        $("button.close").click(function () {
+            $(".alert").slideUp();
+        });
+        $('#inputShortcut').markdown({width:'iform-control'});
+        $('#inputContent').markdown({width:'iform-control'});
+        $('.md-editor').on("click",".btn[title='Preview']", function(){
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+        })
+        $('#postForm').submit(function () {
+            var title = $('#inputTitle');
+            var shortcut = $('#inputShortcut');
+            var content = $('#inputContent');
+            if (requiredCheck(title, 'title')) {
+                $.post("{{ url_for('ajax.solution_manager') }}", $('#postForm').serialize()).success(
+                        function (data) {
+                            $("#post-info-text").html(data);
+                            $("#post-info").hide().fadeIn(200);
+                        }
+                );
+            }
+            return false;
+        });
+    });
+</script>
+{%- endblock -%}

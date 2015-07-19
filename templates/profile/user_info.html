@@ -1,0 +1,41 @@
+{% extends "profile/base.html" %}
+{% block content %}
+    <div class="span5">
+        <div class="block block-solid">
+            <div class="block-header">
+                <h3 class="block-title"><i class="fa fa-list-ol"></i> <span>队员信息</span></h3>
+            </div>
+            <div class="block-content">
+                <p>姓名: <code>{{ user.name }}</code></p>
+                <p>学号: <code>{{ user.stu_id }}</code></p>
+                <p>昵称: <code>{{ user.username }}</code></p>
+                <p>邮箱: <code>{{ user.email }}</code></p>
+                <p>电话: <code>{{ user.phone }}</code></p>
+                <p>学校: <code>{{ user.school }}</code></p>
+                <p>motto: <code>{{ user.remark }}</code></p>
+                <p>现状: <code>{{ user.situation}}</code></p>
+                <p>创建时间: <code>{{ user.create_time }}</code></p>
+                {%- if user.gender %}
+                <p>性别: <code>男</code></p>
+                {%- else %}
+                <p>性别: <code>女</code></p>
+                {%- endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="span4">
+        <div class="block block-solid">
+            <div class="block-header">
+                <h3 class="block-title"><i class="fa fa-list-ol"></i> <span>统计信息</span></h3>
+            </div>
+            <div class="block-content">
+                <p>总提交数： <code>{{ stat['total_submit'] }}</code></p>
+                <p>本周提交数： <code>{{ stat['weekly_submit'] }}</code></p>
+                <p><a class="btn btn-info btn-flat" href="{{ url_for('profile.update_account',username=user.username) }}">更新</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{%- block script -%}
+{%- endblock -%}

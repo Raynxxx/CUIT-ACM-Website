@@ -1,0 +1,64 @@
+{% extends "index/base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/book.css') }}"/>
+{% endblock %}
+
+{% block loginbar %}
+{% endblock %}
+
+{% block content %}
+    <div class="book-sidebar" style="display: none;">
+        <div class="sidebar">
+            <button type="button" class="close" id="book-sidebar-close">&times;</button>
+            <div class="siderbar-content"></div>
+            <a class="btn btn-success btn-flat" href="#">借阅</a>
+            <a class="btn btn-info btn-flat" href="#">归还</a>
+        </div>
+    </div>
+    <div class="container">
+        {% for one in books %}
+        <!--<div class="grid-item" data="{{ one.introduce }}">-->
+        <div id="book{{ one.id }}" class="book-grid">
+            <div class="book-cover">
+                {% if one.shortcut == '' %}
+                    <a class="open-book-info" href="_self" name="{{ one.id }}"><img src="{{ url_for('static', filename='image/defaultbook.png') }}"></a>
+                {% else %}
+                    <a class="open-book-info" href="_self" name="{{ one.id }}"><img src="{{ one.shortcut }}"></a>
+                {% endif %}
+            </div>
+            <p class="book-title"><a class="open-book-info" href="_self" name="{{ one.id }}">{{ one.name }}</a></p>
+            <div class="book-line"></div>
+            <div class="book-footer">
+                <table class="table footer-table">
+                    <tr><td width="50%">借书次数</td><td><span class='book-status'>{{ one.borrow_count }}</span></td></tr>
+                    <tr><td>当前状态</td><td><span class='book-status'>{{ smap[one.status] }}</span></td></tr>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='scripts/highlight.pack.js') }}"></script>
+<script src="http://cdn.bootcss.com/masonry/3.3.0/masonry.pkgd.min.js"></script>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+    $(document).ready(function () {
+        $('#book-list').masonry({
+            // options
+            itemSelector: '.book-grid',
+            columnWidth: 180,
+            isAnimated: true
+        });
+        $('#book-sidebar-close').click(function() {
+            $('.book-sidebar').fadeOut();
+        });
+        $('.open-book-info').click(function() {
+            $('.book-sidebar').fadeIn();
+            $('.siderbar-content').html(this.getAttribute('data'));
+            return false;
+        });
+    });
+</script>
+{% endblock %}

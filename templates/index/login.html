@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in - CUIT ACM Team</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/2.3.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/2.3.2/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form_sign.css') }}"/>
+</head>
+<body>
+<div class="container">
+    <form id="loginForm" method="post" action="{{ url_for('main.login') }}" class="form-sign ">
+        {{ form.hidden_tag() }}
+        <h2 class="form-sign-heading" style="margin-bottom: 20px">请登录</h2>
+        <hr style="margin: auto 5px">
+        {{ form.username(class='input-block-level required', id="inputUsername", placeholder="用户名") }}
+        {{ form.password(class='input-block-level required', id="inputPassword", placeholder="密码") }}
+        <div class="row-fluid">
+            <label class="checkbox span6" style="margin: 5px; font-size: 1.2em">
+                {{ form.remember_me }} 记住我
+            </label>
+            {{ form.submit(class='btn btn-primary span4 pull-right') }}
+        </div>
+        {%- with messages = get_flashed_messages() -%}
+            {%- if messages -%}
+                <div class="alert alert-error alert-block" style="margin: 20px auto 5px auto">
+                    <button type="button" class="close">&times;</button>
+                    <ul>
+                        {%- for message in messages -%}
+                            <li style="font-size: 1.1em;list-style: none">{{ message }} </li>
+                        {%- endfor -%}
+                    </ul>
+                </div>
+            {%- endif -%}
+        {%- endwith -%}
+    </form>
+</div>
+<!-- /container -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="{{ url_for('static', filename='scripts/tools.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $("button.close").click(function () {
+            $(".alert").slideUp();
+        });
+        $('form').hide().slideDown(1200);
+        $('#loginForm').submit(function() {
+            var name_field = $('#inputUsername');
+            var pwd_field = $('#inputPassword');
+            return requiredCheck(name_field, '用户名') && requiredCheck(pwd_field, '密码');
+        });
+    });
+</script>
+</body>
+</html>
