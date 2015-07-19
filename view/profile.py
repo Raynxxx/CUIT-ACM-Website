@@ -23,9 +23,9 @@ def index():
                            user=profile_user,
                            stat=stat)
 
-@profile.route('/profile/stat_gragh', methods=['GET'])
+@profile.route('/profile/stat_graph', methods=['GET'])
 @login_required
-def stat_gragh():
+def stat_graph():
     try:
         profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
     except:
@@ -37,7 +37,7 @@ def stat_gragh():
         tmp = user.get_general_info(oj)
         if tmp:
             general_info[oj] = tmp
-    return render_template('stat_gragh.html', account_info=account_info, user=profile_user
+    return render_template('stat_graph.html', account_info=account_info, user=profile_user
                            , OJ_MAP=OJ_MAP, str=str, general_info=general_info)
 
 @profile.route('/profile/manage_account', methods=['GET'])

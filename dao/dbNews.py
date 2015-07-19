@@ -12,7 +12,6 @@ newstags = db.Table('newstags',
     db.Column('news_id', db.Integer, db.ForeignKey('news.id'))
 )
 
-
 class News(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)

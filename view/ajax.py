@@ -134,6 +134,7 @@ def solution_manager():
     else:
         return u"发表文章失败,请检查内容"
 
+
 @ajax.route('/ajax/news_manager', methods=['POST'])
 @login_required
 def news_manager():

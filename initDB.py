@@ -8,6 +8,7 @@ from dao.dbBook import Book, Borrowinfo
 from dao.dbHonor import Honor, Certificate
 from dao.dbArticle import  *
 from dao.dbTag import Tag
+from dao.dbNews import News
 
 if __name__ == "__main__":
     app = Flask(__name__)

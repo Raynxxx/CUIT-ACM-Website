@@ -18,7 +18,7 @@ def generate_tags(data):
     return taglist
 
 
-def post(form,user):
+def post(form, user):
     has = News.query.filter(News.id == form.sid.data).first()
     tags = generate_tags(form.tags.data)
     if has and has.user != user and user.is_admin == 0:

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __init__ import *
-from dbBase import db
 from dbSUBMIT import Submit
 from util import mdFilter
 import urllib
