@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from __init__ import *
-from dbSUBMIT import Submit
 from util import mdFilter
-import urllib
 import datetime
-from sqlalchemy import or_
+from dao.db import db
 
 # Table of Article
 newstags = db.Table('newstags',
@@ -59,4 +57,8 @@ class News(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()

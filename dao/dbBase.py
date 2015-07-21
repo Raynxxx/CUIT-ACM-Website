@@ -1,11 +1,12 @@
 from __init__ import *
+from __init__ import *
 from flask.ext.login import UserMixin
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 from dao.dbSUBMIT import Submit
 import hashlib, datetime
 from sqlalchemy import or_
-
+from dao.db import db
 
 
 # Table of Team Member
@@ -92,7 +93,6 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
-
-def db_delete(tuple):
-    db.session.delete(tuple)
-    #db.session.commit()
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()

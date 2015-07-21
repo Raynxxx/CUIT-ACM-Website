@@ -1,5 +1,5 @@
 from __init__ import *
-
+from dao.db import db
 
 # Table of Tag
 class Tag(db.Model):
@@ -14,4 +14,8 @@ class Tag(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()

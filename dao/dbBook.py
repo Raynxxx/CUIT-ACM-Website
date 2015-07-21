@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __init__ import *
+from dao.db import db
 import datetime
 
 
@@ -60,4 +61,8 @@ class Borrowinfo(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()

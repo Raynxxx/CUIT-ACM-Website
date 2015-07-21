@@ -52,5 +52,4 @@ def get_one(sid):
 def del_one(sid):
     one = SolutionArticle.query.filter(SolutionArticle.id == sid).first()
     if one:
-        db.session.delete(one)
-        db.session.commit()
+        one.delete()

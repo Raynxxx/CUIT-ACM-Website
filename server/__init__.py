@@ -1,5 +1,5 @@
 # coding=utf-8
-from dao import db
+from dao.db import db
 from dao.dbBase import User
 from dao.dbACCOUNT import  Account
 from dao.dbSUBMIT import Submit
