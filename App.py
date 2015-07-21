@@ -1,8 +1,8 @@
 # coding=utf-8
 from flask import Flask
 from flask.ext.login import LoginManager
-from dao.dbBase import db, User
-
+from dao.db import db
+from dao.dbBase import  User
 from view.admin import admin
 from view.profile import profile
 from view.ajax import ajax
