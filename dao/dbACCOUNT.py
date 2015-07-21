@@ -1,8 +1,15 @@
-from __init__ import *
 from dbSUBMIT import Submit
+from __init__ import *
 from util import security
 import datetime
-from sqlalchemy import or_
+from dao.db import db
+
+class AccountStatus():
+    NORMAL = 0
+    NOT_INIT = 1
+    WAIT_FOR_UPDATE = 2
+    UPDATING = 3
+    UPDATE_ERROR = 4
 
 # Table of Account
 class Account(db.Model):
@@ -48,4 +55,8 @@ class Account(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()

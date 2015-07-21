@@ -1,6 +1,7 @@
 # coding=utf-8
+from dao.db import db
 from flask import Flask
-from dao.dbBase import db, User
+from dao.dbBase import  User
 import config
 from dao.dbACCOUNT import Account
 from dao.dbSUBMIT import Submit

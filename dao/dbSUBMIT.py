@@ -1,4 +1,5 @@
 from __init__ import *
+from dao.db import db
 
 class Submit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,4 +41,8 @@ class Submit(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()

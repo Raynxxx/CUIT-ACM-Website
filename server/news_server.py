@@ -53,5 +53,4 @@ def get_one_by_url(url):
 def del_one(sid):
     one = News.query.filter(News.id == sid).first()
     if one:
-        db.session.delete(one)
-        db.session.commit()
+        one.delete()

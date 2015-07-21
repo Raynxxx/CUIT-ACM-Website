@@ -11,8 +11,7 @@ def del_book(id):
     has = Book.query.filter(Book.id == id).with_lockmode('update').first()
     if not has:
         raise Exception(u'该书不存在')
-    db.session.delete(has)
-    db.session.commit()
+    has.delete()
 
 def modify_book(isbn, bookForm):
     has = Book.query.filter(Book.isbn == isbn).with_lockmode('update').first()

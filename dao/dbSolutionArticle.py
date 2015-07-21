@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __init__ import *
-from dbSUBMIT import Submit
+from dao.db import db
 from util import mdFilter
 import datetime
 
@@ -61,4 +61,8 @@ class SolutionArticle(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
