@@ -38,8 +38,8 @@ function gaoActiveLink(item) {
     });
 }
 $(document).ready(function() {
-    gaoActiveLink('.sidebar-menu li a');
-    gaoActiveLink('.navbar-nav li a');
+    gaoActiveLink('.sidebar-menu > li a');
+    gaoActiveLink('.navbar-nav > li a');
 });
 
 // In the cur page, links refer to this page is not work
