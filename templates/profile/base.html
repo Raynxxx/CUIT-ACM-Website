@@ -28,7 +28,7 @@
 <div class="wrapper">
   <header class="main-header">
     <!-- Logo -->
-    <a href="#" class="logo">
+    <a href="" class="logo">
       <span class="logo-mini"><b>ACM</b></span>
       <span class="logo-lg">CUIT <b>ACM</b> Team</span>
     </a>
@@ -87,24 +87,22 @@
         </div>
         <div class="pull-left info">
           <p>{{ current_user.name }}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> 管理员</a>
+          <a href=""><i class="fa fa-circle text-success"></i> 管理员</a>
         </div>
       </div>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">导航</li>
-        <li><a href="{{ url_for('profile.index', username=user.username) }}"><i class="fa fa-user-plus"> </i>
-          <span>用户中心</span></a></li>
+        <li><a href="{{ url_for('profile.index', username=user.username) }}"><i class="fa fa-user"> </i>
+          <span>用户信息</span></a></li>
         <li><a href="{{ url_for('profile.stat_graph', username=user.username) }}" id="stat_graph"><i
-                class="fa fa-align-left"></i> <span>统计图</span></a></li>
+                class="fa fa-align-left"></i> <span>统计图表</span></a></li>
         {% if user == current_user or current_user.rights %}
-          <li><a href="{{ url_for('profile.manage_account', username=user.username) }}"><i class="fa fa-users"></i>
-            <span>修改/添加账号</span></a></li>
+          <li><a href="{{ url_for('profile.manage_account', username=user.username) }}"><i class="fa fa-users"></i><span>管理OJ账号</span></a></li>
         {% endif %}
         {% if user == current_user %}
-          <li><a href="{{ url_for('profile.modify_info') }}"><i class="fa fa-user-secret"></i> <span>修改资料</span></a>
-          </li>
+          <li><a href="{{ url_for('profile.modify_info') }}"><i class="fa fa-user-secret"></i> <span>修改资料</span></a></li>
           <li><a href="{{ url_for('profile.post_article') }}"><i class="fa fa-book"> </i> <span>发表文章</span></a></li>
         {% endif %}
       </ul>
@@ -117,13 +115,14 @@
       {% block content -%}{%- endblock %}
     </div>
   </div>
+  <footer class="main-footer">
+    The MIT License (MIT) | <a href="https://github.com/Z2Y/CUITOJHelper-WebServer"><b>Project Homepage</b></a> | Copyright &copy;
+    2015. All rights reserved.
+    <p class="pull-right hidden-xs">若发现Bug请发送邮件至 <a href="mailto:raynxxx@outlook.com">Rayn</a> 或者
+      <a href="mailto:277507631@qq.com">zzy</a></p>
+  </footer>
 </div>
-<footer class="main-footer">
-  The MIT License (MIT) | <a href="https://github.com/Z2Y/CUITOJHelper-WebServer"><b>Project Homepage</b></a> | Copyright &copy;
-  2015. All rights reserved.
-  <p class="pull-right hidden-xs">若发现Bug请发送邮件至 <a href="mailto:raynxxx@outlook.com">Rayn</a> 或者
-    <a href="mailto:277507631@qq.com">zzy</a></p>
-</footer>
+
 <a href="#" class="back_to_top">Top</a>
 
 <!-- Javascript -->
@@ -133,16 +132,15 @@
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/fastclick/fastclick.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts/tools.js') }}"></script>
-<script src="http://cdn.bootcss.com/markdown.js/0.5.0/markdown.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap-markdown/1.1.4/js/bootstrap-markdown.min.js"></script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-</script>
-<script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>
   $(document).ready(function () {
     $('.content-wrapper').hide().fadeIn(500);
   });
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
 {%- block script -%}{%- endblock -%}
 </body>

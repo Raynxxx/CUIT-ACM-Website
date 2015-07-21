@@ -1,55 +1,62 @@
 {% extends "profile/base.html" %}
 {% block content %}
-<div class="span5">
-    <div class="block block-solid">
-        <div class="block-header">
-            <h3 class="block-title"><i class="fa fa-list-ol"></i> <span>当前关联的账号</span></h3>
-        </div>
-        <div class="block-content">
-            <table class="table" id = "accountTable">
-            </table>
-            <div class="alert alert-error alert-block hide"  id="del-info" style="margin: 20px auto 5px auto">
-                <button type="button" class="close">&times;</button>
-                <span id="del-info-text"></span>
-            </div>
-        </div>
+<div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>当前关联的账号</span></h3>
     </div>
- </div>
-<div class="span4">
-    <div class="block block-solid">
-        <div class="block-header">
-            <h3 class="block-title"><i class="fa fa-list-ol"></i> <span>添加/修改账号</span></h3>
-        </div>
-        <div class="block-content">
-        <form id="accountForm" method="post"  class="form-sign">
-            {{ form.hidden_tag() }}
-             {{ form.oj_name(class='input-block-level required', id="iOjname", placeholder="OJ") }}
-            {{ form.nickname(class='input-block-level required', id="iNickname", placeholder="用户名") }}
-            {{ form.password(class='input-block-level required', id="iPassword", placeholder="密码") }}
-            {{ form.submit(class='btn btn-primary') }}
-            <div class="alert alert-error alert-block hide"  id="add-info" style="margin: 20px auto 5px auto">
-                <button type="button" class="close">&times;</button>
-                <span id="add-info-text"></span>
-            </div>
-        </form>
-        </div>
+    <div class="block-content">
+      <table class="table" id = "accountTable">
+      </table>
+      <div class="alert alert-error alert-block hide"  id="del-info" style="margin: 20px auto 5px auto">
+          <button type="button" class="close">&times;</button>
+          <span id="del-info-text"></span>
+      </div>
     </div>
 </div>
-
-<div class="span3" style="width: 260px">
-    <div class="block block-solid">
-        <div class="block-header">
-            <h3 class="block-title"><i class="fa fa-list-ol"></i> <span>提示&FAQ</span></h3>
+<div class="row">
+  <div class="col-md-6">
+    <div class="box box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>添加/修改账号</span></h3>
+      </div>
+      <form id="accountForm" method="post">
+        <div class="box-body">
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            {{ form.oj_name(class='form-control required', id="iOjname", placeholder="OJ") }}
+          </div>
+          <div class="form-group">
+            {{ form.nickname(class='form-control required', id="iNickname", placeholder="用户名") }}
+          </div>
+          <div class="form-group">
+            {{ form.password(class='form-control required', id="iPassword", placeholder="密码") }}
+          </div>
+          <div class="alert alert-error alert-block hide"  id="add-info" style="margin: 20px auto 5px auto">
+            <button type="button" class="close">&times;</button>
+            <span id="add-info-text"></span>
+          </div>
         </div>
-        <div class="block-content">
-            <ul>
-                <li>Codeforce不需要提供密码,随便输入即可。</li>
-                <li>UVA不需要提供用户名,可以谁便输入;但是需要提供UVA的user id。可以到UVA看下自己的id。</li>
-                <li>账号正在更新时不能修改账号。</li>
-                <li>每个OJ只能添加一个账号，重复添加会覆盖之前的账号。</li>
-            </ul>
+        <div class="box-footer">
+          {{ form.submit(class='btn btn-block btn-primary pull-right') }}
         </div>
+      </form>
     </div>
+  </div>
+  <div class="col-md-6">
+    <div class="box box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>提示</span></h3>
+      </div>
+      <div class="box-body">
+        <ul>
+          <li>Codeforce不需要提供密码,随便输入即可。</li>
+          <li>UVA不需要提供用户名,可以谁便输入;但是需要提供UVA的user id。可以到UVA看下自己的id。</li>
+          <li>账号正在更新时不能修改账号。</li>
+          <li>每个OJ只能添加一个账号，重复添加会覆盖之前的账号。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
@@ -65,7 +72,7 @@
                     var account = JSON.parse(data);
                     var table = $('#accountTable');
                     table.empty();
-                    table.append("<tr><th>账号：</th> <th>OJ:</th> <th>状态：</th> <th>操作</th> </tr>");
+                    table.append("<tr><th>账号</th> <th>OJ</th> <th>状态</th> <th>操作</th> </tr>");
                     for (x in account) {
                         table.append("<tr><td>"+account[x]['account_name']+"</td><td>"
                         +account[x]['oj_name']+"</td><td><span class='label label-info'>"+account[x]['status']
@@ -76,7 +83,7 @@
                 });
             }
 
-            LoadAccountInfo()
+            LoadAccountInfo();
 
             $('#accountForm').submit(function () {
                 var oj_field = $('#iOjname');

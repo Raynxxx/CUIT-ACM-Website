@@ -1,135 +1,136 @@
 {% extends "index/base.html" %}
 {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.css') }}"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/data_tables.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/datatables/dataTables.bootstrap.css') }}"/>
 {% endblock %}
 {% block content %}
-    <div class="container" style="width: 1180px">
-    <div class="row-fluid">
-        <div class="block block-solid" id="status">
-        <div class="block-header">
-            <h3 class="block-title"><i class="fa fa-star"></i> <span>Status</span></h3>
-        </div>
-            <div class="block-content collapse in">
-                <div class="span12">
-                    <form id="search_filter"  class="form-inline" role="form">
-                        <div class="controls controls-row">
-                            <label class="control-labels" for="oj_name">OJ</label>
-                            <select name="oj_name" id = "filter_oj" class="form-control">
-                                <option value="" selected="selected">ALL</option>
-                                <option value="bnu">BNU</option>
-                                <option value="hdu">HDU</option>
-                                <option value="poj">POJ</option>
-                                <option value="cf">CodeForces</option>
-                                <option value="zoj">ZOJ</option>
-                            </select>
-                            <label class="control-labels" for="pid">Problem</label>
-                            <input type="text" placeholder="Problem" name="pid" id="pid" class="form-control"/>
-                            <label class="control-labels" for="udi">User</label>
-                            <input type="text" placeholder="User" name="uid" id="uid" class="form-control"/>
-                            <label class="control-labels" for="language">Language</label>
-                            <select name="language" id = "filter_lang" class="form-control">
-                                <option value="" selected="selected">Language</option>
-                                        <option value="C">C</option>
-                                        <option value="C++">C++</option>
-                                        <option value="Oracle Java">Oracle Java</option>
-                                        <option value="Free Pascal">Free Pascal</option>
-                                        <option value="Python">Python</option>
-                            </select>
-                        <input type="submit" value="Filter" class="btn btn-default">
-                        </div>
-                    </form>
-                    <table id="data_table" class="table table-bordered table-striped table-hover"
-                           cellpadding="0" cellspacing="0" border="0"  width="100%">
-                        <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Run ID</th>
-                            <th>OJ</th>
-                            <th>Problem</th>
-                            <th>Result</th>
-                            <th>Language</th>
-                            <th>Time</th>
-                            <th>Memory</th>
-                            <th>Submit Time</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+<div class="row" style="min-width: 1200px;">
+  <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10">
+    <div class="box box-primary" id="status">
+  <div class="box-header with-border">
+    <h3 class="box-title"><i class="fa fa-star"></i> <span>Status</span></h3>
+  </div>
+  <div class="box-body">
+    <div class="row">
+      <div class="col-md-12">
+        <form id="search_filter" class="form-inline" role="form">
+          <div class="form-group form-filter">
+            <label class="control-label" for="filter_oj">OJ</label>
+            <select name="oj_name" id = "filter_oj" class="form-control">
+              <option value="" selected="selected">ALL</option>
+              <option value="bnu">BNU</option>
+              <option value="hdu">HDU</option>
+              <option value="poj">POJ</option>
+              <option value="cf">CodeForces</option>
+              <option value="zoj">ZOJ</option>
+            </select>
+          </div>
+          <div class="form-group form-filter">
+            <label class="control-label" for="pid">Problem</label>
+            <input type="text" placeholder="Problem" name="pid" id="pid" class="form-control"/>
+          </div>
+          <div class="form-group form-filter">
+            <label class="control-labels" for="udi">User</label>
+            <input type="text" placeholder="User" name="uid" id="uid" class="form-control"/>
+          </div>
+          <div class="form-group form-filter">
+            <label class="control-label" for="filter_lang">Language</label>
+            <select name="language" id = "filter_lang" class="form-control">
+              <option value="" selected="selected">Language</option>
+              <option value="C">C</option>
+              <option value="C++">C++</option>
+              <option value="Oracle Java">Oracle Java</option>
+              <option value="Free Pascal">Free Pascal</option>
+              <option value="Python">Python</option>
+            </select>
+          </div>
+          <div class="form-group form-submit">
+            <input type="submit" value="Filter" class="btn btn-primary btn-flat">
+          </div>
+        </form>
+      </div>
+      <div class="col-md-12">
+        <table id="data_table" class="table table-bordered table-striped table-hover"
+               cellpadding="0" cellspacing="0" border="0"  width="100%">
+            <thead>
+              <tr>
+                <th>Username</th> <th>Run ID</th> <th>OJ</th> <th>Problem</th> <th>Result</th>
+                <th>Language</th> <th>Time</th> <th>Memory</th> <th>Submit Time</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+      </div>
     </div>
-    </div>
+  </div>
+</div>
+  </div>
+</div>
 {% endblock %}
 
 {% block script %}
-    <script src="{{ url_for('static', filename='scripts/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='scripts/data_tables.js') }}"></script>
-    <script>
-        /* Table initialisation */
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+<script>
+/* Table initialisation */
+$.fn.dataTableExt.oApi.fnMultiFilter = function( oSettings, oData ) {
+  for (var key in oData) {
+    if (oData.hasOwnProperty(key)) {
+      for (var i = 0, iLen = oSettings.aoColumns.length; i < iLen; i++) {
+        if (oSettings.aoColumns[i].data == key) {
+            /* Add single column filter */
+            oSettings.aoPreSearchCols[ i ].sSearch = oData[key];
+            break;
+        }
+      }
+    }
+  }
+  this.oApi._fnReDraw( oSettings );
+};
+var $table;
+$(document).ready(function () {
+  $table =  $('#data_table').dataTable({
+    "dom": "<'row'r>t<'row'<'col-md-5'i><'col-md-7'p>>",
+    "pagingType": "full_numbers",
+    "bLengthChange":false,
+    "pageLength": 15,
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+        "url": "{{ url_for('ajax.fitch_status', oj_name="all") }}",
+        "type": "POST"
+    },
+    "columns": [
+        { "data": "user_name" },
+        { "data": "run_id" },
+        { "data": "oj_name" },
+        { "data": "pro_id" },
+        { "data": "result" },
+        { "data": "lang"},
+        { "data": "run_time" },
+        { "data": "memory" },
+        { "data": "submit_time" }
+    ],
+    "order": [[ 8, 'desc' ]]
 
-        $.fn.dataTableExt.oApi.fnMultiFilter = function( oSettings, oData ) {
-            for ( var key in oData )
-            {
-                if ( oData.hasOwnProperty(key) )
-                {
-                    for ( var i=0, iLen=oSettings.aoColumns.length ; i<iLen ; i++ )
-                    {
-                        if( oSettings.aoColumns[i].data == key )
-                        {
-                            /* Add single column filter */
-                            oSettings.aoPreSearchCols[ i ].sSearch = oData[key];
-                            break;
-                        }
-                    }
-                }
-            }
-            this.oApi._fnReDraw( oSettings );
-    };
-        var $table;
-        $(document).ready(function () {
-                $table =  $('#data_table').dataTable({
-                "dom": "<'row-fluid'r>t<'row-fluid'<'span5'i><'span7'p>>",
-                "pagingType": "bootstrap",
-                "bLengthChange":false,
-                "pageLength": 15,
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": "{{ url_for('ajax.fitch_status', oj_name="all") }}",
-                    "type": "POST"
-                },
-                "columns": [
-                    { "data": "user_name" },
-                    { "data": "run_id" },
-                    { "data": "oj_name" },
-                    { "data": "pro_id" },
-                    { "data": "result" },
-                    { "data": "lang"},
-                    { "data": "run_time" },
-                    { "data": "memory" },
-                    { "data": "submit_time" }
-                ],
-                "order": [[ 8, 'desc' ]]
-
-            });
-        });
-        $(document).ready(function() {
-            $("button.close").click(function() {
-                $(".alert").slideUp();
-            });
-        });
-        $(document).ready(function() {
-            $("#search_filter").submit(function() {
-                var filter_username = $("#uid").val();
-                var filter_problem = $("#pid").val();
-                var filter_lang = $("#filter_lang").val();
-                var filter_oj = $("#filter_oj").val()
-                $table.fnMultiFilter( { "user_name": filter_username, "lang": filter_lang, "pro_id": filter_problem,"oj_name": filter_oj } );
-                return false;
-            });
-        });
-    </script>
+  });
+});
+$(document).ready(function() {
+  $("button.close").click(function() {
+      $(".alert").slideUp();
+  });
+});
+$(document).ready(function() {
+  $("#search_filter").submit(function() {
+    var filter_username = $("#uid").val();
+    var filter_problem = $("#pid").val();
+    var filter_lang = $("#filter_lang").val();
+    var filter_oj = $("#filter_oj").val();
+    $table.fnMultiFilter({
+      "user_name": filter_username, "lang": filter_lang,
+      "pro_id": filter_problem, "oj_name": filter_oj });
+    return false;
+  });
+});
+</script>
 {% endblock %}

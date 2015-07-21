@@ -1,129 +1,20 @@
-
-/* Sidenav
--------------------------------------------------- */
-
-.bs-sidenav {
-    max-width: 228px;
-    margin: 15px 0 0;
-    padding: 0;
-    background-color: #fff;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
-    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
+.table-no-border td {
+  border-top: none!important;
 }
 
-.bs-sidenav > li > a {
-    display: block;
-    width: 190px \9;
-    margin: 0 0 -1px;
-    padding: 8px 14px;
-    border: 1px solid #e5e5e5;
+.navbar-nav > li.active {
+    background-color: #367fa9;
 }
 
-.bs-sidenav > li:first-child > a {
-    -webkit-border-radius: 6px 6px 0 0;
-    -moz-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
+#search_filter .form-filter {
+  margin: 0 5px;
 }
-
-.bs-sidenav > li:last-child > a {
-    -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
+#search_filter .control-label {
+  margin: 0 10px;
 }
-
-.bs-sidenav > .active > a {
-    position: relative;
-    z-index: 2;
-    padding: 9px 15px;
-    border: 0;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, .15);
-    -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1), inset -1px 0 0 rgba(0, 0, 0, .1);
-    -moz-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1), inset -1px 0 0 rgba(0, 0, 0, .1);
-    box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1), inset -1px 0 0 rgba(0, 0, 0, .1);
+#search_filter .form-submit {
+  margin-left: 30px;
 }
-
-/* Chevrons */
-.bs-sidenav .icon-chevron-right {
-    float: right;
-    margin-top: 2px;
-    margin-right: -6px;
-    opacity: .25;
-}
-
-.bs-sidenav > li > a:hover {
-    background-color: #f5f5f5;
-}
-
-.bs-sidenav a:hover .icon-chevron-right {
-    opacity: .5;
-}
-
-.bs-sidenav .active .icon-chevron-right,
-.bs-sidenav .active a:hover .icon-chevron-right {
-    opacity: 1;
-}
-
-.bs-sidenav.affix {
-    top: 40px;
-}
-
-.bs-sidenav.affix-bottom {
-    position: absolute;
-    top: auto;
-    bottom: 270px;
-}
-
-/* Block */
-.block.block-solid {
-  border-top: 0px;
-}
-
-.block {
-    position: relative;
-    border-radius: 3px;
-    background: #ffffff;
-    border-top: 3px solid #d2d6de;
-    width: 100%;
-    margin: 10px 10px 10px 10px;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-}
-
-
-
-.block-content {
-    padding: 1em;
-    min-height: .25em;
-    word-break: break-all;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.list-block {
-    max-height: 200px;
-}
-
-.block-header {
-  color: #444;
-  display: block;
-  padding: 10px;
-  position: relative;
-}
-
-.block-header>.fa, .block-header>.glyphicon, .block-header>.ion, .block-header .block-title {
-  display: inline-block;
-  font-size: 18px;
-  margin: 0;
-  line-height: 1;
-}
-
-.block-header div {
-    padding-top: 10px;
-}
-
 /* Back to top */
 
 .back_to_top {

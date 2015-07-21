@@ -24,7 +24,7 @@
   <![endif]-->
   {%- block head -%}{%- endblock -%}
 </head>
-<body class="skin-blue layout-top-nav">
+<body class="skin-blue layout-top-nav fixed">
 <div class="wrapper">
   <header class="main-header">
     <nav class="navbar navbar-static-top">
@@ -35,7 +35,6 @@
             <i class="fa fa-bars"></i>
           </button>
         </div>
-
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav">
@@ -87,20 +86,20 @@
       <!-- /.container-fluid -->
     </nav>
   </header>
-  <!-- Fixed navbar -->
 
   <div class="content-wrapper" style="min-height: 299px;">
     <div class="content">
       {% block content -%}{%- endblock %}
     </div>
   </div>
+  <footer class="main-footer">
+    The MIT License (MIT) | <a href="https://github.com/Z2Y/CUITOJHelper-WebServer"><b>Project Homepage</b></a> | Copyright &copy;
+    2015. All rights reserved.
+    <p class="pull-right hidden-xs">若发现Bug请发送邮件至 <a href="mailto:raynxxx@outlook.com">Rayn</a> 或者
+      <a href="mailto:277507631@qq.com">zzy</a></p>
+  </footer>
 </div>
-<footer class="main-footer">
-  The MIT License (MIT) | <a href="https://github.com/Z2Y/CUITOJHelper-WebServer"><b>Project Homepage</b></a> | Copyright &copy;
-  2015. All rights reserved.
-  <p class="pull-right hidden-xs">若发现Bug请发送邮件至 <a href="mailto:raynxxx@outlook.com">Rayn</a> 或者
-    <a href="mailto:277507631@qq.com">zzy</a></p>
-</footer>
+
 <a href="#" class="back_to_top">Top</a>
 <!-- Javascript -->
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>

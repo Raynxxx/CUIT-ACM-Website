@@ -2,6 +2,7 @@
  * Created by rayn on 3/18 2015.
  */
 
+// Back To Top
 $(document).ready(function ($) {
     var offset = 300;
     var offset_opacity = 1200;
@@ -23,8 +24,10 @@ $(document).ready(function ($) {
     });
 });
 
-$(document).ready(function() {
-    $('.bs-sidenav li a').each(function() {
+// Active Link
+
+function gaoActiveLink(item) {
+    $(item).each(function() {
         if ($($(this))[0].href == String(window.location)) {
             $(this).parent().addClass('active').click(function(){
                 return false;
@@ -33,9 +36,13 @@ $(document).ready(function() {
             $(this).parent().removeClass('active');
         }
     });
+}
+$(document).ready(function() {
+    gaoActiveLink('.sidebar-menu li a');
+    gaoActiveLink('.navbar-nav li a');
 });
 
-/* In the cur page, links refer to this page is not work */
+// In the cur page, links refer to this page is not work
 $(document).ready(function() {
     $('a').each(function() {
         if ($($(this))[0].href == String(window.location)) {
@@ -45,7 +52,6 @@ $(document).ready(function() {
         }
     });
 });
-
 
 function requiredCheck(field, info) {
     if (field.val() == "") {
