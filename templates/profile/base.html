@@ -86,8 +86,7 @@
           <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{ current_user.name }}</p>
-          <a href=""><i class="fa fa-circle text-success"></i> 管理员</a>
+          <h4>{{ current_user.name }}</h4>
         </div>
       </div>
       <!-- /.search form -->
@@ -137,7 +136,6 @@
     $('.content-wrapper').hide().fadeIn(500);
   });
 </script>
-
 <script src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});

@@ -23,8 +23,8 @@ def index():
     return redirect(url_for('admin.sys_info'))
 
 #
-# @brief: the page for administrator to view system info
-# @route: /admin/sys_info
+# @brief    the page for administrator to view system info
+# @route    /admin/sys_info
 # @accepted methods: [get]
 # @allowed user: administrator
 #
@@ -49,7 +49,8 @@ def manage_user():
         return redirect(url_for('main.index'))
     user_add_form = form.RegisterForm()
     pwd_modify_form = form.PasswordModifyForm()
-    return render_template('add_user.html', form1=user_add_form, form2=pwd_modify_form)
+    return render_template('manage_user.html', form1=user_add_form, form2=pwd_modify_form)
+
 
 @admin.route("/admin/add_book", methods = ['GET'])
 @login_required
