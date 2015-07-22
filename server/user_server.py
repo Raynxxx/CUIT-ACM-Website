@@ -37,7 +37,7 @@ class UserServer():
         user = User(username=userInfo.username.data,
                     name=userInfo.name.data,
                     password=userInfo.password.data,
-                    stu_id=userInfo.stu_id.data,
+                    school=userInfo.school.data,
                     gender=gender,
                     email=userInfo.email.data)
         user.rights = user_rights

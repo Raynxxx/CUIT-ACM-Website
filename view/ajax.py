@@ -18,9 +18,9 @@ ajax = blueprints.Blueprint('ajax', __name__)
 @ajax.route('/user_list', methods=["POST"])
 @login_required
 def get_user_list():
-    if not current_user.is_admin or not current_user.is_coach:
+    if not current_user.is_admin and not current_user.is_coach:
         flash(u"你没有权限访问该模块")
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     offset = request.form.get('offset')
     limit = request.form.get('limit')
     user_list = user_server.UserServer.get_user_list(offset, limit)
@@ -29,7 +29,7 @@ def get_user_list():
         users = list(user_list)
     if not current_user.is_admin and current_user.is_coach:
         for user in user_list:
-            if user.school == current_user.school:
+            if not user.is_admin and user.school == current_user.school:
                 users.append(user)
     img_link = list()
     profile_link = list()
