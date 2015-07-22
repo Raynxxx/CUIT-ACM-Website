@@ -1,4 +1,3 @@
-from dbSUBMIT import Submit
 from __init__ import *
 from util import security
 import datetime
@@ -22,8 +21,8 @@ class Account(db.Model):
     oj_name = db.Column(db.String(20), nullable=False)
     last_update_time = db.Column(db.DateTime)
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref=db.backref('account', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
+    user = db.relationship('User', backref=db.backref('account', cascade="all, delete-orphan", passive_deletes=True, lazy='dynamic'))
 
     def __init__(self, oj_name, nickname, password_or_oj_id, user):
         self.oj_name = oj_name

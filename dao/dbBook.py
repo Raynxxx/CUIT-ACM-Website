@@ -26,7 +26,7 @@ class Book(db.Model):
     last_borrow_time = db.Column(db.DateTime)
     #rank = db.Column(db.Integer, default=0)
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"))
     user = db.relationship('User', backref=db.backref('book', lazy='dynamic'))
 
     def __init__(self, name, intro, isbn, shortcut):
@@ -53,11 +53,11 @@ class Borrowinfo(db.Model):
     return_time = db.Column(db.DATETIME)
     status = db.Column(db.Integer, default=0)
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref=db.backref('borrowinfo', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
+    user = db.relationship('User', backref=db.backref('borrowinfo', cascade="all, delete-orphan", passive_deletes=True, lazy='dynamic'))
     # connect to book
-    book_id = db.Column(db.Integer, db.ForeignKey('book.id'))
-    book = db.relationship('Book', backref=db.backref('borrowinfo', lazy='dynamic'))
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id', ondelete="CASCADE"))
+    book = db.relationship('Book', backref=db.backref('borrowinfo', cascade="all, delete-orphan", passive_deletes=True, lazy='dynamic'))
 
     def save(self):
         db.session.add(self)
