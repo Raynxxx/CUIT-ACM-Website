@@ -1,12 +1,13 @@
 # coding=utf-8
 import os
 from __init__ import *
-from server import user_server, solution_server, status_server, form, account_server, book_server, news_server
+from server import user_server, article_server, status_server, form, account_server, book_server, news_server
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
 from werkzeug.utils import secure_filename
 from flask import request, jsonify
 from sqlalchemy.exc import IntegrityError
+
 #
 # @blueprint: ajax
 # @created: 2015/06/22
@@ -15,6 +16,19 @@ from sqlalchemy.exc import IntegrityError
 ajax = blueprints.Blueprint('ajax', __name__)
 
 
+#
+# @brief: ajax html for one user item
+# @allowed user: administrator
+#
+@login_required
+def get_user_list_item(user):
+    return render_template('ajax/user_list_item.html', user=user)
+
+
+#
+# @brief: ajax user list
+# @allowed user: administrator
+#
 @ajax.route('/user_list', methods=["POST"])
 @login_required
 def get_user_list():
@@ -31,14 +45,8 @@ def get_user_list():
         for user in user_list:
             if not user.is_admin and user.school == current_user.school:
                 users.append(user)
-    img_link = list()
-    profile_link = list()
-    for user in users:
-        img_link.append(user.gravatar(256))
-        profile_link.append(url_for('profile.index', username=user.username))
-    return jsonify(user_list=[user.serialize for user in users],
+    return jsonify(user_list=[get_user_list_item(user) for user in users],
                    sum=user_server.UserServer.get_user_count(),
-                   img_link=img_link, profile_link=profile_link,
                    offset=int(offset), limit=len(users))
 
 #
@@ -68,12 +76,39 @@ def register():
                 return u"添加用户成功"
             return ret
         except Exception, e:
-            return u"添加用户失败:" + e.message
+            return u"添加用户失败: " + e.message
     else:
         #print reg_form.errors
         return u"添加用户失败: 表单填写有误"
 
 
+#
+# @brief: delete users
+# @route: /delete_users
+# @accepted methods: [post]
+# @allowed user: administrator
+#
+@ajax.route('/delete_users', methods=["POST"])
+@login_required
+def delete_users():
+    delete_list = request.form.getlist('user')
+    try:
+        for id in delete_list:
+            id = int(id)
+
+        print delete_list
+        return "删除用户成功"
+    except Exception, e:
+        return u"删除用户失败: " + e.message
+
+
+#
+# @brief: modify user's info
+# @route: /modify_userinfo
+# @accepted methods: [post]
+# @allowed user: administrator
+# @ajax return:
+#
 @ajax.route('/modify_userinfo', methods=['POST'])
 @login_required
 def modify_userinfo():
@@ -163,7 +198,7 @@ def solution_manager():
     solution_form = form.SolutionForm()
     if solution_form.validate_on_submit():
         try:
-            solution_server.post(solution_form, profile_user)
+            article_server.post(solution_form, profile_user)
             return u"发表成功!"
         except Exception, e:
             return u"发表文章失败" + e.message

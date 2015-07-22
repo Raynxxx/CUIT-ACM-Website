@@ -21,6 +21,12 @@
                 </div>
               </div>
               <div class="form-group">
+                <label class="control-label col-sm-3"><span class="required-star">* </span>真实姓名</label>
+                <div class="col-sm-8">
+                  {{ form1.name(class='form-control required', id="inputname",  placeholder="真实姓名") }}
+                </div>
+              </div>
+              <div class="form-group">
                 <label class="control-label col-sm-3"><span class="required-star">* </span>密码</label>
                 <div class="col-sm-8">
                   {{ form1.password(class='form-control required', id="inputPassword", placeholder="密码") }}
@@ -47,27 +53,28 @@
 
             <div class="col-sm-6">
               <div class="form-group">
-                <label class="control-label col-sm-3"><span class="required-star">* </span>真实姓名</label>
+                <label class="control-label col-sm-3" for="inputSchool"><span class="required-star">* </span>学校</label>
                 <div class="col-sm-8">
-                  {{ form1.name(class='form-control required', id="inputname",  placeholder="真实姓名") }}
+                  {{ form1.school(class='form-control required', id="inputSchool", placeholder="学校") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3">学校</label>
+                <label class="control-label col-sm-3" for="inputEmail">
+                  <span class="required-star">* </span>邮箱</label>
                 <div class="col-sm-8">
-                  {{ form1.school(class='form-control', id="inputSchool", placeholder="学校") }}
+                  {{ form1.email(class='form-control required', id="inputEmail", placeholder="邮箱") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3">学号</label>
+                <label class="control-label col-sm-3" for="inputSno">学号</label>
                 <div class="col-sm-8">
                   {{ form1.stu_id(class='form-control', id="inputSno", placeholder="学号") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3"><span class="required-star">* </span>邮箱</label>
+                <label class="control-label col-sm-3" for="inputPhone">手机号码</label>
                 <div class="col-sm-8">
-                  {{ form1.email(class='form-control required', id="inputEmail", placeholder="邮箱") }}
+                  {{ form1.phone(class='form-control', id="inputPhone", placeholder="手机号码") }}
                 </div>
               </div>
               <div class="form-group">

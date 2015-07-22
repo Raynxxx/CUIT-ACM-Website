@@ -1,6 +1,6 @@
 # coding=utf-8
 from __init__ import *
-from config import OJ_MAP
+from config import OJ_MAP, SCHOOL_MAP
 
 class UserServer():
     def __init__(self, user):
@@ -37,10 +37,12 @@ class UserServer():
         user = User(username=userInfo.username.data,
                     name=userInfo.name.data,
                     password=userInfo.password.data,
-                    school=userInfo.school.data,
+                    school=SCHOOL_MAP[userInfo.school.data],
                     gender=gender,
                     email=userInfo.email.data)
         user.rights = user_rights
+        user.stu_id = userInfo.stu_id.data
+        user.phone = userInfo.phone.data
         user.save()
         return 'ok'
 

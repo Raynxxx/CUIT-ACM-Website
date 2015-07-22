@@ -21,8 +21,9 @@ class Account(db.Model):
     oj_name = db.Column(db.String(20), nullable=False)
     last_update_time = db.Column(db.DateTime)
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
-    user = db.relationship('User', backref=db.backref('account', cascade="all, delete-orphan", passive_deletes=True, lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+    user = db.relationship('User', backref=db.backref('account', cascade="all, delete-orphan",
+                                                      passive_deletes=True, lazy='dynamic'))
 
     def __init__(self, oj_name, nickname, password_or_oj_id, user):
         self.oj_name = oj_name
@@ -41,6 +42,10 @@ class Account(db.Model):
 
     def __repr__(self):
         return '<%s Account %s>: %d / %d' % (self.oj_name, self.nickname, self.solved_or_rating, self.submitted_or_max_rating)
+
+    @property
+    def serialize(self):
+        return { c.name: getattr(self, c.name) for c in self.__table__.columns }
 
     def set_problem_count(self, v1, v2):
         self.solved_or_rating = v1

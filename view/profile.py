@@ -1,6 +1,6 @@
 # coding=utf-8
 from __init__ import *
-from server import user_server, general, solution_server, form
+from server import user_server, general, article_server, form
 from config import OJ_MAP
 #
 # @blueprint: profile
@@ -92,7 +92,7 @@ def post_article():
 @login_required
 def edit_article():
     try:
-        one = solution_server.get_one(request.args['p'])
+        one = article_server.get_one(request.args['p'])
         if one.user != current_user and current_user.rights == 0:
             raise Exception(u"你没有权限修改该文章")
     except :

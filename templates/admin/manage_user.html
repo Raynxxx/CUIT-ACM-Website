@@ -7,6 +7,21 @@
 {%- endblock %}
 
 {% block content %}
+<div class="row">
+  <div class="col-sm-offset-4 col-sm-4">
+    <div class="box box-danger col-sm-4 Alert" style="display: none;">
+      <div class="box-header with-border">
+        <h4 class="box-title"><i class="icon fa fa-info"> </i> 是否确认删除当前选中用户 !</h4>
+      </div>
+      <div class="box-body text-center">
+        <button class="btn btn-danger btn-flat delete_users">确定删除</button>
+        <button class="Close btn btn-default btn-flat">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+<div class="col-sm-12">
 <div class="box box-primary user-box">
   <div class="box-header with-border">
     <h3 class="box-title">用户列表</h3>
@@ -20,16 +35,15 @@
   <div class="box-body no-padding">
     <div class="user-box-controls">
       <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-      <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i> 删除</button>
+      <button class="btn btn-default btn-sm to_delete_users"><i class="fa fa-trash-o"></i> 删除</button>
       <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> 修改</button>
       <a class="btn btn-default btn-sm" href="{{ url_for('admin.add_user') }}"><i class="fa fa-user-plus"></i> 添加</a>
-      <ul class="pagination pagination-sm no-margin pull-right">
-        <li><a href="#">«</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">»</a></li>
-      </ul>
+      <div class="pull-right">
+        <div class="btn-group">
+          <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+          <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+        </div><!-- /.btn-group -->
+      </div>
     </div>
     <table class="table table-bordered table-hover table-striped user-table">
       <thead>
@@ -44,21 +58,22 @@
   <div class="box-footer no-padding">
     <div class="user-box-controls">
       <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-      <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i> 删除</button>
+      <button class="btn btn-default btn-sm to_delete_users"><i class="fa fa-trash-o"></i> 删除</button>
       <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> 修改</button>
       <button class="btn btn-default btn-sm"><i class="fa fa-user-plus"></i> 添加</button>
-      <ul class="pagination pagination-sm no-margin pull-right">
-        <li><a href="#">«</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">»</a></li>
-      </ul>
+      <div class="pull-right">
+        <div class="btn-group">
+          <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+          <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+        </div><!-- /.btn-group -->
+      </div>
     </div>
   </div>
   <div class="overlay">
     <i class="fa fa-refresh fa-spin"></i>
   </div>
+</div>
+</div>
 </div>
 {% endblock %}
 
@@ -71,51 +86,50 @@
       radioClass: 'iradio_flat-blue'
     });
   }
-  function make_user_item(user_table, user, img_link, profile_link) {
-    var origin = '<tr><td class="user-item-check"><label><input type="checkbox"'
-            + 'name="user" value="' + user.id + '"></label></td>'
-            + '<td class="user-item-face"><img src="' + img_link + '"></td>'
-            + '<td class="user-item-name"><a href="' + profile_link
-            + '" target="_blank"><b>' + user.name + '</b></a></td>'
-            + '<td class="user-item-type">';
-    if ((parseInt(user.rights) & 4) === 4) {
-      origin += '<label class="label label-danger">管理员</label>';
-    }
-    if ((parseInt(user.rights) & 2) === 2) {
-      origin += '<label class="label label-success">教练</label>';
-    }
-    if ((parseInt(user.rights) & 1) === 1) {
-      origin += '<label class="label label-primary">学生</label>';
-    }
-    origin += '</td><td class="user-item-email text-muted">' + user.email + '</td>';
-    origin += '<td class="user-item-school text-muted">' + user.school + '</td>';
-    origin += '</tr>';
-    $(user_table).append(origin);
-  }
   function get_user_list(offset, limit) {
-    $('.user-box > div.overlay').fadeIn(500);
+    $('.user-box > div.overlay').fadeIn(300, make_iCheck());
     var data = { offset: offset, limit: limit };
     $.post("{{ url_for('ajax.get_user_list') }}", data).success(function(ret) {
       var user_count = ret.sum;
       var start = ret.offset;
       var length = ret.limit;
       var users = ret.user_list;
-      var img_link = ret.img_link;
-      var profile_link = ret.profile_link;
       if (length == 0) {
-        return;
+        return 0;
       }
       var $user_table = $('.user-table-body').first();
       $user_table.empty();
       for (var i = 0; i < length; ++i) {
-        make_user_item($user_table, users[i], img_link[i], profile_link[i]);
+        $user_table.append(users[i]);
       }
-      $('.user-box > div.overlay').fadeOut(500);
-      make_iCheck();
+      $('.user-box > div.overlay').fadeOut(300, make_iCheck());
+      var prev = $('.prev-page');
+      var next = $('.next-page');
+      if (start == 0) {
+        prev.hide();
+      } else {
+        prev.show();
+        prev.val(start - limit);
+      }
+      if (user_count == start + length) {
+        next.hide();
+      } else {
+        next.show();
+        next.val(start + length);
+      }
+    });
+  }
+  function delete_users(checked) {
+    $.post("{{ url_for('ajax.delete_users') }}", checked.serialize()).success(function(ret) {
+
     });
   }
   $(function() {
     make_iCheck();
+    $("button.Close").click(function () {
+      $(".Alert").slideUp();
+      return false;
+    });
     //Enable check and uncheck all functionality
     $(".checkbox-toggle").click(function () {
       var clicks = $(this).data('clicks');
@@ -130,7 +144,28 @@
       }
       $(this).data("clicks", !clicks);
     });
-    get_user_list(0, 20);
+    var limit = 15;
+    get_user_list(0, limit);
+    $('.prev-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_user_list(offset, limit);
+    });
+    $('.next-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_user_list(offset, limit);
+    });
+    $('.to_delete_users').click(function() {
+      var $check = $('input[name="user"]:checked');
+      if ($check.length <= 0) {
+        return false;
+      }
+      $(".Alert").slideDown();
+    });
+    $('.delete_users').click(function() {
+      var $check = $('input[name="user"]:checked');
+      delete_users($check);
+      $(".Alert").slideUp();
+    });
   });
   </script>
 {%- endblock -%}
