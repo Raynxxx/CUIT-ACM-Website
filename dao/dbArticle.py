@@ -28,7 +28,7 @@ class SolutionArticle(db.Model):
     isdraft = db.Column(db.SmallInteger, default=0)
     #rank = db.Column(db.Integer, default=0)
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"))
     user = db.relationship('User', backref=db.backref('solution', lazy='dynamic'))
     # connect to Tag
     tags = db.relationship('Tag', secondary=solutiontags,backref=db.backref('solutions', lazy='dynamic'))

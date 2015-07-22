@@ -16,8 +16,8 @@ class Submit(db.Model):
     user_name = db.Column(db.String(25),nullable=True)
     # connect to Account
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref=db.backref('submit', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id',  ondelete="CASCADE"))
+    user = db.relationship('User', backref=db.backref('submit', cascade="all, delete-orphan",  passive_deletes=True, lazy='dynamic'))
 
     def __init__(self, pro_id, account):
         self.pro_id = pro_id

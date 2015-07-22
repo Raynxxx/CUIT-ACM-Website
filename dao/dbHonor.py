@@ -22,8 +22,8 @@ class Honor(db.Model):
     certificate = db.relationship('Certificate', backref=db.backref('honor', lazy='dynamic'))
 
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref=db.backref('honor', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
+    user = db.relationship('User', backref=db.backref('honor', cascade="all, delete-orphan",  passive_deletes=True, lazy='dynamic'))
 
 
     def __init__(self):

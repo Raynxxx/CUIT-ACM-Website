@@ -21,7 +21,7 @@ class News(db.Model):
     is_draft = db.Column(db.SmallInteger, default=0)
     #rank = db.Column(db.Integer, default=0)
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id',  ondelete="SET NULL"))
     user = db.relationship('User', backref=db.backref('news', lazy='dynamic'))
     # connect to Tag
     tags = db.relationship('Tag', secondary=new_stags,backref=db.backref('news', lazy='dynamic'))
