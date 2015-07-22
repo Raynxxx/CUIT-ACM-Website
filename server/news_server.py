@@ -41,7 +41,7 @@ def count():
     return News.query.count()
 
 
-def get(offset=0, limit=10, show_draft=False):
+def get_news_list(offset=0, limit=10, show_draft=False):
     if show_draft:
         return News.query\
             .order_by(News.is_top.desc(), News.last_update_time.desc())\
@@ -57,14 +57,26 @@ def get_archive():
         .filter(News.is_draft==0)\
         .order_by(News.is_top.desc(),News.last_update_time.desc())\
         .all()
-    return archive
+    archives = dict()
+    for news in archive:
+        year = news.last_update_time.year
+        if year not in archives:
+            archives[year] = []
+        archives[year].append(news)
+    return archives
 
 def get_archive_by_tag(tag):
     tag_row = Tag.query.filter(Tag.name==tag).first()
     if not tag_row:
         return None
-    print 'hrer'
-    return tag_row.news.filter(News.is_draft==0).order_by(News.is_top.desc(),News.last_update_time.desc()).all()
+    archive = tag_row.news.filter(News.is_draft==0).order_by(News.is_top.desc(),News.last_update_time.desc()).all()
+    archives = dict()
+    for news in archive:
+        year = news.last_update_time.year
+        if year not in archives:
+            archives[year] = []
+        archives[year].append(news)
+    return archives
 
 
 def get_one(sid):

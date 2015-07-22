@@ -6,14 +6,14 @@
   </div>
   <form id="postForm" method="post" class="form-horizontal">
     <div class="box-body">
-      {{ bookform.hidden_tag() }}
-      {{ bookform.id(style="display:none") }}
-      {{ bookform.status(style="display:none") }}
+      {{ book_form.hidden_tag() }}
+      {{ book_form.id(style="display:none") }}
+      {{ book_form.status(style="display:none") }}
       <div class="col-sm-4 col-md-3">
         <div class="thumbnail no-padding col-sm-offset-1 col-sm-10">
           <img src="{{url_for('static', filename='image/defaultBook.jpg') }}" style="padding: 0;" id="preview">
-          {{ bookform.shortcut(style="display:none",id="inputIcon", placeholder="ICON") }}
-          {{ bookform.upload(style="display:none",id="inputFile", accept="image/*") }}
+          {{ book_form.shortcut(style="display:none",id="inputIcon", placeholder="ICON") }}
+          {{ book_form.upload(style="display:none",id="inputFile", accept="image/*") }}
           <div class="caption">
             <p>书籍封面</p>
           </div>
@@ -23,25 +23,25 @@
         <div class="form-group">
           <label class="control-label col-sm-2" for="inputName">书名</label>
           <div class="col-sm-9">
-            {{ bookform.name(class="form-control required",id="inputName", placeholder="书名") }}
+            {{ book_form.name(class="form-control required",id="inputName", placeholder="书名") }}
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2" for="inputIsbn">ISBN</label>
           <div class="col-sm-9">
-            {{ bookform.isbn(class="form-control required",id="inputIsbn", placeholder="ISBN") }}
+            {{ book_form.isbn(class="form-control required",id="inputIsbn", placeholder="ISBN") }}
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2" for="inputShortcut">简介</label>
           <div class="col-sm-9">
-            {{ bookform.introduce(class='form-control required',id="inputIntroduce", rows="6", style="resize:none;" , placeholder="简介") }}
+            {{ book_form.introduce(class='form-control required',id="inputIntroduce", rows="6", style="resize:none;" , placeholder="简介") }}
           </div>
         </div>
         <div class="form-group">
           <div class="control-label col-sm-2"></div>
           <div class="col-sm-9">
-            {{ bookform.submit(class='btn btn-primary', value='提交') }}
+            {{ book_form.submit(class='btn btn-primary', value='提交') }}
           </div>
         </div>
         <div class="alert alert-info col-sm-offset-2 col-sm-9" id="post-info" style="display: none;">

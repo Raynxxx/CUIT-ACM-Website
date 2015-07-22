@@ -43,13 +43,13 @@ class News(db.Model):
     def md_content(self, data):
         self.content = data
 
-    def __init__(self, title, shortcut, content, url, istop, user):
+    def __init__(self, title, shortcut, content, url, is_top, user):
         self.title = title
         self.shortcut = shortcut
         self.content = content
         self.url = url
         self.user = user
-        self.istop = istop
+        self.is_top = is_top
         self.last_update_time = datetime.datetime.now()
 
     @property
