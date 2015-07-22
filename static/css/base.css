@@ -69,7 +69,7 @@
 ** User List CSS
 */
 
-.user-box td {
+.user-box td, .user-box th {
   vertical-align: middle !important;
   text-align: center;
 }
@@ -101,6 +101,6 @@
   width: 24%;
 }
 
-.user-item-date {
+.user-item-school {
   width: 20%;
 }

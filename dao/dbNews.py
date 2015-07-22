@@ -5,7 +5,7 @@ import datetime
 from dao.db import db
 
 # Table of Article
-newstags = db.Table('newstags',
+new_stags = db.Table('news_tags',
     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')),
     db.Column('news_id', db.Integer, db.ForeignKey('news.id'))
 )
@@ -17,30 +17,30 @@ class News(db.Model):
     shortcut = db.Column(db.Text)
     content = db.Column(db.Text)
     last_update_time = db.Column(db.DateTime)
-    istop = db.Column(db.SmallInteger, default=0)
-    isdraft = db.Column(db.SmallInteger, default=0)
+    is_top = db.Column(db.SmallInteger, default=0)
+    is_draft = db.Column(db.SmallInteger, default=0)
     #rank = db.Column(db.Integer, default=0)
     # connect to User
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref=db.backref('news', lazy='dynamic'))
     # connect to Tag
-    tags = db.relationship('Tag', secondary=newstags,backref=db.backref('news', lazy='dynamic'))
+    tags = db.relationship('Tag', secondary=new_stags,backref=db.backref('news', lazy='dynamic'))
 
 
     @property
-    def mshortcut(self):
+    def md_shortcut(self):
         return mdFilter.markdown(self.shortcut)
 
-    @mshortcut.setter
-    def mshortcut(self, data):
+    @md_shortcut.setter
+    def md_shortcut(self, data):
         self.shortcut = data
 
     @property
-    def mcontent(self):
+    def md_content(self):
         return mdFilter.markdown(self.content)
 
-    @mcontent.setter
-    def mcontent(self, data):
+    @md_content.setter
+    def md_content(self, data):
         self.content = data
 
     def __init__(self, title, shortcut, content, url, istop, user):

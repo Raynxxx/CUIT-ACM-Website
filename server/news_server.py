@@ -4,7 +4,7 @@ from dao.dbNews import News
 from dao.dbTag import Tag
 
 def generate_tags(data):
-    taglist = []
+    tag_list = []
     for tag in data:
         if tag == '':
             continue
@@ -12,27 +12,27 @@ def generate_tags(data):
         if not htag:
             ntag = Tag(tag)
             ntag.save()
-            taglist.append(ntag)
+            tag_list.append(ntag)
         else:
-            taglist.append(htag)
-    return taglist
+            tag_list.append(htag)
+    return tag_list
 
 
-def post(form, user, isdraft):
+def post_news(form, user, is_draft):
     has = News.query.filter(News.id == form.sid.data).first()
     tags = generate_tags(form.tags.data)
-    if has and has.user != user and user.is_admin == 0:
+    if has and not user.is_admin and user != has.user:
         raise Exception(u'没有权限')
     if not has:
-        has = News(form.title.data,form.shortcut.data,form.content.data, form.url.data, form.istop.data, user)
+        has = News(form.title.data,form.shortcut.data,form.content.data, form.url.data, form.is_top.data, user)
     else:
         has.title = form.title.data
-        has.mshortcut = form.shortcut.data
-        has.mcontent = form.content.data
+        has.md_shortcut = form.shortcut.data
+        has.md_content = form.content.data
         has.url = form.url.data
-        has.istop = form.istop.data
+        has.is_top = form.is_top.data
         has.last_update_time = datetime.datetime.now()
-    has.isdraft = isdraft
+    has.is_draft = is_draft
     has.tags = tags
     has.save()
 
@@ -43,12 +43,20 @@ def count():
 
 def get(offset=0, limit=10, show_draft=False):
     if show_draft:
-        return News.query.order_by(News.istop.desc(), News.last_update_time.desc()).offset(offset).limit(limit)
+        return News.query\
+            .order_by(News.is_top.desc(), News.last_update_time.desc())\
+            .offset(offset).limit(limit)
     else:
-        return News.query.filter(News.isdraft==0).order_by(News.istop.desc(), News.last_update_time.desc()).offset(offset).limit(limit)
+        return News.query.filter(News.is_draft==0)\
+            .order_by(News.is_top.desc(), News.last_update_time.desc())\
+            .offset(offset).limit(limit)
 
 def get_archive():
-    archive = db.session.query(News.last_update_time, News.title, News.url, News.istop).filter(News.isdraft==0).order_by(News.istop.desc(),News.last_update_time.desc()).all()
+    archive = db.session\
+        .query(News.last_update_time, News.title, News.url, News.is_top)\
+        .filter(News.is_draft==0)\
+        .order_by(News.is_top.desc(),News.last_update_time.desc())\
+        .all()
     return archive
 
 def get_archive_by_tag(tag):
@@ -56,7 +64,7 @@ def get_archive_by_tag(tag):
     if not tag_row:
         return None
     print 'hrer'
-    return tag_row.news.filter(News.isdraft==0).order_by(News.istop.desc(),News.last_update_time.desc()).all()
+    return tag_row.news.filter(News.is_draft==0).order_by(News.is_top.desc(),News.last_update_time.desc()).all()
 
 
 def get_one(sid):

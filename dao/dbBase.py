@@ -49,6 +49,18 @@ class User(UserMixin, db.Model):
         return { c.name: getattr(self, c.name) for c in self.__table__.columns }
 
     @property
+    def is_admin(self):
+        return self.rights & 4 == 4
+
+    @property
+    def is_coach(self):
+        return self.rights & 2 == 2
+
+    @property
+    def is_student(self):
+        return self.rights & 1 == 1
+
+    @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
 
@@ -70,14 +82,14 @@ class User(UserMixin, db.Model):
         permit_date = now - datetime.timedelta(days=now.weekday())
         permit_date = permit_date.replace(hour=0, minute=0, second=0)
         permit_date1 = permit_date - datetime.timedelta(days=7)
-        lastsubmitted = self.submit.filter(Submit.submit_time < permit_date, Submit.submit_time > permit_date1)
-        lastsolved = lastsubmitted.filter(or_(Submit.result == 'OK', Submit.result == 'Accepted'))
-        currentsubmitted = self.submit.filter(Submit.submit_time > permit_date)
-        currentolved = currentsubmitted.filter(or_(Submit.result == 'OK', Submit.result == 'Accepted'))
-        self.last_week_solved = lastsolved.count()
-        self.last_week_submit = lastsubmitted.count()
-        self.current_week_solved = currentolved.count()
-        self.current_week_submit = currentsubmitted.count()
+        last_submitted = self.submit.filter(Submit.submit_time < permit_date, Submit.submit_time > permit_date1)
+        last_solved = last_submitted.filter(or_(Submit.result == 'OK', Submit.result == 'Accepted'))
+        current_submitted = self.submit.filter(Submit.submit_time > permit_date)
+        current_solved = current_submitted.filter(or_(Submit.result == 'OK', Submit.result == 'Accepted'))
+        self.last_week_solved = last_solved.count()
+        self.last_week_submit = last_submitted.count()
+        self.current_week_solved = current_solved.count()
+        self.current_week_submit = current_submitted.count()
         self.update_score()
 
 

@@ -15,13 +15,22 @@ from sqlalchemy.exc import IntegrityError
 ajax = blueprints.Blueprint('ajax', __name__)
 
 
-
 @ajax.route('/user_list', methods=["POST"])
 @login_required
 def get_user_list():
+    if not current_user.is_admin or not current_user.is_coach:
+        flash(u"你没有权限访问该模块")
+        return redirect(url_for('index'))
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    users = user_server.UserServer.get_user_list(offset, limit)
+    user_list = user_server.UserServer.get_user_list(offset, limit)
+    users = list()
+    if current_user.is_admin:
+        users = list(user_list)
+    if not current_user.is_admin and current_user.is_coach:
+        for user in user_list:
+            if user.school == current_user.school:
+                users.append(user)
     img_link = list()
     profile_link = list()
     for user in users:
@@ -30,7 +39,7 @@ def get_user_list():
     return jsonify(user_list=[user.serialize for user in users],
                    sum=user_server.UserServer.get_user_count(),
                    img_link=img_link, profile_link=profile_link,
-                   offset=int(offset), limit=users.count())
+                   offset=int(offset), limit=len(users))
 
 #
 # @brief: add user
@@ -171,7 +180,7 @@ def news_manager():
     if news_form.validate_on_submit():
         try:
             isdraft = int(request.args['draft'])
-            news_server.post(news_form, current_user, isdraft)
+            news_server.post_news(news_form, current_user, isdraft)
             return u"发表成功!"
         except IntegrityError:
             return u"发表新闻失败: 固定链接已存在"
@@ -209,7 +218,7 @@ def add_book():
             if book_form.upload.data:
                 file = request.files[book_form.upload.name]
                 filename = secure_filename(file.filename)
-                book_form.shortcut.data = os.path.join(IMAGE_FILE_PATH,filename)
+                book_form.shortcut.data = os.path.join(IMAGE_FILE_PATH, filename)
                 file.save(book_form.shortcut.data)
             book_server.add_book(book_form)
             return 'ok'
