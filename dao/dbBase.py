@@ -15,12 +15,12 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(25), unique=True, index=True, nullable=False)
     name = db.Column(db.String(25))
     password_hash = db.Column(db.String(128))
-    stu_id = db.Column(db.String(20), nullable=False)
+    stu_id = db.Column(db.String(20))
     gender = db.Column(db.Boolean)
     email = db.Column(db.String(65))
     phone = db.Column(db.String(15))
     remark = db.Column(db.String(50))
-    school = db.Column(db.String(20))
+    school = db.Column(db.String(20), nullable=False)
     situation = db.Column(db.String(50))
     score = db.Column(db.Integer, default=0)
     current_week_submit = db.Column(db.Integer, default=0)
@@ -31,11 +31,11 @@ class User(UserMixin, db.Model):
     rights = db.Column(db.Integer)
     active = db.Column(db.Integer, default=1)
 
-    def __init__(self, username,name, password, stu_id, gender, email):
+    def __init__(self, username,name, password, school, gender, email):
         self.username = username
         self.name = name
         self.password = password
-        self.stu_id = stu_id
+        self.school = school
         self.gender = gender
         self.email = email
         self.create_time = datetime.datetime.now()

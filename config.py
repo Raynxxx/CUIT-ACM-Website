@@ -1,4 +1,4 @@
-
+# coding=utf-8
 #The database URI that should be used for the connection.
 #fomate: dialect+driver://username:password@host:port/database
 #mysql format : mysql://scott:tiger@localhost/database_name
@@ -8,6 +8,11 @@ SQLALCHEMY_DATABASE_URI = 'mysql://root:63005610@localhost/cuit_acm'
 SQLALCHEMY_BINDS = {}
 
 ADMIN = ['Rayn', 'dreameracm']
+
+SCHOOL_MAP = {
+    'cuit': u'成都信息工程学院',
+    'scu': u'四川大学'
+}
 
 OJ_MAP = {
     'hdu': 'HDU',

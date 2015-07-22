@@ -5,6 +5,7 @@ from wtforms import BooleanField, SubmitField, RadioField, IntegerField, TextAre
 from wtforms import SelectField
 from wtforms import Field, widgets
 import wtforms.validators as validators
+from config import OJ_MAP, SCHOOL_MAP
 
 
 class LoginForm(Form):
@@ -22,6 +23,9 @@ class RegisterForm(Form):
                     validators.EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[validators.DataRequired()])
     stu_id = StringField('stu_id', validators=[validators.Optional(), validators.Length(min=1, max=20)])
+    school = SelectField('school', validators=[validators.DataRequired()],
+                         choices=[(school, SCHOOL_MAP[school]) for school in SCHOOL_MAP],
+                         default='cuit')
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
     email = StringField('Email', validators=[validators.DataRequired(), validators.Length(min=1, max=64), validators.Email()])
     submit = SubmitField(u'注册')
@@ -49,7 +53,9 @@ class AccountForm(Form):
                     validators.Regexp('^[A-Za-z][A-Za-z0-9_.]*$', flags=0,
                     message='Username must have only letters, numbers, dots or underscores')])
     password = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=3, max=24)])
-    oj_name = SelectField('OJ', choices=[('bnu','BNU'),('hdu','HDU'),('poj','POJ'),('cf','Codeforces'),('bc','BestCoder'),('zoj','ZOJ'),('uva','UVA')], default='BNU')
+    oj_name = SelectField('OJ', validators=[validators.DataRequired()],
+                          choices=[(oj, OJ_MAP[oj]) for oj in OJ_MAP],
+                          default='bnu')
     submit = SubmitField(u'提交')
 
 class TagListField(Field):
@@ -72,7 +78,9 @@ class SolutionForm(Form):
     title = StringField(u'标题', validators=[validators.DataRequired()])
     shortcut = TextAreaField(u'摘要', validators=[validators.DataRequired()])
     content = TextAreaField(u'正文', validators=[validators.DataRequired()])
-    problem_oj_name = SelectField('OJ', choices=[('bnu','bnu'),('hdu','hdu'),('poj','poj'),('cf','cf'),('bc','bc'),('zoj','zoj'),('uva','uva')], default='bnu')
+    problem_oj_name = SelectField('OJ',
+                          choices=[(oj, OJ_MAP[oj]) for oj in OJ_MAP],
+                          default='bnu')
     problem_pid = StringField('PID', validators=[validators.optional(), validators.Regexp('^[A-Z0-9]*$', flags=0)])
     tags = TagListField(u'标签', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
@@ -83,7 +91,7 @@ class NewsForm(Form):
     url = StringField(u'url', validators=[validators.DataRequired(), validators.Regexp('^[a-zA-Z0-9-_&+%]*$', flags=0)])
     shortcut = TextAreaField(u'摘要', validators=[validators.DataRequired()])
     content = TextAreaField(u'正文', validators=[validators.DataRequired()])
-    istop = BooleanField(u'置顶')
+    is_top = BooleanField(u'置顶')
     tags = TagListField(u'标签', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
 
