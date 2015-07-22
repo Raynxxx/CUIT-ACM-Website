@@ -52,6 +52,10 @@ class News(db.Model):
         self.istop = istop
         self.last_update_time = datetime.datetime.now()
 
+    @property
+    def serialize(self):
+        return { c.name: getattr(self, c.name) for c in self.__table__.columns }
+
     def __repr__(self):
         return '<News>'
 

@@ -26,6 +26,10 @@ class Submit(db.Model):
         self.user_name = account.user.name
         self.update_status = 0
 
+    @property
+    def serialize(self):
+        return { c.name: getattr(self, c.name) for c in self.__table__.columns }
+
     def update_info(self,run_id,submit_time, run_time, memory,lang,code,result):
         self.code = code
         self.run_id = run_id
@@ -46,3 +50,5 @@ class Submit(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+

@@ -1,6 +1,6 @@
 # coding=utf-8
 from __init__ import *
-from server import user_server, general, solution_server, form, book_server, news_server
+from server import user_server, general, article_server, form, book_server, news_server
 from dao.dbBase import User
 
 
@@ -64,7 +64,7 @@ def footmark():
 @main.route('/article_list')
 @login_required
 def article_list():
-    article = solution_server.get()
+    article = article_server.get()
     return render_template('index/article_list.html', article = article)
 
 @main.route('/article')
@@ -72,7 +72,7 @@ def article_list():
 def article():
     try:
         pid = request.args['p']
-        one = solution_server.get_one(pid)
+        one = article_server.get_one(pid)
         return render_template('index/article.html', one=one)
     except:
         return redirect(url_for('main.index'))

@@ -4,16 +4,18 @@ from dao.dbArticle import SolutionArticle
 from dao.dbTag import Tag
 
 def generate_tags(data):
-    taglist = []
+    tag_list = []
     for tag in data:
-        htag = Tag.query.filter(Tag.name == tag).first()
-        if not htag:
-            ntag = Tag(tag)
-            ntag.save()
-            taglist.append(ntag)
+        if tag == '':
+            continue
+        has_tag = Tag.query.filter(Tag.name == tag).first()
+        if not has_tag:
+            new_tag = Tag(tag)
+            new_tag.save()
+            tag_list.append(new_tag)
         else:
-            taglist.append(htag)
-    return taglist
+            tag_list.append(has_tag)
+    return tag_list
 
 
 def post(form,user):
@@ -25,8 +27,8 @@ def post(form,user):
         has = SolutionArticle(form.title.data,form.shortcut.data,form.content.data,user)
     else:
         has.title = form.title.data
-        has.mshortcut = form.shortcut.data
-        has.mcontent = form.content.data
+        has.md_shortcut = form.shortcut.data
+        has.md_content = form.content.data
         has.last_update_time = datetime.datetime.now()
     oj = form.problem_oj_name.data
     pid = form.problem_pid.data
@@ -46,3 +48,8 @@ def get(offset=0, limit=20):
 
 def get_one(sid):
     return SolutionArticle.query.filter(SolutionArticle.id == sid).first_or_404()
+
+def del_one(sid):
+    one = SolutionArticle.query.filter(SolutionArticle.id == sid).first()
+    if one:
+        one.delete()

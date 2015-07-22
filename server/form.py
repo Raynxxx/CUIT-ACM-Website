@@ -23,6 +23,7 @@ class RegisterForm(Form):
                     validators.EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[validators.DataRequired()])
     stu_id = StringField('stu_id', validators=[validators.Optional(), validators.Length(min=1, max=20)])
+    phone = StringField('stu_id', validators=[validators.Optional(), validators.Length(min=1, max=15)])
     school = SelectField('school', validators=[validators.DataRequired()],
                          choices=[(school, SCHOOL_MAP[school]) for school in SCHOOL_MAP],
                          default='cuit')

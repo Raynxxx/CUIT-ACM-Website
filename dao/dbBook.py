@@ -42,6 +42,10 @@ class Book(db.Model):
     def __repr__(self):
         return '<BOOK>'
 
+    @property
+    def serialize(self):
+        return { c.name: getattr(self, c.name) for c in self.__table__.columns }
+
 
     def save(self):
         db.session.add(self)
