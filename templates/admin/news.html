@@ -1,0 +1,97 @@
+{% extends "admin/base.html" %}
+{%- block head -%}
+    <link rel="stylesheet" href="{{url_for('static', filename='AdminLTE2/plugins/iCheck/flat/blue.css') }}">
+{%- endblock -%}
+{% block content %}
+    {% for one in news %}
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">news</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                  <div class="box-body">
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-default">操作</button>
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url_for('admin.edit_news', p=one.id) }}">编辑</a></li>
+                            <li><a href="{{ url_for('admin.delete_news', p=one.id)}}">删除</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('main.news', p=one.id)}}">查看</a></li>
+                          </ul>
+                    </div>
+
+                  {% if one.isdraft %}
+                      <button class="btn btn-sm btn-danger btn-flat">草稿</button>
+                  {% else %}
+                      <button class="btn btn-sm btn-success btn-flat">已发布</button>
+                  {% endif %}
+
+                  {% if one.istop %}
+                      <button class="btn btn-sm btn-danger btn-flat">已置顶</button>
+                  {% else %}
+                      <button class="btn btn-sm btn-danger btn-flat">未置顶</button>
+                  {% endif %}
+
+                  {{ one.title }}
+                  {{ one.user.name }}
+                  {{ one.last_update_time }}
+                  </div><!-- /.box-body -->
+                <div class="box-footer"></div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+{%- block script -%}
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script>
+      $(function () {
+        //Enable iCheck plugin for checkboxes
+        //iCheck for checkbox and radio inputs
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+          checkboxClass: 'icheckbox_flat-blue',
+          radioClass: 'iradio_flat-blue'
+        });
+
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+          var clicks = $(this).data('clicks');
+          if (clicks) {
+            //Uncheck all checkboxes
+            $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+            $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+          } else {
+            //Check all checkboxes
+            $(".mailbox-messages input[type='checkbox']").iCheck("check");
+            $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+          }
+          $(this).data("clicks", !clicks);
+        });
+
+        //Handle starring for glyphicon and font awesome
+        $(".mailbox-star").click(function (e) {
+          e.preventDefault();
+          //detect type
+          var $this = $(this).find("a > i");
+          var glyph = $this.hasClass("glyphicon");
+          var fa = $this.hasClass("fa");
+
+          //Switch states
+          if (glyph) {
+            $this.toggleClass("glyphicon-star");
+            $this.toggleClass("glyphicon-star-empty");
+          }
+
+          if (fa) {
+            $this.toggleClass("fa-star");
+            $this.toggleClass("fa-star-o");
+          }
+        });
+      });
+</script>
+{%- endblock -%}

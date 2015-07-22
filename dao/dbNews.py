@@ -13,11 +13,12 @@ newstags = db.Table('newstags',
 class News(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    url = db.Column(db.String(100), nullable=False)
+    url = db.Column(db.String(100), nullable=False, unique=True)
     shortcut = db.Column(db.Text)
     content = db.Column(db.Text)
     last_update_time = db.Column(db.DateTime)
     istop = db.Column(db.SmallInteger, default=0)
+    isdraft = db.Column(db.SmallInteger, default=0)
     #rank = db.Column(db.Integer, default=0)
     # connect to User
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

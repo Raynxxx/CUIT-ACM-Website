@@ -6,6 +6,7 @@ from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
 from werkzeug.utils import secure_filename
 from flask import request, jsonify
+from sqlalchemy.exc import IntegrityError
 #
 # @blueprint: ajax
 # @created: 2015/06/22
@@ -169,8 +170,11 @@ def news_manager():
     news_form = form.NewsForm()
     if news_form.validate_on_submit():
         try:
-            news_server.post(news_form, current_user)
+            isdraft = int(request.args['draft'])
+            news_server.post(news_form, current_user, isdraft)
             return u"发表成功!"
+        except IntegrityError:
+            return u"发表新闻失败: 固定链接已存在"
         except Exception, e:
             return u"发表新闻失败" + e.message
     else:

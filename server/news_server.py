@@ -18,7 +18,7 @@ def generate_tags(data):
     return taglist
 
 
-def post(form, user):
+def post(form, user, isdraft):
     has = News.query.filter(News.id == form.sid.data).first()
     tags = generate_tags(form.tags.data)
     if has and has.user != user and user.is_admin == 0:
@@ -32,6 +32,7 @@ def post(form, user):
         has.url = form.url.data
         has.istop = form.istop.data
         has.last_update_time = datetime.datetime.now()
+    has.isdraft = isdraft
     has.tags = tags
     has.save()
 
@@ -40,8 +41,22 @@ def count():
     return News.query.count()
 
 
-def get(offset=0, limit=10):
-    return News.query.order_by(News.last_update_time.desc()).offset(offset).limit(limit)
+def get(offset=0, limit=10, show_draft=False):
+    if show_draft:
+        return News.query.order_by(News.istop.desc(), News.last_update_time.desc()).offset(offset).limit(limit)
+    else:
+        return News.query.filter(News.isdraft==0).order_by(News.istop.desc(), News.last_update_time.desc()).offset(offset).limit(limit)
+
+def get_archive():
+    archive = db.session.query(News.last_update_time, News.title, News.url, News.istop).filter(News.isdraft==0).order_by(News.istop.desc(),News.last_update_time.desc()).all()
+    return archive
+
+def get_archive_by_tag(tag):
+    tag_row = Tag.query.filter(Tag.name==tag).first()
+    if not tag_row:
+        return None
+    print 'hrer'
+    return tag_row.news.filter(News.isdraft==0).order_by(News.istop.desc(),News.last_update_time.desc()).all()
 
 
 def get_one(sid):

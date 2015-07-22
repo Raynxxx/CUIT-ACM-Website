@@ -71,13 +71,37 @@ def add_book():
     bookform = form.BookForm()
     return render_template('add_book.html', bookform=bookform)
 
+
+
+@admin.route("/admin/news", methods = ['GET'])
+@login_required
+def news():
+    if not current_user.rights:
+        return redirect(url_for('main.index'))
+    news = news_server.get(show_draft=True)
+    return render_template('admin/news.html', news=news)
+
+@admin.route("/admin/delete_news", methods = ['GET'])
+@login_required
+def delete_news():
+    if not current_user.rights:
+        return redirect(url_for('main.index'))
+    try:
+        news_id = request.args['p']
+        news_server.del_one(news_id)
+        flash('删除成功')
+    except:
+        flash('删除失败')
+    return redirect(url_for('admin.news'))
+
 @admin.route("/admin/post_news", methods = ['GET'])
 @login_required
 def post_news():
     if not current_user.rights:
         return redirect(url_for('main.index'))
     newsform = form.NewsForm()
-    return render_template('post_news.html', form=newsform)
+    buttom = [u"保存草稿",u"直接发布"]
+    return render_template('post_news.html', form=newsform, buttom=buttom)
 
 @admin.route("/admin/edit_news", methods = ['GET'])
 @login_required
@@ -102,5 +126,9 @@ def edit_news():
         for tag in one.tags:
             tags.append(tag.__repr__())
         news_form.tags.data = tags
-    return render_template('post_news.html', form=news_form)
+    if one.isdraft:
+        buttom = [u"保存草稿",u"直接发布"]
+    else :
+        buttom = [u"保存草稿",u"提交更新"]
+    return render_template('post_news.html', form=news_form, buttom=buttom)
 

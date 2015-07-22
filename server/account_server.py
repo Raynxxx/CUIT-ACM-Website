@@ -27,12 +27,13 @@ def modify_account(origin, param):
 
 def get_account_info(user):
     accounts = user.account
+    status_mapper = {AccountStatus.NORMAL:u'正常',AccountStatus.NOT_INIT:u'未初始化', AccountStatus.UPDATING:u'正在更新', AccountStatus.UPDATE_ERROR:u'更新失败'}
     data = []
     for account in accounts:
         account_info = {
             'account_name': account.nickname,
             'oj_name': account.oj_name,
-            'status': 'UNKOWN',
+            'status': status_mapper[account.update_status],
         }
         data.append(account_info)
     return data
