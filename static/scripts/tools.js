@@ -29,7 +29,12 @@ $(document).ready(function ($) {
 function gaoActiveLink(item) {
     $(item).each(function() {
         if ($($(this))[0].href == String(window.location)) {
-            $(this).parent().addClass('active').click(function(){
+            $(this).parent().addClass('active');
+            var $pa = $(this).parent().parent().parent();
+            if ($pa.hasClass('treeview')) {
+                $pa.addClass('active');
+            }
+            $(this).click(function() {
                 return false;
             });
         } else {
@@ -38,19 +43,9 @@ function gaoActiveLink(item) {
     });
 }
 $(document).ready(function() {
-    gaoActiveLink('.sidebar-menu > li a');
-    gaoActiveLink('.navbar-nav > li a');
-});
-
-// In the cur page, links refer to this page is not work
-$(document).ready(function() {
-    $('a').each(function() {
-        if ($($(this))[0].href == String(window.location)) {
-            $(this).click(function() {
-                return false;
-            });
-        }
-    });
+    gaoActiveLink('.sidebar-menu > li > a');
+    gaoActiveLink('.treeview-menu li a');
+    gaoActiveLink('.navbar-nav > li > a');
 });
 
 function requiredCheck(field, info) {

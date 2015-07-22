@@ -5,12 +5,31 @@ from server import user_server, solution_server, status_server, form, account_se
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
 from werkzeug.utils import secure_filename
+from flask import request, jsonify
 #
 # @blueprint: ajax
 # @created: 2015/06/22
 # @author: Z2Y
 #
 ajax = blueprints.Blueprint('ajax', __name__)
+
+
+
+@ajax.route('/user_list', methods=["POST"])
+@login_required
+def get_user_list():
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    users = user_server.UserServer.get_user_list(offset, limit)
+    img_link = list()
+    profile_link = list()
+    for user in users:
+        img_link.append(user.gravatar(256))
+        profile_link.append(url_for('profile.index', username=user.username))
+    return jsonify(user_list=[user.serialize for user in users],
+                   sum=user_server.UserServer.get_user_count(),
+                   img_link=img_link, profile_link=profile_link,
+                   offset=int(offset), limit=users.count())
 
 #
 # @brief: add user
@@ -26,14 +45,23 @@ def register():
         flash(u"你没有权限访问该模块")
         return redirect(url_for('index'))
     reg_form = form.RegisterForm()
+    rights_list = request.form.getlist('rights')
+    #print rights_list
+    rights = 0
+    for item in rights_list:
+        rights = rights | int(item)
+    #print rights
     if reg_form.validate_on_submit():
         try:
-            user_server.UserServer.addUser(reg_form)
-            return u"添加用户成功"
+            ret = user_server.UserServer.add_user(reg_form, rights)
+            if ret == 'ok':
+                return u"添加用户成功"
+            return ret
         except Exception, e:
             return u"添加用户失败:" + e.message
     else:
-        return u"添加用户失败:表单填写有误。"
+        #print reg_form.errors
+        return u"添加用户失败: 表单填写有误"
 
 
 @ajax.route('/modify_userinfo', methods=['POST'])
@@ -49,8 +77,6 @@ def modify_userinfo():
             return u'修改资料失败' + e.message
     else:
         return u"修改资料失败:表单填写有误"
-
-
 
 #
 # @brief: modify password

@@ -29,7 +29,7 @@ class UserServer():
         return None
 
     @staticmethod
-    def addUser(userInfo):
+    def add_user(userInfo, user_rights):
         has = User.query.filter_by(username=userInfo.username.data).first()
         if has:
             return "该用户名已经存在"
@@ -40,7 +40,9 @@ class UserServer():
                     stu_id=userInfo.stu_id.data,
                     gender=gender,
                     email=userInfo.email.data)
+        user.rights = user_rights
         user.save()
+        return 'ok'
 
     @staticmethod
     def loadUser_or_404(username):
@@ -63,6 +65,11 @@ class UserServer():
     def get_user_list(offset=0, limit=20):
         users = User.query.offset(offset).limit(limit)
         return users
+
+    @staticmethod
+    def get_user_count():
+        count = User.query.count()
+        return count
 
     def modify_password(self, pwdInfo):
         has = self.loadUser(pwdInfo.username.data)

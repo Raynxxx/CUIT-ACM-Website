@@ -15,7 +15,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(25), unique=True, index=True, nullable=False)
     name = db.Column(db.String(25))
     password_hash = db.Column(db.String(128))
-    stu_id = db.Column(db.String(20))
+    stu_id = db.Column(db.String(20), nullable=False)
     gender = db.Column(db.Boolean)
     email = db.Column(db.String(65))
     phone = db.Column(db.String(15))
@@ -29,6 +29,7 @@ class User(UserMixin, db.Model):
     last_week_solved = db.Column(db.Integer, default=0)
     create_time = db.Column(db.DateTime)
     rights = db.Column(db.Integer)
+    active = db.Column(db.Integer, default=1)
 
     def __init__(self, username,name, password, stu_id, gender, email):
         self.username = username
@@ -42,6 +43,10 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %s>' % self.name
+
+    @property
+    def serialize(self):
+        return { c.name: getattr(self, c.name) for c in self.__table__.columns }
 
     @property
     def password(self):
