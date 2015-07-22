@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block content_header -%}
-
 {%- endblock %}
 
 {% block content %}
@@ -32,7 +31,14 @@
         <li><a href="#">»</a></li>
       </ul>
     </div>
-    <table class="table table-hover table-striped user-table"><tbody></tbody>
+    <table class="table table-bordered table-hover table-striped user-table">
+      <thead>
+        <tr><th>选择</th><th>头像</th><th>姓名</th><th>权限</th><th>邮箱</th><th>学校</th></tr>
+      </thead>
+      <tbody class="user-table-body"></tbody>
+      <tfoot>
+        <tr><th>选择</th><th>头像</th><th>姓名</th><th>权限</th><th>邮箱</th><th>学校</th></tr>
+      </tfoot>
     </table>
   </div>
   <div class="box-footer no-padding">
@@ -82,7 +88,7 @@
       origin += '<label class="label label-primary">学生</label>';
     }
     origin += '</td><td class="user-item-email text-muted">' + user.email + '</td>';
-    //origin += '<td class="user-item-date"><label class="badge">' + user.score + '</label></td>';
+    origin += '<td class="user-item-school text-muted">' + user.school + '</td>';
     origin += '</tr>';
     $(user_table).append(origin);
   }
@@ -99,7 +105,7 @@
       if (length == 0) {
         return;
       }
-      var $user_table = $('.user-table').first();
+      var $user_table = $('.user-table-body').first();
       $user_table.empty();
       for (var i = 0; i < length; ++i) {
         make_user_item($user_table, users[i], img_link[i], profile_link[i]);

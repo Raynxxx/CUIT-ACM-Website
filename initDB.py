@@ -19,10 +19,26 @@ if __name__ == "__main__":
         db.drop_all()
         db.create_all()
         user = User(username='dreameracm',
-                    name='祝志颖'.decode('utf-8'),
+                    name=u'祝志颖',
                     password='rootiszzy',
                     stu_id='2012045008',
                     gender=True,
                     email='277507631@qq.com')
+        user.rights = 7
+        user.save()
+        user = User(username='Rayn',
+                    name=u'彭潇',
+                    password='63005610',
+                    stu_id='2013081080',
+                    gender=True,
+                    email='414747795@qq.com')
+        user.rights = 3
+        user.save()
+        user = User(username='jsp',
+                    name=u'文欣',
+                    password='123456',
+                    stu_id='2014081091',
+                    gender=True,
+                    email='2344325435@qq.com')
         user.rights = 1
         user.save()
