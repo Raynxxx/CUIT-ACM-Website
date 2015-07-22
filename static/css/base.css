@@ -15,6 +15,12 @@
 #search_filter .form-submit {
   margin-left: 30px;
 }
+
+.required-star {
+  color: red;
+  font-size: 1.2em;
+  font-weight: bold;
+}
 /* Back to top */
 
 .back_to_top {
@@ -59,70 +65,42 @@
     opacity: 0.9;
 }
 
+/*
+** User List CSS
+*/
 
-/* user-summary */
-
-#user-summary {
-    margin: 10px 15% 10px 15%;
+.user-box td {
+  vertical-align: middle !important;
+  text-align: center;
+}
+.user-box-controls {
+  padding: 5px 15px;
+}
+.user-item-check {
+  width: 6%;
+}
+.user-item-face {
+  width: 10%;
+}
+.user-item-face img {
+  width: 50px;
+  border-radius: 50%;
+}
+.user-item-name {
+  width: 10%;
+}
+.user-item-type {
+  width: 30%;
+}
+.user-item-type .label {
+  display: inline-block;
+  margin: 0 2px;
 }
 
-#user-summary .face {
-    margin-top: 10px;
-    width: 190px;
+.user-item-email {
+  width: 24%;
 }
 
-#user-summary .body {
-    margin-left: 250px;
-}
-
-#user-summary .info-list li {
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
-    font-size: 1.1em;
-    margin-top: 5px;
-}
-
-#user-summary .info-list i {
-    margin-right: 10px;
-}
-#user-summary .btn {
-    margin-right: 10px;
-}
-
-#user-status {
-    clear: both;
-    margin: 10px 15% auto 15%;
-}
-#user-status .oj-status {
-    min-width: 300px;
-    margin: 10px 10px 10px auto;
-}
-
-.sChart {
-    display: block;
-    margin: 10px auto;
-}
-
-#user-status .specInfo {
-    display: block;
-    margin: 15px auto;
-    text-align: center;
-}
-
-#add-oj-form {
-    margin-top: 20px;
-}
-
-#add-oj-form #SubmitButton {
-    display: block;
-    margin: 5px auto 5px auto;
-    width: 120px;
-}
-
-/* View Code */
-
-pre {
-    background-color: #ffffff;
-    padding: 0px;
-    margin: 0px;
-    border: 1px dashed #e5e5e5;
+.user-item-date {
+  width: 20%;
 }

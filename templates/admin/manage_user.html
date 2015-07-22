@@ -1,165 +1,130 @@
 {% extends "admin/base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/flat/blue.css') }}"/>
+{% endblock %}
+
+{% block content_header -%}
+
+{%- endblock %}
+
 {% block content %}
-<div class="row">
-  <div class="col-md-6">
-    <div class="box box-primary">
-      <div class="box-header with-border">
-        <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>添加用户</span></h3>
+<div class="box box-primary user-box">
+  <div class="box-header with-border">
+    <h3 class="box-title">用户列表</h3>
+    <div class="box-tools pull-right">
+      <div class="has-feedback pull-right">
+        <input type="text" class="form-control input-sm" placeholder="Search User">
+        <span class="fa fa-search form-control-feedback"></span>
       </div>
-      <form id="registerForm" method="post" class="form-horizontal">
-        <div class="box-body">
-          {{ form1.hidden_tag() }}
-          <div class="form-group">
-            <label class="control-label col-sm-3" for="inputUsername">用户名</label>
-            <div class="col-sm-8">
-              {{ form1.username(class='form-control required', id="inputUsername", placeholder="用户名") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3">真实姓名</label>
-            <div class="col-sm-8">
-              {{ form1.name(class='form-control required', id="inputname",  placeholder="真实姓名") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3">密码</label>
-            <div class="col-sm-8">
-              {{ form1.password(class='form-control required', id="inputPassword", placeholder="密码") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3">验证密码</label>
-            <div class="col-sm-8">
-              {{ form1.password2(class='form-control required', id="inputPassword2", placeholder="验证密码") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3">学号</label>
-            <div class="col-sm-8">
-              {{ form1.stu_id(class='form-control required', id="inputSno", placeholder="学号") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3">邮箱</label>
-            <div class="col-sm-8">
-              {{ form1.email(class='form-control required', id="inputEmail", placeholder="邮箱") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3">性别</label>
-            <div class="col-sm-8">
-              {%- for sub in form1.gender %}
-                <label class="radio-inline">
-                  {{ sub }}
-                  {{ sub.label }}
-                </label>
-              {%- endfor %}
-            </div>
-          </div>
-          <div class="alert alert-info col-sm-offset-1 col-sm-10" id="add-info" style="display: none;">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <span id="add-info-text"></span>
-          </div>
-        </div>
-        <div class="box-footer text-center">
-          {{ form1.submit(class='btn btn-primary btn-flat', value='添加') }}
-        </div>
-      </form>
     </div>
   </div>
-  <div class="col-md-6">
-    <div class="box box-danger">
-      <div class="box-header with-border">
-        <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>重置用户密码</span></h3>
-      </div>
-      <form id="modifyPwdForm" class="form-horizontal">
-        <div class="box-body">
-          {{ form2.hidden_tag() }}
-          <div class="form-group">
-            <label class="control-label col-sm-3">用户名</label>
-            <div class="col-sm-8">
-              {{ form2.username(class='form-control required', id="mUsername", placeholder="用户名") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3">密码</label>
-            <div class="col-sm-8">
-              {{ form2.password(class='form-control required', id="mPassword", placeholder="密码") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3">验证密码</label>
-            <div class="col-sm-8">
-              {{ form2.verifypassword(class='form-control required', id="mPassword2", placeholder="验证密码") }}
-            </div>
-          </div>
-          <div class="alert alert-danger col-sm-offset-1 col-sm-10" id="mod-pwd" style="display: none;">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <span id="mod-pwd-text"></span>
-          </div>
-        </div>
-        <div class="box-footer text-center">
-          {{ form2.submit(class='btn btn-danger btn-flat') }}
-        </div>
-      </form>
+  <div class="box-body no-padding">
+    <div class="user-box-controls">
+      <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+      <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i> 删除</button>
+      <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> 修改</button>
+      <a class="btn btn-default btn-sm" href="{{ url_for('admin.add_user') }}"><i class="fa fa-user-plus"></i> 添加</a>
+      <ul class="pagination pagination-sm no-margin pull-right">
+        <li><a href="#">«</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">»</a></li>
+      </ul>
     </div>
+    <table class="table table-hover table-striped user-table"><tbody></tbody>
+    </table>
+  </div>
+  <div class="box-footer no-padding">
+    <div class="user-box-controls">
+      <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+      <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i> 删除</button>
+      <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> 修改</button>
+      <button class="btn btn-default btn-sm"><i class="fa fa-user-plus"></i> 添加</button>
+      <ul class="pagination pagination-sm no-margin pull-right">
+        <li><a href="#">«</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">»</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="overlay">
+    <i class="fa fa-refresh fa-spin"></i>
   </div>
 </div>
 {% endblock %}
+
 {%- block script -%}
-<script>
-$(document).ready(function () {
-  $("button.close").click(function () {
-    $(".alert").slideUp();
-    return false;
-  });
-  $('#registerForm').submit(function () {
-    var name_field = $('#inputUsername');
-    var pwd_field = $('#inputPassword');
-    var pwd2_field = $('#inputPassword2');
-    var sno_field = $('#inputSno');
-    var email_field = $('#inputEmail');
-    if (requiredCheck(name_field, '用户名') &&
-      requiredCheck(pwd_field, '密码') &&
-      requiredCheck(pwd2_field, '验证密码') &&
-      requiredCheck(sno_field, '学号') &&
-      requiredCheck(email_field, '邮箱') ) {
-      if (pwd2_field.val() != pwd_field.val()) {
-        pwd2_field.focus();
-        pwd2_field.attr('placeholder', '验证密码不匹配');
-        return false;
-      }
-      $.post("{{ url_for('ajax.register') }}", $('#registerForm').serialize()).success(
-        function (data) {
-          $("#add-info-text").html(data);
-          $("#add-info").fadeIn(200);
-        }
-      );
+  <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+  <script>
+  function make_iCheck() {
+    $('.user-box input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_flat-blue',
+      radioClass: 'iradio_flat-blue'
+    });
+  }
+  function make_user_item(user_table, user, img_link, profile_link) {
+    var origin = '<tr><td class="user-item-check"><label><input type="checkbox"'
+            + 'name="user" value="' + user.id + '"></label></td>'
+            + '<td class="user-item-face"><img src="' + img_link + '"></td>'
+            + '<td class="user-item-name"><a href="' + profile_link
+            + '" target="_blank"><b>' + user.name + '</b></a></td>'
+            + '<td class="user-item-type">';
+    if ((parseInt(user.rights) & 4) === 4) {
+      origin += '<label class="label label-danger">管理员</label>';
     }
-    return false;
-  });
-  $('#modifyPwdForm').submit(function () {
-    var name_field = $('#mUsername');
-    var pwd_field = $('#mPassword');
-    var pwd2_field = $('#mPassword2');
-    if (requiredCheck(name_field, '用户名') &&
-      requiredCheck(pwd_field, '密码') &&
-      requiredCheck(pwd2_field, '验证密码')) {
-      if (pwd2_field.val() != pwd_field.val()) {
-        pwd2_field.focus();
-        pwd2_field.val('');
-        pwd2_field.attr('placeholder', '验证密码不匹配');
-        return false;
-      }
-      $.post("{{ url_for('ajax.modify_pwd') }}", $('#modifyPwdForm').serialize()).success(
-        function (data) {
-          $("#mod-pwd-text").html(data);
-          $("#mod-pwd").fadeIn(200);
-        }
-      );
+    if ((parseInt(user.rights) & 2) === 2) {
+      origin += '<label class="label label-success">教练</label>';
     }
-    return false;
+    if ((parseInt(user.rights) & 1) === 1) {
+      origin += '<label class="label label-primary">学生</label>';
+    }
+    origin += '</td><td class="user-item-email text-muted">' + user.email + '</td>';
+    //origin += '<td class="user-item-date"><label class="badge">' + user.score + '</label></td>';
+    origin += '</tr>';
+    $(user_table).append(origin);
+  }
+  function get_user_list(offset, limit) {
+    $('.user-box > div.overlay').fadeIn(500);
+    var data = { offset: offset, limit: limit };
+    $.post("{{ url_for('ajax.get_user_list') }}", data).success(function(ret) {
+      var user_count = ret.sum;
+      var start = ret.offset;
+      var length = ret.limit;
+      var users = ret.user_list;
+      var img_link = ret.img_link;
+      var profile_link = ret.profile_link;
+      if (length == 0) {
+        return;
+      }
+      var $user_table = $('.user-table').first();
+      $user_table.empty();
+      for (var i = 0; i < length; ++i) {
+        make_user_item($user_table, users[i], img_link[i], profile_link[i]);
+      }
+      $('.user-box > div.overlay').fadeOut(500);
+      make_iCheck();
+    });
+  }
+  $(function() {
+    make_iCheck();
+    //Enable check and uncheck all functionality
+    $(".checkbox-toggle").click(function () {
+      var clicks = $(this).data('clicks');
+      if (clicks) {
+        //Uncheck all checkboxes
+        $(".user-box input[type='checkbox']").iCheck("uncheck");
+        $(".checkbox-toggle .fa").removeClass("fa-check-square-o").addClass('fa-square-o');
+      } else {
+        //Check all checkboxes
+        $(".user-box input[type='checkbox']").iCheck("check");
+        $(".checkbox-toggle .fa").removeClass("fa-square-o").addClass('fa-check-square-o');
+      }
+      $(this).data("clicks", !clicks);
+    });
+    get_user_list(0, 20);
   });
-});
-</script>
+  </script>
 {%- endblock -%}

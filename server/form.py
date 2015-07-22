@@ -13,7 +13,6 @@ class LoginForm(Form):
     remember_me = BooleanField('Remember me')
     submit = SubmitField(u'登录')
 
-
 class RegisterForm(Form):
     username = StringField('Username', validators=[validators.DataRequired(), validators.Length(min=1, max=24),
                     validators.Regexp('^[A-Za-z][A-Za-z0-9_.]*$', flags=0,
@@ -22,7 +21,7 @@ class RegisterForm(Form):
     password = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24),
                     validators.EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[validators.DataRequired()])
-    stu_id = StringField('stu_id', validators=[validators.DataRequired(), validators.Length(min=1, max=20)])
+    stu_id = StringField('stu_id', validators=[validators.Optional(), validators.Length(min=1, max=20)])
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
     email = StringField('Email', validators=[validators.DataRequired(), validators.Length(min=1, max=64), validators.Email()])
     submit = SubmitField(u'注册')
