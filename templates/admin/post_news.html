@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="inputUrl">url</label>
+        <label class="control-label col-sm-2" for="inputUrl">固定链接</label>
         <div class="col-sm-9">
           {{ form.url(class="form-control required",id="inputUrl", placeholder="url") }}
         </div>
@@ -53,7 +53,10 @@
       </div>
     </div>
     <div class="box-footer text-center">
-      {{ form.submit(class='btn btn-primary btn-flat', value='提交') }}
+      <div class="btn-group">
+              <button type="button" class="btn btn-info btn-flat" id="isave">{{ buttom[0] }}</button>
+              {{ form.submit(class='btn btn-danger btn-flat', value=buttom[1] )}}
+       </div>
     </div>
   </form>
 </div>
@@ -62,6 +65,23 @@
 <script src="{{ url_for('static', filename='markdown/js/markdown.min.js') }}"></script>
 <script src="{{ url_for('static', filename='markdown/js/bootstrap-markdown.min.js') }}"></script>
 <script>
+    function save(isdraft) {
+      var title = $('#inputTitle');
+      if (requiredCheck(title, 'title')) {
+          if (isdraft) {
+              url = "{{ url_for('ajax.news_manager', draft='1') }}";
+          }
+          else {
+              url = "{{ url_for('ajax.news_manager', draft='0') }}";
+          }
+          $.post(url, $('#postForm').serialize()).success(
+                  function (data) {
+                      $("#post-info-text").html(data);
+                      $("#post-info").hide().fadeIn(200);
+                  }
+          );
+      }
+    }
   $(document).ready(function () {
     $("button.close").click(function () {
       $(".alert").slideUp();
@@ -72,19 +92,12 @@
     $('.md-editor').on("click",".btn[title='Preview']", function(){
       MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     });
+    $('#isave').click(function(){
+        save(true);
+    });
     $('#postForm').submit(function () {
-      var title = $('#inputTitle');
-      var shortcut = $('#inputShortcut');
-      var content = $('#inputContent');
-      if (requiredCheck(title, 'title')) {
-          $.post("{{ url_for('ajax.news_manager') }}", $('#postForm').serialize()).success(
-                  function (data) {
-                      $("#post-info-text").html(data);
-                      $("#post-info").hide().fadeIn(200);
-                  }
-          );
-      }
-      return false;
+        save(false);
+        return false;
     });
   });
 </script>

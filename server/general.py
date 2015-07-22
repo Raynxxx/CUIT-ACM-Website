@@ -1,6 +1,6 @@
 from __init__ import *
 import sys
-from dao import dbBase
+from dao.dbACCOUNT import AccountStatus
 import time
 from sqlalchemy import or_
 
@@ -65,8 +65,8 @@ def update_user_status(user):
     if user.account:
         accounts = user.account.all()
         for account in accounts:
-            if account and account.update_status == 0:
-                account.update_status = 2
+            if account and account.update_status != AccountStatus.UPDATING:
+                account.update_status = AccountStatus.WAIT_FOR_UPDATE
                 account.save()
 
 

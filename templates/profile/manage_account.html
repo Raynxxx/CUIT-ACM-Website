@@ -76,7 +76,7 @@
                     for (x in account) {
                         table.append("<tr><td>"+account[x]['account_name']+"</td><td>"
                         +account[x]['oj_name']+"</td><td><span class='label label-info'>"+account[x]['status']
-                        +"</span></td><td>"+"<button type='button' class='btn btn-mini btn-danger btn-flat account_del' url-data='/delete_account?username={{ user.username }}&oj_name="+account[x]['oj_name']+"'>删除</button>"
+                        +"</span></td><td>"+"<button type='button' class='btn btn-mini btn-danger btn-flat account_del' url-data='/ajax/delete_account?username={{ user.username }}&oj_name="+account[x]['oj_name']+"'>删除</button>"
                         +"</td></tr>")
                     }
                     table.fadeIn();

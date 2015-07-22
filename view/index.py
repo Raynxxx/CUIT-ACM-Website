@@ -30,8 +30,18 @@ def logout():
 @main.route('/')
 @main.route('/index')
 def index():
+    news_server.get_archive()
     news = news_server.get()
     return render_template('index/index.html', news=news)
+
+@main.route('/archive')
+@main.route('/archive/<tag>')
+def archive(tag=None):
+    if tag:
+        arch = news_server.get_archive_by_tag(tag)
+    else:
+        arch = news_server.get_archive()
+    return render_template('index/archive.html', archive=arch)
 
 @main.route('/aboutus')
 def about():

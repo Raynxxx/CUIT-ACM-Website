@@ -24,6 +24,8 @@ class SolutionArticle(db.Model):
     problem_oj_name = db.Column(db.String(20))
     problem_pid = db.Column(db.String(12))
     last_update_time = db.Column(db.DateTime)
+    istop = db.Column(db.SmallInteger, default=0)
+    isdraft = db.Column(db.SmallInteger, default=0)
     #rank = db.Column(db.Integer, default=0)
     # connect to User
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

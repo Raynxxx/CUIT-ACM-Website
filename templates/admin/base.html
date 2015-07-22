@@ -108,8 +108,15 @@
         </li>
         <li><a href="{{ url_for('admin.add_book') }}" id="user-add"><i class="fa fa-book"> </i> <span>添加书籍</span></a>
         </li>
-        <li><a href="{{ url_for('admin.post_news')}}" id="user-add"><i class="fa fa-user-plus"> </i> <span>发布新闻</span></a>
-        </li>
+          <li class="treeview">
+          <a href="{{ url_for('admin.news') }}" id="user-add">
+            <i class="fa fa-users"> </i> <span>新闻</span> <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url_for('admin.news') }}">新闻列表</a></li>
+            <li><a href="{{ url_for('admin.post_news') }}"> <span>发布新闻</span></a></li>
+          </ul>
+          </li>
       </ul>
     </section>
     <!-- /.sidebar -->
