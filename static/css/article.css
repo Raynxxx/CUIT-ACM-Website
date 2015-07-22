@@ -1,0 +1,147 @@
+.article-box {
+  position: relative;
+  border: solid 1px #ccc;
+  border-radius: 0.3em;
+  padding: 1.2em;
+  margin-bottom: 2.3em;
+  background: #ffffff;
+  border-top: 3px solid #d2d6de;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.article-header {
+  margin: 0.2em;
+}
+.article-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.3em 0.1em;
+}
+.article-title a {
+  color: #333;
+}
+.article-title a:hover {
+  color: #3c8dbc;
+}
+
+.article-meta {
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #999;
+  margin-bottom: 1em;
+  margin-left: 5px;
+  line-height: 1em;
+  text-shadow: 0 1px #fff;
+  font-weight: bold;
+  font-size: 8px;
+}
+.article-body {
+  padding: 1em 0.5em;
+}
+
+.article-more-link {
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin-left: 10px;
+  line-height: 1em;
+  font-size: 12px;
+}
+
+.article-footer {
+  border-top: solid 1px #ccc;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #777;
+  margin: 1em;
+  padding-left: 10px;
+  padding-top: 1em;
+  margin-left: 5px;
+  line-height: 1em;
+  text-shadow: 0 1px #fff;
+  font-weight: bold;
+  font-size: 8px;
+}
+.article-footer a {
+  color: inherit;
+}
+.article-footer a:hover {
+  color: #fff;
+  background-color: #3c8dbc;
+  text-shadow: none;
+  font-weight: normal;
+}
+
+.recent_articles {
+  list-style: none;
+  padding: 2px 20px !important;
+  font-size: 14px;
+}
+.recent_articles li {
+  margin: 5px 0;
+}
+.recent_articles li a {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+.recent_articles li a:hover {
+  color: #258fb8;
+  border-bottom: dashed 1px #999;
+}
+
+
+/*
+** Archive
+*/
+.archive-list {
+  width: 80%;
+  margin: auto auto;
+  position: relative;
+  border: solid 1px #ccc;
+  border-radius: 0.3em;
+  padding: 1.2em;
+  background: #ffffff;
+  border-top: 3px solid #d2d6de;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.archive-list ul {
+  list-style: none;
+}
+.archive {
+  width: 90%;
+  position: relative;
+  padding: 1.2em;
+  margin: 2.3em auto;
+}
+.archive-year {
+  margin-left: 25px;
+  font-size: 4em;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 2px 1px #aaa;
+}
+.archive-row {
+  margin: 10px auto 4px auto;
+}
+.archive-date {
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #666;
+  text-shadow: 0 1px #eee;
+  font-weight: bold;
+  font-size: 18px;
+}
+.archive-title {
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #258fb8;
+  font-size: 18px;
+}
+.archive-line {
+  padding: 0 50px 0 40px;
+  border-bottom: dashed 2px #aaa;
+}

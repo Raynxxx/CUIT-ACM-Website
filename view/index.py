@@ -27,21 +27,44 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('main.login'))
 
+
 @main.route('/')
 @main.route('/index')
 def index():
     news_server.get_archive()
-    news = news_server.get()
-    return render_template('index/index.html', news=news)
+    news = news_server.get_news_list()
+    recent_news = news_server.get_news_list(0, 5)
+    return render_template('index/index.html', news=news, recent_news=recent_news)
+
+
+@main.route('/news')
+@main.route('/news/<url>', methods = ['GET'])
+@login_required
+def news(url=None):
+    try:
+        if url:
+            one = news_server.get_one_by_url(url)
+        else:
+            sid = request.args['p']
+            one = news_server.get_one(sid)
+        recent_news = news_server.get_news_list(0, 5)
+        return render_template('index/news.html', one=one, recent_news=recent_news)
+    except Exception, e:
+        print e.message
+        return redirect(url_for('main.index'))
 
 @main.route('/archive')
 @main.route('/archive/<tag>')
 def archive(tag=None):
     if tag:
-        arch = news_server.get_archive_by_tag(tag)
+        archives = news_server.get_archive_by_tag(tag)
     else:
-        arch = news_server.get_archive()
-    return render_template('index/archive.html', archive=arch)
+        archives = news_server.get_archive()
+    for year in archives:
+        for news in archives[year]:
+            print news
+    return render_template('index/archive.html', archives=archives)
+
 
 @main.route('/aboutus')
 def about():
@@ -75,20 +98,6 @@ def article():
         one = article_server.get_one(pid)
         return render_template('index/article.html', one=one)
     except:
-        return redirect(url_for('main.index'))
-
-@main.route('/news')
-@main.route('/news/<url>', methods = ['GET'])
-@login_required
-def news(url=None):
-    try:
-        if url:
-            one = news_server.get_one_by_url(url)
-        else:
-            sid = request.args['p']
-            one = news_server.get_one(sid)
-        return render_template('index/news.html', one=one)
-    except :
         return redirect(url_for('main.index'))
 
 

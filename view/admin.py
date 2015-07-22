@@ -18,7 +18,7 @@ admin = blueprints.Blueprint('admin', __name__, template_folder='../templates/ad
 @admin.route('/admin', methods=["get"])
 @login_required
 def index():
-    if not current_user.rights:
+    if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     return redirect(url_for('admin.sys_info'))
 
@@ -31,7 +31,7 @@ def index():
 @admin.route('/admin/sys_info', methods=["get"])
 @login_required
 def sys_info():
-    if not current_user.rights:
+    if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     sys = general.get_sys_info()
     return render_template('sys_info.html', sys=sys)
@@ -45,6 +45,8 @@ def sys_info():
 @admin.route('/admin/manage_user', methods=["get"])
 @login_required
 def manage_user():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
     return render_template('manage_user.html')
 
 #
@@ -56,7 +58,7 @@ def manage_user():
 @admin.route('/admin/add_user', methods=["get"])
 @login_required
 def add_user():
-    if not current_user.rights:
+    if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     user_add_form = form.RegisterForm()
     pwd_modify_form = form.PasswordModifyForm()
@@ -66,20 +68,26 @@ def add_user():
 @admin.route("/admin/add_book", methods = ['GET'])
 @login_required
 def add_book():
-    if not current_user.rights:
+    if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    bookform = form.BookForm()
-    return render_template('add_book.html', bookform=bookform)
+    book_form = form.BookForm()
+    return render_template('add_book.html', book_form=book_form)
 
 
-
-@admin.route("/admin/news", methods = ['GET'])
+#
+# @brief: the page for administrator to manage news
+# @route: /admin/manage_news
+# @accepted methods: [get]
+# @allowed user: administrator
+#
+@admin.route("/admin/manage_news", methods = ['GET'])
 @login_required
-def news():
+def manage_news():
     if not current_user.rights:
         return redirect(url_for('main.index'))
-    news = news_server.get(show_draft=True)
-    return render_template('admin/news.html', news=news)
+    news = news_server.get_news_list(show_draft=True)
+    return render_template('admin/manage_news.html', news=news)
+
 
 @admin.route("/admin/delete_news", methods = ['GET'])
 @login_required
@@ -99,9 +107,9 @@ def delete_news():
 def post_news():
     if not current_user.rights:
         return redirect(url_for('main.index'))
-    newsform = form.NewsForm()
-    buttom = [u"保存草稿",u"直接发布"]
-    return render_template('post_news.html', form=newsform, buttom=buttom)
+    news_form = form.NewsForm()
+    my_button = [u"保存草稿",u"直接发布"]
+    return render_template('post_news.html', form=news_form, my_button=my_button)
 
 @admin.route("/admin/edit_news", methods = ['GET'])
 @login_required
@@ -121,14 +129,14 @@ def edit_news():
         news_form.shortcut.data = one.shortcut
         news_form.content.data = one.content
         news_form.url.data = one.url
-        news_form.istop.data = one.istop
+        news_form.is_top.data = one.is_top
         tags = []
         for tag in one.tags:
             tags.append(tag.__repr__())
         news_form.tags.data = tags
-    if one.isdraft:
-        buttom = [u"保存草稿",u"直接发布"]
+    if one.is_draft:
+        my_button = [u"保存草稿",u"直接发布"]
     else :
-        buttom = [u"保存草稿",u"提交更新"]
-    return render_template('post_news.html', form=news_form, buttom=buttom)
+        my_button = [u"保存草稿",u"提交更新"]
+    return render_template('post_news.html', form=news_form, my_button=my_button)
 
