@@ -1,0 +1,25 @@
+<tr id="news{{ news.id }}">
+  <td class="list-item-check">
+    <label><input type="radio" name="news" value="{{ news.id }}"></label>
+  </td>
+  <td class="list-item-title">
+    <a href="{{ url_for('main.news', p=news.id) }}">{{ news.title }}</a>
+  </td>
+  <td class="list-item-name">
+    <a href="{{ url_for('profile.index',username=news.user.username) }}" target="_blank">
+      <b>{{ news.user.name }}</b></a>
+  </td>
+  <td class="list-item-type">
+    {% if news.is_draft %}
+      <label class="label label-primary">草稿</label>
+    {% else %}
+      <label class="label label-success">已发布</label>
+    {% endif %}
+    {% if news.is_top %}
+      <label class="label label-danger">已置顶</label>
+    {% endif %}
+  </td>
+  <td class="list-item-time text-muted">
+    {{ news.last_update_time }}
+  </td>
+</tr>

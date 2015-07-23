@@ -51,7 +51,6 @@
 .article-footer {
   border-top: solid 1px #ccc;
   text-decoration: none;
-  text-transform: uppercase;
   letter-spacing: 2px;
   color: #777;
   margin: 1em;
@@ -59,17 +58,16 @@
   padding-top: 1em;
   margin-left: 5px;
   line-height: 1em;
-  text-shadow: 0 1px #fff;
-  font-weight: bold;
   font-size: 8px;
 }
 .article-footer a {
-  color: inherit;
+  color: #777;
+  display: inline-block;
+  font-weight: 500 !important;
 }
 .article-footer a:hover {
   color: #fff;
   background-color: #3c8dbc;
-  text-shadow: none;
   font-weight: normal;
 }
 

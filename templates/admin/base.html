@@ -61,8 +61,8 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ url_for('profile.index') }}" class="btn btn-default btn-flat">个人信息</a>
-                  {%- if current_user.rights -%}
+                  <a href="{{ url_for('profile.index') }}" class="btn btn-default btn-flat">个人主页</a>
+                  {%- if current_user.is_admin or current_user.is_coach -%}
                     <a href="{{ url_for('admin.index') }}" class="btn btn-default btn-flat">管理员功能</a>
                   {%- endif -%}
                 </div>
@@ -86,9 +86,17 @@
         <div class="pull-left image">
           <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
         </div>
-        <div class="pull-left info">
-          <p>{{ current_user.name }}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> 管理员</a>
+        <div class="pull-right info">
+          <p class="user-name">{{ current_user.name }}</p>
+          {% if current_user.is_admin %}
+            <label class="label label-danger user-type">管理员</label>
+          {% endif %}
+          {% if current_user.is_coach %}
+            <label class="label label-success user-type">教练</label>
+          {% endif %}
+          {% if current_user.is_student %}
+            <label class="label label-primary user-type">学生</label>
+          {% endif %}
         </div>
       </div>
       <!-- /.search form -->
@@ -106,8 +114,6 @@
             <li><a href="{{ url_for('admin.add_user') }}" id="user-add"> <span>添加用户</span></a></li>
           </ul>
         </li>
-        <li><a href="{{ url_for('admin.add_book') }}" id="user-add"><i class="fa fa-book"> </i> <span>添加书籍</span></a>
-        </li>
         <li class="treeview">
           <a href="{{ url_for('admin.manage_news') }}" id="user-add">
             <i class="fa fa-users"> </i> <span>新闻管理</span> <i class="fa fa-angle-left pull-right"></i>
@@ -117,6 +123,9 @@
             <li><a href="{{ url_for('admin.post_news') }}"> <span>发布新闻</span></a></li>
           </ul>
         </li>
+        <li><a href="{{ url_for('admin.add_book') }}" id="user-add"><i class="fa fa-book"> </i> <span>添加书籍</span></a>
+        </li>
+
       </ul>
     </section>
     <!-- /.sidebar -->

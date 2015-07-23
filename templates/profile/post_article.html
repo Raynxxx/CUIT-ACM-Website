@@ -1,6 +1,7 @@
 {% extends "profile/base.html" %}
 {%- block head -%}
   <link rel="stylesheet" href="{{ url_for('static', filename='markdown/css/bootstrap-markdown.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.css') }}"/>
 {%- endblock -%}
 {% block content %}
   <div class="box box-primary">
@@ -32,7 +33,7 @@
         <div class="form-group">
           <label class="control-label col-sm-2" for="inputTag">标签</label>
           <div class="col-sm-9">
-            {{ form.tags(class='form-control required', id="inputTag" , placeholder="标签") }}
+            {{ form.tags(class='form-control required', id="inputTag") }}
           </div>
         </div>
         <div class="form-group">
@@ -58,28 +59,45 @@
 {%- block script -%}
 <script src="{{ url_for('static', filename='markdown/js/markdown.min.js') }}"></script>
 <script src="{{ url_for('static', filename='markdown/js/bootstrap-markdown.min.js') }}"></script>
-  <script>
-    $(document).ready(function () {
-      $("button.close").click(function () {
-        $(".alert").slideUp();
-        return false;
-      });
-      $('#inputShortcut').markdown({iconlibrary: 'fa'});
-      $('#inputContent').markdown({iconlibrary: 'fa'});
-      $('.md-editor').on("click", ".btn[title='Preview']", function () {
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-      });
-      $('#postForm').submit(function () {
-        var title = $('#inputTitle');
-        var shortcut = $('#inputShortcut');
-        var content = $('#inputContent');
-        if (requiredCheck(title, '标题')) {
-          $.post("{{ url_for('ajax.solution_manager') }}", $('#postForm').serialize()).success(
-              function (data) { $("#post-info-text").html(data); $("#post-info").hide().fadeIn(200); }
-          );
-        }
-        return false;
-      });
+<script src="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
+<script>
+  function makeTagsInput() {
+    $('input[id="inputTag"]').tagsinput({
+      tagClass: function(item) {
+        var label = [
+          'label label-primary',
+          'label label-danger',
+          'label label-success',
+          'label label-warning',
+          'label label-info'
+        ];
+        return label[parseInt(Math.random() *  5, 10)];
+      },
+      trimValue: true
     });
-  </script>
+  }
+  $(document).ready(function () {
+    makeTagsInput();
+    $("button.close").click(function () {
+      $(".alert").slideUp();
+      return false;
+    });
+    $('#inputShortcut').markdown({iconlibrary: 'fa'});
+    $('#inputContent').markdown({iconlibrary: 'fa'});
+    $('.md-editor').on("click", ".btn[title='Preview']", function () {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    });
+    $('#postForm').submit(function () {
+      var title = $('#inputTitle');
+      var shortcut = $('#inputShortcut');
+      var content = $('#inputContent');
+      if (requiredCheck(title, '标题')) {
+        $.post("{{ url_for('ajax.solution_manager') }}", $('#postForm').serialize()).success(
+            function (data) { $("#post-info-text").html(data); $("#post-info").hide().fadeIn(200); }
+        );
+      }
+      return false;
+    });
+  });
+</script>
 {%- endblock -%}

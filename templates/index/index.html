@@ -16,7 +16,7 @@
             {% endif %}
           </h2>
           <div class="article-meta">
-            <span>post: {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
+            <span><i class="fa fa-calendar"></i> {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
             <span><a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>
             {% if current_user == one.user %}
               <span><a href="{{ url_for('admin.edit_news', p=one.id) }}">edit</a></span>
@@ -28,8 +28,9 @@
         </div>
         <a href="{{ url_for('main.news',url=one.url) }}" class="article-more-link btn btn-primary btn-flat">阅读全文 >></a>
         <div class="article-footer">
+          <i class="fa fa-tags"></i>
           {% for tag in one.tags %}
-            <span><a href="{{ url_for('main.archive', tag=tag.name) }}"><i class="fa fa-tag"></i> {{ tag.name }}</a></span>
+            <span><a href="{{ url_for('main.news_archive', tag=tag.name) }}" class="label label-default"> {{ tag.name }}</a></span>
           {% endfor %}
         </div>
       </div>

@@ -1,97 +1,158 @@
 {% extends "admin/base.html" %}
 {%- block head -%}
-    <link rel="stylesheet" href="{{url_for('static', filename='AdminLTE2/plugins/iCheck/flat/blue.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}">
 {%- endblock -%}
 {% block content %}
-    {% for one in news %}
-        <div class="col-md-4">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                  <h3 class="box-title">news</h3>
-                </div><!-- /.box-header -->
-                <!-- form start -->
-                  <div class="box-body">
-                      <div class="btn-group">
-                          <button type="button" class="btn btn-default">操作</button>
-                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                          </button>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url_for('admin.edit_news', p=one.id) }}">编辑</a></li>
-                            <li><a href="{{ url_for('admin.delete_news', p=one.id)}}">删除</a></li>
-                            <li class="divider"></li>
-                            <li><a href="{{ url_for('main.news', p=one.id)}}">查看</a></li>
-                          </ul>
-                    </div>
-
-                  {% if one.isdraft %}
-                      <button class="btn btn-sm btn-danger btn-flat">草稿</button>
-                  {% else %}
-                      <button class="btn btn-sm btn-success btn-flat">已发布</button>
-                  {% endif %}
-
-                  {% if one.istop %}
-                      <button class="btn btn-sm btn-danger btn-flat">已置顶</button>
-                  {% else %}
-                      <button class="btn btn-sm btn-danger btn-flat">未置顶</button>
-                  {% endif %}
-
-                  {{ one.title }}
-                  {{ one.user.name }}
-                  {{ one.last_update_time }}
-                  </div><!-- /.box-body -->
-                <div class="box-footer"></div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="box box-primary list-box">
+      <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-list"></i> 新闻列表</h3>
+      </div>
+      <div class="box-body no-padding">
+        <div class="list-box-controls">
+          <button class="btn btn-default btn-sm to_delete_news" data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-trash-o"></i> 删除
+          </button>
+          <button class="btn btn-default btn-sm edit_news"><i class="fa fa-pencil-square-o"></i> 修改</button>
+          <a class="btn btn-default btn-sm" href="{{ url_for('admin.post_news') }}"><i class="fa fa-plus"></i> 添加</a>
+          <div class="pull-right">
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+              <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
             </div>
+          </div>
         </div>
-    {% endfor %}
-
+        <table class="table table-bordered table-hover table-striped list-table">
+          <thead><tr><th>选择</th><th>标题</th><th>作者</th><th>状态</th><th>上回更新</th></tr></thead>
+          <tbody class="list-table-body">
+          </tbody>
+          <tfoot><tr><th>选择</th><th>标题</th><th>作者</th><th>状态</th><th>上回更新</th></tr></tfoot>
+        </table>
+      </div>
+      <div class="box-footer no-padding">
+        <div class="list-box-controls">
+          <button class="btn btn-default btn-sm to_delete_news" data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-trash-o"></i> 删除
+          </button>
+          <button class="btn btn-default btn-sm edit_news"><i class="fa fa-pencil-square-o"></i> 修改</button>
+          <a class="btn btn-default btn-sm" href="{{ url_for('admin.post_news') }}"><i class="fa fa-plus"></i> 添加</a>
+          <div class="pull-right">
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+              <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="overlay">
+        <i class="fa fa-refresh fa-spin"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal" style="margin-top: 50px;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 1.4em;">是否确定删除当前选定新闻！</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-flat delete_news">确定删除</button>
+        <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 {% endblock %}
+
 {%- block script -%}
-<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
-<script>
-      $(function () {
-        //Enable iCheck plugin for checkboxes
-        //iCheck for checkbox and radio inputs
-        $('.mailbox-messages input[type="checkbox"]').iCheck({
-          checkboxClass: 'icheckbox_flat-blue',
-          radioClass: 'iradio_flat-blue'
-        });
-
-        //Enable check and uncheck all functionality
-        $(".checkbox-toggle").click(function () {
-          var clicks = $(this).data('clicks');
-          if (clicks) {
-            //Uncheck all checkboxes
-            $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
-            $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
-          } else {
-            //Check all checkboxes
-            $(".mailbox-messages input[type='checkbox']").iCheck("check");
-            $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
-          }
-          $(this).data("clicks", !clicks);
-        });
-
-        //Handle starring for glyphicon and font awesome
-        $(".mailbox-star").click(function (e) {
-          e.preventDefault();
-          //detect type
-          var $this = $(this).find("a > i");
-          var glyph = $this.hasClass("glyphicon");
-          var fa = $this.hasClass("fa");
-
-          //Switch states
-          if (glyph) {
-            $this.toggleClass("glyphicon-star");
-            $this.toggleClass("glyphicon-star-empty");
-          }
-
-          if (fa) {
-            $this.toggleClass("fa-star");
-            $this.toggleClass("fa-star-o");
-          }
-        });
-      });
-</script>
+  <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+  <script>
+  function make_iCheck() {
+    $('.list-box input[type="checkbox"], .list-box input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue'
+    });
+  }
+  function get_news_list(offset, limit) {
+    $('.list-box > div.overlay').fadeIn(300, make_iCheck());
+    var data = { offset: offset, limit: limit };
+    $.post("{{ url_for('ajax.get_news_list') }}", data).success(function(ret) {
+      var news_count = ret.sum;
+      var start = ret.offset;
+      var length = ret.limit;
+      var news_list = ret.news_list;
+      if (length == 0) {
+        return 0;
+      }
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
+      for (var i = 0; i < length; ++i) {
+        $list_table.append(news_list[i]);
+      }
+      $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+      var prev = $('.prev-page');
+      var next = $('.next-page');
+      if (start == 0) {
+        prev.hide();
+      } else {
+        prev.show();
+        prev.val(start - limit);
+      }
+      if (news_count == start + length) {
+        next.hide();
+      } else {
+        next.show();
+        next.val(start + length);
+      }
+    });
+  }
+  function delete_news(checked) {
+    var data = { 'news_id': checked };
+    $.post("{{ url_for('ajax.delete_news') }}", data).success(function(ret) {
+      $('.closeModal').click();
+      get_news_list(0, 15);
+    });
+  }
+  $(function () {
+    make_iCheck();
+    var limit = 15;
+    get_news_list(0, limit);
+    $('.prev-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_news_list(offset, limit);
+    });
+    $('.next-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_news_list(offset, limit);
+    });
+    $('.to_delete_news').click(function() {
+      var $check = $('input[name="news"]:checked');
+      if ($check.length <= 0) {
+        return false;
+      }
+    });
+    $('.delete_news').click(function() {
+      var check = $('input[name="news"]:checked').val();
+      delete_news(check);
+    });
+    $('.edit_news').click(function() {
+      var $check = $('input[name="news"]:checked');
+      if ($check.length <= 0) {
+        return false;
+      }
+      var url = "{{ url_for('admin.edit_news', p='') }}";
+      var news_id = $check.val();
+      window.location.href = url + news_id;
+    });
+  });
+  </script>
 {%- endblock -%}

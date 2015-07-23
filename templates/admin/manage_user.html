@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 {% block head %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/flat/blue.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
 {% endblock %}
 
 {% block content_header -%}
@@ -8,34 +8,16 @@
 
 {% block content %}
 <div class="row">
-  <div class="col-sm-offset-4 col-sm-4">
-    <div class="box box-danger col-sm-4 Alert" style="display: none;">
-      <div class="box-header with-border">
-        <h4 class="box-title"><i class="icon fa fa-info"> </i> 是否确认删除当前选中用户 !</h4>
-      </div>
-      <div class="box-body text-center">
-        <button class="btn btn-danger btn-flat delete_users">确定删除</button>
-        <button class="Close btn btn-default btn-flat">取消</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
 <div class="col-sm-12">
-<div class="box box-primary user-box">
+<div class="box box-primary list-box">
   <div class="box-header with-border">
-    <h3 class="box-title">用户列表</h3>
-    <div class="box-tools pull-right">
-      <div class="has-feedback pull-right">
-        <input type="text" class="form-control input-sm" placeholder="Search User">
-        <span class="fa fa-search form-control-feedback"></span>
-      </div>
-    </div>
+    <h3 class="box-title"> <i class="fa fa-list"></i> 用户列表</h3>
   </div>
   <div class="box-body no-padding">
-    <div class="user-box-controls">
-      <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-      <button class="btn btn-default btn-sm to_delete_users"><i class="fa fa-trash-o"></i> 删除</button>
+    <div class="list-box-controls">
+      <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
+        <i class="fa fa-trash-o"></i> 删除
+      </button>
       <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> 修改</button>
       <a class="btn btn-default btn-sm" href="{{ url_for('admin.add_user') }}"><i class="fa fa-user-plus"></i> 添加</a>
       <div class="pull-right">
@@ -45,22 +27,23 @@
         </div><!-- /.btn-group -->
       </div>
     </div>
-    <table class="table table-bordered table-hover table-striped user-table">
+    <table class="table table-bordered table-hover table-striped list-table">
       <thead>
         <tr><th>选择</th><th>头像</th><th>姓名</th><th>权限</th><th>邮箱</th><th>学校</th></tr>
       </thead>
-      <tbody class="user-table-body"></tbody>
+      <tbody class="list-table-body"></tbody>
       <tfoot>
         <tr><th>选择</th><th>头像</th><th>姓名</th><th>权限</th><th>邮箱</th><th>学校</th></tr>
       </tfoot>
     </table>
   </div>
   <div class="box-footer no-padding">
-    <div class="user-box-controls">
-      <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-      <button class="btn btn-default btn-sm to_delete_users"><i class="fa fa-trash-o"></i> 删除</button>
+    <div class="list-box-controls">
+      <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
+        <i class="fa fa-trash-o"></i> 删除
+      </button>
       <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> 修改</button>
-      <button class="btn btn-default btn-sm"><i class="fa fa-user-plus"></i> 添加</button>
+      <a class="btn btn-default btn-sm" href="{{ url_for('admin.add_user') }}"><i class="fa fa-user-plus"></i> 添加</a>
       <div class="pull-right">
         <div class="btn-group">
           <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
@@ -75,19 +58,36 @@
 </div>
 </div>
 </div>
+<div class="modal fade" id="myModal" style="margin-top: 50px;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 1.4em;">是否确定删除当前选定用户！</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-flat delete_user">确定删除</button>
+        <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock %}
 
 {%- block script -%}
   <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
   <script>
   function make_iCheck() {
-    $('.user-box input[type="checkbox"]').iCheck({
-      checkboxClass: 'icheckbox_flat-blue',
-      radioClass: 'iradio_flat-blue'
+    $('.list-box input[type="checkbox"], .list-box input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue'
     });
   }
   function get_user_list(offset, limit) {
-    $('.user-box > div.overlay').fadeIn(300, make_iCheck());
+    $('.list-box > div.overlay').fadeIn(300, make_iCheck());
     var data = { offset: offset, limit: limit };
     $.post("{{ url_for('ajax.get_user_list') }}", data).success(function(ret) {
       var user_count = ret.sum;
@@ -97,12 +97,12 @@
       if (length == 0) {
         return 0;
       }
-      var $user_table = $('.user-table-body').first();
-      $user_table.empty();
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
       for (var i = 0; i < length; ++i) {
-        $user_table.append(users[i]);
+        $list_table.append(users[i]);
       }
-      $('.user-box > div.overlay').fadeOut(300, make_iCheck());
+      $('.list-box > div.overlay').fadeOut(300, make_iCheck());
       var prev = $('.prev-page');
       var next = $('.next-page');
       if (start == 0) {
@@ -120,26 +120,24 @@
     });
   }
   function delete_users(checked) {
-    $.post("{{ url_for('ajax.delete_users') }}", checked.serialize()).success(function(ret) {
-
+    var data = { 'user_id': checked };
+    $.post("{{ url_for('ajax.delete_user') }}", data).success(function(ret) {
+      $('.closeModal').click();
+      get_user_list(0, 15);
     });
   }
   $(function() {
     make_iCheck();
-    $("button.Close").click(function () {
-      $(".Alert").slideUp();
-      return false;
-    });
     //Enable check and uncheck all functionality
     $(".checkbox-toggle").click(function () {
       var clicks = $(this).data('clicks');
       if (clicks) {
         //Uncheck all checkboxes
-        $(".user-box input[type='checkbox']").iCheck("uncheck");
+        $(".list-box input[type='checkbox']").iCheck("uncheck");
         $(".checkbox-toggle .fa").removeClass("fa-check-square-o").addClass('fa-square-o');
       } else {
         //Check all checkboxes
-        $(".user-box input[type='checkbox']").iCheck("check");
+        $(".list-box input[type='checkbox']").iCheck("check");
         $(".checkbox-toggle .fa").removeClass("fa-square-o").addClass('fa-check-square-o');
       }
       $(this).data("clicks", !clicks);
@@ -154,17 +152,15 @@
       var offset = parseInt($(this).val());
       get_user_list(offset, limit);
     });
-    $('.to_delete_users').click(function() {
+    $('.to_delete_user').click(function() {
       var $check = $('input[name="user"]:checked');
       if ($check.length <= 0) {
         return false;
       }
-      $(".Alert").slideDown();
     });
-    $('.delete_users').click(function() {
-      var $check = $('input[name="user"]:checked');
-      delete_users($check);
-      $(".Alert").slideUp();
+    $('.delete_user').click(function() {
+      var check = $('input[name="user"]:checked').val();
+      delete_users(check);
     });
   });
   </script>

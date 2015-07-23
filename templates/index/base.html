@@ -57,7 +57,6 @@
               <!-- User image -->
               <li class="user-header">
                 <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
-
                 <p>
                   {{ current_user.name }}
                   <small>注册于 {{ current_user.create_time }}</small>
@@ -66,8 +65,8 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ url_for('profile.index') }}" class="btn btn-default btn-flat">个人信息</a>
-                  {%- if current_user.rights -%}
+                  <a href="{{ url_for('profile.index') }}" class="btn btn-default btn-flat">个人主页</a>
+                  {%- if current_user.is_admin or current_user.is_coach -%}
                     <a href="{{ url_for('admin.index') }}" class="btn btn-default btn-flat">管理员功能</a>
                   {%- endif -%}
                 </div>

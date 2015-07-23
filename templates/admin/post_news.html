@@ -1,30 +1,39 @@
 {% extends "admin/base.html" %}
 {%- block head -%}
   <link rel="stylesheet" href="{{ url_for('static', filename='markdown/css/bootstrap-markdown.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/bootstrap-switch/bootstrap-switch.min.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.css') }}"/>
 {%- endblock -%}
 {% block content %}
 <div class="box box-primary">
   <div class="box-header with-border">
-    <h3 class="box-title">发布新闻</h3>
+    <h3 class="box-title"><i class="fa fa-newspaper-o"></i> {{ action }}</h3>
   </div>
   <form id="postForm" method="post"  class="form-horizontal">
     <div class="box-body">
       {{ form.hidden_tag() }}
       {{ form.sid(style="display:none") }}
       <div class="form-group">
-        <label class="control-label col-sm-2" for="inputTitle">标题</label>
-        <div class="col-sm-9">
-          {{ form.title(class="form-control required",id="inputTitle", placeholder="标题") }}
+        <label class="control-label col-sm-2" for="inputTitle">新闻标题</label>
+        <div class="col-sm-6">
+          {{ form.title(class="form-control required",id="inputTitle", placeholder="在此填入标题") }}
         </div>
+        <div class="col-sm-3">{{ form.is_top() }}</div>
       </div>
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputUrl">固定链接</label>
         <div class="col-sm-9">
-          {{ form.url(class="form-control required",id="inputUrl", placeholder="url") }}
+          {{ form.url(class="form-control required",id="inputUrl", placeholder="固定链接URL") }}
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="inputShortcut">标题</label>
+        <label class="control-label col-sm-2" for="inputTag">标签</label>
+        <div class="col-sm-9">
+          {{ form.tags(class='form-control required', id="inputTag" ) }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="inputShortcut">摘要</label>
         <div class="col-sm-9">
           {{ form.shortcut(class=' required',id="inputShortcut", rows="6", style="resize:none;padding:10px;" , placeholder="摘要") }}
         </div>
@@ -35,27 +44,15 @@
           {{ form.content(class='required', id="inputContent" , rows="25", style="resize:none;padding:10px;" , placeholder="正文") }}
         </div>
       </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="inputTag">标签</label>
-        <div class="col-sm-9">
-          {{ form.tags(class='form-control required', id="inputTag" , placeholder="标签") }}
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="inputTag">是否置顶</label>
-        <div class="col-sm-9">
-          {{ form.is_top }}
-        </div>
-      </div>
-      <div class="alert alert-danger col-sm-offset-2 col-sm-9"  id="post-info" style="display: none;">
+      <div class="alert alert-danger  col-sm-offset-2 col-sm-9"  id="post-info" style="display: none;">
           <button type="button" class="close">&times;</button>
           <span id="post-info-text"></span>
       </div>
     </div>
     <div class="box-footer text-center">
       <div class="btn-group">
-              <button type="button" class="btn btn-info btn-flat" id="isave">{{ my_button[0] }}</button>
-              {{ form.submit(class='btn btn-danger btn-flat', value=my_button[1]) }}
+        <button type="button" class="btn btn-primary" id="save-post">{{ my_button[0] }}</button>
+        {{ form.submit(class='btn btn-danger', value=my_button[1]) }}
        </div>
     </div>
   </form>
@@ -64,25 +61,50 @@
 {%- block script -%}
 <script src="{{ url_for('static', filename='markdown/js/markdown.min.js') }}"></script>
 <script src="{{ url_for('static', filename='markdown/js/bootstrap-markdown.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/bootstrap-switch/bootstrap-switch.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
 <script>
-    function save(isdraft) {
-      var title = $('#inputTitle');
-      if (requiredCheck(title, 'title')) {
-          if (isdraft) {
-              url = "{{ url_for('ajax.news_manager', draft='1') }}";
-          }
-          else {
-              url = "{{ url_for('ajax.news_manager', draft='0') }}";
-          }
-          $.post(url, $('#postForm').serialize()).success(
-                  function (data) {
-                      $("#post-info-text").html(data);
-                      $("#post-info").hide().fadeIn(200);
-                  }
-          );
+  function makeBootstrapSwitch() {
+    $.fn.bootstrapSwitch.defaults.onColor = 'primary';
+    $.fn.bootstrapSwitch.defaults.offColor = 'default';
+    $.fn.bootstrapSwitch.defaults.onText = '置顶';
+    $.fn.bootstrapSwitch.defaults.offText = '取消置顶';
+    $("input[type='checkbox']").bootstrapSwitch();
+  }
+  function makeTagsInput() {
+    $('input[id="inputTag"]').tagsinput({
+      tagClass: function(item) {
+        var label = [
+          'label label-primary',
+          'label label-danger',
+          'label label-success',
+          'label label-warning',
+          'label label-info'
+        ];
+        return label[parseInt(Math.random() *  5, 10)];
+      },
+      trimValue: true
+    });
+  }
+  function save_post(is_draft) {
+    var title = $('#inputTitle');
+    if (requiredCheck(title, '文章标题')) {
+      if (is_draft) {
+        url = "{{ url_for('ajax.post_news', draft='1') }}";
+      } else {
+        url = "{{ url_for('ajax.post_news', draft='0') }}";
       }
+      $.post(url, $('#postForm').serialize()).success(
+          function (data) {
+            $("#post-info-text").html(data);
+            $("#post-info").hide().fadeIn(200);
+          }
+      );
     }
+  }
   $(document).ready(function () {
+    makeBootstrapSwitch();
+    makeTagsInput();
     $("button.close").click(function () {
       $(".alert").slideUp();
       return false;
@@ -92,11 +114,11 @@
     $('.md-editor').on("click",".btn[title='Preview']", function(){
       MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     });
-    $('#isave').click(function(){
-        save(true);
+    $('#save-post').click(function(){
+        save_post(true);
     });
     $('#postForm').submit(function () {
-        save(false);
+        save_post(false);
         return false;
     });
   });
