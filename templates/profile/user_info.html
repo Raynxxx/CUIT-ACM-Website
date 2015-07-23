@@ -21,8 +21,8 @@
           </table>
         </div>
         {% if user == current_user %}
-          <div class="box-footer clearfix">
-          <a class="btn btn-block btn-primary pull-right"
+          <div class="box-footer no-padding">
+          <a class="btn btn-block btn-flat btn-primary"
              href="{{ url_for('profile.modify_info') }}">修改用户信息</a>
           </div>
         {% endif %}
@@ -40,8 +40,8 @@
           </table>
         </div>
         {% if user == current_user %}
-        <div class="box-footer clearfix">
-          <a class="btn btn-block btn-danger pull-right"
+        <div class="box-footer no-padding">
+          <a class="btn btn-block btn-danger btn-flat"
              href="{{ url_for('profile.update_account', username = user.username) }}">更新</a>
         </div>
         {% endif %}

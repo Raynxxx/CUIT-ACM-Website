@@ -3,7 +3,6 @@ from __init__ import *
 from config import OJ_MAP, SCHOOL_MAP
 
 
-
 def get_account_info(user):
     have = []
     not_have = []
@@ -42,13 +41,36 @@ def create_user(user_form, user_rights):
     new_user.stu_id = user_form.stu_id.data
     new_user.phone = user_form.phone.data
     new_user.save()
-    return 'ok'
+    return 'OK'
+
+
+def update_user(user_form, user_rights):
+    has_user = User.query.filter_by(id = user_form.id.data).first()
+    if not has_user:
+        return u"该用户不存在"
+    has_user.name = user_form.name.data
+    has_user.school = SCHOOL_MAP[user_form.school.data]
+    has_user.gender = True if user_form.gender.data == '1' else False
+    has_user.email = user_form.email.data
+    has_user.rights = user_rights
+    has_user.stu_id = user_form.stu_id.data
+    has_user.phone = user_form.phone.data
+    has_user.remark = user_form.motto.data
+    has_user.situation = user_form.situation.data
+    has_user.active = int(user_form.active.data)
+    has_user.save()
+    return 'OK'
 
 
 def delete_by_id(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user:
         user.delete()
+
+
+def get_by_id(user_id):
+    return  User.query.filter_by(id=user_id).first()
+
 
 def get_by_username_or_404(username):
     return User.query.filter_by(username=username).first_or_404()
@@ -59,13 +81,13 @@ def get_by_username(username):
 
 
 def get_statistic(user):
-    stat = dict()
-    stat['total_submit'] = user.submit.count()
+    statistic = dict()
+    statistic['total_submit'] = user.submit.count()
     now = datetime.datetime.now()
     permit_date = now - datetime.timedelta(days=now.weekday())
     permit_date = permit_date.replace(hour=0, minute=0, second=0)
-    stat['weekly_submit'] = user.submit.filter(Submit.submit_time > permit_date).count()
-    return stat
+    statistic['weekly_submit'] = user.submit.filter(Submit.submit_time > permit_date).count()
+    return statistic
 
 
 def get_list(offset=0, limit=20, is_admin=True, school=None):
@@ -78,6 +100,7 @@ def get_list(offset=0, limit=20, is_admin=True, school=None):
             users.append(user) if not user.is_admin else None
     return users
 
+
 def get_count(is_admin=True, school=None):
     if is_admin:
         count = User.query.count()
@@ -87,6 +110,7 @@ def get_count(is_admin=True, school=None):
         for user in all_users:
             count = count + 1 if not user.is_admin else count
     return count
+
 
 def modify_password(user, pwd_form):
     user = get_by_username(pwd_form.username.data)
@@ -100,11 +124,12 @@ def modify_password(user, pwd_form):
     user.save()
     return u"修改密码成功"
 
+
 def modify_info(user, user_form):
     user.email = user_form.email.data
     user.stu_id = user_form.stu_id.data
     user.name = user_form.name.data
-    user.school = user_form.school.data
+    user.school = SCHOOL_MAP[user_form.school.data]
     user.situation = user_form.situation.data
     user.phone = user_form.phone.data
     user.remark = user_form.motto.data

@@ -1,0 +1,192 @@
+{% extends "admin/base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="fa fa-user-plus"></i> <span>修改用户信息</span></h3>
+        </div>
+        <form id="userEditForm" method="post" class="form-horizontal">
+          <div class="box-body">
+            {{ user_modify_form.hidden_tag() }}
+            {{ user_modify_form.id(style='display:none;') }}
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputName">
+                  <span class="required-star">* </span>真实姓名
+                </label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.name(class='form-control required', id="inputName",  placeholder="真实姓名") }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputEmail">
+                  <span class="required-star">* </span>邮箱</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.email(class='form-control required', id="inputEmail", placeholder="邮箱") }}
+                </div>
+              </div>
+            {% if current_user.is_admin %}
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputSchool"><span class="required-star">* </span>学校</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.school(class='form-control required', id="inputSchool", placeholder="学校") }}
+                </div>
+              </div>
+            {% else %}
+              <div class="form-group" style="display: none;">
+                <label class="control-label col-sm-3" for="inputSchool"><span class="required-star">* </span>学校</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.school(class='form-control required', id="inputSchool", placeholder="学校") }}
+                </div>
+              </div>
+            {% endif %}
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputSno">学号</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.stu_id(class='form-control', id="inputSno", placeholder="学号") }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-3"><span class="required-star">* </span>性别</label>
+                <div class="col-sm-8">
+                  {%- for sub in user_modify_form.gender %}
+                    <label class="radio-inline">
+                      {{ sub }}
+                      {{ sub.label(style='margin-left:10px;') }}
+                    </label>
+                  {%- endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputPhone">手机号码</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.phone(class='form-control', id="inputPhone", placeholder="手机号码") }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputMotto">座右铭</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.motto(class='form-control', id="inputMotto", placeholder="座右铭") }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputMotto">现状</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.situation(class='form-control', id="inputMotto", placeholder="现状") }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-3"><span class="required-star">* </span>状态</label>
+                <div class="col-sm-8">
+                  {%- for sub in user_modify_form.active %}
+                    <label class="radio-inline">
+                      {{ sub }}
+                      {{ sub.label(style='margin-left:10px;') }}
+                    </label>
+                  {%- endfor %}
+                </div>
+              </div>
+              <div class="form-group">
+              <label class="control-label col-sm-3" for="inputRights"><span class="required-star">* </span>权限</label>
+                <div class="col-sm-8">
+                  <label class="checkbox-inline">
+                    {% if user.is_coach %}
+                    <input type="checkbox" id="inputRights" name="rights" value=2 checked>
+                    {% else %}
+                    <input type="checkbox" id="inputRights" name="rights" value=2>
+                    {% endif %}
+                    <span class="label label-success" style='margin-left:10px;'>教练</span>
+                  </label>
+                  <label class="checkbox-inline">
+                    {% if user.is_student %}
+                    <input type="checkbox" id="inputRights" name="rights" value=1 checked>
+                    {% else %}
+                    <input type="checkbox" id="inputRights" name="rights" value=1>
+                    {% endif %}
+                    <span class="label label-primary" style='margin-left:10px;'>学生</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-danger col-sm-offset-3 col-sm-6" id="add-info" style="display: none;margin-top: 20px;">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <span id="add-info-text"></span>
+            </div>
+          </div>
+          <div class="box-footer text-center">
+            {{ user_modify_form.submit(class='btn btn-primary btn-flat', value='提交') }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{%- block script -%}
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script>
+  function make_iCheck() {
+    $('input[type="radio"], input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+       increaseArea: '20%' // optional
+    });
+  }
+  $(document).ready(function () {
+    make_iCheck();
+    $("button.close").click(function () {
+      $(".alert").slideUp();
+      return false;
+    });
+    $('#userEditForm').submit(function () {
+      var name_field = $('#inputName');
+      var email_field = $('#inputEmail');
+      var rights_field = $('input[name="rights"]:checked');
+      if (requiredCheck(name_field, '真实姓名') &&
+              requiredCheck(email_field, '邮箱')) {
+        if (rights_field.length <= 0) {
+          rights_field.focus();
+          $("#add-info-text").html("必须为用户设定权限");
+          $("#add-info").fadeIn(200);
+          return false;
+        }
+        $.post("{{ url_for('ajax.edit_user') }}", $('#userEditForm').serialize()).success(
+          function (data) {
+            $("#add-info-text").html(data);
+            $("#add-info").fadeIn(200);
+          }
+        );
+      }
+      return false;
+    });
+    $('#modifyPwdForm').submit(function () {
+      var name_field = $('#mUsername');
+      var pwd_field = $('#mPassword');
+      var pwd2_field = $('#mPassword2');
+      if (requiredCheck(name_field, '用户名') &&
+              requiredCheck(pwd_field, '密码') &&
+              requiredCheck(pwd2_field, '验证密码')) {
+        if (pwd2_field.val() != pwd_field.val()) {
+          pwd2_field.focus();
+          pwd2_field.val('');
+          pwd2_field.attr('placeholder', '验证密码不匹配');
+          return false;
+        }
+        $.post("{{ url_for('ajax.modify_pwd') }}", $('#modifyPwdForm').serialize()).success(
+                function (data) {
+                  $("#mod-pwd-text").html(data);
+                  $("#mod-pwd").fadeIn(200);
+                }
+        );
+      }
+      return false;
+    });
+  });
+</script>
+{%- endblock -%}

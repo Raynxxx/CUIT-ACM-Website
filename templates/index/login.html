@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   {% if title -%}
     <title>{{ title }} - CUIT ACM Team</title>
@@ -52,9 +53,8 @@
       </div>
       {%- with messages = get_flashed_messages() -%}
         {%- if messages -%}
-          <div class="alert alert-warning" style="margin: 20px auto 5px auto">
+          <div class="alert alert-danger" style="margin: 20px auto 5px auto">
             <button type="button" class="close">&times;</button>
-            <h4><i class="icon fa fa-ban"></i> 错误!</h4>
             <ul class="list-unstyled">
               {%- for message in messages -%}
                 <li style="font-size: 1.1em">{{ message }} </li>

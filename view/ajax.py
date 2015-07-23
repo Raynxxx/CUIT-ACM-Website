@@ -28,7 +28,7 @@ def get_user_list_item(user):
 # @brief: ajax user list
 # @allowed user: admin and coach
 #
-@ajax.route('/user_list', methods=["POST"])
+@ajax.route('/ajax/user_list', methods=["POST"])
 @login_required
 def get_user_list():
     if not current_user.is_admin and not current_user.is_coach:
@@ -48,30 +48,28 @@ def get_user_list():
 
 #
 # @brief: add user
-# @route: /register
+# @route: /create_user
 # @accepted methods: [post]
 # @allowed user: admin and coach
 # @ajax return: 用户是否添加成功
 #
-@ajax.route('/register', methods=["POST"])
+@ajax.route('/ajax/create_user', methods=["POST"])
 @login_required
-def register():
+def create_user():
     if not current_user.is_admin and not current_user.is_coach:
         print u"你没有权限访问该模块"
         return redirect(url_for('index'))
     reg_form = form.RegisterForm()
-    rights_list = request.form.getlist('rights')
-    #print rights_list
-    rights = 0
-    for item in rights_list:
-        rights = rights | int(item)
-    #print rights
     if reg_form.validate_on_submit():
         try:
+            rights_list = request.form.getlist('rights')
+            rights = 0
+            for item in rights_list:
+                rights = rights | int(item)
             ret = user_server.create_user(reg_form, rights)
-            if ret == 'ok':
+            if ret == 'OK':
                 return u"添加用户成功"
-            return ret
+            return u"添加用户失败: " + ret
         except Exception, e:
             return u"添加用户失败: " + e.message
     else:
@@ -80,12 +78,43 @@ def register():
 
 
 #
+# @brief: edit user
+# @route: /edit_user
+# @accepted methods: [post]
+# @allowed user: admin and coach
+#
+@ajax.route('/ajax/edit_user', methods=["POST"])
+@login_required
+def edit_user():
+    if not current_user.is_admin and not current_user.is_coach:
+        print u"你没有权限访问该模块"
+        return redirect(url_for('index'))
+    user_modify_form = form.UserModifyForm()
+
+    if user_modify_form.validate_on_submit():
+        try:
+            rights_list = request.form.getlist('rights')
+            rights = 0
+            for item in rights_list:
+                rights = rights | int(item)
+            ret = user_server.update_user(user_modify_form, rights)
+            if ret == 'OK':
+                return u"修改用户成功"
+            return u'修改用户失败: ' + ret
+        except Exception, e:
+            return u"修改用户失败: " + e.message
+    else:
+        #print user_modify_form.errors
+        return u"修改用户失败: 表单填写有误"
+
+
+#
 # @brief: delete user
 # @route: /delete_user
 # @accepted methods: [post]
 # @allowed user: admin and coach
 #
-@ajax.route('/delete_user', methods=["POST"])
+@ajax.route('/ajax/delete_user', methods=["POST"])
 @login_required
 def delete_user():
     if not current_user.is_admin and not current_user.is_coach:
@@ -166,7 +195,6 @@ def post_news():
             return u"发表新闻失败" + e.message
     else:
         return u"发表新闻失败,请检查内容"
-
 
 #
 # @brief: modify user's info
@@ -281,7 +309,7 @@ def account_info():
     return json.dumps(data, cls=CJsonEncoder)
 
 
-@ajax.route('/ajax//fitch_status/<oj_name>', methods=['POST'])
+@ajax.route('/ajax/fitch_status/<oj_name>', methods=['POST'])
 @login_required
 def fitch_status(oj_name):
     headers = ['account_name', 'run_id', 'pro_id', 'lang', 'run_time', 'memory', 'submit_time']

@@ -15,7 +15,9 @@
 #search_filter .form-submit {
   margin-left: 30px;
 }
-
+.radio-inline, .checkbox-inline {
+  padding-left: 2px !important;
+}
 .required-star {
   color: red;
   font-size: 1.2em;
