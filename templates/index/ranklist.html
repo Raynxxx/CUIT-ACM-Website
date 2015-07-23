@@ -24,6 +24,7 @@
               <th>POJ</th>
               <th>ZOJ</th>
               <th>UVA</th>
+              <th>VirtualJudge</th>
               <th>BestCoder</th>
               <th>Codeforces</th>
               <th>Rating</th>
@@ -39,6 +40,7 @@
                 <td>{{ info['poj']['solved'] }} / {{ info['poj']['submitted'] }}</td>
                 <td>{{ info['zoj']['solved'] }} / {{ info['zoj']['submitted'] }}</td>
                 <td>{{ info['uva']['solved'] }} / {{ info['uva']['submitted'] }}</td>
+                <td>{{ info['vj']['solved'] }} / {{ info['vj']['submitted'] }}</td>
                 {% if info['bc_username'] %}
                   <td><a href="http://bestcoder.hdu.edu.cn/rating.php?user={{ info['bc_username'] }}"
                          target="_blank">{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</a></td>

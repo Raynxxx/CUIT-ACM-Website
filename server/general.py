@@ -6,7 +6,7 @@ from sqlalchemy import or_
 
 
 def get_info_list(lim=10):
-    oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc']
+    oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc', 'vj']
     info_list = []
     users = User.query.filter(User.rights != 2).order_by(User.score.desc()).limit(lim)
     rank = 1

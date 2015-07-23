@@ -7,6 +7,7 @@ from util import json, CJsonEncoder
 from werkzeug.utils import secure_filename
 from flask import request, jsonify
 from sqlalchemy.exc import IntegrityError
+from server.account_server import AccountUpdatingException
 
 #
 # @blueprint: ajax
@@ -219,13 +220,18 @@ def account_manager():
         profile_user = current_user
     account_form = form.AccountForm()
     if account_form.validate_on_submit():
-        has = Account.query.filter_by(user=profile_user, oj_name=account_form.oj_name.data).first()
-        if has:
-            account_server.modify_account(has, account_form)
-            return u"已经覆盖原账号"
-        else:
-            account_server.add_account(profile_user, account_form)
-            return u"添加账号成功"
+        try:
+            has = Account.query.filter_by(user=profile_user, oj_name=account_form.oj_name.data).first()
+            if has:
+                account_server.modify_account(has, account_form)
+                return u"已经覆盖原账号"
+            else:
+                account_server.add_account(profile_user, account_form)
+                return u"添加账号成功"
+        except AccountUpdatingException, e:
+            return 'ERROR: ' + e.message
+        except:
+            return 'ERROR: unknown error'
     else:
         return u"添加账号失败"
 
@@ -241,8 +247,10 @@ def delete_account():
         oj_name = request.args['oj_name']
         account_server.delete_account(profile_user, oj_name)
         return 'OK'
+    except AccountUpdatingException, e:
+        return 'ERROR: ' + e.message
     except:
-        return 'ERROR'
+        return 'ERROR: unknown error'
 
 
 #
