@@ -2,6 +2,10 @@
 from __init__ import *
 from dao.dbACCOUNT import AccountStatus
 
+
+class AccountUpdatingException(BaseException):
+    pass
+
 def add_account(user, param):
     account = Account(param.oj_name.data, param.nickname.data, param.password.data, user)
     account.save()
@@ -10,7 +14,7 @@ def delete_account(user, oj_name):
     account = Account.query.filter(Account.user == user, Account.oj_name == oj_name).first()
     if account:
         if account.update_status == AccountStatus.UPDATING:
-            raise Exception('Account is updating')
+            raise AccountUpdatingException('Account is updating')
         Submit.query.filter(Submit.user == user, Submit.oj_name == oj_name).delete()
         db.session.commit()
         account.user.update_score()
@@ -18,7 +22,7 @@ def delete_account(user, oj_name):
 
 def modify_account(origin, param):
     if origin.update_status == AccountStatus.UPDATING:
-        raise Exception('Account is updating')
+        raise AccountUpdatingException('Account is updating')
     Submit.query.filter(Submit.user == origin.user, Submit.oj_name == origin.oj_name).delete()
     db.session.commit()
     account = Account(param.oj_name.data, param.nickname.data, param.password.data, origin.user)
