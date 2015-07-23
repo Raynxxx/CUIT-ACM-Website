@@ -36,7 +36,9 @@ class UserModifyForm(Form):
     stu_id = StringField('stu_id', validators=[validators.Optional(), validators.Length(min=1, max=20)])
     email = StringField('Email', validators=[validators.Optional(), validators.Length(min=1, max=64), validators.Email()])
     phone = StringField('Phone', validators=[validators.Optional(),validators.Regexp('\d{6,12}', flags=0)])
-    school = StringField('School', validators=[validators.Optional()])
+    school = SelectField('school', validators=[validators.DataRequired()],
+                         choices=[(school, SCHOOL_MAP[school]) for school in SCHOOL_MAP],
+                         default='cuit')
     situation = StringField('Situation', validators=[validators.Optional()])
     motto = StringField('Motto', validators=[validators.Optional()])
     submit = SubmitField(u'提交')

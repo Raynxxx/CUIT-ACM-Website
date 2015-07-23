@@ -8,7 +8,7 @@ class Submit(db.Model):
     submit_time = db.Column(db.DateTime, index=True)
     run_time = db.Column(db.Integer)
     memory = db.Column(db.Integer)
-    lang = db.Column(db.String(20))
+    lang = db.Column(db.String(50))
     result = db.Column(db.String(100))
     code = db.Column(db.Text)
     update_status = db.Column(db.Integer)

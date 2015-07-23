@@ -21,7 +21,8 @@ OJ_MAP = {
     'poj': 'POJ',
     'uva': 'UVA',
     'zoj': 'ZOJ',
-    'bnu': 'BNU'
+    'bnu': 'BNU',
+    'vj': 'Virtual Judge',
 }
 
 CSRF_ENABLED = True
