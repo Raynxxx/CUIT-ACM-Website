@@ -24,7 +24,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash('你已下线本系统')
     return redirect(url_for('main.login'))
 
 
@@ -32,8 +32,8 @@ def logout():
 @main.route('/index')
 def index():
     news_server.get_archive()
-    news = news_server.get_news_list()
-    recent_news = news_server.get_news_list(0, 5)
+    news = news_server.get_list()
+    recent_news = news_server.get_recent()
     return render_template('index/index.html', news=news, recent_news=recent_news)
 
 
@@ -43,26 +43,68 @@ def index():
 def news(url=None):
     try:
         if url:
-            one = news_server.get_one_by_url(url)
+            one = news_server.get_by_url(url)
         else:
             sid = request.args['p']
-            one = news_server.get_one(sid)
-        recent_news = news_server.get_news_list(0, 5)
+            one = news_server.get_by_id(sid)
+        recent_news = news_server.get_recent()
         return render_template('index/news.html', one=one, recent_news=recent_news)
     except Exception, e:
         print e.message
         return redirect(url_for('main.index'))
 
-@main.route('/archive')
-@main.route('/archive/<tag>')
-def archive(tag=None):
+
+@main.route('/news/archive')
+@main.route('/news/archive/<tag>')
+def news_archive(tag=None):
     if tag:
         archives = news_server.get_archive_by_tag(tag)
     else:
         archives = news_server.get_archive()
-    for year in archives:
-        for news in archives[year]:
-            print news
+    return render_template('index/archive.html', archives=archives)
+
+
+@main.route('/ranklist')
+@login_required
+def ranklist():
+    weekly_rank_list = general.get_weekly_info(False)[0:10]
+    last_week_rank = general.get_weekly_info(True)[0:10]
+    info_list = general.get_info_list()
+    return render_template('index/ranklist.html',
+                           weekly_rank=weekly_rank_list,
+                           last_rank=last_week_rank,
+                           info_list=info_list)
+
+
+@main.route('/article_list')
+@login_required
+def article_list():
+    articles = article_server.get_list()
+    recent_articles = article_server.get_recent()
+    return render_template('index/article_list.html',
+                           articles = articles,
+                           recent_articles = recent_articles)
+
+
+@main.route('/article')
+@login_required
+def article():
+    try:
+        pid = request.args['p']
+        one = article_server.get_by_id(pid)
+        recent_articles = article_server.get_recent()
+        return render_template('index/article.html', one=one,
+                               recent_articles = recent_articles)
+    except:
+        return redirect(url_for('main.article_list'))
+
+@main.route('/article/archive')
+@main.route('/article/archive/<tag>')
+def article_archive(tag=None):
+    if tag:
+        archives = article_server.get_archive_by_tag(tag)
+    else:
+        archives = article_server.get_archive()
     return render_template('index/archive.html', archives=archives)
 
 
@@ -71,34 +113,11 @@ def about():
     return redirect(url_for('main.ranklist'))
     #return render_template('index/about.html')
 
-@main.route('/ranklist')
-@login_required
-def ranklist():
-    weekly_rank_list = general.get_weekly_info(False)[0:10]
-    last_week_rank = general.get_weekly_info(True)[0:10]
-    info_list = general.get_info_list()
-    return render_template('index/ranklist.html', weekly_rank=weekly_rank_list, last_rank=last_week_rank, info_list=info_list)
 
 @main.route('/footmark')
 @login_required
 def footmark():
     return render_template('index/footmark.html')
-
-@main.route('/article_list')
-@login_required
-def article_list():
-    article = article_server.get()
-    return render_template('index/article_list.html', article = article)
-
-@main.route('/article')
-@login_required
-def article():
-    try:
-        pid = request.args['p']
-        one = article_server.get_one(pid)
-        return render_template('index/article.html', one=one)
-    except:
-        return redirect(url_for('main.index'))
 
 
 @main.route("/book", methods = ['GET'])

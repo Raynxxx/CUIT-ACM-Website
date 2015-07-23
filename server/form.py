@@ -44,8 +44,8 @@ class UserModifyForm(Form):
 class PasswordModifyForm(Form):
     username = StringField('Username', validators=[validators.DataRequired(), validators.Length(min=1, max=24)])
     password = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24),
-                            validators.EqualTo('verifypassword',message='Passwords must match.')])
-    verifypassword = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24)])
+                            validators.EqualTo('password2',message='Passwords must match.')])
+    password2 = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24)])
     submit = SubmitField(u'提交')
 
 

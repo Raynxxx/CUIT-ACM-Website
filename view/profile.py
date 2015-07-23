@@ -14,11 +14,10 @@ profile = blueprints.Blueprint('profile', __name__, template_folder='../template
 @login_required
 def index():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
-    user = user_server.UserServer(profile_user)
-    stat = user.get_statistic()
+    stat = user_server.get_statistic(profile_user)
     return render_template('user_info.html', title=u'你的主页',
                            user=profile_user,
                            stat=stat)
@@ -27,24 +26,24 @@ def index():
 @login_required
 def stat_graph():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
-    user = user_server.UserServer(profile_user)
-    account_info = user.get_account_info()
+    account_info = user_server.get_account_info(profile_user)
     general_info = {}
     for oj in account_info['have']:
-        tmp = user.get_general_info(oj)
+        tmp = user_server.get_general_info(profile_user, oj)
         if tmp:
             general_info[oj] = tmp
     return render_template('stat_graph.html', account_info=account_info, user=profile_user
                            , OJ_MAP=OJ_MAP, str=str, general_info=general_info)
 
+
 @profile.route('/profile/manage_account', methods=['GET'])
 @login_required
 def manage_account():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
     account_form = form.AccountForm()
@@ -55,7 +54,7 @@ def manage_account():
 @login_required
 def update_account():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
     general.update_user_status(profile_user)
@@ -82,17 +81,18 @@ def modify_info():
 @login_required
 def post_article():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
     solution_form = form.SolutionForm()
     return render_template('post_article.html', user=profile_user, form=solution_form)
 
+
 @profile.route('/profile/edit_article', methods=['GET'])
 @login_required
 def edit_article():
     try:
-        one = article_server.get_one(request.args['p'])
+        one = article_server.get_by_id(request.args['p'])
         if one.user != current_user and current_user.rights == 0:
             raise Exception(u"你没有权限修改该文章")
     except :

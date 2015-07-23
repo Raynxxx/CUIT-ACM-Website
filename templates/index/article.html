@@ -1,36 +1,49 @@
 {% extends "index/base.html" %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/idea.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"/>
 {% endblock %}
 
-{% block loginbar %}
-
-{% endblock %}
 {% block content %}
-        <div  class="container">
-            <div class="block block-solid">
-                <div class="block-header">
-                    <h3 class="block-title"><a href="{{ url_for('main.article', p = one.id) }}">{{ one.title }}</a> <span></span></h3>
-                    <div class="article-meta">
-                            <span>post:{{ one.last_update_time.strftime('%Y-%m-%d')}}</span>
-                            <span>author: {{one.user.name}}</span>
-                            {% if current_user == one.user %}
-                                <span ><a href="{{ url_for('profile.edit_article', p=one.id) }}">edit</a></span>
-                            {% endif %}
-                    </div>
-                </div>
-                <div class="block-content">
-                    {{ one.mcontent|safe }}
-                </div>
-               <div class="article-line"></div>
-                <div class="article-footer">
-                    {% for tag in one.tags %}
-                     <span>#{{ tag.name }}</span>
-                    {% endfor %}
-                </div>
-            </div>
+<div class="row">
+  <div class="col-sm-offset-1 col-sm-7">
+    <div class="article-box">
+      <div class="article-header">
+        <h3 class="article-title">{{ one.title }}</h3>
+        <div class="article-meta">
+          <span><i class="fa fa-calendar"></i> {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
+          <span><a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>
+          {% if current_user == one.user %}
+            <span><a href="{{ url_for('profile.edit_article', p=one.id) }}">edit</a></span>
+          {% endif %}
         </div>
-
+      </div>
+      <div class="article-body text-muted">
+        {{ one.md_shortcut|safe }}
+        {{ one.md_content|safe }}
+      </div>
+      <div class="article-footer">
+        <i class="fa fa-tags"></i>
+        {% for tag in one.tags %}
+          <span><a href="{{ url_for('main.article_archive', tag=tag.name) }}" class="label label-default"> {{ tag.name }}</a></span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="box box-primary">
+      <div class="box-header">
+        <h3 class="box-title">近期文章</h3>
+      </div>
+      <div class="box-body no-padding">
+        <ul class="recent_articles">
+          {% for article in recent_articles %}
+            <li><a href="{{ url_for('main.article', p=article.id) }}">{{ article.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 {% block script %}
 <script src="{{ url_for('static', filename='scripts/highlight.pack.js') }}"></script>

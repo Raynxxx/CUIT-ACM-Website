@@ -21,6 +21,22 @@
   font-size: 1.2em;
   font-weight: bold;
 }
+
+.user-panel .image img {
+  max-width: 58px !important;
+}
+.user-panel .info {
+  left: 70px;
+}
+.user-panel .user-name {
+  font-size: 20px;
+  margin-bottom: 15px !important;
+}
+.user-panel .user-type {
+  font-size: 12px !important;
+  font-weight: normal;
+
+}
 /* Back to top */
 
 .back_to_top {
@@ -66,41 +82,51 @@
 }
 
 /*
-** User List CSS
+** List Box CSS
 */
 
-.user-box td, .user-box th {
+.list-box td, .list-box th {
   vertical-align: middle !important;
   text-align: center;
 }
-.user-box-controls {
-  padding: 5px 15px;
+.list-box th {
+  color: #888;
+  text-shadow: 0 1px #fff;
 }
-.user-item-check {
+.list-box-controls {
+  padding: 5px 10px;
+}
+.list-item-check {
   width: 6%;
 }
-.user-item-face {
+.list-item-face {
   width: 10%;
 }
-.user-item-face img {
+.list-item-face img {
   width: 50px;
   border-radius: 50%;
 }
-.user-item-name {
+.list-item-title {
+  width: 40%;
+  font-weight: bold;
+}
+.list-item-name {
   width: 10%;
 }
-.user-item-type {
-  width: 30%;
+.list-item-type {
+  width: 25%;
 }
-.user-item-type .label {
+.list-item-type .label {
   display: inline-block;
   margin: 0 2px;
+  font-weight: 200 !important;
 }
-
-.user-item-email {
+.list-item-email {
   width: 24%;
 }
-
-.user-item-school {
+.list-item-school {
   width: 20%;
+}
+.list-item-time {
+  width: 30%;
 }

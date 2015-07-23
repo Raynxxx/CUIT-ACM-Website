@@ -53,7 +53,7 @@ def manage_user():
 # @brief: the page for administrator to manage user
 # @route: /admin/manage_user
 # @accepted methods: [get]
-# @allowed user: administrator
+# @allowed user: admin and coach
 #
 @admin.route('/admin/add_user', methods=["get"])
 @login_required
@@ -65,59 +65,49 @@ def add_user():
     return render_template('add_user.html', form1=user_add_form, form2=pwd_modify_form)
 
 
-@admin.route("/admin/add_book", methods = ['GET'])
-@login_required
-def add_book():
-    if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('main.index'))
-    book_form = form.BookForm()
-    return render_template('add_book.html', book_form=book_form)
-
-
 #
-# @brief: the page for administrator to manage news
+# @brief: the page for admin to manage news
 # @route: /admin/manage_news
 # @accepted methods: [get]
-# @allowed user: administrator
+# @allowed user: admin and coach
 #
 @admin.route("/admin/manage_news", methods = ['GET'])
 @login_required
 def manage_news():
-    if not current_user.rights:
+    if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    news = news_server.get_news_list(show_draft=True)
-    return render_template('admin/manage_news.html', news=news)
+    return render_template('admin/manage_news.html', title=u'新闻管理')
 
 
-@admin.route("/admin/delete_news", methods = ['GET'])
-@login_required
-def delete_news():
-    if not current_user.rights:
-        return redirect(url_for('main.index'))
-    try:
-        news_id = request.args['p']
-        news_server.del_one(news_id)
-        flash('删除成功')
-    except:
-        flash('删除失败')
-    return redirect(url_for('admin.news'))
-
+#
+# @brief: the page for admin to post news
+# @route: /admin/post_news
+# @accepted methods: [get]
+# @allowed user: admin and coach
+#
 @admin.route("/admin/post_news", methods = ['GET'])
 @login_required
 def post_news():
-    if not current_user.rights:
+    if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     news_form = form.NewsForm()
-    my_button = [u"保存草稿",u"直接发布"]
-    return render_template('post_news.html', form=news_form, my_button=my_button)
+    my_button = [u"保存草稿", u"直接发布"]
+    return render_template('post_news.html', title=u'发布新闻', action=u'发布新闻',
+                           form=news_form, my_button=my_button)
 
+#
+# @brief: the page for admin to edit news
+# @route: /admin/edit_news
+# @accepted methods: [get]
+# @allowed user: admin and coach
+#
 @admin.route("/admin/edit_news", methods = ['GET'])
 @login_required
 def edit_news():
-    if not current_user.rights:
+    if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     try:
-        one = news_server.get_one(request.args['p'])
+        one = news_server.get_by_id(request.args['p'])
         if one.user != current_user:
             raise Exception(u"你没有权限修改该文章")
     except :
@@ -135,8 +125,19 @@ def edit_news():
             tags.append(tag.__repr__())
         news_form.tags.data = tags
     if one.is_draft:
-        my_button = [u"保存草稿",u"直接发布"]
+        my_button = [u"保存草稿", u"直接发布"]
     else :
-        my_button = [u"保存草稿",u"提交更新"]
-    return render_template('post_news.html', form=news_form, my_button=my_button)
+        my_button = [u"保存草稿", u"提交更新"]
+    return render_template('post_news.html', title=u'修改新闻', action=u'修改新闻',
+                           form=news_form, my_button=my_button)
+
+
+
+@admin.route("/admin/add_book", methods = ['GET'])
+@login_required
+def add_book():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    book_form = form.BookForm()
+    return render_template('add_book.html', book_form=book_form)
 

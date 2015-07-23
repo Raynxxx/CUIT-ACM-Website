@@ -18,49 +18,46 @@ ajax = blueprints.Blueprint('ajax', __name__)
 
 #
 # @brief: ajax html for one user item
-# @allowed user: administrator
+# @allowed user: admin and coach
 #
 @login_required
 def get_user_list_item(user):
     return render_template('ajax/user_list_item.html', user=user)
 
-
 #
 # @brief: ajax user list
-# @allowed user: administrator
+# @allowed user: admin and coach
 #
 @ajax.route('/user_list', methods=["POST"])
 @login_required
 def get_user_list():
     if not current_user.is_admin and not current_user.is_coach:
-        flash(u"你没有权限访问该模块")
-        return redirect(url_for('main.index'))
+        print u"你没有权限访问该模块"
+        return redirect(url_for('index'))
+    global users, sum
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    user_list = user_server.UserServer.get_user_list(offset, limit)
-    users = list()
     if current_user.is_admin:
-        users = list(user_list)
+        users = user_server.get_list(offset, limit)
+        sum = user_server.get_count()
     if not current_user.is_admin and current_user.is_coach:
-        for user in user_list:
-            if not user.is_admin and user.school == current_user.school:
-                users.append(user)
+        users = user_server.get_list(offset, limit, is_admin=False, school=current_user.school)
+        sum = user_server.get_count(is_admin=False, school=current_user.school)
     return jsonify(user_list=[get_user_list_item(user) for user in users],
-                   sum=user_server.UserServer.get_user_count(),
-                   offset=int(offset), limit=len(users))
+                   sum=sum, offset=int(offset), limit=len(users))
 
 #
 # @brief: add user
 # @route: /register
 # @accepted methods: [post]
-# @allowed user: administrator
-# @ajax return: 用户是否添加成功 => string
+# @allowed user: admin and coach
+# @ajax return: 用户是否添加成功
 #
 @ajax.route('/register', methods=["POST"])
 @login_required
 def register():
-    if not current_user.rights:
-        flash(u"你没有权限访问该模块")
+    if not current_user.is_admin and not current_user.is_coach:
+        print u"你没有权限访问该模块"
         return redirect(url_for('index'))
     reg_form = form.RegisterForm()
     rights_list = request.form.getlist('rights')
@@ -71,7 +68,7 @@ def register():
     #print rights
     if reg_form.validate_on_submit():
         try:
-            ret = user_server.UserServer.add_user(reg_form, rights)
+            ret = user_server.create_user(reg_form, rights)
             if ret == 'ok':
                 return u"添加用户成功"
             return ret
@@ -83,23 +80,92 @@ def register():
 
 
 #
-# @brief: delete users
-# @route: /delete_users
+# @brief: delete user
+# @route: /delete_user
 # @accepted methods: [post]
-# @allowed user: administrator
+# @allowed user: admin and coach
 #
-@ajax.route('/delete_users', methods=["POST"])
+@ajax.route('/delete_user', methods=["POST"])
 @login_required
-def delete_users():
-    delete_list = request.form.getlist('user')
+def delete_user():
+    if not current_user.is_admin and not current_user.is_coach:
+        print u"你没有权限访问该模块"
+        return redirect(url_for('index'))
     try:
-        for id in delete_list:
-            id = int(id)
-
-        print delete_list
+        id = request.form.get('user_id')
+        user_server.delete_by_id(id)
         return "删除用户成功"
     except Exception, e:
         return u"删除用户失败: " + e.message
+
+#
+# @brief: ajax html for one user item
+# @allowed user: administrator
+#
+@login_required
+def get_news_list_item(news):
+    return render_template('ajax/news_list_item.html', news=news)
+
+#
+# @brief: ajax news list
+# @allowed user: administrator
+#
+@ajax.route('/ajax/news_list', methods=['POST'])
+@login_required
+def get_news_list():
+    if not current_user.is_admin and not current_user.is_coach:
+        print "你没有权限访问该模块"
+        return redirect(url_for('main.index'))
+
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    news_list = news_server.get_list(offset, limit, show_draft=True)
+    sum = news_server.get_count(show_draft=True)
+    return jsonify(news_list=[get_news_list_item(news) for news in news_list],
+                   sum=sum, offset=int(offset), limit=len(news_list))
+
+
+#
+# @brief: delete news
+# @route: /delete_news
+# @accepted methods: [post]
+# @allowed user: admin and coach
+#
+@ajax.route("/ajax/delete_news", methods = ['POST'])
+@login_required
+def delete_news():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    try:
+        news_id = request.form.get('news_id')
+        news_server.delete_by_id(news_id)
+        return u'删除成功'
+    except:
+        return u'删除失败'
+
+#
+# @brief: post news
+# @route: /post_news
+# @accepted methods: [post]
+# @allowed user: admin and coach
+#
+@ajax.route('/ajax/post_news', methods=['POST'])
+@login_required
+def post_news():
+    if not current_user.rights:
+        return u"没有权限"
+    news_form = form.NewsForm()
+    if news_form.validate_on_submit():
+        try:
+            is_draft = int(request.args['draft'])
+            news_server.post(news_form, current_user, is_draft)
+            return u"发表成功!"
+        except IntegrityError:
+            return u"发表新闻失败: 固定链接已存在"
+        except Exception, e:
+            return u"发表新闻失败" + e.message
+    else:
+        return u"发表新闻失败,请检查内容"
 
 
 #
@@ -112,11 +178,10 @@ def delete_users():
 @ajax.route('/modify_userinfo', methods=['POST'])
 @login_required
 def modify_userinfo():
-    user = user_server.UserServer(current_user)
     user_modify_form = form.UserModifyForm()
     if user_modify_form.validate_on_submit():
         try:
-            user.modify_info(user_modify_form)
+            user_server.modify_info(current_user, user_modify_form)
             return u"修改资料成功"
         except Exception, e:
             return u'修改资料失败' + e.message
@@ -133,10 +198,9 @@ def modify_userinfo():
 @ajax.route('/modify_pwd', methods=['POST'])
 @login_required
 def modify_pwd():
-    user = user_server.UserServer(current_user)
     pwd_form = form.PasswordModifyForm()
     if pwd_form.validate_on_submit():
-        return user.modify_password(pwd_form)
+        return user_server.modify_password(current_user, pwd_form)
     return u"修改密码失败"
 
 #
@@ -150,7 +214,7 @@ def modify_pwd():
 @login_required
 def account_manager():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
     account_form = form.AccountForm()
@@ -170,7 +234,7 @@ def account_manager():
 @login_required
 def delete_account():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
     try:
@@ -192,7 +256,7 @@ def delete_account():
 @login_required
 def solution_manager():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
     solution_form = form.SolutionForm()
@@ -206,34 +270,16 @@ def solution_manager():
         return u"发表文章失败,请检查内容"
 
 
-@ajax.route('/ajax/news_manager', methods=['POST'])
-@login_required
-def news_manager():
-    if not current_user.rights:
-        return u"没有权限"
-    news_form = form.NewsForm()
-    if news_form.validate_on_submit():
-        try:
-            isdraft = int(request.args['draft'])
-            news_server.post_news(news_form, current_user, isdraft)
-            return u"发表成功!"
-        except IntegrityError:
-            return u"发表新闻失败: 固定链接已存在"
-        except Exception, e:
-            return u"发表新闻失败" + e.message
-    else:
-        return u"发表新闻失败,请检查内容"
-
-
 @ajax.route('/ajax/account_info', methods=['POST', 'GET'])
 @login_required
 def account_info():
     try:
-        profile_user = user_server.UserServer.loadUser_or_404(request.args['username'])
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
     data = account_server.get_account_info(profile_user)
     return json.dumps(data, cls=CJsonEncoder)
+
 
 @ajax.route('/ajax//fitch_status/<oj_name>', methods=['POST'])
 @login_required
