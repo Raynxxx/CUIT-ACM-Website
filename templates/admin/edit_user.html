@@ -65,21 +65,21 @@
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputPhone">手机号码</label>
+                <label class="control-label col-sm-3" for="inputPhone">电话</label>
                 <div class="col-sm-8">
-                  {{ user_modify_form.phone(class='form-control', id="inputPhone", placeholder="手机号码") }}
+                  {{ user_modify_form.phone(class='form-control', id="inputPhone", placeholder="电话") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputMotto">座右铭</label>
+                <label class="control-label col-sm-3" for="inputMotto">签名</label>
                 <div class="col-sm-8">
-                  {{ user_modify_form.motto(class='form-control', id="inputMotto", placeholder="座右铭") }}
+                  {{ user_modify_form.motto(class='form-control', id="inputMotto", placeholder="签名") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputMotto">现状</label>
+                <label class="control-label col-sm-3" for="inputSituation">现状</label>
                 <div class="col-sm-8">
-                  {{ user_modify_form.situation(class='form-control', id="inputMotto", placeholder="现状") }}
+                  {{ user_modify_form.situation(class='form-control', id="inputSituation", placeholder="现状") }}
                 </div>
               </div>
               <div class="form-group">
@@ -160,29 +160,10 @@
           function (data) {
             $("#add-info-text").html(data);
             $("#add-info").fadeIn(200);
+            setTimeout(function() {
+              window.location.href = "{{ url_for('admin.manage_user') }}";
+            }, 800);
           }
-        );
-      }
-      return false;
-    });
-    $('#modifyPwdForm').submit(function () {
-      var name_field = $('#mUsername');
-      var pwd_field = $('#mPassword');
-      var pwd2_field = $('#mPassword2');
-      if (requiredCheck(name_field, '用户名') &&
-              requiredCheck(pwd_field, '密码') &&
-              requiredCheck(pwd2_field, '验证密码')) {
-        if (pwd2_field.val() != pwd_field.val()) {
-          pwd2_field.focus();
-          pwd2_field.val('');
-          pwd2_field.attr('placeholder', '验证密码不匹配');
-          return false;
-        }
-        $.post("{{ url_for('ajax.modify_pwd') }}", $('#modifyPwdForm').serialize()).success(
-                function (data) {
-                  $("#mod-pwd-text").html(data);
-                  $("#mod-pwd").fadeIn(200);
-                }
         );
       }
       return false;

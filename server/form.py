@@ -42,7 +42,7 @@ class UserModifyForm(Form):
                          default='cuit')
     motto = StringField('Motto', validators=[validators.Optional()])
     situation = StringField('Situation', validators=[validators.Optional()])
-    active = RadioField('Active', choices=[('1', u'训练中'), ('0', u'退役')], coerce=str, default=1)
+    active = RadioField('Active', choices=[('1', u'训练 ing'), ('0', u'退役狗')], coerce=str, default=1)
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
     submit = SubmitField(u'提交')
 

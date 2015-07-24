@@ -91,7 +91,6 @@ def edit_user():
         print u"你没有权限访问该模块"
         return redirect(url_for('index'))
     user_modify_form = form.UserModifyForm()
-
     if user_modify_form.validate_on_submit():
         try:
             rights_list = request.form.getlist('rights')
@@ -108,6 +107,27 @@ def edit_user():
         #print user_modify_form.errors
         return u"修改用户失败: 表单填写有误"
 
+#
+# @brief: edit user for self
+# @route: /edit_user_self
+# @accepted methods: [post]
+# @allowed user: all
+#
+@ajax.route('/ajax/edit_user_self', methods=["POST"])
+@login_required
+def edit_user_self():
+    user_modify_form = form.UserModifyForm()
+    if user_modify_form.validate_on_submit():
+        try:
+            ret = user_server.update_user(user_modify_form, for_self=True)
+            if ret == 'OK':
+                return u"修改用户成功"
+            return u'修改用户失败: ' + ret
+        except Exception, e:
+            return u"修改用户失败: " + e.message
+    else:
+        #print user_modify_form.errors
+        return u"修改用户失败: 表单填写有误"
 
 #
 # @brief: delete user
@@ -197,25 +217,6 @@ def post_news():
     else:
         return u"发表新闻失败,请检查内容"
 
-#
-# @brief: modify user's info
-# @route: /modify_userinfo
-# @accepted methods: [post]
-# @allowed user: administrator
-# @ajax return:
-#
-@ajax.route('/modify_userinfo', methods=['POST'])
-@login_required
-def modify_userinfo():
-    user_modify_form = form.UserModifyForm()
-    if user_modify_form.validate_on_submit():
-        try:
-            user_server.modify_info(current_user, user_modify_form)
-            return u"修改资料成功"
-        except Exception, e:
-            return u'修改资料失败' + e.message
-    else:
-        return u"修改资料失败:表单填写有误"
 
 #
 # @brief: modify password
