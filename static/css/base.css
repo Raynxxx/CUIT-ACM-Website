@@ -15,20 +15,26 @@
 #search_filter .form-submit {
   margin-left: 30px;
 }
-
+.radio-inline, .checkbox-inline {
+  padding-left: 2px !important;
+}
 .required-star {
   color: red;
   font-size: 1.2em;
   font-weight: bold;
 }
-
+.user-panel {
+  height: 90px;
+}
 .user-panel .image img {
   max-width: 58px !important;
+  padding: 10px 0;
 }
 .user-panel .info {
   left: 70px;
 }
 .user-panel .user-name {
+  margin-top: 10px;
   font-size: 20px;
   margin-bottom: 15px !important;
 }

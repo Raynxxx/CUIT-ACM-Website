@@ -1,0 +1,205 @@
+{% extends "profile/base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
+      <div class="user-profile-box">
+        <div class="user-profile-header">
+          <div class="user-face">
+            <img src="{{ user.gravatar(256) }}">
+          </div>
+          <div class="user-meta">
+            <h2 class="user-name">{{ user.name }}</h2>
+            <p class="user-motto">
+              {{ user.remark if user.remark else '暂无签名' }}
+            </p>
+          </div>
+        </div>
+        <div class="user-body">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab">个人信息</a></li>
+              <li><a href="#tab_2" data-toggle="tab">统计信息</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+                <table class="table user-info">
+                  <tr><td><i class="fa fa-user"></i></td><td> 姓名</td>
+                    <td>{{ user.name if user.name else '' }}</td></tr>
+                  <tr><td><i class="fa fa-smile-o"></i></td><td> 昵称</td>
+                    <td>{{ user.username if user.username else '' }}</td></tr>
+                  <tr><td><i class="fa fa-transgender"></i></td><td> 性别</td>
+                    <td>{{ '男' if user.gender else '女' }}</td></tr>
+                  <tr><td><i class="fa fa-calendar"></i></td><td>学号</td>
+                    <td>{{ user.stu_id if user.stu_id else '' }}</td></tr>
+                  <tr><td><i class="fa fa-envelope-o"></i> </td><td>邮箱</td>
+                    <td>{{ user.email if user.email else '' }}</td></tr>
+                  <tr><td><i class="fa fa-phone-square"></i></td><td> 电话</td>
+                    <td>{{ user.phone if user.phone else '' }}</td></tr>
+                  <tr><td><i class="fa fa-university"></i></td><td> 学校</td>
+                    <td>{{ user.school if user.school else '' }}</td></tr>
+                  <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
+                    <td>{{ user.remark if user.remark else '' }}</td></tr>
+                  <tr><td><i class="fa fa-calendar"></i></td><td> 创建时间</td>
+                    <td>{{ user.create_time if user.create_time else '' }}</td></tr>
+                  <tr><td><i class="fa fa-calendar"></i></td><td> 状态</td>
+                    <td>
+                      {% if user.active == 1 %}
+                      <span class="label label-success">训练 ing</span>
+                      {% else %}
+                      <span class="label label-danger">退役狗</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr><td><i class="fa fa-link"></i> </td><td>现状</td>
+                    <td>{{ user.situation if user.situation else '' }}</td></tr>
+              </table>
+              {% if user == current_user %}
+                <form id="userEditForm" method="post" class="form-horizontal"  style="display: none;">
+                  {{ user_modify_form.hidden_tag() }}
+                  {{ user_modify_form.id(style='display:none;') }}
+                  <table class="table edit-user">
+                    <tr><td><i class="fa fa-user"></i></td><td> 姓名</td>
+                      <td>{{ user_modify_form.name(class='form-control required', id="inputName",  placeholder="姓名") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-transgender"></i></td><td> 性别</td>
+                      <td>{%- for sub in user_modify_form.gender %}
+                          <label class="radio-inline">
+                            {{ sub }}
+                            {{ sub.label(style='margin-left:10px;') }}
+                          </label>
+                        {%- endfor %}</td></tr>
+                    <tr><td><i class="fa fa-calendar"></i></td><td>学号</td>
+                      <td>{{ user_modify_form.stu_id(class='form-control', id="inputSno", placeholder="学号") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-envelope-o"></i> </td><td>邮箱</td>
+                      <td>{{ user_modify_form.email(class='form-control required', id="inputEmail", placeholder="邮箱") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-phone-square"></i></td><td> 电话</td>
+                      <td>{{ user_modify_form.phone(class='form-control', id="inputPhone", placeholder="电话") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-university"></i></td><td> 学校</td>
+                      <td>{{ user_modify_form.school(class='form-control required', id="inputSchool", placeholder="学校") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
+                      <td>{{ user_modify_form.motto(class='form-control', id="inputMotto", placeholder="签名") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-calendar"></i></td><td> 状态 </td>
+                      <td>{%- for sub in user_modify_form.active %}
+                          <label class="radio-inline">
+                            {{ sub }}
+                            {{ sub.label(style='margin-left:10px;') }}
+                          </label>
+                        {%- endfor %}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-link"></i> </td><td>现状</td>
+                      <td>{{ user_modify_form.situation(class='form-control', id="inputSituation", placeholder="现状") }}</td>
+                    </tr>
+                  </table>
+                  <div class="alert alert-danger col-sm-12" id="edit-info"
+                       style="display: none;margin-top: 10px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span id="edit-info-text"></span>
+                  </div>
+                  <div class="btn-group btn-group-justified" role="group">
+                    <div class="btn-group" role="group">
+                      <button class="btn btn-default btn-flat back-user-info"> 返回</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                    {{ user_modify_form.submit(class='btn btn-danger btn-flat', value='提交') }}
+                    </div>
+                  </div>
+                </form>
+                <button class="btn btn-primary btn-flat btn-block to-edit-user">修改用户信息</button>
+              {% endif %}
+              </div><!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+                <table class="table table-no-border">
+                  <tr><td>本周提交数</td><td><span class="label label-default">{{ stat['weekly_submit'] }}</span></td></tr>
+                  <tr><td>总提交数</td><td><span class="label label-default">{{ stat['total_submit'] }}</span></td></tr>
+                </table>
+                {% if user == current_user %}
+                  <a class="btn btn-danger btn-flat btn-block"
+                     href="{{ url_for('profile.update_account', username = user.username) }}">更新</a>
+                {% endif %}
+              </div><!-- /.tab-pane -->
+            </div><!-- /.tab-content -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5 hide">
+      <div class="box box-danger">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="fa fa-binoculars"></i> <span>统计信息</span></h3>
+        </div>
+        <div class="box-body">
+          <table class="table table-no-border">
+            <tr><td>本周提交数</td><td><span class="label label-default">{{ stat['weekly_submit'] }}</span></td></tr>
+            <tr><td>总提交数</td><td><span class="label label-default">{{ stat['total_submit'] }}</span></td></tr>
+          </table>
+        </div>
+        {% if user == current_user %}
+        <div class="box-footer no-padding">
+          <a class="btn btn-block btn-danger btn-flat"
+             href="{{ url_for('profile.update_account', username = user.username) }}">更新</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{%- block script -%}
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script>
+  function make_iCheck() {
+    $('input[type="radio"], input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+       increaseArea: '20%' // optional
+    });
+  }
+  $(document).ready(function() {
+    make_iCheck();
+    $("button.close").click(function () {
+      $(".alert").slideUp();
+      return false;
+    });
+    $('.to-edit-user').click(function() {
+      $(this).hide();
+      $('.user-info').hide();
+      $('#userEditForm').fadeIn();
+      return false;
+    });
+    $('.back-user-info').click(function() {
+      $('#userEditForm').hide();
+      $('.user-info').fadeIn();
+      $('.to-edit-user').fadeIn();
+      return false;
+    });
+    $('#userEditForm').submit(function () {
+      var name_field = $('#inputName');
+      var email_field = $('#inputEmail');
+      if (requiredCheck(name_field, '真实姓名') &&
+              requiredCheck(email_field, '邮箱')) {
+        $.post("{{ url_for('ajax.edit_user_self') }}", $('#userEditForm').serialize()).success(
+          function (data) {
+            $("#edit-info-text").html(data);
+            $("#edit-info").fadeIn(200);
+            setTimeout(function() {
+              location.reload(true);
+            }, 800);
+          }
+        );
+      }
+      return false;
+    });
+  });
+</script>
+{%- endblock -%}

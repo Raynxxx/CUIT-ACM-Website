@@ -1,6 +1,7 @@
 # coding=utf-8
 from __init__ import *
 from server import general, user_server, form, news_server
+import util
 
 #
 # @blueprint: admin
@@ -47,7 +48,7 @@ def sys_info():
 def manage_user():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    return render_template('manage_user.html')
+    return render_template('manage_user.html', title = u'用户管理',)
 
 #
 # @brief: the page for administrator to manage user
@@ -55,14 +56,50 @@ def manage_user():
 # @accepted methods: [get]
 # @allowed user: admin and coach
 #
-@admin.route('/admin/add_user', methods=["get"])
+@admin.route('/admin/create_user', methods=["get"])
 @login_required
-def add_user():
+def create_user():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    user_add_form = form.RegisterForm()
-    pwd_modify_form = form.PasswordModifyForm()
-    return render_template('add_user.html', form1=user_add_form, form2=pwd_modify_form)
+    registerForm = form.RegisterForm()
+    registerForm.school.data = util.InvertDict(SCHOOL_MAP)[current_user.school]
+    return render_template('add_user.html',
+                           title = u'添加用户',
+                           form1 = registerForm,
+                           form2 = form.PasswordModifyForm())
+
+
+#
+# @brief: the page for admin to edit user
+# @route: /admin/edit_user
+# @accepted methods: [get]
+# @allowed user: admin and coach
+#
+@admin.route("/admin/edit_user", methods = ['GET'])
+@login_required
+def edit_user():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    try:
+        has_one = user_server.get_by_id(request.args['p'])
+    except :
+        return redirect(url_for('admin.manage_user'))
+    user_modify_form = form.UserModifyForm()
+    if has_one:
+        user_modify_form.id.data = has_one.id
+        user_modify_form.name.data = has_one.name
+        user_modify_form.stu_id.data = has_one.stu_id
+        user_modify_form.email.data = has_one.email
+        user_modify_form.phone.data = has_one.phone
+        user_modify_form.motto.data = has_one.remark
+        user_modify_form.situation.data = has_one.situation
+        user_modify_form.school.data = util.InvertDict(SCHOOL_MAP)[has_one.school]
+        user_modify_form.gender.data = '1' if has_one.gender else '0'
+        user_modify_form.active.data = '1' if has_one.active else '0'
+    return render_template('edit_user.html',
+                           title = u'修改用户信息',
+                           user = has_one,
+                           user_modify_form = user_modify_form)
 
 
 #

@@ -9,3 +9,7 @@ class CJsonEncoder(json.JSONEncoder):
             return obj.strftime('%Y-%m-%d')
         else:
             return json.JSONEncoder.default(self, obj)
+
+def InvertDict(d):
+    from itertools import izip
+    return dict(izip(d.itervalues(), d.iterkeys()))

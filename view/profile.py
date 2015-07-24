@@ -2,6 +2,7 @@
 from __init__ import *
 from server import user_server, general, article_server, form
 from config import OJ_MAP
+import util
 #
 # @blueprint: profile
 # @created: 2015/06/22
@@ -9,7 +10,12 @@ from config import OJ_MAP
 #
 profile = blueprints.Blueprint('profile', __name__, template_folder='../templates/profile')
 
-
+#
+# @brief: the profile page
+# @route: /profile
+# @accepted methods: [get]
+# @allowed user: all
+#
 @profile.route('/profile')
 @login_required
 def index():
@@ -17,10 +23,24 @@ def index():
         profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
-    stat = user_server.get_statistic(profile_user)
-    return render_template('user_info.html', title=u'你的主页',
-                           user=profile_user,
-                           stat=stat)
+    statistic = user_server.get_statistic(profile_user)
+    user_modify_form = form.UserModifyForm()
+
+    user_modify_form.id.data = profile_user.id
+    user_modify_form.name.data = profile_user.name
+    user_modify_form.stu_id.data = profile_user.stu_id
+    user_modify_form.email.data = profile_user.email
+    user_modify_form.phone.data = profile_user.phone
+    user_modify_form.motto.data = profile_user.remark
+    user_modify_form.situation.data = profile_user.situation
+    user_modify_form.school.data = util.InvertDict(SCHOOL_MAP)[profile_user.school]
+    user_modify_form.gender.data = '1' if profile_user.gender else '0'
+    user_modify_form.active.data = '1' if profile_user.active else '0'
+    return render_template('index.html', title=u'你的主页',
+                           user = profile_user,
+                           user_modify_form = user_modify_form,
+                           stat = statistic)
+
 
 @profile.route('/profile/stat_graph', methods=['GET'])
 @login_required
@@ -71,7 +91,7 @@ def modify_info():
     user_modify_form.stu_id.data = current_user.stu_id
     user_modify_form.phone.data = current_user.phone
     user_modify_form.motto.data = current_user.remark
-    user_modify_form.school.data = current_user.school
+    user_modify_form.school.data = util.InvertDict(SCHOOL_MAP)[current_user.school]
     user_modify_form.situation.data = current_user.situation
     pwd_form.username.data = current_user.username
     return render_template('modify_info.html', user=current_user, user_modify_form=user_modify_form, pwd_form=pwd_form)

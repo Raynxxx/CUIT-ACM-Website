@@ -18,8 +18,8 @@
       <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
         <i class="fa fa-trash-o"></i> 删除
       </button>
-      <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> 修改</button>
-      <a class="btn btn-default btn-sm" href="{{ url_for('admin.add_user') }}"><i class="fa fa-user-plus"></i> 添加</a>
+      <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
+      <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i> 添加</a>
       <div class="pull-right">
         <div class="btn-group">
           <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
@@ -42,8 +42,8 @@
       <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
         <i class="fa fa-trash-o"></i> 删除
       </button>
-      <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> 修改</button>
-      <a class="btn btn-default btn-sm" href="{{ url_for('admin.add_user') }}"><i class="fa fa-user-plus"></i> 添加</a>
+      <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
+      <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i> 添加</a>
       <div class="pull-right">
         <div class="btn-group">
           <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
@@ -128,20 +128,6 @@
   }
   $(function() {
     make_iCheck();
-    //Enable check and uncheck all functionality
-    $(".checkbox-toggle").click(function () {
-      var clicks = $(this).data('clicks');
-      if (clicks) {
-        //Uncheck all checkboxes
-        $(".list-box input[type='checkbox']").iCheck("uncheck");
-        $(".checkbox-toggle .fa").removeClass("fa-check-square-o").addClass('fa-square-o');
-      } else {
-        //Check all checkboxes
-        $(".list-box input[type='checkbox']").iCheck("check");
-        $(".checkbox-toggle .fa").removeClass("fa-square-o").addClass('fa-check-square-o');
-      }
-      $(this).data("clicks", !clicks);
-    });
     var limit = 15;
     get_user_list(0, limit);
     $('.prev-page').click(function() {
@@ -161,6 +147,15 @@
     $('.delete_user').click(function() {
       var check = $('input[name="user"]:checked').val();
       delete_users(check);
+    });
+    $('.edit_user').click(function() {
+      var $check = $('input[name="user"]:checked');
+      if ($check.length <= 0) {
+        return false;
+      }
+      var url = "{{ url_for('admin.edit_user', p='') }}";
+      var news_id = $check.val();
+      window.location.href = url + news_id;
     });
   });
   </script>

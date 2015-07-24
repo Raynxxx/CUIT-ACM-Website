@@ -21,7 +21,7 @@ if __name__ == "__main__":
         user = User(username='dreameracm',
                     name=u'祝志颖',
                     password='rootiszzy',
-                    school=u'成都信息工程学院',
+                    school=u'成都信息工程大学',
                     gender=True,
                     email='277507631@qq.com')
         user.rights = 7
@@ -29,7 +29,7 @@ if __name__ == "__main__":
         user = User(username='Rayn',
                     name=u'彭潇',
                     password='63005610',
-                    school=u'成都信息工程学院',
+                    school=u'成都信息工程大学',
                     gender=True,
                     email='414747795@qq.com')
         user.rights = 3
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         user = User(username='jsp',
                     name=u'文欣',
                     password='123456',
-                    school=u'成都信息工程学院',
+                    school=u'成都信息工程大学',
                     gender=True,
                     email='2344325435@qq.com')
         user.rights = 1

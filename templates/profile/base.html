@@ -100,14 +100,13 @@
       <ul class="sidebar-menu">
         <li class="header">导航</li>
         <li><a href="{{ url_for('profile.index', username=user.username) }}"><i class="fa fa-user"> </i>
-          <span>用户信息</span></a></li>
+          <span>个人主页</span></a></li>
         <li><a href="{{ url_for('profile.stat_graph', username=user.username) }}" id="stat_graph"><i
                 class="fa fa-align-left"></i> <span>统计图表</span></a></li>
         {% if user == current_user or current_user.rights %}
           <li><a href="{{ url_for('profile.manage_account', username=user.username) }}"><i class="fa fa-users"></i><span>管理OJ账号</span></a></li>
         {% endif %}
         {% if user == current_user %}
-          <li><a href="{{ url_for('profile.modify_info') }}"><i class="fa fa-user-secret"></i> <span>修改资料</span></a></li>
           <li><a href="{{ url_for('profile.post_article') }}"><i class="fa fa-book"> </i> <span>发表文章</span></a></li>
         {% endif %}
       </ul>

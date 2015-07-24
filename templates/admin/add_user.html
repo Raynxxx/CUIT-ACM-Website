@@ -21,19 +21,19 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3"><span class="required-star">* </span>真实姓名</label>
+                <label class="control-label col-sm-3" for="inputName"><span class="required-star">* </span>真实姓名</label>
                 <div class="col-sm-8">
-                  {{ form1.name(class='form-control required', id="inputname",  placeholder="真实姓名") }}
+                  {{ form1.name(class='form-control required', id="inputName",  placeholder="真实姓名") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3"><span class="required-star">* </span>密码</label>
+                <label class="control-label col-sm-3" for="inputPassword"><span class="required-star">* </span>密码</label>
                 <div class="col-sm-8">
                   {{ form1.password(class='form-control required', id="inputPassword", placeholder="密码") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3"><span class="required-star">* </span>验证密码</label>
+                <label class="control-label col-sm-3" for="inputPassword2"><span class="required-star">* </span>验证密码</label>
                 <div class="col-sm-8">
                   {{ form1.password2(class='form-control required', id="inputPassword2", placeholder="验证密码") }}
                 </div>
@@ -52,12 +52,21 @@
             </div>
 
             <div class="col-sm-6">
+            {% if current_user.is_admin %}
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputSchool"><span class="required-star">* </span>学校</label>
                 <div class="col-sm-8">
                   {{ form1.school(class='form-control required', id="inputSchool", placeholder="学校") }}
                 </div>
               </div>
+            {% else %}
+              <div class="form-group" style="display: none;">
+                <label class="control-label col-sm-3" for="inputSchool"><span class="required-star">* </span>学校</label>
+                <div class="col-sm-8">
+                  {{ form1.school(class='form-control required', id="inputSchool", placeholder="学校") }}
+                </div>
+              </div>
+            {% endif %}
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputEmail">
                   <span class="required-star">* </span>邮箱</label>
@@ -91,14 +100,13 @@
                 </div>
               </div>
             </div>
-
             <div class="alert alert-danger col-sm-offset-3 col-sm-6" id="add-info" style="display: none;margin-top: 20px;">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <span id="add-info-text"></span>
             </div>
           </div>
           <div class="box-footer text-center">
-            {{ form1.submit(class='btn btn-primary btn-flat', value='添加') }}
+            {{ form1.submit(class='btn btn-primary btn-flat', value='提交') }}
           </div>
         </form>
       </div>
@@ -143,72 +151,75 @@
   </div>
 {% endblock %}
 {%- block script -%}
-  <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
-  <script>
-    $(function() {
-      $('input[type="radio"], input[type="checkbox"]').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-         increaseArea: '20%' // optional
-      });
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script>
+  function make_iCheck() {
+    $('input[type="radio"], input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+       increaseArea: '20%' // optional
     });
-    $(document).ready(function () {
-      $("button.close").click(function () {
-        $(".alert").slideUp();
-        return false;
-      });
-      $('#registerForm').submit(function () {
-        var name_field = $('#inputUsername');
-        var pwd_field = $('#inputPassword');
-        var pwd2_field = $('#inputPassword2');
-        var email_field = $('#inputEmail');
-        var rights_field = $('input[name="rights"]:checked');
-        if (requiredCheck(name_field, '用户名') &&
-                requiredCheck(pwd_field, '密码') &&
-                requiredCheck(pwd2_field, '验证密码') &&
-                requiredCheck(email_field, '邮箱')) {
-          if (pwd2_field.val() != pwd_field.val()) {
-            pwd2_field.focus();
-            pwd2_field.attr('placeholder', '验证密码不匹配');
-            return false;
-          }
-          if (rights_field.length <= 0) {
-            rights_field.focus();
-            $("#add-info-text").html("必须为用户设定权限");
+  }
+  $(document).ready(function () {
+    make_iCheck();
+    $("button.close").click(function () {
+      $(".alert").slideUp();
+      return false;
+    });
+    $('#registerForm').submit(function () {
+      var username_field = $('#inputUsername');
+      var name_field = $('#inputName');
+      var pwd_field = $('#inputPassword');
+      var pwd2_field = $('#inputPassword2');
+      var email_field = $('#inputEmail');
+      var rights_field = $('input[name="rights"]:checked');
+      if (requiredCheck(username_field, '昵称') &&
+              requiredCheck(name_field, '真实姓名') &&
+              requiredCheck(pwd_field, '密码') &&
+              requiredCheck(pwd2_field, '验证密码') &&
+              requiredCheck(email_field, '邮箱')) {
+        if (pwd2_field.val() != pwd_field.val()) {
+          pwd2_field.focus();
+          pwd2_field.attr('placeholder', '验证密码不匹配');
+          return false;
+        }
+        if (rights_field.length <= 0) {
+          rights_field.focus();
+          $("#add-info-text").html("必须为用户设定权限");
+          $("#add-info").fadeIn(200);
+          return false;
+        }
+        $.post("{{ url_for('ajax.create_user') }}", $('#registerForm').serialize()).success(
+          function (data) {
+            $("#add-info-text").html(data);
             $("#add-info").fadeIn(200);
-            return false;
           }
-          $.post("{{ url_for('ajax.register') }}", $('#registerForm').serialize()).success(
-              function (data) {
-                $("#add-info-text").html(data);
-                $("#add-info").fadeIn(200);
-              }
-          );
-        }
-        return false;
-      });
-      $('#modifyPwdForm').submit(function () {
-        var name_field = $('#mUsername');
-        var pwd_field = $('#mPassword');
-        var pwd2_field = $('#mPassword2');
-        if (requiredCheck(name_field, '用户名') &&
-                requiredCheck(pwd_field, '密码') &&
-                requiredCheck(pwd2_field, '验证密码')) {
-          if (pwd2_field.val() != pwd_field.val()) {
-            pwd2_field.focus();
-            pwd2_field.val('');
-            pwd2_field.attr('placeholder', '验证密码不匹配');
-            return false;
-          }
-          $.post("{{ url_for('ajax.modify_pwd') }}", $('#modifyPwdForm').serialize()).success(
-                  function (data) {
-                    $("#mod-pwd-text").html(data);
-                    $("#mod-pwd").fadeIn(200);
-                  }
-          );
-        }
-        return false;
-      });
+        );
+      }
+      return false;
     });
-  </script>
+    $('#modifyPwdForm').submit(function () {
+      var name_field = $('#mUsername');
+      var pwd_field = $('#mPassword');
+      var pwd2_field = $('#mPassword2');
+      if (requiredCheck(name_field, '用户名') &&
+              requiredCheck(pwd_field, '密码') &&
+              requiredCheck(pwd2_field, '验证密码')) {
+        if (pwd2_field.val() != pwd_field.val()) {
+          pwd2_field.focus();
+          pwd2_field.val('');
+          pwd2_field.attr('placeholder', '验证密码不匹配');
+          return false;
+        }
+        $.post("{{ url_for('ajax.modify_pwd') }}", $('#modifyPwdForm').serialize()).success(
+                function (data) {
+                  $("#mod-pwd-text").html(data);
+                  $("#mod-pwd").fadeIn(200);
+                }
+        );
+      }
+      return false;
+    });
+  });
+</script>
 {%- endblock -%}

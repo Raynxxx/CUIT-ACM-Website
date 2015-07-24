@@ -51,7 +51,7 @@ def get_list(offset=0, limit=10, show_draft=False):
 def get_recent(limit=5):
     return News.query.filter(News.is_draft==0)\
             .order_by(News.last_update_time.desc())\
-            .offset(0).limit(limit)
+            .offset(0).limit(limit).all()
 
 def get_by_id(sid):
     return News.query.filter(News.id == sid).first_or_404()

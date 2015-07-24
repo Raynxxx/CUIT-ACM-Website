@@ -1,0 +1,87 @@
+.user-profile-box {
+  position: relative;
+  padding: 10px auto;
+  width: 100%;
+  max-width: 720px;
+  margin: auto;
+}
+
+.user-profile-header {
+  padding: 10px;
+  background: #1C7EBB url('../image/icpc.jpg') no-repeat;
+  background-size: cover;
+  box-shadow: 0 1px 1px rgba(150,150,150,0.5);
+}
+.user-face {
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  margin: 50px auto auto auto;
+  border-radius: 50%;
+}
+.user-face img {
+  width: 150px;
+  border-radius: 50%;
+  border: solid 5px rgba(255,255,255,0.3);
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+}
+.user-meta {
+  padding: 0 30px;
+  text-align: center;
+}
+.user-name {
+  margin-top: 10px;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+.user-motto {
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+.tab-pane {
+  padding: 2px 30px !important;
+}
+.user-info {
+  font-weight: 500;
+  font-size: 1.1em;
+  color: #555;
+  text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.2);
+}
+.user-info .fa {
+  color: #367fa9;
+  font-size: 18px;
+}
+.user-info td {
+  border-top: none !important;
+  border-bottom: 1px solid #eee;
+}
+.user-info td:first-child {
+  width: 5%;
+}
+.user-info td:nth-child(2) {
+  width: 20%;
+}
+
+.edit-user {
+  font-weight: 500;
+  font-size: 1.1em;
+  color: #555;
+  text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.2);
+}
+.edit-user .fa {
+  color: #367fa9;
+  font-size: 18px;
+}
+.edit-user td {
+  vertical-align: middle !important;
+  border-top: none !important;
+  border-bottom: 1px solid #eee;
+}
+.edit-user td:first-child {
+  width: 5%;
+}
+.edit-user td:nth-child(2) {
+  width: 15%;
+}

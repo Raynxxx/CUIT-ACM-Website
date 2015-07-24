@@ -10,7 +10,7 @@ SQLALCHEMY_BINDS = {}
 ADMIN = ['Rayn', 'dreameracm']
 
 SCHOOL_MAP = {
-    'cuit': u'成都信息工程学院',
+    'cuit': u'成都信息工程大学',
     'scu': u'四川大学'
 }
 

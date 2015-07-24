@@ -24,7 +24,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('你已下线本系统')
+    flash(u'你已下线本系统')
     return redirect(url_for('main.login'))
 
 

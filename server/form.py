@@ -32,15 +32,18 @@ class RegisterForm(Form):
     submit = SubmitField(u'注册')
 
 class UserModifyForm(Form):
-    name = StringField('Name',validators=[validators.DataRequired()])
+    id = IntegerField('id', validators=[validators.optional()])
+    name = StringField('Name', validators=[validators.DataRequired()])
     stu_id = StringField('stu_id', validators=[validators.Optional(), validators.Length(min=1, max=20)])
     email = StringField('Email', validators=[validators.Optional(), validators.Length(min=1, max=64), validators.Email()])
     phone = StringField('Phone', validators=[validators.Optional(),validators.Regexp('\d{6,12}', flags=0)])
     school = SelectField('school', validators=[validators.DataRequired()],
                          choices=[(school, SCHOOL_MAP[school]) for school in SCHOOL_MAP],
                          default='cuit')
-    situation = StringField('Situation', validators=[validators.Optional()])
     motto = StringField('Motto', validators=[validators.Optional()])
+    situation = StringField('Situation', validators=[validators.Optional()])
+    active = RadioField('Active', choices=[('1', u'训练 ing'), ('0', u'退役狗')], coerce=str, default=1)
+    gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
     submit = SubmitField(u'提交')
 
 class PasswordModifyForm(Form):
@@ -49,7 +52,6 @@ class PasswordModifyForm(Form):
                             validators.EqualTo('password2',message='Passwords must match.')])
     password2 = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24)])
     submit = SubmitField(u'提交')
-
 
 class AccountForm(Form):
     nickname = StringField('Username', validators=[validators.DataRequired(), validators.Length(min=1, max=24),
