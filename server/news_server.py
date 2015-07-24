@@ -93,3 +93,11 @@ def get_archive_by_tag(tag):
             archives[year] = []
         archives[year].append(news)
     return archives
+
+def get_all_tags():
+    tags_row = Tag.query.filter(Tag.news!=None).all()
+    tags = []
+    for tag in tags_row:
+        if tag.news.filter(News.is_draft==0).count():
+            tags.append(tag)
+    return tags

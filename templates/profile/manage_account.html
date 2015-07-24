@@ -1,18 +1,40 @@
 {% extends "profile/base.html" %}
 {% block content %}
-<div class="box box-primary">
-    <div class="box-header with-border">
-      <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>当前关联的账号</span></h3>
-    </div>
-    <div class="block-content">
-      <table class="table" id = "accountTable">
-      </table>
-      <div class="alert alert-error alert-block"  id="del-info" style="margin: 20px auto 5px auto;display: none">
-          <button type="button" class="close">&times;</button>
-          <span id="del-info-text"></span>
-      </div>
-    </div>
-</div>
+
+<div class="col-md-6">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-th-list"></i>
+                            <h3 class="box-title">关联账号</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body" id="account-box-body">
+                            <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs pull-right">
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                操作 <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li role="presentation"><a role="menuitem" target="_blank" tabindex="-1" href="node_json.php?id=13">配置文件</a></li>
+                                                <li role="presentation"><a role="menuitem" target="_blank" tabindex="-1" href="node_qr.php?id=13">二维码</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="pull-left header"><i class="fa fa-angle-right"></i> Tokyo,JP (IPv6)</li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tab_1-1">
+                                            <p> <a class="btn btn-xs bg-purple btn-flat margin" href="#">地址:</a> <code>2400:8500:1301:732:a133:130:58:156a</code>
+                                                <a class="btn btn-xs bg-orange btn-flat margin" href="#">可用</a>
+                                                <a class="btn btn-xs bg-green btn-flat margin" href="#">aes-256-cfb</a>
+                                            </p>
+                                            <p> 东京节点的IPv6地址</p>
+                                        </div><!-- /.tab-pane -->
+                                    </div><!-- /.tab-content -->
+                                </div><!-- nav-tabs-custom -->
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div>
+
 <div class="row">
   <div class="col-md-6">
     <div class="box box-default">
@@ -61,7 +83,46 @@
 
 {% endblock %}
 {%- block script -%}
+    <script src="{{ url_for('static', filename='AdminLTE2/plugins/chartjs/Chart.min.js') }}"></script>
     <script>
+        function gaoPieChart(field, p1, p2, label_info) {
+            var data = [
+                {value: p1, color: "#0075b0", label: label_info[0]},
+                {value: (parseInt(p2) - parseInt(p1)), color: "#949FB1", label: label_info[1]}
+            ];
+            var cur = field.getContext('2d');
+            var myNewChart = new Chart(cur).Pie(data);
+        }
+        function gaoBarChart(field, p1, p2, label_info) {
+            var data = {
+                labels: [label_info[0]],
+                datasets : [
+                    { fillColor : "rgba(0, 117, 176, 0.5)", strokeColor : "rgba(151, 187, 205, 1)", data : [p1] },
+                    { fillColor : "rgba(148, 159, 177, 0.5)", strokeColor : "rgba(220, 220, 220, 1)", data : [p2] }
+                ]
+            };
+            var cur = field.getContext('2d');
+            var myNewChart = new Chart(cur).Bar(data);
+        }
+
+        function drawChart() {
+            $('.sChart').each(function() {
+                var all_data = $(this).attr('id').split('/');
+                var label = all_data[0];
+                var p1 = all_data[1];
+                var p2 = all_data[2];
+                var label_info;
+                if (label == 'cf' || label == 'bc') {
+                    label_info = ['Rating', 'Max Rating'];
+                    gaoBarChart(this, p1, p2, label_info);
+                } else {
+                    label_info = ['Accepted', 'Wrong Answer'];
+                    gaoPieChart(this, p1, p2, label_info);
+                }
+            });
+        }
+
+
         $(document).ready(function(){
             $("button.close").click(function () {
                 $(".alert").slideUp();
@@ -69,17 +130,10 @@
 
             function LoadAccountInfo() {
                 $.post("{{ url_for('ajax.account_info', username=user.username) }}").success(function(data){
-                    var account = JSON.parse(data);
-                    var table = $('#accountTable');
-                    table.empty();
-                    table.append("<tr><th>账号</th> <th>OJ</th> <th>状态</th> <th>操作</th> </tr>");
-                    for (x in account) {
-                        table.append("<tr><td>"+account[x]['account_name']+"</td><td>"
-                        +account[x]['oj_name']+"</td><td><span class='label label-info'>"+account[x]['status']
-                        +"</span></td><td>"+"<button type='button' class='btn btn-mini btn-danger btn-flat account_del' url-data='/ajax/delete_account?username={{ user.username }}&oj_name="+account[x]['oj_name']+"'>删除</button>"
-                        +"</td></tr>")
-                    }
-                    table.fadeIn();
+                    var box = $('#account-box-body');
+                    box.empty();
+                    box.html(data);
+                    drawChart();
                 });
             }
 
@@ -99,20 +153,6 @@
                             }
                     );
                 }
-                return false;
-            });
-            $('#accountTable').on('click','button' ,function(){
-                var url = this.getAttribute('url-data');
-                var rowNode = this.parentNode.parentNode;
-                $.post(url, function(msg){
-                    if (msg=='OK') {
-                        rowNode.parentNode.removeChild(rowNode);
-                    }
-                    else {
-                        $("#del-info-text").html(msg);
-                        $("#del-info").hide().fadeIn(200);
-                    }
-                });
                 return false;
             });
         })

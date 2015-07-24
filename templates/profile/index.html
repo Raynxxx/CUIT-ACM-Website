@@ -41,7 +41,7 @@
                   <tr><td><i class="fa fa-phone-square"></i></td><td> 电话</td>
                     <td>{{ user.phone if user.phone else '' }}</td></tr>
                   <tr><td><i class="fa fa-university"></i></td><td> 学校</td>
-                    <td>{{ user.school if user.school else '' }}</td></tr>
+                    <td>{{ school_mapper[user.school] if user.school else '' }}</td></tr>
                   <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
                     <td>{{ user.remark if user.remark else '' }}</td></tr>
                   <tr><td><i class="fa fa-calendar"></i></td><td> 创建时间</td>

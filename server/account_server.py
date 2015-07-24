@@ -1,5 +1,6 @@
 # coding=utf-8
 from __init__ import *
+from config import OJ_MAP
 from dao.dbACCOUNT import AccountStatus
 
 
@@ -31,13 +32,14 @@ def modify_account(origin, param):
 
 def get_account_info(user):
     accounts = user.account
-    status_mapper = {AccountStatus.NORMAL:u'正常',AccountStatus.NOT_INIT:u'未初始化', AccountStatus.UPDATING:u'正在更新', AccountStatus.UPDATE_ERROR:u'更新失败'}
+    status_mapper = {AccountStatus.NORMAL:u'正常',AccountStatus.NOT_INIT:u'未初始化',
+        AccountStatus.WAIT_FOR_UPDATE:u'等待更新',AccountStatus.UPDATING:u'正在更新', AccountStatus.UPDATE_ERROR:u'更新失败'}
     data = []
     for account in accounts:
-        account_info = {
-            'account_name': account.nickname,
-            'oj_name': account.oj_name,
-            'status': status_mapper[account.update_status],
-        }
+        account_info = account.get_problem_count()
+        account_info['account_name'] = account.nickname
+        account_info['oj_name'] = OJ_MAP[account.oj_name]
+        account_info['status'] = status_mapper[int(account.update_status)]
+        account_info['last_update_time'] = account.last_update_time
         data.append(account_info)
     return data
