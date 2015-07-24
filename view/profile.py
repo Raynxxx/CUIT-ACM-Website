@@ -36,12 +36,19 @@ def index():
     user_modify_form.school.data = profile_user.school
     user_modify_form.gender.data = '1' if profile_user.gender else '0'
     user_modify_form.active.data = '1' if profile_user.active else '0'
-    return render_template('index.html', title=u'你的主页',
+    return render_template('index.html',
+                           title=u'你的主页',
                            user = profile_user,
                            user_modify_form = user_modify_form,
                            stat = statistic,
-                           school_mapper=SCHOOL_MAP)
+                           school_mapper = SCHOOL_MAP)
 
+#
+# @brief: the OJ account management page
+# @route: /profile/manage_account
+# @accepted methods: [get]
+# @allowed user: self, admin and coach
+#
 @profile.route('/profile/manage_account', methods=['GET'])
 @login_required
 def manage_account():
@@ -52,7 +59,10 @@ def manage_account():
     if current_user != profile_user and (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
         return u"没有权限"
     account_form = form.AccountForm()
-    return render_template('manage_account.html', form=account_form, user=profile_user)
+    return render_template('manage_account.html',
+                           title = u'OJ账号管理',
+                           form=account_form,
+                           user=profile_user)
 
 
 @profile.route('/profile/update_account', methods=['GET'])
