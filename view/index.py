@@ -34,7 +34,8 @@ def index():
     news_server.get_archive()
     news = news_server.get_list()
     recent_news = news_server.get_recent()
-    return render_template('index/index.html', news=news, recent_news=recent_news)
+    tags = news_server.get_all_tags()
+    return render_template('index/index.html', news=news, recent_news=recent_news, tags=tags)
 
 
 @main.route('/news')

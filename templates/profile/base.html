@@ -101,9 +101,7 @@
         <li class="header">导航</li>
         <li><a href="{{ url_for('profile.index', username=user.username) }}"><i class="fa fa-user"> </i>
           <span>个人主页</span></a></li>
-        <li><a href="{{ url_for('profile.stat_graph', username=user.username) }}" id="stat_graph"><i
-                class="fa fa-align-left"></i> <span>统计图表</span></a></li>
-        {% if user == current_user or current_user.rights %}
+        {% if user == current_user or current_user.is_coach or current_user.is_admin %}
           <li><a href="{{ url_for('profile.manage_account', username=user.username) }}"><i class="fa fa-users"></i><span>管理OJ账号</span></a></li>
         {% endif %}
         {% if user == current_user %}

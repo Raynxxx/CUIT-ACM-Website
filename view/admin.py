@@ -62,7 +62,7 @@ def create_user():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     registerForm = form.RegisterForm()
-    registerForm.school.data = util.InvertDict(SCHOOL_MAP)[current_user.school]
+    registerForm.school.data = current_user.school
     return render_template('add_user.html',
                            title = u'添加用户',
                            form1 = registerForm,

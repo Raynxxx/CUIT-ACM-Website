@@ -25,7 +25,7 @@ def update_user(user_form, user_rights=None, for_self = False):
     if not has_user:
         return u"该用户不存在"
     has_user.name = user_form.name.data
-    has_user.school = SCHOOL_MAP[user_form.school.data]
+    has_user.school = user_form.school.data
     has_user.gender = True if user_form.gender.data == '1' else False
     has_user.email = user_form.email.data
     if not for_self:

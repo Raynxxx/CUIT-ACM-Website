@@ -202,7 +202,7 @@ def delete_news():
 @ajax.route('/ajax/post_news', methods=['POST'])
 @login_required
 def post_news():
-    if not current_user.rights:
+    if not current_user.is_admin and not current_user.is_coach:
         return u"没有权限"
     news_form = form.NewsForm()
     if news_form.validate_on_submit():
@@ -248,6 +248,8 @@ def account_manager():
     except:
         profile_user = current_user
     account_form = form.AccountForm()
+    if current_user != profile_user and (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
+        return u"没有权限"
     if account_form.validate_on_submit():
         try:
             has = Account.query.filter_by(user=profile_user, oj_name=account_form.oj_name.data).first()
@@ -265,17 +267,19 @@ def account_manager():
         return u"添加账号失败"
 
 
-@ajax.route('/ajax/delete_account', methods=['POST'])
+@ajax.route('/ajax/delete_account', methods=['GET'])
 @login_required
 def delete_account():
     try:
         profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
+    if current_user != profile_user and (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
+        return u"没有权限"
     try:
         oj_name = request.args['oj_name']
         account_server.delete_account(profile_user, oj_name)
-        return 'OK'
+        return redirect(url_for('profile.manage_account', username = profile_user.username))
     except AccountUpdatingException, e:
         return 'ERROR: ' + e.message
     except:
@@ -315,7 +319,7 @@ def account_info():
     except:
         profile_user = current_user
     data = account_server.get_account_info(profile_user)
-    return json.dumps(data, cls=CJsonEncoder)
+    return render_template('ajax/account_info_item.html', user=profile_user ,accounts=data, str=str)
 
 
 @ajax.route('/ajax/fitch_status/<oj_name>', methods=['POST'])

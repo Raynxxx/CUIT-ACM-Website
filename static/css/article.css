@@ -143,3 +143,11 @@
   padding: 0 50px 0 40px;
   border-bottom: dashed 2px #aaa;
 }
+
+.tags_cloud {
+  padding: 1.2em;
+}
+
+.tags_cloud a {
+  margin: 0.2em;
+}

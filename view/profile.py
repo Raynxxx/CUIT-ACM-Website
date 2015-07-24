@@ -33,31 +33,14 @@ def index():
     user_modify_form.phone.data = profile_user.phone
     user_modify_form.motto.data = profile_user.remark
     user_modify_form.situation.data = profile_user.situation
-    user_modify_form.school.data = util.InvertDict(SCHOOL_MAP)[profile_user.school]
+    user_modify_form.school.data = profile_user.school
     user_modify_form.gender.data = '1' if profile_user.gender else '0'
     user_modify_form.active.data = '1' if profile_user.active else '0'
     return render_template('index.html', title=u'你的主页',
                            user = profile_user,
                            user_modify_form = user_modify_form,
-                           stat = statistic)
-
-
-@profile.route('/profile/stat_graph', methods=['GET'])
-@login_required
-def stat_graph():
-    try:
-        profile_user = user_server.get_by_username_or_404(request.args['username'])
-    except:
-        profile_user = current_user
-    account_info = user_server.get_account_info(profile_user)
-    general_info = {}
-    for oj in account_info['have']:
-        tmp = user_server.get_general_info(profile_user, oj)
-        if tmp:
-            general_info[oj] = tmp
-    return render_template('stat_graph.html', account_info=account_info, user=profile_user
-                           , OJ_MAP=OJ_MAP, str=str, general_info=general_info)
-
+                           stat = statistic,
+                           school_mapper=SCHOOL_MAP)
 
 @profile.route('/profile/manage_account', methods=['GET'])
 @login_required
@@ -66,6 +49,8 @@ def manage_account():
         profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
+    if current_user != profile_user and (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
+        return u"没有权限"
     account_form = form.AccountForm()
     return render_template('manage_account.html', form=account_form, user=profile_user)
 
@@ -77,7 +62,8 @@ def update_account():
         profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
-    general.update_user_status(profile_user)
+    if current_user == profile_user or current_user.is_admin or current_user.is_coach:
+        general.update_user_status(profile_user)
     return redirect(url_for('profile.index', username=profile_user.username))
 
 
@@ -91,7 +77,7 @@ def modify_info():
     user_modify_form.stu_id.data = current_user.stu_id
     user_modify_form.phone.data = current_user.phone
     user_modify_form.motto.data = current_user.remark
-    user_modify_form.school.data = util.InvertDict(SCHOOL_MAP)[current_user.school]
+    user_modify_form.school.data = current_user.school
     user_modify_form.situation.data = current_user.situation
     pwd_form.username.data = current_user.username
     return render_template('modify_info.html', user=current_user, user_modify_form=user_modify_form, pwd_form=pwd_form)
@@ -100,12 +86,8 @@ def modify_info():
 @profile.route('/profile/post_article', methods=['GET'])
 @login_required
 def post_article():
-    try:
-        profile_user = user_server.get_by_username_or_404(request.args['username'])
-    except:
-        profile_user = current_user
     solution_form = form.SolutionForm()
-    return render_template('post_article.html', user=profile_user, form=solution_form)
+    return render_template('post_article.html', user=current_user, form=solution_form)
 
 
 @profile.route('/profile/edit_article', methods=['GET'])
@@ -113,7 +95,7 @@ def post_article():
 def edit_article():
     try:
         one = article_server.get_by_id(request.args['p'])
-        if one.user != current_user and current_user.rights == 0:
+        if one.user != current_user and (not current_user.is_admin and not current_user.is_coach):
             raise Exception(u"你没有权限修改该文章")
     except :
         return redirect(url_for('main.index'))
