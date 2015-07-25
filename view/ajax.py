@@ -266,6 +266,32 @@ def account_info_list():
 
 
 #
+# @brief: update the statistics info of account
+# @route: /ajax/update_account
+# @accepted methods: [post]
+# @allowed user: admin, coach or the user
+#
+@ajax.route('/ajax/update_account', methods=['POST'])
+@login_required
+def update_account():
+    try:
+        profile_user = user_server.get_by_id(request.form.get('user_id'))
+    except:
+        profile_user = current_user
+    if profile_user != current_user and\
+            (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
+        return u"没有权限"
+    try:
+        account_id = request.form.get('account_id')
+        account_server.update_account_by_id(account_id)
+        return u"ok"
+    except AccountUpdatingException, e:
+        return 'ERROR: ' + e.message
+    except:
+        return 'ERROR: unknown error'
+
+
+#
 # @brief: add or modify account
 # @route: /account_manager
 # @accepted methods: [post]
