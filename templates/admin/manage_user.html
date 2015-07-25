@@ -12,6 +12,9 @@
       <div class="box box-primary list-box">
         <div class="box-header with-border">
           <h3 class="box-title"><i class="fa fa-list"></i> 用户列表</h3>
+          <div class="box-tools">
+            <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+          </div>
         </div>
         <div class="box-body no-padding">
           <div class="list-box-controls">
@@ -19,6 +22,7 @@
               <i class="fa fa-trash-o"></i> 删除
             </button>
             <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
+
             <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i>
               添加</a>
 
@@ -103,13 +107,14 @@
         var start = ret.offset;
         var length = ret.limit;
         var users = ret.user_list;
-        if (length == 0) {
-          return 0;
-        }
         var $list_table = $('.list-table-body').first();
         $list_table.empty();
-        for (var i = 0; i < length; ++i) {
-          $list_table.append(users[i]);
+        if (length == 0) {
+          $list_table.append('<tr><td colspan="6"><h2>无用户</h2></tr>');
+        } else {
+          for (var i = 0; i < length; ++i) {
+            $list_table.append(users[i]);
+          }
         }
         $('.list-box > div.overlay').fadeOut(300, make_iCheck());
         var prev = $('.prev-page');
@@ -139,6 +144,9 @@
       make_iCheck();
       var limit = 15;
       get_user_list(0, limit);
+      $('button.to_refresh').click(function() {
+        get_user_list(0, limit);
+      });
       $('.prev-page').click(function () {
         var offset = parseInt($(this).val());
         get_user_list(offset, limit);

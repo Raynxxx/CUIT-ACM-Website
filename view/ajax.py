@@ -241,7 +241,9 @@ def modify_pwd():
 #
 @login_required
 def get_account_item(account, user):
-    return render_template('ajax/account_info_item.html', account=account, user=user, str=str)
+    return render_template('ajax/account_info_item.html',
+                           account = account,
+                           user = user, str = str)
 
 
 #
@@ -278,13 +280,16 @@ def account_manager():
     except:
         profile_user = current_user
     account_form = form.AccountForm()
-    if current_user != profile_user and (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
+    if current_user != profile_user and\
+            (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
         return u"没有权限"
     if account_form.validate_on_submit():
         try:
-            has = Account.query.filter_by(user=profile_user, oj_name=account_form.oj_name.data).first()
-            if has:
-                account_server.modify_account(has, account_form)
+            has_account = Account.query\
+                    .filter_by(user=profile_user, oj_name=account_form.oj_name.data)\
+                    .first()
+            if has_account:
+                account_server.modify_account(has_account, account_form)
                 return u"已经覆盖原账号"
             else:
                 account_server.add_account(profile_user, account_form)
@@ -297,19 +302,27 @@ def account_manager():
         return u"添加账号失败"
 
 
-@ajax.route('/ajax/delete_account', methods=['GET'])
+#
+# @brief: delete account
+# @route: /ajax/delete_account
+# @accepted methods: [post]
+# @allowed user: administrator or the user
+# @ajax return: string
+#
+@ajax.route('/ajax/delete_account', methods=['POST'])
 @login_required
 def delete_account():
     try:
-        profile_user = user_server.get_by_username_or_404(request.args['username'])
+        profile_user = user_server.get_by_id(request.form.get('user_id'))
     except:
         profile_user = current_user
-    if current_user != profile_user and (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
+    if profile_user != current_user and\
+            (not current_user.is_admin and not current_user.is_coach_of(profile_user)):
         return u"没有权限"
     try:
-        oj_name = request.args['oj_name']
-        account_server.delete_account(profile_user, oj_name)
-        return redirect(url_for('profile.manage_account', username = profile_user.username))
+        account_id = request.form.get('account_id')
+        account_server.delete_account_by_id(profile_user, account_id)
+        return u"删除成功"
     except AccountUpdatingException, e:
         return 'ERROR: ' + e.message
     except:

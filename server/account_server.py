@@ -12,6 +12,18 @@ def add_account(user, param):
     account = Account(param.oj_name.data, param.nickname.data, param.password.data, user)
     account.save()
 
+
+def delete_account_by_id(user, account_id):
+    account = Account.query.filter_by(id = account_id).first()
+    if account:
+        if account.update_status == AccountStatus.UPDATING:
+            raise AccountUpdatingException(u'Account is updating')
+        Submit.query.filter(Submit.user == user, Submit.oj_name == account.oj_name).delete()
+        db.session.commit()
+        account.user.update_score()
+        account.delete()
+
+
 def delete_account(user, oj_name):
     account = Account.query.filter(Account.user == user, Account.oj_name == oj_name).first()
     if account:

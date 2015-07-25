@@ -9,15 +9,19 @@
     <div class="box box-primary list-box">
       <div class="box-header with-border">
         <h3 class="box-title"><i class="fa fa-tasks"></i> 已关联 OJ 账号列表</h3>
+        <div class="box-tools">
+          <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+        </div>
       </div>
       <div class="box-body no-padding">
         <div class="list-box-controls">
-            <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
-              <i class="fa fa-trash-o"></i> 删除
+            <button class="btn btn-default btn-sm to_delete_account" data-toggle="modal" data-target="#myModal">
+              <i class="fa fa-trash-o"></i>&nbsp; 删除
             </button>
-            <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
-            <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i>
-              添加</a>
+            <button class="btn btn-default btn-sm to_edit_account"><i class="fa fa-pencil-square-o"></i>&nbsp; 修改</button>
+            <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> &nbsp; 更新账户</button>
+            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2">
+              <i class="fa fa-user-plus"></i>&nbsp; 添加</button>
           </div>
         <table class="table table-bordered table-hover table-striped list-table">
           <thead>
@@ -31,12 +35,16 @@
       </div>
       <div class="box-footer no-padding">
           <div class="list-box-controls">
-            <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
-              <i class="fa fa-trash-o"></i> 删除
+            <button class="btn btn-default btn-sm to_delete_account" data-toggle="modal" data-target="#myModal">
+              <i class="fa fa-trash-o"></i> &nbsp; 删除
             </button>
-            <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
-            <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i>
-              添加</a>
+            <button class="btn btn-default btn-sm to_edit_account">
+              <i class="fa fa-pencil-square-o"></i> &nbsp; 修改
+            </button>
+            <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> &nbsp; 更新账户</button>
+            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2">
+              <i class="fa fa-user-plus"></i>&nbsp; 添加
+            </button>
           </div>
         </div>
       <div class="overlay">
@@ -54,10 +62,10 @@
         <h4 class="modal-title">提示</h4>
       </div>
       <div class="modal-body">
-        <p style="font-size: 1.4em;">是否确定删除当前选定用户！</p>
+        <p style="font-size: 1.4em;">是否确定删除当前选定账号！</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger btn-flat delete_user">确定删除</button>
+        <button type="button" class="btn btn-danger btn-flat delete_account">确定删除</button>
         <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
       </div>
     </div>
@@ -65,51 +73,43 @@
   </div>
   <!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<div class="row">
-    <div class="col-md-6">
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>添加/修改账号</span></h3>
-        </div>
-        <form id="accountForm" method="post">
-          <div class="box-body">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-              {{ form.oj_name(class='form-control required', id="iOjname", placeholder="OJ") }}
-            </div>
-            <div class="form-group">
-              {{ form.nickname(class='form-control required', id="iNickname", placeholder="用户名") }}
-            </div>
-            <div class="form-group">
-              {{ form.password(class='form-control required', id="iPassword", placeholder="密码") }}
-            </div>
-            <div class="alert alert-error alert-block" id="add-info" style="margin: 20px auto 5px auto;display: none">
-              <button type="button" class="close">&times;</button>
-              <span id="add-info-text"></span>
-            </div>
-          </div>
-          <div class="box-footer">
-            {{ form.submit(class='btn btn-block btn-primary pull-right') }}
-          </div>
-        </form>
+<div class="modal fade" id="myModal2" style="margin-top: 50px;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">添加账户</h4>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>提示</span></h3>
+      <div class="modal-body">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          {{ form.oj_name(class='form-control required', id="iOjname", placeholder="OJ") }}
         </div>
-        <div class="box-body">
-          <ul>
-            <li>Codeforce不需要提供密码,随便输入即可。</li>
-            <li>UVA不需要提供用户名,可以谁便输入;但是需要提供UVA的user id。可以到UVA看下自己的id。</li>
-            <li>账号正在更新时不能修改账号。</li>
-            <li>每个OJ只能添加一个账号，重复添加会覆盖之前的账号。</li>
-          </ul>
+        <div class="form-group">
+          {{ form.nickname(class='form-control required', id="iNickname", placeholder="用户名") }}
+        </div>
+        <div class="form-group">
+          {{ form.password(class='form-control required', id="iPassword", placeholder="密码") }}
+        </div>
+        <ul style="list-style: none; padding: 10px;">
+          <li>Codeforce 不需要提供密码, 随便输入即可。</li>
+          <li>UVA不需要提供用户名, 可以谁便输入, 但是需要提供 UVA 的 user id, 可以到 UVA 查看自己的 id.</li>
+          <li>账号正在更新时不能修改账号.</li>
+          <li>每个 OJ 只能添加一个账号, 重复添加会覆盖之前的账号.</li>
+        </ul>
+        <div class="alert alert-error alert-block" id="add-info" style="margin: 20px auto 5px auto;display: block">
+          <button type="button" class="close">&times;</button>
+          <span id="add-info-text">text</span>
         </div>
       </div>
-    </div>
-  </div>
+      <div class="modal-footer">
+        {{ form.submit(class='btn btn-primary btn-flat') }}
+        <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 {% endblock %}
 {%- block script -%}
@@ -121,29 +121,53 @@
         radioClass: 'iradio_square-blue'
       });
     }
-    function LoadAccountInfo() {
+    function loadAccountInfo() {
       $('.list-box > div.overlay').fadeIn(300, make_iCheck());
       $.post("{{ url_for('ajax.account_info_list', username=user.username) }}").success(function (ret) {
         var length = ret.length;
         var account_list = ret.account_list;
+        var $list_table = $('.list-table-body').first();
+        $list_table.empty();
         if (length == 0) {
-
+          $list_table.append('<tr><td colspan="5"><h2>暂无账户</h2></tr>');
         } else {
-          var $list_table = $('.list-table-body').first();
-          $list_table.empty();
           for (var i = 0; i < length; ++i) {
             $list_table.append(account_list[i]);
           }
         }
         $('.list-box > div.overlay').fadeOut(300, make_iCheck());
       });
-
+    }
+    function deleteAccount(checked) {
+      var data = {
+        'account_id': checked,
+        'user_id': {{ user.id }}
+      };
+      $.post("{{ url_for('ajax.delete_account') }}", data)
+            .success(function(ret){
+              $('.closeModal').click();
+              loadAccountInfo();
+            }
+      );
     }
     $(document).ready(function () {
       make_iCheck();
-      LoadAccountInfo();
+      loadAccountInfo();
       $("button.close").click(function () {
         $(".alert").slideUp();
+      });
+      $('button.to_refresh').click(function() {
+        loadAccountInfo();
+      });
+      $('.to_delete_account, .to_edit_account').click(function() {
+        var $checked = $('input[name="account"]:checked');
+        if ($checked.length <= 0) {
+          return false;
+        }
+      });
+      $('.delete_account').click(function() {
+        var $checked = $('input[name="account"]:checked').val();
+        deleteAccount($checked);
       });
       $('#accountForm').submit(function () {
         var oj_field = $('#iOjname');

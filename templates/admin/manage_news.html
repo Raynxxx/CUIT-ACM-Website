@@ -8,6 +8,9 @@
     <div class="box box-primary list-box">
       <div class="box-header with-border">
         <h3 class="box-title"><i class="fa fa-list"></i> 新闻列表</h3>
+        <div class="box-tools">
+          <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+        </div>
       </div>
       <div class="box-body no-padding">
         <div class="list-box-controls">
@@ -90,13 +93,14 @@
       var start = ret.offset;
       var length = ret.limit;
       var news_list = ret.news_list;
-      if (length == 0) {
-        return 0;
-      }
       var $list_table = $('.list-table-body').first();
       $list_table.empty();
-      for (var i = 0; i < length; ++i) {
-        $list_table.append(news_list[i]);
+      if (length == 0) {
+        $list_table.append('<tr><td colspan="5"><h2>无新闻</h2></tr>');
+      } else {
+        for (var i = 0; i < length; ++i) {
+          $list_table.append(news_list[i]);
+        }
       }
       $('.list-box > div.overlay').fadeOut(300, make_iCheck());
       var prev = $('.prev-page');
@@ -126,6 +130,9 @@
     make_iCheck();
     var limit = 15;
     get_news_list(0, limit);
+    $('button.to_refresh').click(function() {
+      get_news_list(0, limit);
+    });
     $('.prev-page').click(function() {
       var offset = parseInt($(this).val());
       get_news_list(offset, limit);
