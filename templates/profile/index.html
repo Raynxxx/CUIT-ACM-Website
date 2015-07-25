@@ -88,14 +88,6 @@
                     <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
                       <td>{{ user_modify_form.motto(class='form-control', id="inputMotto", placeholder="签名") }}</td>
                     </tr>
-                    <tr><td><i class="fa fa-star"></i></td><td> 状态 </td>
-                      <td>{%- for sub in user_modify_form.active %}
-                          <label class="radio-inline">
-                            {{ sub }}
-                            {{ sub.label(style='margin-left:10px;') }}
-                          </label>
-                        {%- endfor %}</td>
-                    </tr>
                     <tr><td><i class="fa fa-link"></i> </td><td>现状</td>
                       <td>{{ user_modify_form.situation(class='form-control', id="inputSituation", placeholder="现状") }}</td>
                     </tr>

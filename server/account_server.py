@@ -34,6 +34,9 @@ def delete_account(user, oj_name):
         account.user.update_score()
         account.delete()
 
+def update_account_by_id(user, account_id):
+    account = Account.query.filter_by(id = account_id).first()
+
 def modify_account(origin, param):
     if origin.update_status == AccountStatus.UPDATING:
         raise AccountUpdatingException('Account is updating')

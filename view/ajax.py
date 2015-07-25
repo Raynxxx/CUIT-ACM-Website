@@ -290,10 +290,10 @@ def account_manager():
                     .first()
             if has_account:
                 account_server.modify_account(has_account, account_form)
-                return u"已经覆盖原账号"
+                return u"ok"
             else:
                 account_server.add_account(profile_user, account_form)
-                return u"添加账号成功"
+                return u"ok"
         except AccountUpdatingException, e:
             return 'ERROR: ' + e.message
         except:
@@ -322,7 +322,7 @@ def delete_account():
     try:
         account_id = request.form.get('account_id')
         account_server.delete_account_by_id(profile_user, account_id)
-        return u"删除成功"
+        return u"ok"
     except AccountUpdatingException, e:
         return 'ERROR: ' + e.message
     except:
