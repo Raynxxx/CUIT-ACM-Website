@@ -28,8 +28,8 @@ html,
 body {
   height: 100%;
   background-color: #333;
-  /*background-image: url('../image/bg1.jpg');
-  background-size: cover;*/
+  /*background-image: url('../image/bg1.jpg');*/
+  background-size: cover;
 }
 body {
   color: #fff;
@@ -127,14 +127,13 @@ body {
   text-align: center;
 }
 .background-code {
-  font-size: 40px;
+  font-size: 35px;
   text-align: left;
   margin: auto;
   padding: 20px;
   width: 86%;
   color: rgba(250, 250, 250, 1);
-  font-family: "Lucida Grande", Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei,
-    Verdana, Aril, sans-serif;
+  font-family: "Consolas", sans-serif ! important;
   -webkit-font-smoothing: antialiased;
   text-shadow: 0 1px 1px #888;
 }
@@ -165,7 +164,7 @@ body {
  */
 @media (min-width: 200px) {
   .background-code {
-    font-size: 13px;
+    font-size: 15px;
     width: 90%;
   }
 }
@@ -190,8 +189,8 @@ body {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
   }
   .background-code {
-    font-size: 42px;
-    width: 86%;
+    font-size: 36px;
+    width: 90%;
   }
 }
 
@@ -209,6 +208,18 @@ body {
     width: 1200px;
   }
   .background-code {
-    width: 64%;
+    font-size: 45px;
+    width: 81%;
+  }
+}
+@media (min-width: 1600px) {
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 1600px;
+  }
+  .background-code {
+    font-size: 60px;
+    width: 81%;
   }
 }

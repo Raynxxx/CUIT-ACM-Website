@@ -20,7 +20,7 @@ def create_user(user_form, user_rights):
     return 'OK'
 
 
-def update_user(user_form, user_rights=None, for_self = False):
+def update_user(user_form, user_rights = 0, for_self = False):
     has_user = User.query.filter_by(id = user_form.id.data).first()
     if not has_user:
         return u"该用户不存在"

@@ -106,10 +106,12 @@
           <span>个人主页</span></a></li>
         {% if user == current_user or current_user.is_admin or current_user.is_coach_of(user) %}
           <li><a href="{{ url_for('profile.manage_account', username=user.username) }}"><i class="fa fa-tasks"></i>
-            <span>管理OJ账号</span></a></li>
+            <span>管理 OJ 账号</span></a></li>
         {% endif %}
         {% if user == current_user %}
+          <!--
           <li><a href="{{ url_for('profile.post_article') }}"><i class="fa fa-book"> </i> <span>发表文章</span></a></li>
+          -->
         {% endif %}
       </ul>
     </section>
