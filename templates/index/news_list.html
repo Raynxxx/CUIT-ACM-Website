@@ -6,28 +6,35 @@
 {% block content %}
 <div class="row">
   <div class="col-sm-offset-1 col-sm-7">
-    <div class="article-box">
-      <div class="article-header">
-        <h3 class="article-title">{{ one.title }}</h3>
-        <div class="article-meta">
-          <span><i class="fa fa-calendar"></i> {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
-          <span><a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>
-          {% if current_user == one.user %}
-            <span><a href="{{ url_for('admin.edit_news', p=one.id) }}">edit</a></span>
-          {% endif %}
+    {% for one in news %}
+      <div class="article-box">
+        <div class="article-header">
+          <h2 class="article-title">
+            <a href="{{ url_for('main.news', url=one.url) }}">{{ one.title }}</a>
+            {% if one.is_top %}
+            <label class="text-red pull-right"><i class="fa fa-thumb-tack"></i></label>
+            {% endif %}
+          </h2>
+          <div class="article-meta">
+            <span><i class="fa fa-calendar"></i> {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
+            <span><a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>
+            {% if current_user == one.user %}
+              <span><a href="{{ url_for('admin.edit_news', p=one.id) }}">edit</a></span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="article-body text-muted">
+          {{ one.md_shortcut|safe }}
+        </div>
+        <a href="{{ url_for('main.news',url=one.url) }}" class="article-more-link btn btn-primary btn-flat">阅读全文 >></a>
+        <div class="article-footer">
+          <i class="fa fa-tags"></i>
+          {% for tag in one.tags %}
+            <span><a href="{{ url_for('main.news_archive', tag=tag.name) }}" class="label label-default"> {{ tag.name }}</a></span>
+          {% endfor %}
         </div>
       </div>
-      <div class="article-body text-muted">
-        {{ one.md_shortcut|safe }}
-        {{ one.md_content|safe }}
-      </div>
-      <div class="article-footer">
-        <i class="fa fa-tags"></i>
-        {% for tag in one.tags %}
-          <span><a href="{{ url_for('main.news_archive', tag=tag.name) }}" class="label label-default"> {{ tag.name }}</a></span>
-        {% endfor %}
-      </div>
-    </div>
+    {% endfor %}
   </div>
   <div class="col-sm-3">
   {% if recent_news != [] %}

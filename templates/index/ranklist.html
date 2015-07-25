@@ -113,7 +113,7 @@
               </tr>
               </thead>
               <tbody>
-              {% for info in last_rank %}
+              {% for info in last_week_rank %}
                 <tr>
                   <td>{{ info['rank'] }}</td>
                   <td><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></td>
