@@ -63,6 +63,10 @@
       </div>
       <div class="modal-body">
         <p style="font-size: 1.4em;">是否确定删除当前选定账号！</p>
+        <div class="alert alert-error alert-block" id="del-info" style="margin: 20px auto 5px auto;display: none">
+          <button type="button" class="close">&times;</button>
+          <span id="del-info-text"></span>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger btn-flat delete_account">确定删除</button>
@@ -81,6 +85,7 @@
                 aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">添加账户</h4>
       </div>
+        <form id="accountForm" method="post"  class="form-sign">
       <div class="modal-body">
         {{ form.hidden_tag() }}
         <div class="form-group">
@@ -98,15 +103,17 @@
           <li>账号正在更新时不能修改账号.</li>
           <li>每个 OJ 只能添加一个账号, 重复添加会覆盖之前的账号.</li>
         </ul>
-        <div class="alert alert-error alert-block" id="add-info" style="margin: 20px auto 5px auto;display: block">
+        <div class="alert alert-error alert-block" id="add-info" style="margin: 20px auto 5px auto;display: none">
           <button type="button" class="close">&times;</button>
-          <span id="add-info-text">text</span>
+          <span id="add-info-text"></span>
         </div>
       </div>
+
       <div class="modal-footer">
         {{ form.submit(class='btn btn-primary btn-flat') }}
         <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
       </div>
+        </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -145,8 +152,15 @@
       };
       $.post("{{ url_for('ajax.delete_account') }}", data)
             .success(function(ret){
-              $('.closeModal').click();
-              loadAccountInfo();
+                  if (ret == 'ok') {
+                    $('.closeModal').click();
+                    loadAccountInfo();
+                  }
+                  else {
+                    $("#del-info-text").html(ret);
+                    $("#del-info").hide().fadeIn(200);
+                  }
+
             }
       );
     }
@@ -177,9 +191,15 @@
                 requiredCheck(pwd_field, '密码')) {
           $.post("{{ url_for('ajax.account_manager', username=user.username) }}", $('#accountForm').serialize()).success(
               function (data) {
-                $("#add-info-text").html(data);
-                $("#add-info").hide().fadeIn(200);
-                LoadAccountInfo();
+                if (data != 'ok')   {
+                  $("#add-info-text").html(data);
+                  $("#add-info").hide().fadeIn(200);
+                }
+                else {
+                    $('.closeModal').click();
+                    loadAccountInfo();
+                }
+
               }
           );
         }

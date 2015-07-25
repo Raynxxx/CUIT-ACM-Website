@@ -5,10 +5,10 @@ import time
 from sqlalchemy import or_
 
 
-def get_info_list(lim=10):
+def get_info_list(lim=100):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc', 'vj']
     info_list = []
-    users = User.query.filter(User.rights != 2).order_by(User.score.desc()).limit(lim)
+    users = User.query.filter(User.active==1).order_by(User.score.desc()).limit(lim)
     rank = 1
     for user in users:
         cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'score': user.score, 'rank': rank}
@@ -28,17 +28,17 @@ def get_info_list(lim=10):
     return info_list
 
 
-def get_weekly_info(lastweek, lim=10):
+def get_weekly_info(lastweek, lim=100):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc']
     info_list = []
     if lastweek:
-        users = User.query.filter(User.rights != 2).order_by(User.last_week_solved.desc()).limit(lim)
+        users = User.query.filter(User.active==1).order_by(User.last_week_solved.desc()).limit(lim)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.last_week_solved,
                    'submitted': user.last_week_submit}
             info_list.append(cur)
     else:
-        users = User.query.filter(User.rights != 2).order_by(User.current_week_solved.desc()).limit(lim)
+        users = User.query.filter(User.active==1).order_by(User.current_week_solved.desc()).limit(lim)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.current_week_solved,
                    'submitted': user.current_week_submit}

@@ -1,18 +1,18 @@
 {% extends "index/base.html" %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/idea.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/code.css') }}"/>
 {% endblock %}
 
 {% block loginbar %}{% endblock %}
 
 {% block content %}
     <div class="container">
-        <div id="codeBlock" class="block">
-            <div class="block-header">
-                <h3 class="block-title">Show Code</h3>
+        <div id="codeBlock" class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Show Code</h3>
             </div>
-            <div class="block-content collapse in">
-                <pre><code>{{ submit['code'] }}</code></pre>
+            <div class="box-body no-padding">
+                <pre class="code"><code>{{ submit['code'] }}</code></pre>
             </div>
         </div>
     </div>
