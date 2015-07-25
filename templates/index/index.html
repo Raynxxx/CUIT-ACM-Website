@@ -1,87 +1,63 @@
-{% extends "index/base.html" %}
-{% block head %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"/>
-{% endblock %}
-
-{% block content %}
-<div class="row">
-  <div class="col-sm-offset-1 col-sm-7">
-    {% for one in news %}
-      <div class="article-box">
-        <div class="article-header">
-          <h2 class="article-title">
-            <a href="{{ url_for('main.news', url=one.url) }}">{{ one.title }}</a>
-            {% if one.is_top %}
-            <label class="text-red pull-right"><i class="fa fa-thumb-tack"></i></label>
-            {% endif %}
-          </h2>
-          <div class="article-meta">
-            <span><i class="fa fa-calendar"></i> {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
-            <span><a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>
-            {% if current_user == one.user %}
-              <span><a href="{{ url_for('admin.edit_news', p=one.id) }}">edit</a></span>
-            {% endif %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+  <title>CUIT ACM Team</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/bootstrap/css/bootstrap.min.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  {%- block head -%}{%- endblock -%}
+</head>
+<body>
+<div class="site-wrapper">
+  <div class="site-wrapper-inner">
+    <div class="cover-container">
+      <div class="masthead">
+          <h3 class="masthead-brand">CUIT ACM Team</h3>
+          <nav>
+            <ul class="nav masthead-nav">
+              <li class="active"><a href="{{ url_for('main.index') }}">Home</a></li>
+              <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>
+              <li><a href="{{ url_for('main.login') }}">登录</a></li>
+            </ul>
+          </nav>
+      </div>
+      <div class="cover">
+        <div class="cover-heading">
+          <div class="background-code">
+            <ul>
+            <li>#include &lt;stdio.h&gt;</li>
+            <li><br></li>
+            <li>int main(int argc, char* argv[])&nbsp;{</li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;printf("Hello World\n");</li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;printf("<b class="important">CUIT ACM Team</b>\n");</li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;return 0;</li>
+            <li>}</li>
+            </ul>
           </div>
         </div>
-        <div class="article-body text-muted">
-          {{ one.md_shortcut|safe }}
-        </div>
-        <a href="{{ url_for('main.news',url=one.url) }}" class="article-more-link btn btn-primary btn-flat">阅读全文 >></a>
-        <div class="article-footer">
-          <i class="fa fa-tags"></i>
-          {% for tag in one.tags %}
-            <span><a href="{{ url_for('main.news_archive', tag=tag.name) }}" class="label label-default"> {{ tag.name }}</a></span>
-          {% endfor %}
-        </div>
       </div>
-    {% endfor %}
-  </div>
-  <div class="col-sm-3">
-  {% if recent_news != [] %}
-    <div class="box box-primary">
-      <div class="box-header">
-        <h3 class="box-title">近期新闻</h3>
-      </div>
-      <div class="box-body no-padding">
-        <ul class="recent_articles">
-          {% for news in recent_news %}
-            <li><a href="{{ url_for('main.news', url=news.url) }}">{{ news.title }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  {% endif %}
-  {% if tags != [] %}
-   <div class="box box-primary">
-      <div class="box-header">
-        <h3 class="box-title">标签云</h3>
-      </div>
-      <div class="box-body no-padding">
-        <div class="tags_cloud">
-          {% for tag in tags %}
-            <a href="{{ url_for('main.news_archive', tag=tag.name) }}" class="btn btn-sm">{{ tag.name }}</a>
-          {% endfor %}
+      <div class="mastfoot">
+        <div class="inner">
+          <p> Copyright  &copy; 2015 &nbsp; <a href="#" onclick="return false;">CUIT ACM Team</a>.
+          </p>
         </div>
       </div>
     </div>
-  {% endif %}
   </div>
 </div>
-{% endblock %}
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/bootstrap/js/bootstrap.min.js') }}"></script>
+</body>
+</html>
 
-{% block script %}
-  <script src="{{ url_for('static', filename='scripts/highlight.pack.js') }}"></script>
-  <script type="text/javascript">
-    hljs.initHighlightingOnLoad();
-    $(document).ready(function(){
-        var btn_color = ['btn-primary', 'btn-success', 'btn-info', 'btn-danger', 'btn-warning', 'bg-maroon',
-        'bg-purple', 'bg-navy', 'bg-orange', 'bg-olive'];
-        $(".tags_cloud a").each(function(){
-            var $tag = $(this);
-            $tag.addClass(btn_color[parseInt(Math.random()*btn_color.length)]);
-            $tag.css('font-size',Math.random()*1.5+'em')
 
-        })
-    });
-  </script>
-{% endblock %}

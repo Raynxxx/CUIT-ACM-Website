@@ -28,13 +28,13 @@
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
                 <table class="table user-info">
-                  <tr><td><i class="fa fa-user"></i></td><td> 姓名</td>
+                  <tr><td><i class="fa fa-terminal"></i></td><td> 姓名</td>
                     <td>{{ user.name if user.name else '' }}</td></tr>
                   <tr><td><i class="fa fa-smile-o"></i></td><td> 昵称</td>
                     <td>{{ user.username if user.username else '' }}</td></tr>
                   <tr><td><i class="fa fa-transgender"></i></td><td> 性别</td>
                     <td>{{ '男' if user.gender else '女' }}</td></tr>
-                  <tr><td><i class="fa fa-calendar"></i></td><td>学号</td>
+                  <tr><td><i class="fa fa-user"></i></td><td>学号</td>
                     <td>{{ user.stu_id if user.stu_id else '' }}</td></tr>
                   <tr><td><i class="fa fa-envelope-o"></i> </td><td>邮箱</td>
                     <td>{{ user.email if user.email else '' }}</td></tr>
@@ -46,7 +46,7 @@
                     <td>{{ user.remark if user.remark else '' }}</td></tr>
                   <tr><td><i class="fa fa-calendar"></i></td><td> 创建时间</td>
                     <td>{{ user.create_time if user.create_time else '' }}</td></tr>
-                  <tr><td><i class="fa fa-calendar"></i></td><td> 状态</td>
+                  <tr><td><i class="fa fa-star"></i></td><td> 状态</td>
                     <td>
                       {% if user.active == 1 %}
                       <span class="label label-success">训练 ing</span>
@@ -63,7 +63,7 @@
                   {{ user_modify_form.hidden_tag() }}
                   {{ user_modify_form.id(style='display:none;') }}
                   <table class="table edit-user">
-                    <tr><td><i class="fa fa-user"></i></td><td> 姓名</td>
+                    <tr><td><i class="fa fa-terminal"></i></td><td> 姓名</td>
                       <td>{{ user_modify_form.name(class='form-control required', id="inputName",  placeholder="姓名") }}</td>
                     </tr>
                     <tr><td><i class="fa fa-transgender"></i></td><td> 性别</td>
@@ -73,7 +73,7 @@
                             {{ sub.label(style='margin-left:10px;') }}
                           </label>
                         {%- endfor %}</td></tr>
-                    <tr><td><i class="fa fa-calendar"></i></td><td>学号</td>
+                    <tr><td><i class="fa fa-user"></i></td><td>学号</td>
                       <td>{{ user_modify_form.stu_id(class='form-control', id="inputSno", placeholder="学号") }}</td>
                     </tr>
                     <tr><td><i class="fa fa-envelope-o"></i> </td><td>邮箱</td>
@@ -88,7 +88,7 @@
                     <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
                       <td>{{ user_modify_form.motto(class='form-control', id="inputMotto", placeholder="签名") }}</td>
                     </tr>
-                    <tr><td><i class="fa fa-calendar"></i></td><td> 状态 </td>
+                    <tr><td><i class="fa fa-star"></i></td><td> 状态 </td>
                       <td>{%- for sub in user_modify_form.active %}
                           <label class="radio-inline">
                             {{ sub }}

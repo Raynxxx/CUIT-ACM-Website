@@ -1,32 +1,38 @@
-{% for account in accounts %}
-    <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs pull-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    操作 <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li role="presentation"><a role="menuitem"  tabindex="-1" href="#">更新</a></li>
-                    <li role="presentation"><a role="menuitem"  tabindex="-1" href="{{ url_for('ajax.delete_account', username=user.username, oj_name=account['oj_name']) }}">删除</a></li>
-                </ul>
-            </li>
-            <li class="pull-left header"><i class="fa fa-angle-right"></i>{{ account['oj_name'] }}</li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="tab_1-1">
-                <p> <a class="btn btn-xs bg-purple btn-flat margin" href="#">账号:</a> <code>{{ account['account_name'] }}</code>
-                    <a class="btn btn-xs bg-orange btn-flat margin" href="#">{{account['status'] }}</a>
-                </p>
-                {% if account['oj_name'] in ['cf', 'bc'] %}
-                <canvas id="{{ account + '/' + str(account['rating']) + '/' + str(account['max_rating']) }}"
-                        class="sChart" width="120" height="120">
-                </canvas>
-                {% else %}
-                <canvas id="{{ account['oj_name'] + '/' + str(account['solved']) + '/' + str(account['submitted']) }}"
-                        class="sChart" width="120" height="120">
-                </canvas>
-                {% endif %}
-            </div><!-- /.tab-pane -->
-        </div><!-- /.tab-content -->
-    </div><!-- nav-tabs-custom -->
-{% endfor %}
+<tr id="account{{ account['id'] }}" class="account-item">
+  <td class="list-item-check">
+    <label><input type="radio" name="account" value="{{ account['id'] }}"></label>
+  </td>
+  <td class="list-item-oj">
+    <p>{{ account['oj_name'] }}</p>
+    <label class="oj-nickname label label-primary">{{ account['account_name'] }}</label>
+  </td>
+  <td class="list-item-status">
+    {% if account['status'] == '正常'  %}
+    <label class="label label-success">{{ account['status'] }}</label>
+    {% elif account['status'] == '未初始化' %}
+      <label class="label label-warning">{{ account['status'] }}</label>
+    {% elif account['status'] == '等待更新' %}
+      <label class="label label-primary">{{ account['status'] }}</label>
+    {% elif account['status'] == '正在更新' %}
+      <label class="label label-primary">{{ account['status'] }}</label>
+    {% elif account['status'] == '更新失败' %}
+      <label class="label label-danger">{{ account['status'] }}</label>
+    {% endif %}
+  </td>
+  <td class="list-item-info">
+    {%- if account['oj_name'] in ['Codeforces', 'BestCoder'] -%}
+    <p><span class="info-text">Rating</span>
+        <span class="info-num">{{ account['rating'] }}</span></p>
+      <p><span class="info-text">Max Rating</span>
+        <span class="info-num">{{ account['max_rating'] }}</span></p>
+    {%- else -%}
+      <p><span class="info-text">Accepted</span>
+        <span class="info-num">{{ account['solved'] }}</span></p>
+      <p><span class="info-text">Submitted</span>
+        <span class="info-num">{{ account['submitted'] }}</span></p>
+    {%- endif -%}
+  </td>
+  <td class="list-item-time text-muted">
+    {{ account['last_update_time'] }}
+  </td>
+</tr>

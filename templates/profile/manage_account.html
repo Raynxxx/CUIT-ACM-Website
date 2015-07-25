@@ -1,160 +1,166 @@
 {% extends "profile/base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
+{% endblock %}
+
 {% block content %}
-
-<div class="col-md-6">
-                    <div class="box box-solid">
-                        <div class="box-header">
-                            <i class="fa fa-th-list"></i>
-                            <h3 class="box-title">关联账号</h3>
-                        </div><!-- /.box-header -->
-                        <div class="box-body" id="account-box-body">
-                            <div class="nav-tabs-custom">
-                                    <ul class="nav nav-tabs pull-right">
-                                        <li class="dropdown">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                                操作 <span class="caret"></span>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li role="presentation"><a role="menuitem" target="_blank" tabindex="-1" href="node_json.php?id=13">配置文件</a></li>
-                                                <li role="presentation"><a role="menuitem" target="_blank" tabindex="-1" href="node_qr.php?id=13">二维码</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="pull-left header"><i class="fa fa-angle-right"></i> Tokyo,JP (IPv6)</li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tab_1-1">
-                                            <p> <a class="btn btn-xs bg-purple btn-flat margin" href="#">地址:</a> <code>2400:8500:1301:732:a133:130:58:156a</code>
-                                                <a class="btn btn-xs bg-orange btn-flat margin" href="#">可用</a>
-                                                <a class="btn btn-xs bg-green btn-flat margin" href="#">aes-256-cfb</a>
-                                            </p>
-                                            <p> 东京节点的IPv6地址</p>
-                                        </div><!-- /.tab-pane -->
-                                    </div><!-- /.tab-content -->
-                                </div><!-- nav-tabs-custom -->
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
-                </div>
-
 <div class="row">
-  <div class="col-md-6">
-    <div class="box box-default">
+  <div class="col-sm-12">
+    <div class="box box-primary list-box">
       <div class="box-header with-border">
-        <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>添加/修改账号</span></h3>
+        <h3 class="box-title"><i class="fa fa-tasks"></i> 已关联 OJ 账号列表</h3>
       </div>
-      <form id="accountForm" method="post">
-        <div class="box-body">
-          {{ form.hidden_tag() }}
-          <div class="form-group">
-            {{ form.oj_name(class='form-control required', id="iOjname", placeholder="OJ") }}
+      <div class="box-body no-padding">
+        <div class="list-box-controls">
+            <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
+              <i class="fa fa-trash-o"></i> 删除
+            </button>
+            <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
+            <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i>
+              添加</a>
           </div>
-          <div class="form-group">
-            {{ form.nickname(class='form-control required', id="iNickname", placeholder="用户名") }}
-          </div>
-          <div class="form-group">
-            {{ form.password(class='form-control required', id="iPassword", placeholder="密码") }}
-          </div>
-          <div class="alert alert-error alert-block"  id="add-info" style="margin: 20px auto 5px auto;display: none">
-            <button type="button" class="close">&times;</button>
-            <span id="add-info-text"></span>
+        <table class="table table-bordered table-hover table-striped list-table">
+          <thead>
+          <tr><th>选择</th><th>OJ 账号</th><th>状态</th><th>统计信息</th><th>最后更新</th></tr>
+          </thead>
+          <tbody class="list-table-body"></tbody>
+          <tfoot>
+          <tr><th>选择</th><th>OJ 账号</th><th>状态</th><th>统计信息</th><th>最后更新</th></tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="box-footer no-padding">
+          <div class="list-box-controls">
+            <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
+              <i class="fa fa-trash-o"></i> 删除
+            </button>
+            <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
+            <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i>
+              添加</a>
           </div>
         </div>
-        <div class="box-footer">
-          {{ form.submit(class='btn btn-block btn-primary pull-right') }}
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="box box-default">
-      <div class="box-header with-border">
-        <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>提示</span></h3>
-      </div>
-      <div class="box-body">
-        <ul>
-          <li>Codeforce不需要提供密码,随便输入即可。</li>
-          <li>UVA不需要提供用户名,可以谁便输入;但是需要提供UVA的user id。可以到UVA看下自己的id。</li>
-          <li>账号正在更新时不能修改账号。</li>
-          <li>每个OJ只能添加一个账号，重复添加会覆盖之前的账号。</li>
-        </ul>
+      <div class="overlay">
+        <i class="fa fa-refresh fa-spin"></i>
       </div>
     </div>
   </div>
 </div>
+<div class="modal fade" id="myModal" style="margin-top: 50px;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 1.4em;">是否确定删除当前选定用户！</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-flat delete_user">确定删除</button>
+        <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="row">
+    <div class="col-md-6">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>添加/修改账号</span></h3>
+        </div>
+        <form id="accountForm" method="post">
+          <div class="box-body">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+              {{ form.oj_name(class='form-control required', id="iOjname", placeholder="OJ") }}
+            </div>
+            <div class="form-group">
+              {{ form.nickname(class='form-control required', id="iNickname", placeholder="用户名") }}
+            </div>
+            <div class="form-group">
+              {{ form.password(class='form-control required', id="iPassword", placeholder="密码") }}
+            </div>
+            <div class="alert alert-error alert-block" id="add-info" style="margin: 20px auto 5px auto;display: none">
+              <button type="button" class="close">&times;</button>
+              <span id="add-info-text"></span>
+            </div>
+          </div>
+          <div class="box-footer">
+            {{ form.submit(class='btn btn-block btn-primary pull-right') }}
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>提示</span></h3>
+        </div>
+        <div class="box-body">
+          <ul>
+            <li>Codeforce不需要提供密码,随便输入即可。</li>
+            <li>UVA不需要提供用户名,可以谁便输入;但是需要提供UVA的user id。可以到UVA看下自己的id。</li>
+            <li>账号正在更新时不能修改账号。</li>
+            <li>每个OJ只能添加一个账号，重复添加会覆盖之前的账号。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
 {%- block script -%}
-    <script src="{{ url_for('static', filename='AdminLTE2/plugins/chartjs/Chart.min.js') }}"></script>
-    <script>
-        function gaoPieChart(field, p1, p2, label_info) {
-            var data = [
-                {value: p1, color: "#0075b0", label: label_info[0]},
-                {value: (parseInt(p2) - parseInt(p1)), color: "#949FB1", label: label_info[1]}
-            ];
-            var cur = field.getContext('2d');
-            var myNewChart = new Chart(cur).Pie(data);
+  <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+  <script>
+    function make_iCheck() {
+      $('.list-box input[type="checkbox"], .list-box input[type="radio"]').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+      });
+    }
+    function LoadAccountInfo() {
+      $('.list-box > div.overlay').fadeIn(300, make_iCheck());
+      $.post("{{ url_for('ajax.account_info_list', username=user.username) }}").success(function (ret) {
+        var length = ret.length;
+        var account_list = ret.account_list;
+        if (length == 0) {
+
+        } else {
+          var $list_table = $('.list-table-body').first();
+          $list_table.empty();
+          for (var i = 0; i < length; ++i) {
+            $list_table.append(account_list[i]);
+          }
         }
-        function gaoBarChart(field, p1, p2, label_info) {
-            var data = {
-                labels: [label_info[0]],
-                datasets : [
-                    { fillColor : "rgba(0, 117, 176, 0.5)", strokeColor : "rgba(151, 187, 205, 1)", data : [p1] },
-                    { fillColor : "rgba(148, 159, 177, 0.5)", strokeColor : "rgba(220, 220, 220, 1)", data : [p2] }
-                ]
-            };
-            var cur = field.getContext('2d');
-            var myNewChart = new Chart(cur).Bar(data);
+        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+      });
+
+    }
+    $(document).ready(function () {
+      make_iCheck();
+      LoadAccountInfo();
+      $("button.close").click(function () {
+        $(".alert").slideUp();
+      });
+      $('#accountForm').submit(function () {
+        var oj_field = $('#iOjname');
+        var name_field = $('#iNickname');
+        var pwd_field = $('#iPassword');
+        if (requiredCheck(name_field, '用户名') &&
+                requiredCheck(pwd_field, '密码')) {
+          $.post("{{ url_for('ajax.account_manager', username=user.username) }}", $('#accountForm').serialize()).success(
+              function (data) {
+                $("#add-info-text").html(data);
+                $("#add-info").hide().fadeIn(200);
+                LoadAccountInfo();
+              }
+          );
         }
-
-        function drawChart() {
-            $('.sChart').each(function() {
-                var all_data = $(this).attr('id').split('/');
-                var label = all_data[0];
-                var p1 = all_data[1];
-                var p2 = all_data[2];
-                var label_info;
-                if (label == 'cf' || label == 'bc') {
-                    label_info = ['Rating', 'Max Rating'];
-                    gaoBarChart(this, p1, p2, label_info);
-                } else {
-                    label_info = ['Accepted', 'Wrong Answer'];
-                    gaoPieChart(this, p1, p2, label_info);
-                }
-            });
-        }
-
-
-        $(document).ready(function(){
-            $("button.close").click(function () {
-                $(".alert").slideUp();
-            });
-
-            function LoadAccountInfo() {
-                $.post("{{ url_for('ajax.account_info', username=user.username) }}").success(function(data){
-                    var box = $('#account-box-body');
-                    box.empty();
-                    box.html(data);
-                    drawChart();
-                });
-            }
-
-            LoadAccountInfo();
-
-            $('#accountForm').submit(function () {
-                var oj_field = $('#iOjname');
-                var name_field = $('#iNickname');
-                var pwd_field = $('#iPassword');
-                if (requiredCheck(name_field, '用户名') &&
-                    requiredCheck(pwd_field, '密码')) {
-                    $.post("{{ url_for('ajax.account_manager', username=user.username) }}", $('#accountForm').serialize()).success(
-                            function (data) {
-                                $("#add-info-text").html(data);
-                                $("#add-info").hide().fadeIn(200);
-                                LoadAccountInfo();
-                            }
-                    );
-                }
-                return false;
-            });
-        })
-    </script>
+        return false;
+      });
+    })
+  </script>
 {%- endblock -%}

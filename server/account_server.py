@@ -7,6 +7,7 @@ from dao.dbACCOUNT import AccountStatus
 class AccountUpdatingException(BaseException):
     pass
 
+
 def add_account(user, param):
     account = Account(param.oj_name.data, param.nickname.data, param.password.data, user)
     account.save()
@@ -30,13 +31,19 @@ def modify_account(origin, param):
     origin.delete()
     account.save()
 
-def get_account_info(user):
+def get_account_info_list(user):
     accounts = user.account
-    status_mapper = {AccountStatus.NORMAL:u'正常',AccountStatus.NOT_INIT:u'未初始化',
-        AccountStatus.WAIT_FOR_UPDATE:u'等待更新',AccountStatus.UPDATING:u'正在更新', AccountStatus.UPDATE_ERROR:u'更新失败'}
+    status_mapper = {
+        AccountStatus.NORMAL:           u'正常',
+        AccountStatus.NOT_INIT:         u'未初始化',
+        AccountStatus.WAIT_FOR_UPDATE:  u'等待更新',
+        AccountStatus.UPDATING:         u'正在更新',
+        AccountStatus.UPDATE_ERROR:     u'更新失败'
+    }
     data = []
     for account in accounts:
         account_info = account.get_problem_count()
+        account_info['id'] = account.id
         account_info['account_name'] = account.nickname
         account_info['oj_name'] = OJ_MAP[account.oj_name]
         account_info['status'] = status_mapper[int(account.update_status)]

@@ -25,30 +25,30 @@
   <![endif]-->
   {%- block head -%}{%- endblock -%}
 </head>
-<body class="login-page">
+<body class="login-page" style="background-color: #333;">
 <div class="login-box">
-  <div class="login-logo">
-    <a href="{{ url_for('main.index') }}">CUIT <b>ACM</b> Team</a>
+  <div class="login-logo" style="font-size: 48px">
+    <a href="{{ url_for('main.index') }}" style="color: #eee;">CUIT <b>ACM</b> Team</a>
   </div>
   <div class="login-box-body">
     <form id="loginForm" method="post" action="{{ url_for('main.login') }}">
-      {{ form.hidden_tag() }}
+      {{ login_form.hidden_tag() }}
       <div class="form-group has-feedback">
-        {{ form.username(class='form-control required', id="inputUsername", placeholder="用户名") }}
+        {{ login_form.username(class='form-control required', id="inputUsername", placeholder="用户名") }}
         <span class="fa fa-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        {{ form.password(class='form-control required', id="inputPassword", placeholder="密码") }}
+        {{ login_form.password(class='form-control required', id="inputPassword", placeholder="密码") }}
         <span class="fa fa-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
-            <label style="margin-right: 5px;">{{ form.remember_me }}</label> 记住我
+            <label style="margin-right: 5px;">{{ login_form.remember_me }}</label> 记住我
           </div>
         </div>
         <div class="col-xs-4">
-          {{ form.submit(class='btn btn-primary btn-block btn-flat') }}
+          {{ login_form.submit(class='btn btn-primary btn-block btn-flat') }}
         </div>
       </div>
       {%- with messages = get_flashed_messages() -%}

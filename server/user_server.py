@@ -24,6 +24,8 @@ def update_user(user_form, user_rights=None, for_self = False):
     has_user = User.query.filter_by(id = user_form.id.data).first()
     if not has_user:
         return u"该用户不存在"
+    if has_user.is_admin:
+        user_rights = user_rights | 4
     has_user.name = user_form.name.data
     has_user.school = user_form.school.data
     has_user.gender = True if user_form.gender.data == '1' else False

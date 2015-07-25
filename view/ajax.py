@@ -23,7 +23,8 @@ ajax = blueprints.Blueprint('ajax', __name__)
 #
 @login_required
 def get_user_list_item(user):
-    return render_template('ajax/user_list_item.html', user=user)
+
+    return render_template('ajax/user_list_item.html', user=user, school_mapper=SCHOOL_MAP)
 
 #
 # @brief: ajax user list
@@ -233,6 +234,35 @@ def modify_pwd():
         return user_server.modify_password(current_user, pwd_form)
     return u"修改密码失败"
 
+
+#
+# @brief: ajax html for one account item
+# @allowed user: self, admin and coach
+#
+@login_required
+def get_account_item(account, user):
+    return render_template('ajax/account_info_item.html', account=account, user=user, str=str)
+
+
+#
+# @brief: add or modify account
+# @route: /account_manager
+# @accepted methods: [post]
+# @allowed user: administrator or the user
+# @ajax return: string
+#
+@ajax.route('/ajax/account_info_list', methods=['POST', 'GET'])
+@login_required
+def account_info_list():
+    try:
+        profile_user = user_server.get_by_username_or_404(request.args['username'])
+    except:
+        profile_user = current_user
+    account_info_list = account_server.get_account_info_list(profile_user)
+    return jsonify(account_list = [get_account_item(account_info, profile_user) for account_info in account_info_list],
+                   length = len(account_info_list))
+
+
 #
 # @brief: add or modify account
 # @route: /account_manager
@@ -310,16 +340,6 @@ def solution_manager():
     else:
         return u"发表文章失败,请检查内容"
 
-
-@ajax.route('/ajax/account_info', methods=['POST', 'GET'])
-@login_required
-def account_info():
-    try:
-        profile_user = user_server.get_by_username_or_404(request.args['username'])
-    except:
-        profile_user = current_user
-    data = account_server.get_account_info(profile_user)
-    return render_template('ajax/account_info_item.html', user=profile_user ,accounts=data, str=str)
 
 
 @ajax.route('/ajax/fitch_status/<oj_name>', methods=['POST'])
