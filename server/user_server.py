@@ -21,8 +21,9 @@ def create_user(user_form, user_rights):
 
 
 def update_user(user_form, user_rights = 0, for_self = False):
-    has_user = User.query.filter_by(id = user_form.id.data).first()
+    has_user = User.query.filter_by(id = user_form.id.data).with_lockmode('update').first()
     if not has_user:
+        db.session.commit()
         return u"该用户不存在"
     if has_user.is_admin:
         user_rights = user_rights | 4
@@ -42,9 +43,11 @@ def update_user(user_form, user_rights = 0, for_self = False):
 
 
 def delete_by_id(user_id):
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(id=user_id).with_lockmode('update').first()
     if user:
         user.delete()
+    else :
+        db.session.commit()
 
 
 def get_by_id(user_id):

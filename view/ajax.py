@@ -7,7 +7,7 @@ from util import json, CJsonEncoder
 from werkzeug.utils import secure_filename
 from flask import request, jsonify
 from sqlalchemy.exc import IntegrityError
-from server.account_server import AccountUpdatingException
+from server.account_server import AccountUpdatingException, AccountExistException
 
 #
 # @blueprint: ajax
@@ -321,6 +321,8 @@ def account_manager():
                 account_server.add_account(profile_user, account_form)
                 return u"ok"
         except AccountUpdatingException, e:
+            return 'ERROR: ' + e.message
+        except AccountExistException, e:
             return 'ERROR: ' + e.message
         except:
             return 'ERROR: unknown error'
