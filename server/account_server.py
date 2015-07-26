@@ -25,22 +25,38 @@ def delete_account_by_id(user, account_id):
             raise AccountUpdatingException(u'Account is updating')
         Submit.query.filter(Submit.user == user, Submit.oj_name == account.oj_name).delete()
         db.session.commit()
-        account.user.update_score()
+        account_user_id = account.user.id
         account.delete()
+        account_user = User.query.filter(User.id==account_user_id).with_lockmode('update').first()
+        account_user.update_score()
+        account_user.save()
+    else :
+        db.session.commit()
 
 
 def delete_account(user, oj_name):
-    account = Account.query.filter(Account.user == user, Account.oj_name == oj_name).first()
+    account = Account.query.filter(Account.user == user, Account.oj_name == oj_name).with_lockmode('update').first()
     if account:
         if account.update_status == AccountStatus.UPDATING:
             raise AccountUpdatingException('Account is updating')
         Submit.query.filter(Submit.user == user, Submit.oj_name == oj_name).delete()
         db.session.commit()
-        account.user.update_score()
+        account_user_id = account.user.id
         account.delete()
+        account_user = User.query.filter(User.id==account_user_id).with_lockmode('update').first()
+        account_user.update_score()
+        account_user.save()
+    else :
+        db.session.commit()
 
-def update_account_by_id(user, account_id):
-    account = Account.query.filter_by(id = account_id).first()
+def update_account_by_id(account_id):
+    account = Account.query.filter(Account.id == account_id, Account.update_status==AccountStatus.NORMAL)\
+        .with_lockmode('update').first()
+    if not account:
+        db.session.commit()
+    else:
+        account.update_status = AccountStatus.WAIT_FOR_UPDATE
+        account.save()
 
 def modify_account(origin, param):
     if origin.update_status == AccountStatus.UPDATING:
