@@ -110,9 +110,13 @@
               {% endif %}
               </div><!-- /.tab-pane -->
               <div class="tab-pane" id="tab_2">
-                <table class="table table-no-border">
-                  <tr><td>本周提交数</td><td><span class="label label-default">{{ stat['weekly_submit'] }}</span></td></tr>
-                  <tr><td>总提交数</td><td><span class="label label-default">{{ stat['total_submit'] }}</span></td></tr>
+                <table class="table user-info">
+                  <tr><td><i class="fa fa-bar-chart"></i> </td><td>本周提交数</td>
+                    <td>{{ stat['weekly_submit'] }}</td>
+                  </tr>
+                  <tr><td><i class="fa fa-binoculars"></i></td><td>总提交数</td>
+                    <td>{{ stat['total_submit'] }}</td>
+                  </tr>
                 </table>
                 {% if user == current_user %}
                   <a class="btn btn-danger btn-flat btn-block"

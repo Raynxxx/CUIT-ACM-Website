@@ -18,10 +18,9 @@
             <button class="btn btn-default btn-sm to_delete_account" data-toggle="modal" data-target="#myModal">
               <i class="fa fa-trash-o"></i>&nbsp; 删除
             </button>
-            <button class="btn btn-default btn-sm to_edit_account"><i class="fa fa-pencil-square-o"></i>&nbsp; 修改</button>
-            <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> &nbsp; 更新账户</button>
+            <button class="btn btn-default btn-sm update-account"><i class="fa fa-refresh"></i> &nbsp; 更新统计信息</button>
             <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2">
-              <i class="fa fa-user-plus"></i>&nbsp; 添加</button>
+              <i class="fa fa-user-plus"></i>&nbsp; 添加 / 修改</button>
           </div>
         <table class="table table-bordered table-hover table-striped list-table">
           <thead>
@@ -38,12 +37,9 @@
             <button class="btn btn-default btn-sm to_delete_account" data-toggle="modal" data-target="#myModal">
               <i class="fa fa-trash-o"></i> &nbsp; 删除
             </button>
-            <button class="btn btn-default btn-sm to_edit_account">
-              <i class="fa fa-pencil-square-o"></i> &nbsp; 修改
-            </button>
-            <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> &nbsp; 更新账户</button>
+            <button class="btn btn-default btn-sm update-account"><i class="fa fa-refresh"></i> &nbsp; 更新统计信息</button>
             <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2">
-              <i class="fa fa-user-plus"></i>&nbsp; 添加
+              <i class="fa fa-user-plus"></i>&nbsp; 添加 / 修改
             </button>
           </div>
         </div>
@@ -83,7 +79,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">添加账户</h4>
+        <h4 class="modal-title">添加 / 修改账户</h4>
       </div>
         <form id="accountForm" method="post"  class="form-sign">
       <div class="modal-body">
@@ -173,7 +169,7 @@
       $('button.to_refresh').click(function() {
         loadAccountInfo();
       });
-      $('.to_delete_account, .to_edit_account').click(function() {
+      $('.to_delete_account, .to_edit_account, .update-account').click(function() {
         var $checked = $('input[name="account"]:checked');
         if ($checked.length <= 0) {
           return false;
@@ -182,6 +178,16 @@
       $('.delete_account').click(function() {
         var $checked = $('input[name="account"]:checked').val();
         deleteAccount($checked);
+      });
+      $('.update-account').click(function() {
+        var $checked = $('input[name="account"]:checked').val();
+        var data = {
+          'account_id': $checked,
+          'user_id': {{ user.id }}
+        };
+        $.post("{{ url_for('ajax.update_account') }}", data).success(function(ret) {
+          loadAccountInfo();
+        });
       });
       $('#accountForm').submit(function () {
         var oj_field = $('#iOjname');
