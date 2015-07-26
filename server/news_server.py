@@ -18,9 +18,10 @@ def generate_tags(data):
     return tag_list
 
 def post(form, user, is_draft):
-    has_news = News.query.filter(News.id == form.sid.data).first()
+    has_news = News.query.filter(News.id == form.sid.data).with_lockmode('update').first()
     tags = generate_tags(form.tags.data)
     if has_news and not user.is_admin and user != has_news.user:
+        db.session.commit()
         raise Exception(u'没有权限')
     if not has_news:
         has_news = News(form.title.data,form.shortcut.data,form.content.data, form.url.data, form.is_top.data, user)
@@ -60,9 +61,11 @@ def get_by_url(url):
     return News.query.filter(News.url == url).first_or_404()
 
 def delete_by_id(sid):
-    one = News.query.filter(News.id == sid).first()
+    one = News.query.filter(News.id == sid).with_lockmode('update').first()
     if one:
         one.delete()
+    else :
+        db.session.commit()
 
 def get_archive():
     archive = db.session\

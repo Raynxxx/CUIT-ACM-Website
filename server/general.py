@@ -63,11 +63,11 @@ def check_update_status(user):
 
 def update_user_status(user):
     if user.account:
-        accounts = user.account.all()
+        accounts = user.account.filter(Account.update_status==AccountStatus.NORMAL).with_lockmode('update').all()
         for account in accounts:
-            if account and account.update_status != AccountStatus.UPDATING:
                 account.update_status = AccountStatus.WAIT_FOR_UPDATE
                 account.save()
+        db.session.commit()
 
 
 def recrawl_status(oj_name, run_id):
