@@ -145,7 +145,7 @@ def edit_news():
         return redirect(url_for('main.index'))
     try:
         one = news_server.get_by_id(request.args['p'])
-        if one.user != current_user:
+        if one.user != current_user and (not current_user.is_admin and not current_user.is_coach):
             raise Exception(u"你没有权限修改该文章")
     except :
         return redirect(url_for('main.index'))

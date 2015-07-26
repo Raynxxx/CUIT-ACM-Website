@@ -34,7 +34,6 @@ def get_user_list_item(user):
 @login_required
 def get_user_list():
     if not current_user.is_admin and not current_user.is_coach:
-        print u"你没有权限访问该模块"
         return redirect(url_for('index'))
     global users, sum
     offset = request.form.get('offset')
@@ -59,7 +58,6 @@ def get_user_list():
 @login_required
 def create_user():
     if not current_user.is_admin and not current_user.is_coach:
-        print u"你没有权限访问该模块"
         return redirect(url_for('index'))
     reg_form = form.RegisterForm()
     if reg_form.validate_on_submit():
@@ -89,7 +87,6 @@ def create_user():
 @login_required
 def edit_user():
     if not current_user.is_admin and not current_user.is_coach:
-        print u"你没有权限访问该模块"
         return redirect(url_for('index'))
     user_modify_form = form.UserModifyForm()
     if user_modify_form.validate_on_submit():

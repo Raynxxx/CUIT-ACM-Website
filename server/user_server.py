@@ -10,7 +10,7 @@ def create_user(user_form, user_rights):
     new_user = User(username = user_form.username.data,
                 name = user_form.name.data,
                 password = user_form.password.data,
-                school = SCHOOL_MAP[user_form.school.data],
+                school = user_form.school.data,
                 gender = True if user_form.gender.data == '1' else False,
                 email = user_form.email.data)
     new_user.rights = user_rights
@@ -43,11 +43,8 @@ def update_user(user_form, user_rights = 0, for_self = False):
 
 
 def delete_by_id(user_id):
-    user = User.query.filter_by(id=user_id).with_lockmode('update').first()
-    if user:
-        user.delete()
-    else :
-        db.session.commit()
+    User.query.filter_by(id=user_id).with_lockmode('update').delete()
+    db.session.commit()
 
 
 def get_by_id(user_id):
