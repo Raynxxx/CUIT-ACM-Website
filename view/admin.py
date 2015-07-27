@@ -112,7 +112,7 @@ def edit_user():
 @login_required
 def manage_news():
     if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('admin.index'))
     return render_template('admin/manage_news.html', title=u'新闻管理')
 
 
@@ -126,7 +126,7 @@ def manage_news():
 @login_required
 def post_news():
     if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('admin.manage_news'))
     news_form = form.NewsForm()
     my_button = [u"保存草稿", u"直接发布"]
     return render_template('post_news.html', title=u'发布新闻', action=u'发布新闻',
@@ -145,10 +145,8 @@ def edit_news():
         return redirect(url_for('main.index'))
     try:
         one = news_server.get_by_id(request.args['p'])
-        if one.user != current_user and (not current_user.is_admin and not current_user.is_coach):
-            raise Exception(u"你没有权限修改该文章")
     except :
-        return redirect(url_for('main.index'))
+        return redirect(url_for('admin.manage_news'))
     news_form = form.NewsForm()
     if one:
         news_form.sid.data = one.id
