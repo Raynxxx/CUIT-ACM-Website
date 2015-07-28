@@ -28,4 +28,6 @@ OJ_MAP = {
 CSRF_ENABLED = True
 IMAGE_FILE_PATH = 'static/image/bookimg/'
 SECRET_KEY = 'a very hard string'
+from datetime import timedelta
+REMEMBER_COOKIE_DURATION = timedelta(days=1)
 
