@@ -23,8 +23,9 @@ ajax = blueprints.Blueprint('ajax', __name__)
 #
 @login_required
 def get_user_list_item(user):
-
-    return render_template('ajax/user_list_item.html', user=user, school_mapper=SCHOOL_MAP)
+    return render_template('ajax/user_list_item.html',
+                           user = user,
+                           school_mapper = SCHOOL_MAP)
 
 #
 # @brief: ajax user list
@@ -41,9 +42,9 @@ def get_user_list():
     if current_user.is_admin:
         users = user_server.get_list(offset, limit)
         sum = user_server.get_count()
-    if not current_user.is_admin and current_user.is_coach:
-        users = user_server.get_list(offset, limit, is_admin=False, school=current_user.school)
-        sum = user_server.get_count(is_admin=False, school=current_user.school)
+    elif current_user.is_coach:
+        users = user_server.get_list(offset, limit, school=current_user.school)
+        sum = user_server.get_count(school=current_user.school)
     return jsonify(user_list=[get_user_list_item(user) for user in users],
                    sum=sum, offset=int(offset), limit=len(users))
 
@@ -66,6 +67,8 @@ def create_user():
             rights = 0
             for item in rights_list:
                 rights = rights | int(item)
+            print reg_form.school
+            print reg_form.school.data
             ret = user_server.create_user(reg_form, rights)
             if ret == 'OK':
                 return u"添加用户成功"
@@ -165,10 +168,15 @@ def get_news_list():
         print "你没有权限访问该模块"
         return redirect(url_for('main.index'))
 
+    global news_list, sum
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    news_list = news_server.get_list(offset, limit, show_draft=True)
-    sum = news_server.get_count(show_draft=True)
+    if current_user.is_admin:
+        news_list = news_server.get_list(offset, limit, show_draft=True)
+        sum = news_server.get_count(show_draft=True)
+    elif current_user.is_coach:
+        news_list = news_server.get_list(offset, limit, show_draft=True, coach=current_user)
+        sum = news_server.get_count(show_draft=True, coach=current_user)
     return jsonify(news_list=[get_news_list_item(news) for news in news_list],
                    sum=sum, offset=int(offset), limit=len(news_list))
 

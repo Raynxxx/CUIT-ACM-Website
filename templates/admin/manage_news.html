@@ -123,12 +123,12 @@
     var data = { 'news_id': checked };
     $.post("{{ url_for('ajax.delete_news') }}", data).success(function(ret) {
       $('.closeModal').click();
-      get_news_list(0, 15);
+      get_news_list(0, {{ limit }});
     });
   }
   $(function () {
     make_iCheck();
-    var limit = 15;
+    var limit = {{ limit }};
     get_news_list(0, limit);
     $('button.to_refresh').click(function() {
       get_news_list(0, limit);

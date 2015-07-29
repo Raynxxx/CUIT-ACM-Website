@@ -31,3 +31,7 @@ SECRET_KEY = 'a very hard string'
 from datetime import timedelta
 REMEMBER_COOKIE_DURATION = timedelta(days=1)
 
+## some config for front end
+NEWS_PER_PAGE = 5
+USER_MANAGE_PER_PAGE = 5
+NEWS_MANAGE_PER_PAGE = 10
