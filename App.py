@@ -1,6 +1,8 @@
 # coding=utf-8
 from flask import Flask
 from flask.ext.login import LoginManager
+from flask.ext.uploads import (configure_uploads, patch_request_class)
+from server.resource_server import resource
 from dao.db import db
 from dao.dbBase import  User
 from view.admin import admin
@@ -36,6 +38,8 @@ def init():
     app.register_blueprint(admin)
     app.register_blueprint(profile)
     app.register_blueprint(ajax)
+    patch_request_class(app)
+    configure_uploads(app,resource)
 
 
 if __name__ == '__main__':

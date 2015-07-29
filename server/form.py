@@ -115,3 +115,9 @@ class BookForm(Form):
     introduce = TextAreaField(u'introduce', validators=[validators.DataRequired()])
     isbn = StringField(u'标题', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
+
+class FileUploadForm(Form):
+    name = StringField(u'name', validators=[validators.DataRequired(), validators.Length(min=1, max=48)])
+    description = TextAreaField(u'description', validators=[validators.Optional()])
+    upload = FileField(u'file')
+    submit = SubmitField(u'提交')

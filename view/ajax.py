@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 from __init__ import *
-from server import user_server, article_server, status_server, form, account_server, book_server, news_server
+from server import user_server, article_server, status_server, form, account_server, book_server, news_server, resource_server
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
 from werkzeug.utils import secure_filename
@@ -60,7 +60,7 @@ def get_user_list():
 @login_required
 def create_user():
     if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     reg_form = form.RegisterForm()
     if reg_form.validate_on_submit():
         try:
@@ -91,7 +91,7 @@ def create_user():
 @login_required
 def edit_user():
     if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     user_modify_form = form.UserModifyForm()
     if user_modify_form.validate_on_submit():
         try:
@@ -161,7 +161,7 @@ def modify_password():
 def delete_user():
     if not current_user.is_admin and not current_user.is_coach:
         print u"你没有权限访问该模块"
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     try:
         id = request.form.get('user_id')
         user_server.delete_by_id(id)
@@ -417,6 +417,62 @@ def add_book():
                 file.save(book_form.shortcut.data)
             book_server.add_book(book_form)
             return 'ok'
+        except Exception, e:
+            return 'error:' + e.message
+    return 'error:数据填写有误'
+
+
+@login_required
+def get_resource_list_item(resource):
+    return render_template('ajax/resource_list_item.html',
+                           resource = resource, url=resource_server.url)
+#
+# @brief: ajax resource list
+# @allowed user: admin coach
+#
+@ajax.route('/ajax/resource_list', methods=['POST'])
+@login_required
+def get_resource_list():
+    if not current_user.is_admin and not current_user.is_coach:
+        print "你没有权限访问该模块"
+        return redirect(url_for('main.index'))
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    resource_list = list()
+    sum = 0
+    if current_user.is_admin:
+        resource_list = resource_server.get_list(offset, limit)
+        sum = resource_server.get_count()
+    elif current_user.is_coach:
+        resource_list = resource_server.get_list(offset, limit, coach=current_user)
+        sum = resource_server.get_count(coach=current_user)
+    return jsonify(news_list=[get_resource_list_item(resource) for resource in resource_list],
+                   sum=sum, offset=int(offset), limit=len(resource_list))
+
+@ajax.route("/ajax/delete_resource", methods = ['POST'])
+@login_required
+def delete_resource():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    try:
+        resource_id = request.form.get('resource_id')
+        msg = resource_server.delete_file(resource_id)
+        return msg
+    except:
+        return u'删除失败'
+
+@ajax.route('/ajax/upload', methods=['POST'])
+@login_required
+def upload():
+    file_form = form.FileUploadForm()
+    if file_form.validate_on_submit():
+        try:
+            if file_form.upload.data:
+                file = request.files[file_form.upload.name]
+                msg = resource_server.save_file(file_form, file, current_user)
+                return msg
+            else:
+                return 'error:没有上传数据'
         except Exception, e:
             return 'error:' + e.message
     return 'error:数据填写有误'
