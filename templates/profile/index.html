@@ -24,6 +24,9 @@
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">个人信息</a></li>
               <li><a href="#tab_2" data-toggle="tab">统计信息</a></li>
+              {% if user == current_user %}
+                <li><a href="#tab_3" data-toggle="tab">修改密码</a></li>
+              {% endif %}
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -112,10 +115,10 @@
               <div class="tab-pane" id="tab_2">
                 <table class="table user-info">
                   <tr><td><i class="fa fa-bar-chart"></i> </td><td>本周提交数</td>
-                    <td>{{ stat['weekly_submit'] }}</td>
+                    <td>{{ statistic['weekly_submit'] }}</td>
                   </tr>
                   <tr><td><i class="fa fa-binoculars"></i></td><td>总提交数</td>
-                    <td>{{ stat['total_submit'] }}</td>
+                    <td>{{ statistic['total_submit'] }}</td>
                   </tr>
                 </table>
                 {% if user == current_user %}
@@ -123,29 +126,34 @@
                      href="{{ url_for('profile.update_account', username = user.username) }}">更新</a>
                 {% endif %}
               </div><!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_3">
+                {% if user == current_user %}
+                <form id="modifyPwdForm" method="post" class="form-horizontal">
+                  {{ pwd_modify_form.hidden_tag() }}
+                  {{ pwd_modify_form.id(style='display:none;') }}
+                  <table class="table edit-user">
+                    <tr><td><i class="fa fa-terminal"></i></td><td> 当前密码</td>
+                      <td>{{ pwd_modify_form.password(class='form-control required', id="inputPassword",  placeholder="当前密码") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-rocket"></i></td><td> 新密码</td>
+                      <td>{{ pwd_modify_form.new_password(class='form-control required', id="inputNewPassword",  placeholder="新密码") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-rocket"></i></td><td> 确认新密码</td>
+                      <td>{{ pwd_modify_form.new_password2(class='form-control required', id="inputNewPassword2",  placeholder="确认新密码") }}</td>
+                    </tr>
+                  </table>
+                  <div class="alert alert-danger col-sm-12" id="modify-pwd"
+                       style="display: none;margin-top: 10px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span id="modify-pwd-text"></span>
+                  </div>
+                  {{ pwd_modify_form.submit(class='btn btn-danger btn-flat btn-block', value='提交') }}
+                </form>
+              {% endif %}
+              </div>
             </div><!-- /.tab-content -->
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="col-md-5 hide">
-      <div class="box box-danger">
-        <div class="box-header with-border">
-          <h3 class="box-title"><i class="fa fa-binoculars"></i> <span>统计信息</span></h3>
-        </div>
-        <div class="box-body">
-          <table class="table table-no-border">
-            <tr><td>本周提交数</td><td><span class="label label-default">{{ stat['weekly_submit'] }}</span></td></tr>
-            <tr><td>总提交数</td><td><span class="label label-default">{{ stat['total_submit'] }}</span></td></tr>
-          </table>
-        </div>
-        {% if user == current_user %}
-        <div class="box-footer no-padding">
-          <a class="btn btn-block btn-danger btn-flat"
-             href="{{ url_for('profile.update_account', username = user.username) }}">更新</a>
-        </div>
-        {% endif %}
       </div>
     </div>
   </div>
@@ -188,9 +196,22 @@
           function (data) {
             $("#edit-info-text").html(data);
             $("#edit-info").fadeIn(200);
-            setTimeout(function() {
-              location.reload(true);
-            }, 800);
+          }
+        );
+      }
+      return false;
+    });
+    $('#modifyPwdForm').submit(function() {
+      var pwd_field = $('#inputPassword');
+      var new_pwd_field = $('#inputNewPassword');
+      var new_pwd_field2 = $('#inputNewPassword2');
+      if (requiredCheck(pwd_field, '当前密码') &&
+              requiredCheck(new_pwd_field, '新密码') &&
+              requiredCheck(new_pwd_field2, '确认新密码')) {
+        $.post("{{ url_for('ajax.modify_password') }}", $('#modifyPwdForm').serialize()).success(
+          function (data) {
+            $("#modify-pwd-text").html(data);
+            $("#modify-pwd").fadeIn(200);
           }
         );
       }

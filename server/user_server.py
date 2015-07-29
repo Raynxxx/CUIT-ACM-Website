@@ -81,15 +81,15 @@ def get_count(school=None):
     return count
 
 
-def modify_password(user, pwd_form):
-    user = get_by_username(pwd_form.username.data)
+def modify_password(pwd_modify_form, current_user):
+    user = get_by_id(pwd_modify_form.id.data)
     if not user:
         return u"不存在该用户"
-    if not user.is_admin and user != user:
+    if not user.is_admin and user != current_user:
         return u"你没有权限修改密码"
-    if pwd_form.password.data != pwd_form.verifypassword.data:
+    if pwd_modify_form.new_password.data != pwd_modify_form.new_password2.data:
         return u"两次输入的密码不同"
-    user.password = pwd_form.password.data
+    user.password = pwd_modify_form.new_password.data
     user.save()
     return u"修改密码成功"
 
@@ -102,29 +102,3 @@ def get_statistic(user):
     permit_date = permit_date.replace(hour=0, minute=0, second=0)
     statistic['weekly_submit'] = user.submit.filter(Submit.submit_time > permit_date).count()
     return statistic
-
-
-def get_account_info(user):
-    have = []
-    not_have = []
-    if user.account:
-        accounts = user.account.all()
-        for account in accounts:
-            have.append(account.oj_name)
-    for oj_name in OJ_MAP:
-        if oj_name not in have:
-            not_have.append(oj_name)
-    return { 'have': have, 'not_have': not_have }
-
-
-def get_general_info(user, oj_name):
-    if not user.account:
-        return None
-    account = user.account.filter_by(oj_name=oj_name).first()
-    if account:
-        ret = account.get_problem_count()
-        ret['last_update_time'] = account.last_update_time
-        return ret
-    return None
-
-

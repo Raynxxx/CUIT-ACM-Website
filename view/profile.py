@@ -25,7 +25,6 @@ def index():
         profile_user = current_user
     statistic = user_server.get_statistic(profile_user)
     user_modify_form = form.UserModifyForm()
-
     user_modify_form.id.data = profile_user.id
     user_modify_form.name.data = profile_user.name
     user_modify_form.stu_id.data = profile_user.stu_id
@@ -36,12 +35,16 @@ def index():
     user_modify_form.school.data = profile_user.school
     user_modify_form.gender.data = '1' if profile_user.gender else '0'
     user_modify_form.active.data = '1' if profile_user.active else '0'
+    pwd_modify_form = form.PasswordModifyForm()
+    pwd_modify_form.id.data = profile_user.id
     return render_template('index.html',
                            title=u'你的主页',
                            user = profile_user,
                            user_modify_form = user_modify_form,
-                           stat = statistic,
+                           pwd_modify_form = pwd_modify_form,
+                           statistic = statistic,
                            school_mapper = SCHOOL_MAP)
+
 
 #
 # @brief: the OJ account management page
@@ -60,11 +63,17 @@ def manage_account():
         return u"没有权限"
     account_form = form.AccountForm()
     return render_template('manage_account.html',
-                           title = u'OJ账号管理',
-                           form=account_form,
-                           user=profile_user)
+                           title = u'OJ 账号管理',
+                           form = account_form,
+                           user = profile_user)
 
 
+#
+# @brief: update_account_status
+# @route: /profile/manage_account
+# @accepted methods: [get]
+# @allowed user: self, admin and coach
+#
 @profile.route('/profile/update_account', methods=['GET'])
 @login_required
 def update_account():
@@ -73,24 +82,9 @@ def update_account():
     except:
         profile_user = current_user
     if current_user == profile_user or current_user.is_admin or current_user.is_coach:
-        general.update_user_status(profile_user)
+        general.update_all_account_status(profile_user)
     return redirect(url_for('profile.index', username=profile_user.username))
 
-
-@profile.route('/profile/modify_info', methods=['GET'])
-@login_required
-def modify_info():
-    pwd_form = form.PasswordModifyForm()
-    user_modify_form = form.UserModifyForm()
-    user_modify_form.name.data = current_user.name
-    user_modify_form.email.data = current_user.email
-    user_modify_form.stu_id.data = current_user.stu_id
-    user_modify_form.phone.data = current_user.phone
-    user_modify_form.motto.data = current_user.remark
-    user_modify_form.school.data = current_user.school
-    user_modify_form.situation.data = current_user.situation
-    pwd_form.username.data = current_user.username
-    return render_template('modify_info.html', user=current_user, user_modify_form=user_modify_form, pwd_form=pwd_form)
 
 
 @profile.route('/profile/post_article', methods=['GET'])

@@ -14,6 +14,7 @@ class LoginForm(Form):
     remember_me = BooleanField('Remember me')
     submit = SubmitField(u'登录')
 
+
 class RegisterForm(Form):
     username = StringField('Username', validators=[validators.DataRequired(), validators.Length(min=1, max=24),
                     validators.Regexp('^[A-Za-z][A-Za-z0-9_.]*$', flags=0,
@@ -31,6 +32,7 @@ class RegisterForm(Form):
     email = StringField('Email', validators=[validators.DataRequired(), validators.Length(min=1, max=64), validators.Email()])
     submit = SubmitField(u'注册')
 
+
 class UserModifyForm(Form):
     id = IntegerField('id', validators=[validators.optional()])
     name = StringField('Name', validators=[validators.DataRequired()])
@@ -46,12 +48,15 @@ class UserModifyForm(Form):
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
     submit = SubmitField(u'提交')
 
+
 class PasswordModifyForm(Form):
-    username = StringField('Username', validators=[validators.DataRequired(), validators.Length(min=1, max=24)])
-    password = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24),
-                            validators.EqualTo('password2',message='Passwords must match.')])
-    password2 = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24)])
+    id = IntegerField('id', validators=[validators.optional()])
+    password = PasswordField('origin password', validators=[validators.DataRequired(), validators.Length(min=6, max=24)])
+    new_password = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24),
+                            validators.EqualTo('new_password2',message='Passwords must match.')])
+    new_password2 = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24)])
     submit = SubmitField(u'提交')
+
 
 class AccountForm(Form):
     nickname = StringField('Username', validators=[validators.DataRequired(), validators.Length(min=1, max=24),
@@ -62,6 +67,7 @@ class AccountForm(Form):
                           choices=[(oj, OJ_MAP[oj]) for oj in OJ_MAP],
                           default='bnu')
     submit = SubmitField(u'提交')
+
 
 class TagListField(Field):
     widget = widgets.TextInput()

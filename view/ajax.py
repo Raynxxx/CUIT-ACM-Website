@@ -36,9 +36,10 @@ def get_user_list_item(user):
 def get_user_list():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('index'))
-    global users, sum
     offset = request.form.get('offset')
     limit = request.form.get('limit')
+    users = list()
+    sum = 0
     if current_user.is_admin:
         users = user_server.get_list(offset, limit)
         sum = user_server.get_count()
@@ -131,6 +132,25 @@ def edit_user_self():
         return u"修改用户失败: 表单填写有误"
 
 #
+# @brief: modify password
+# @route: /ajax/modify_pwd
+# @accepted methods: [post]
+# @allowed user: all
+# @ajax return: 密码是否修改成功 => string
+#
+@ajax.route('/ajax/modify_password', methods=['POST'])
+@login_required
+def modify_password():
+    pwd_modify_form = form.PasswordModifyForm()
+    if pwd_modify_form.validate_on_submit():
+        if not current_user.verify_password(pwd_modify_form.password.data):
+            return u"当前密码输入错误"
+        return user_server.modify_password(pwd_modify_form, current_user)
+    print pwd_modify_form.errors
+    return u"修改密码失败"
+
+
+#
 # @brief: delete user
 # @route: /delete_user
 # @accepted methods: [post]
@@ -168,7 +188,8 @@ def get_news_list():
         print "你没有权限访问该模块"
         return redirect(url_for('main.index'))
 
-    global news_list, sum
+    news_list = list()
+    sum = 0
     offset = request.form.get('offset')
     limit = request.form.get('limit')
     if current_user.is_admin:
@@ -224,20 +245,6 @@ def post_news():
         return u"发表新闻失败,请检查内容"
 
 
-#
-# @brief: modify password
-# @route: /modify_pwd
-# @accepted methods: [post]
-# @allowed user: administrator or the user
-# @ajax return: 密码是否修改成功 => string
-#
-@ajax.route('/modify_pwd', methods=['POST'])
-@login_required
-def modify_pwd():
-    pwd_form = form.PasswordModifyForm()
-    if pwd_form.validate_on_submit():
-        return user_server.modify_password(current_user, pwd_form)
-    return u"修改密码失败"
 
 
 #

@@ -16,6 +16,7 @@ login_manager = LoginManager()
 def load_user(uid):
     return User.query.get(int(uid))
 
+
 def init():
     app.config.from_pyfile('config.py')
     db.init_app(app)
@@ -35,6 +36,7 @@ def init():
     app.register_blueprint(admin)
     app.register_blueprint(profile)
     app.register_blueprint(ajax)
+
 
 if __name__ == '__main__':
     init()
