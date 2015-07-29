@@ -36,16 +36,25 @@ def post(form, user, is_draft):
     has_news.tags = tags
     has_news.save()
 
-def get_count(show_draft=False):
-    return News.query.count() if show_draft else News.query.filter(News.is_draft==0).count()
+def get_count(show_draft=False, coach=None):
+    if show_draft and not coach:
+        return News.query.count()
+    elif show_draft and coach:
+        return News.query.filter(News.user==coach).count()
+    else:
+        return News.query.filter(News.is_draft==0).count()
 
-def get_list(offset=0, limit=10, show_draft=False):
-    if show_draft:
+def get_list(offset=0, limit=10, show_draft=False, coach=None):
+    if show_draft and not coach:
         return News.query\
             .order_by(News.is_top.desc(), News.last_update_time.desc())\
             .offset(offset).limit(limit).all()
+    elif show_draft and coach:
+        return News.query.filter(News.user == coach)\
+            .order_by(News.is_top.desc(), News.last_update_time.desc())\
+            .offset(offset).limit(limit).all()
     else:
-        return News.query.filter(News.is_draft==0)\
+        return News.query.filter(News.is_draft == 0)\
             .order_by(News.is_top.desc(), News.last_update_time.desc())\
             .offset(offset).limit(limit).all()
 

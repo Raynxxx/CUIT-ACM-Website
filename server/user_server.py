@@ -59,8 +59,8 @@ def get_by_username(username):
     return User.query.filter_by(username=username).first()
 
 
-def get_list(offset=0, limit=20, is_admin=True, school=None):
-    if is_admin:
+def get_list(offset=0, limit=20, school=None):
+    if not school:
         users = User.query.offset(offset).limit(limit).all()
     else:
         all_users = User.query.filter(User.school==school).offset(offset).limit(limit).all()
@@ -70,8 +70,8 @@ def get_list(offset=0, limit=20, is_admin=True, school=None):
     return users
 
 
-def get_count(is_admin=True, school=None):
-    if is_admin:
+def get_count(school=None):
+    if not school:
         count = User.query.count()
     else:
         all_users = User.query.filter(User.school==school).all()

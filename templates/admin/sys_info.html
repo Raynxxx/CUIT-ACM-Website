@@ -1,22 +1,50 @@
 {% extends "admin/base.html" %}
+{% block head %}
+  <link href="{{ url_for('static', filename='AdminLTE2/plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
-  <div class="box">
-    <div class="box-header with-border">
-      <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>统计信息</span></h3>
-      <div class="box-tools pull-right">
-        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i
-                class="fa fa-minus"></i></button>
-        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i
-                class="fa fa-times"></i></button>
-      </div>
-    </div>
-    <div class="box-body">
-      <p>当前时间: <code>{{ sys['time'] }}</code></p>
-      <p>已经有<code>{{ sys['user_count'] }}</code>人使用本系统</p>
-      <p>最近一天共有<code>{{ sys['daily_submit'] }}</code>次提交</p>
-      <p>总提交数: <code>{{ sys['total_submit'] }}</code></p>
-    </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-aqua"><i class="ion ion-clock"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">当前时间</span>
+          <span class="info-box-number">{{ sys['time'] }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div><!-- /.col -->
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">用户</span>
+          <span class="info-box-number">{{ sys['user_count'] }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div><!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-red"><i class="ion ion-ios-bolt-outline"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">当日提交</span>
+          <span class="info-box-number">{{ sys['daily_submit'] }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div><!-- /.col -->
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-green"><i class="ion ion-ios-pulse"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">总提交</span>
+          <span class="info-box-number">{{ sys['total_submit'] }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div><!-- /.col -->
   </div>
 {% endblock %}
+
 {%- block script -%}
 {%- endblock -%}

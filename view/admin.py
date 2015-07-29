@@ -1,7 +1,7 @@
 # coding=utf-8
 from __init__ import *
 from server import general, user_server, form, news_server
-import util
+import util, config
 
 #
 # @blueprint: admin
@@ -48,7 +48,9 @@ def sys_info():
 def manage_user():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    return render_template('manage_user.html', title = u'用户管理',)
+    return render_template('manage_user.html',
+                           title = u'用户管理',
+                           limit = config.USER_MANAGE_PER_PAGE)
 
 #
 # @brief: the page for administrator to manage user
@@ -113,7 +115,9 @@ def edit_user():
 def manage_news():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('admin.index'))
-    return render_template('admin/manage_news.html', title=u'新闻管理')
+    return render_template('admin/manage_news.html',
+                           title=u'新闻管理',
+                           limit = config.NEWS_MANAGE_PER_PAGE)
 
 
 #

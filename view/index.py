@@ -2,6 +2,7 @@
 from __init__ import *
 from server import user_server, general, article_server, form, book_server, news_server
 from dao.dbBase import User
+import config
 
 
 main = blueprints.Blueprint('main', __name__)
@@ -14,7 +15,7 @@ main = blueprints.Blueprint('main', __name__)
 #
 @main.route('/login', methods=["GET", "POST"])
 def login():
-    if current_user.is_active():
+    if current_user.is_authenticated():
         return redirect(url_for('main.news_list'))
     login_form = form.LoginForm()
     if login_form.validate_on_submit():
@@ -63,15 +64,23 @@ def index():
 # @allowed user: all
 #
 @main.route('/news_list', methods=['GET'])
-def news_list():
+@main.route('/news_list/<page>', methods=['GET'])
+def news_list(page = 0):
+    limit = config.NEWS_PER_PAGE
+    offset = int(page) * limit
+    print offset
     news_server.get_archive()
-    news = news_server.get_list()
+    news = news_server.get_list(offset, limit)
     recent_news = news_server.get_recent()
     tags = news_server.get_all_tags()
+    sum = news_server.get_count()
     return render_template('index/news_list.html',
-                           news = news,
+                           title = u'新闻',
+                           news = news, tags = tags,
                            recent_news = recent_news,
-                           tags = tags)
+                           page = int(page),
+                           sum = sum, limit = limit,
+                           str = str)
 
 
 #
@@ -93,6 +102,7 @@ def news(url=None):
         recent_news = news_server.get_recent()
         tags = news_server.get_all_tags()
         return render_template('index/news.html',
+                               title = one_news.title,
                                one = one_news,
                                recent_news = recent_news,
                                tags = tags)
@@ -115,6 +125,7 @@ def news_archive(tag=None):
     else:
         archives = news_server.get_archive()
     return render_template('index/archive.html',
+                           title = u'Archive ' + tag,
                            archives = archives)
 
 

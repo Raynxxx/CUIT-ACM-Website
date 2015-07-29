@@ -1,92 +1,50 @@
 {% extends "index/base.html" %}
 {% block head %}
-{% endblock %}
-
-{% block loginbar %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ranklist.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="row">
-  <div class="col-sm-offset-1 col-sm-10">
-    <div class="col-lg-8 col-md-12">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>水表</span></h3>
-        </div>
-        <div class="box-body">
-          <table class="table table-bordered table-striped table-hover">
-            <thead>
-            <tr>
-              <th>#</th>
-              <th>姓名</th>
-              <th>BNU</th>
-              <th>HDU</th>
-              <th>POJ</th>
-              <th>ZOJ</th>
-              <th>UVA</th>
-              <th>VirtualJudge</th>
-              <th>BestCoder</th>
-              <th>Codeforces</th>
-              <th>Rating</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for info in info_list %}
-              <tr>
-                <td>{{ info['rank'] }}</td>
-                <td><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></td>
-                <td>{{ info['bnu']['solved'] }} / {{ info['bnu']['submitted'] }}</td>
-                <td>{{ info['hdu']['solved'] }} / {{ info['hdu']['submitted'] }}</td>
-                <td>{{ info['poj']['solved'] }} / {{ info['poj']['submitted'] }}</td>
-                <td>{{ info['zoj']['solved'] }} / {{ info['zoj']['submitted'] }}</td>
-                <td>{{ info['uva']['solved'] }} / {{ info['uva']['submitted'] }}</td>
-                <td>{{ info['vj']['solved'] }} / {{ info['vj']['submitted'] }}</td>
-                {% if info['bc_username'] %}
-                  <td><a href="http://bestcoder.hdu.edu.cn/rating.php?user={{ info['bc_username'] }}"
-                         target="_blank">{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</a></td>
-                {% else %}
-                  <td>{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</td>
-                {% endif %}
-                {% if info['cf_username'] %}
-                  <td><a href="http://codeforces.com/profile/{{ info['cf_username'] }}"
-                         target="_blank">{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }})</a></td>
-                {% else %}
-                  <td>{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }} )</td>
-                {% endif %}
-                <td>{{ info['score'] }}</td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-12">
-      <div class="col-lg-12 col-md-6">
-        <div class="box box-default">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="col-lg-9 col-md-12">
+        <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>本周刷题榜</span></h3>
-            <div class="box-tools pull-right">
-              <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
+            <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>水表</span></h3>
           </div>
-          <div class="box-body">
-            <table class="table table-bordered table-striped table-hover">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>姓名</th>
-                <th>通过</th>
-                <th>总提交</th>
-              </tr>
-              </thead>
+          <div class="box-body no-padding">
+            <table class="table table-bordered text-center">
+              <thead><tr><th>#</th><th>详情</th><th>BNU</th><th>HDU</th><th>POJ</th><th>ZOJ</th><th>UVA</th>
+                            <th>Virtual<br>Judge</th><th>BestCoder</th><th>Codeforces</th></tr></thead>
               <tbody>
-              {% for info in weekly_rank %}
+              {% for info in info_list %}
                 <tr>
-                  <td>{{ info['rank'] }}</td>
-                  <td><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></td>
-                  <td>{{ info['solved'] }}</td>
-                  <td>{{ info['submitted'] }}</td>
+                  <td class="stu-rank">{{ info['rank'] }}</td>
+                  <td class="stu-grid">
+                    <ul class="stu-meta">
+                      <li class="stu-name"><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></li>
+                      <li class="stu-rating label label-danger">{{ info['score'] }}</li>
+                    </ul>
+                  </td>
+                  <td>{{ info['bnu']['solved'] }} / {{ info['bnu']['submitted'] }}</td>
+                  <td>{{ info['hdu']['solved'] }} / {{ info['hdu']['submitted'] }}</td>
+                  <td>{{ info['poj']['solved'] }} / {{ info['poj']['submitted'] }}</td>
+                  <td>{{ info['zoj']['solved'] }} / {{ info['zoj']['submitted'] }}</td>
+                  <td>{{ info['uva']['solved'] }} / {{ info['uva']['submitted'] }}</td>
+                  <td>{{ info['vj']['solved'] }} / {{ info['vj']['submitted'] }}</td>
+                  {% if info['bc_username'] %}
+                    <td><a href="http://bestcoder.hdu.edu.cn/rating.php?user={{ info['bc_username'] }}"
+                           target="_blank">{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</a>
+                    </td>
+                  {% else %}
+                    <td>{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</td>
+                  {% endif %}
+                  {% if info['cf_username'] %}
+                    <td><a href="http://codeforces.com/profile/{{ info['cf_username'] }}"
+                           target="_blank">{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }})</a>
+                    </td>
+                  {% else %}
+                    <td>{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }} )</td>
+                  {% endif %}
                 </tr>
               {% endfor %}
               </tbody>
@@ -94,41 +52,65 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-12 col-md-6">
-        <div class="box box-default">
-          <div class="box-header">
-            <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>上周刷题榜</span></h3>
-            <div class="box-tools pull-right">
-              <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
-          </div>
-          <div class="box-body">
-            <table class="table table-bordered table-striped table-hover">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>姓名</th>
-                <th>通过</th>
-                <th>总提交</th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for info in last_week_rank %}
+      <div class="col-lg-3 col-md-12">
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">本周刷题榜</a></li>
+            <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">上周刷题榜</a></li>
+          </ul>
+          <div class="tab-content no-padding">
+            <div class="tab-pane active" id="tab_1">
+              <table class="table table-bordered table-striped table-hover text-center">
+                <thead>
                 <tr>
-                  <td>{{ info['rank'] }}</td>
-                  <td><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></td>
-                  <td>{{ info['solved'] }}</td>
-                  <td>{{ info['submitted'] }}</td>
+                  <th>#</th>
+                  <th>姓名</th>
+                  <th>通过</th>
+                  <th>总提交</th>
                 </tr>
-              {% endfor %}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                {% for info in weekly_rank %}
+                  <tr>
+                    <td>{{ info['rank'] }}</td>
+                    <td><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></td>
+                    <td>{{ info['solved'] }}</td>
+                    <td>{{ info['submitted'] }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_2">
+              <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>姓名</th>
+                  <th>通过</th>
+                  <th>总提交</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for info in last_week_rank %}
+                  <tr>
+                    <td>{{ info['rank'] }}</td>
+                    <td><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></td>
+                    <td>{{ info['solved'] }}</td>
+                    <td>{{ info['submitted'] }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.tab-pane -->
           </div>
+          <!-- /.tab-content -->
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
 {% block script %}
 {% endblock %}

@@ -52,21 +52,12 @@
             </div>
 
             <div class="col-sm-6">
-            {% if current_user.is_admin %}
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputSchool"><span class="required-star">* </span>学校</label>
                 <div class="col-sm-8">
                   {{ form1.school(class='form-control required', id="inputSchool", placeholder="学校") }}
                 </div>
               </div>
-            {% else %}
-              <div class="form-group" style="display: none;">
-                <label class="control-label col-sm-3" for="inputSchool"><span class="required-star">* </span>学校</label>
-                <div class="col-sm-8">
-                  {{ form1.school(class='form-control required', id="inputSchool", placeholder="学校") }}
-                </div>
-              </div>
-            {% endif %}
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputEmail">
                   <span class="required-star">* </span>邮箱</label>

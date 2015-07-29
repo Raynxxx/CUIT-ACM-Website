@@ -11,7 +11,14 @@ def get_info_list(lim=100):
     users = User.query.filter(User.active==1).order_by(User.score.desc()).limit(lim)
     rank = 1
     for user in users:
-        cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'score': user.score, 'rank': rank}
+        cur = {
+            'user': user,
+            'sno': user.stu_id,
+            'name': user.name,
+            'username': user.username,
+            'score': user.score,
+            'rank': rank
+        }
         for oj_name in oj:
             if oj_name in ['cf', 'bc']:
                 cur[oj_name] = {'rating': 0, 'max_rating': 0}

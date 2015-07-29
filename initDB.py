@@ -24,7 +24,7 @@ if __name__ == "__main__":
                     school='cuit',
                     gender=True,
                     email='277507631@qq.com')
-        user.rights = 7
+        user.rights = 5
         user.save()
         user = User(username='Rayn',
                     name=u'彭潇',
@@ -32,13 +32,6 @@ if __name__ == "__main__":
                     school='cuit',
                     gender=True,
                     email='414747795@qq.com')
-        user.rights = 3
+        user.rights = 5
         user.save()
-        user = User(username='jsp',
-                    name=u'文欣',
-                    password='123456',
-                    school='cuit',
-                    gender=True,
-                    email='2344325435@qq.com')
-        user.rights = 1
-        user.save()
+

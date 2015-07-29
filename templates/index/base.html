@@ -39,10 +39,12 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>
+            {% if current_user.is_authenticated() %}
             <li><a href="{{ url_for('main.ranklist') }}">水题榜</a></li>
             <li><a href="{{ url_for('main.status') }}">提交</a></li>
             <!--<li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>
             <li><a href="{{ url_for('main.book_list') }}">图书</a></li>
+            {% endif %}
             <li><a href="http://222.18.167.49/" target="_blank">校内OJ</a></li>
             <li><a href="{{ url_for('main.about') }}">关于我们</a></li> -->
           </ul>
@@ -80,10 +82,8 @@
               <li id="login-button"><a id="login" href="{{ url_for('main.login') }}">登录</a></li>
             {%- endif -%}
           </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container-fluid -->
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
     </nav>
   </header>
 
@@ -97,7 +97,7 @@
   </div>
   <footer class="main-footer">
     The MIT License (MIT) | <a href="https://github.com/Z2Y/CUITOJHelper-WebServer"><b>Project Homepage</b></a> | Copyright &copy;
-    2015. All rights reserved.
+    2015.
     <p class="pull-right hidden-xs">若发现Bug请发送邮件至 <a href="mailto:raynxxx@outlook.com">Rayn</a> 或者
       <a href="mailto:277507631@qq.com">zzy</a></p>
   </footer>

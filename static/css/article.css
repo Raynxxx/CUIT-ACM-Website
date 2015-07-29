@@ -5,8 +5,7 @@
   padding: 1.2em;
   margin-bottom: 2.3em;
   background: #ffffff;
-  border-top: 3px solid #d2d6de;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 1px rgba(200,200,200,0.1);
 }
 
 .article-header {
@@ -40,6 +39,8 @@
 }
 .article-body {
   padding: 1em 0.5em;
+  word-break: break-all;
+  text-overflow: ellipsis;
 }
 
 .article-more-link {
@@ -152,19 +153,20 @@
 }
 
 .tags_cloud {
-  padding: 1.2em;
+  padding: 10px;
+  word-break: normal;
+  word-spacing: 0.1em;
 }
 
 .tags_cloud a {
-  margin: 0.2em;
+  display: inline-block;
+  white-space: nowrap;
   padding: 3px 8px;
-  font-weight: 700;
+  font-weight: 500;
   border-radius: 4px;
 }
 .tags_cloud a:hover {
-  font-weight: 300;
-  font-size: larger;
-  text-shadow: 1px 1px 1px rgba(200, 200, 200, 0.2);
+  text-shadow: 0 1px 1px rgba(200, 200, 200, 0.2);
   color: #fff !important;
   background-color: #001a35 !important;
 }

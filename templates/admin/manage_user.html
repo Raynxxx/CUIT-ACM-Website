@@ -137,12 +137,12 @@
       var data = {'user_id': checked};
       $.post("{{ url_for('ajax.delete_user') }}", data).success(function (ret) {
         $('.closeModal').click();
-        get_user_list(0, 15);
+        get_user_list(0, {{ limit }});
       });
     }
     $(function () {
       make_iCheck();
-      var limit = 15;
+      var limit = {{ limit }};
       get_user_list(0, limit);
       $('button.to_refresh').click(function() {
         get_user_list(0, limit);

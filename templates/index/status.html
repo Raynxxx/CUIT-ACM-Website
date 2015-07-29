@@ -51,7 +51,7 @@
         </form>
       </div>
       <div class="col-md-12">
-        <table id="data_table" class="table table-bordered table-striped table-hover"
+        <table id="data_table" class="table table-bordered table-striped table-hover text-center"
                cellpadding="0" cellspacing="0" border="0"  width="100%">
             <thead>
               <tr>
@@ -59,8 +59,7 @@
                 <th>Language</th> <th>Time</th> <th>Memory</th> <th>Submit Time</th>
               </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
         </table>
       </div>
     </div>
@@ -130,7 +129,8 @@ $(document).ready(function() {
     var filter_oj = $("#filter_oj").val();
     $table.fnMultiFilter({
       "user_name": filter_username, "lang": filter_lang,
-      "pro_id": filter_problem, "oj_name": filter_oj });
+      "pro_id": filter_problem, "oj_name": filter_oj
+    });
     return false;
   });
 });

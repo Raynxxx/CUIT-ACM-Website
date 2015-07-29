@@ -18,7 +18,7 @@
           <div class="article-meta">
             <span><i class="fa fa-calendar"></i> {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
             <span><a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>
-            {% if current_user == one.user %}
+            {% if current_user.is_admin or (current_user.is_coach and current_user == one.user) %}
               <span><a href="{{ url_for('admin.edit_news', p=one.id) }}">edit</a></span>
             {% endif %}
           </div>
@@ -35,6 +35,20 @@
         </div>
       </div>
     {% endfor %}
+    <nav>
+      <ul class="pager">
+        {% if page == 0 %}
+        <li class="previous disabled"><a href="" onclick="return false;"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+        {% else %}
+        <li class="previous"><a href="{{ url_for('main.news_list', page = page - 1) }}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+        {% endif %}
+        {% if page * limit + limit >= sum %}
+        <li class="next disabled"><a href="" onclick="return false;">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+        {% else %}
+          <li class="next"><a href="{{ url_for('main.news_list', page = page + 1) }}">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+        {% endif %}
+      </ul>
+    </nav>
   </div>
   <div class="col-sm-3">
   {% if recent_news != [] %}
