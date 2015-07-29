@@ -130,7 +130,7 @@ def manage_news():
 @login_required
 def post_news():
     if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('admin.manage_news'))
+        return redirect(url_for('main.index'))
     news_form = form.NewsForm()
     my_button = [u"保存草稿", u"直接发布"]
     return render_template('post_news.html', title=u'发布新闻', action=u'发布新闻',
@@ -170,6 +170,24 @@ def edit_news():
     return render_template('post_news.html', title=u'修改新闻', action=u'修改新闻',
                            form=news_form, my_button=my_button)
 
+
+
+@admin.route("/admin/manage_resource", methods=['GET'])
+@login_required
+def manage_resource():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    return render_template('admin/manage_resource.html',
+                           title=u'资源管理',
+                           limit = config.RESOURCE_MANAGE_PER_PAGE)
+
+@admin.route('/upload', methods=['GET'])
+@login_required
+def upload():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    file_form = form.FileUploadForm()
+    return render_template('admin/upload.html', form = file_form)
 
 
 @admin.route("/admin/add_book", methods = ['GET'])

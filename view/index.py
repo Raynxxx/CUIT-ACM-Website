@@ -1,6 +1,6 @@
 # coding=utf-8
 from __init__ import *
-from server import user_server, general, article_server, form, book_server, news_server
+from server import user_server, general, article_server, form, book_server, news_server, resource_server
 from dao.dbBase import User
 import config
 

@@ -26,6 +26,7 @@ OJ_MAP = {
 }
 
 CSRF_ENABLED = True
+UPLOADED_RESOURCE_DEST = 'F:/CUIT-ACM-Website/static/resource'
 IMAGE_FILE_PATH = 'static/image/bookimg/'
 SECRET_KEY = 'a very hard string'
 from datetime import timedelta
@@ -34,4 +35,5 @@ REMEMBER_COOKIE_DURATION = timedelta(days=1)
 ## some config for front end
 NEWS_PER_PAGE = 5
 USER_MANAGE_PER_PAGE = 5
+RESOURCE_MANAGE_PER_PAGE = 10
 NEWS_MANAGE_PER_PAGE = 10

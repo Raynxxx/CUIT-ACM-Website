@@ -1,0 +1,17 @@
+<tr id="resource{{ resource.id }}">
+  <td class="list-item-check">
+    <label><input type="radio" name="resource" value="{{ resource.id }}"></label>
+  </td>
+  <td class="list-item-name">
+    <p>{{ resource.name }}</p>
+  </td>
+  <td class="list-item-description">
+      <b>{{ resource.description }}</b>
+  </td>
+  <td class="list-item-link">
+      <a href="{{ url(resource.name)}}">{{ url(resource.name) }}</a>
+  </td>
+  <td class="list-item-time text-muted">
+    {{ resource.upload_time }}
+  </td>
+</tr>
