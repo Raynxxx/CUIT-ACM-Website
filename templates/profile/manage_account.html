@@ -148,15 +148,14 @@
       };
       $.post("{{ url_for('ajax.delete_account') }}", data)
             .success(function(ret){
-                  if (ret == 'ok') {
-                    $('.closeModal').click();
-                    loadAccountInfo();
-                  }
-                  else {
-                    $("#del-info-text").html(ret);
-                    $("#del-info").hide().fadeIn(200);
-                  }
-
+                if (ret == 'ok') {
+                  $('.closeModal').click();
+                  loadAccountInfo();
+                }
+                else {
+                  $("#del-info-text").html(ret);
+                  $("#del-info").hide().fadeIn(200);
+                }
             }
       );
     }

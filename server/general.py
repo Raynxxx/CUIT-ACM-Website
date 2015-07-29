@@ -35,10 +35,10 @@ def get_info_list(lim=100):
     return info_list
 
 
-def get_weekly_info(lastweek, lim=100):
+def get_weekly_info(last_week, lim=100):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc']
     info_list = []
-    if lastweek:
+    if last_week:
         users = User.query.filter(User.active==1).order_by(User.last_week_solved.desc()).limit(lim)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.last_week_solved,
@@ -68,20 +68,13 @@ def check_update_status(user):
     return update_status
 
 
-def update_user_status(user):
+def update_all_account_status(user):
     if user.account:
         accounts = user.account.filter(Account.update_status==AccountStatus.NORMAL).with_lockmode('update').all()
         for account in accounts:
-                account.update_status = AccountStatus.WAIT_FOR_UPDATE
-                account.save()
+            account.update_status = AccountStatus.WAIT_FOR_UPDATE
+            account.save()
         db.session.commit()
-
-
-def recrawl_status(oj_name, run_id):
-    status = Submit.query.filter(Submit.oj_name == oj_name, Submit.run_id == run_id).first()
-    if status:
-        status.update_status = 1
-        status.save()
 
 
 def get_submit(oj_name, run_id):

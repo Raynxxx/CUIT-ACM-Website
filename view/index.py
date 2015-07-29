@@ -79,8 +79,7 @@ def news_list(page = 0):
                            news = news, tags = tags,
                            recent_news = recent_news,
                            page = int(page),
-                           sum = sum, limit = limit,
-                           str = str)
+                           sum = sum, limit = limit)
 
 
 #
@@ -130,8 +129,8 @@ def news_archive(tag=None):
 
 
 #
-# @brief: page for archive of news tag
-# @route: /news/archive/<tag>
+# @brief: page for rank list
+# @route: /ranklist
 # @accepted methods: [get]
 # @allowed user: all
 #
@@ -148,8 +147,39 @@ def ranklist():
 
 
 #
-# @brief: page for archive of article tag
-# @route: /news/archive/<tag>
+# @brief: page for all status
+# @route: /ranklist
+# @accepted methods: [get]
+# @allowed user: all
+#
+@main.route('/status', methods = ['GET'])
+@login_required
+def status():
+    return render_template('index/status.html', title='Status')
+
+
+#
+# @brief: page for view code of one submit
+# @route: /viewcode/<oj_name>/<run_id>
+# @accepted methods: [get]
+# @allowed user: all
+#
+@main.route('/viewcode/<oj_name>/<run_id>', methods = ['GET'])
+@login_required
+def view_code(oj_name, run_id):
+    submit = general.get_submit(oj_name, run_id)
+    if not submit:
+        flash(u'读取代码失败!')
+        return redirect(url_for('main.status'))
+    return render_template('index/viewcode.html',
+                           title = 'Show Code',
+                           submit = submit,
+                           oj_mapper = OJ_MAP)
+
+
+#
+# @brief: page for all article
+# @route: /article_list
 # @accepted methods: [get]
 # @allowed user: all
 #
@@ -163,7 +193,13 @@ def article_list():
                            recent_articles = recent_articles)
 
 
-@main.route('/article')
+#
+# @brief: page for one article
+# @route: /article
+# @accepted methods: [get]
+# @allowed user: all
+#
+@main.route('/article', methods=['GET'])
 @login_required
 def article():
     try:
@@ -175,8 +211,16 @@ def article():
     except:
         return redirect(url_for('main.article_list'))
 
-@main.route('/article/archive')
-@main.route('/article/archive/<tag>')
+
+
+#
+# @brief: page for archive of article tag
+# @route: /article/archive/<tag>
+# @accepted methods: [get]
+# @allowed user: all
+#
+@main.route('/article/archive', methods=['GET'])
+@main.route('/article/archive/<tag>', methods=['GET'])
 def article_archive(tag=None):
     if tag:
         archives = article_server.get_archive_by_tag(tag)
@@ -204,16 +248,5 @@ def book_list():
     books = book_server.list_book()
     return render_template('index/book_list.html', books = books, smap = status_map)
 
-@main.route('/status')
-@login_required
-def status():
-    return render_template('index/status.html', title='Status')
 
-@main.route('/viewcode/<oj_name>/<run_id>')
-@login_required
-def view_code(oj_name, run_id):
-    submit = general.get_submit(oj_name, run_id)
-    if not submit:
-        flash(u'读取代码失败!')
-        return redirect(url_for('status', oj_name=oj_name))
-    return render_template('index/viewcode.html', title='Show Code', submit=submit)
+
