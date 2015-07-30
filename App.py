@@ -1,7 +1,7 @@
 # coding=utf-8
 from flask import Flask
 from flask.ext.login import LoginManager
-from flask.ext.uploads import (configure_uploads, patch_request_class)
+from flask.ext.uploads import configure_uploads, patch_request_class
 from server.resource_server import resource
 from dao.db import db
 from dao.dbBase import  User
@@ -9,6 +9,7 @@ from view.admin import admin
 from view.profile import profile
 from view.ajax import ajax
 from view.index import main
+from config import UPLOADED_RESOURCE_DEST
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -39,7 +40,7 @@ def init():
     app.register_blueprint(profile)
     app.register_blueprint(ajax)
     patch_request_class(app)
-    configure_uploads(app,resource)
+    configure_uploads(app, resource)
 
 
 if __name__ == '__main__':

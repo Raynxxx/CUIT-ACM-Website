@@ -181,7 +181,7 @@ def manage_resource():
                            title=u'资源管理',
                            limit = config.RESOURCE_MANAGE_PER_PAGE)
 
-@admin.route('/upload', methods=['GET'])
+@admin.route('/admin/upload', methods=['GET'])
 @login_required
 def upload():
     if not current_user.is_admin and not current_user.is_coach:
