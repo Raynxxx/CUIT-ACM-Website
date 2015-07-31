@@ -1,5 +1,5 @@
 from __init__ import *
-from flask.ext.uploads import (UploadSet, DEFAULTS, ARCHIVES, UploadNotAllowed)
+from flask.ext.uploads import UploadSet, DEFAULTS, ARCHIVES, UploadNotAllowed
 import datetime
 import os
 from dao.dbResource import Resource
@@ -15,7 +15,7 @@ resource = UploadSet('resource', DEFAULTS + ARCHIVES, default_dest=lambda app: a
 #
 def save_file(file_attr, file_data, user):
     try:
-        filename = resource.save(file_data,name=file_attr.name.data+'.')
+        filename = resource.save(file_data, name=file_attr.name.data+'.')
         rc = Resource()
         rc.name = filename
         rc.description = file_attr.description.data
@@ -44,17 +44,20 @@ def delete_file(resource_id):
     except Exception:
         return 'failed'
 
+
 def get_list(offset=0, limit=10, coach=None):
-    if coach :
+    if coach:
         return Resource.query.filter(Resource.user==coach).offset(offset).limit(limit).all()
     else :
         return Resource.query.offset(offset).limit(limit).all()
+
 
 def get_count(coach=None):
     if coach :
         return Resource.query.filter(Resource.user==coach).count()
     else :
         return Resource.query.count()
+
 
 def url(filename):
     return resource.url(filename)

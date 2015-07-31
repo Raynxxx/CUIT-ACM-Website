@@ -12,7 +12,7 @@ class Resource(db.Model):
     user = db.relationship('User', backref=db.backref('resource', lazy='dynamic'))
 
     def __repr__(self):
-        return '<Resource>'
+        return '<Resource>@' + self.name
 
 
     def save(self):

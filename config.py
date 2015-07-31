@@ -26,7 +26,8 @@ OJ_MAP = {
 }
 
 CSRF_ENABLED = True
-UPLOADED_RESOURCE_DEST = 'F:/CUIT-ACM-Website/static/resource'
+import os.path
+UPLOADED_RESOURCE_DEST = os.path.abspath('.') + '/static/resource/'
 IMAGE_FILE_PATH = 'static/image/bookimg/'
 SECRET_KEY = 'a very hard string'
 from datetime import timedelta

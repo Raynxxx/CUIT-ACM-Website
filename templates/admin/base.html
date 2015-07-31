@@ -102,27 +102,10 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">导航</li>
-        <li><a href="{{ url_for('admin.sys_info') }}" id="sys-info"><i class="fa fa-align-left"></i> <span>系统信息</span>
-        </a></li>
-        <li class="treeview">
-          <a href="{{ url_for('admin.manage_user') }}" id="user-add">
-            <i class="fa fa-users"> </i> <span>用户管理</span> <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ url_for('admin.manage_user') }}">用户列表</a></li>
-            <li><a href="{{ url_for('admin.create_user') }}" id="user-add"> <span>添加用户</span></a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="{{ url_for('admin.manage_news') }}" id="user-add">
-            <i class="fa fa-users"> </i> <span>新闻管理</span> <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ url_for('admin.manage_news') }}">新闻列表</a></li>
-            <li><a href="{{ url_for('admin.post_news') }}"> <span>发布新闻</span></a></li>
-          </ul>
-        </li>
-        <li><a href="{{ url_for('admin.manage_resource')}}">资源管理</a></li>
+        <li><a href="{{ url_for('admin.sys_info') }}"><i class="fa fa-plug"></i> <span>系统信息</span></a></li>
+        <li><a href="{{ url_for('admin.manage_user') }}"><i class="fa fa-users"></i> <span>用户管理</span></a></li>
+        <li><a href="{{ url_for('admin.manage_news') }}"><i class="fa fa-rss"></i> <span>新闻管理</span></a></li>
+        <li><a href="{{ url_for('admin.manage_resource') }}"><i class="fa fa-file"></i> <span>资源管理</span></a></li>
         <!--
         <li><a href="{{ url_for('admin.add_book') }}" id="user-add"><i class="fa fa-book"> </i> <span>添加书籍</span></a>
         </li>-->

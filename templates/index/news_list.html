@@ -35,20 +35,18 @@
         </div>
       </div>
     {% endfor %}
+    {% if news %}
     <nav>
       <ul class="pager">
-        {% if page == 0 %}
-        <li class="previous disabled"><a href="" onclick="return false;"><span aria-hidden="true">&larr;</span> 上一页</a></li>
-        {% else %}
+        {% if page > 0 %}
         <li class="previous"><a href="{{ url_for('main.news_list', page = page - 1) }}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
         {% endif %}
-        {% if page * limit + limit >= sum %}
-        <li class="next disabled"><a href="" onclick="return false;">下一页 <span aria-hidden="true">&rarr;</span></a></li>
-        {% else %}
+        {% if page * limit + limit < sum %}
           <li class="next"><a href="{{ url_for('main.news_list', page = page + 1) }}">下一页 <span aria-hidden="true">&rarr;</span></a></li>
         {% endif %}
       </ul>
     </nav>
+    {% endif %}
   </div>
   <div class="col-sm-3">
   {% if recent_news != [] %}

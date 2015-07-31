@@ -63,7 +63,9 @@ def get_list(offset=0, limit=20, school=None):
     if not school:
         users = User.query.offset(offset).limit(limit).all()
     else:
-        all_users = User.query.filter(User.school==school).offset(offset).limit(limit).all()
+        all_users = User.query\
+            .filter(User.school==school)\
+            .offset(offset).limit(limit).all()
         users = list()
         for user in all_users:
             users.append(user) if not user.is_admin else None

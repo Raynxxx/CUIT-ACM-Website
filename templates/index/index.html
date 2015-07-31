@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/bootstrap/css/bootstrap.min.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='highlight/monokai_sublime.css') }}"/>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -18,45 +19,90 @@
   {%- block head -%}{%- endblock -%}
 </head>
 <body>
-<div class="site-wrapper">
-  <div class="site-wrapper-inner">
-    <div class="cover-container">
-      <div class="masthead">
-          <h3 class="masthead-brand">CUIT ACM Team</h3>
-          <nav>
-            <ul class="nav masthead-nav">
-              <li class="active"><a href="{{ url_for('main.index') }}">Home</a></li>
-              <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>
-              <li><a href="{{ url_for('main.login') }}">登录</a></li>
-            </ul>
-          </nav>
+<div class="container">
+  <!-- Static navbar -->
+  <nav class="navbar navbar-default navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#" onclick="return false;">CUIT ACM Team</a>
       </div>
-      <div class="cover">
-        <div class="cover-heading">
-          <div class="background-code">
-            <ul>
-            <li>#include &lt;stdio.h&gt;</li>
-            <li><br></li>
-            <li>int main(int argc, char* argv[])&nbsp;{</li>
-            <li>&nbsp;&nbsp;&nbsp;&nbsp;printf("Hello World\n");</li>
-            <li>&nbsp;&nbsp;&nbsp;&nbsp;printf("<b class="important">CUIT ACM Team</b>\n");</li>
-            <li>&nbsp;&nbsp;&nbsp;&nbsp;return 0;</li>
-            <li>}</li>
-            </ul>
-          </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="{{ url_for('main.index') }}">首页</a></li>
+          <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>
+          <!--<li><a href="">关于我们</a></li>-->
+          <li><a href="{{ url_for('main.login') }}">登录</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </nav>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="shell-header">
+        <h3>Terminal</h3>
+        <div class="pull-right">
+          <button class="btn btn-link btn-sm minus-terminal"><i class="fa fa-minus"></i></button>
+          <button class="btn btn-link btn-sm open-terminal" style="display: none"><i class="fa fa-square-o"></i></button>
+          <button class="btn btn-link btn-sm close-terminal"><i class="fa fa-times"></i></button>
         </div>
       </div>
-      <div class="mastfoot">
-        <div class="inner">
-          <p> Copyright  &copy; 2015 &nbsp; <a href="#" onclick="return false;">CUIT ACM Team</a>.
-          </p>
-        </div>
+      <div class="background-code">
+        <code>
+          <span>#include &lt;stdio.h&gt;<br><br></span>
+          <span>int main(void)&nbsp;{<br></span>
+          <span>&nbsp;&nbsp;printf("Hello World\n");<br></span>
+          <span>&nbsp;&nbsp;printf("<b>CUIT ACM Team</b>\n");<br></span>
+          <span>&nbsp;&nbsp;return 0;<br></span>
+          <span>}</span>
+        </code>
       </div>
     </div>
   </div>
-</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>最近新闻</h3>
+
+    </div>
+    <div class="col-md-6">
+      <h3>校队简介</h3>
+
+    </div>
+  </div>
+</div> <!-- /container -->
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
+<script type="text/javascript">
+  function make_highlight() {
+    $('code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+  }
+  $(document).ready(function() {
+    make_highlight();
+    $('.minus-terminal').click(function() {
+      $('.background-code code').slideUp();
+      $(this).hide();
+      $('.open-terminal').show();
+    });
+    $('.open-terminal').click(function() {
+      $('.background-code code').slideDown();
+      $(this).hide();
+      $('.minus-terminal').show();
+    });
+    $('.close-terminal').click(function() {
+      $('.shell-header').fadeOut();
+      $('.background-code').fadeOut();
+    });
+  });
+</script>
 </body>
 </html>
 
