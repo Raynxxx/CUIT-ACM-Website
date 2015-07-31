@@ -177,9 +177,13 @@ def edit_news():
 def manage_resource():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
+    file_upload_form = form.FileUploadForm()
+    file_edit_form = form.FileInfoForm()
     return render_template('admin/manage_resource.html',
                            title=u'资源管理',
-                           limit = config.RESOURCE_MANAGE_PER_PAGE)
+                           limit = config.RESOURCE_MANAGE_PER_PAGE,
+                           form = file_upload_form,
+                           form1 = file_edit_form)
 
 @admin.route('/admin/upload', methods=['GET'])
 @login_required

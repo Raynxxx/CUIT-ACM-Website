@@ -1,6 +1,5 @@
 from dao.db import db
 
-
 class ResourceLevel():
     PUBLIC = 0
     SHARED = 1
@@ -30,6 +29,9 @@ class Resource(db.Model):
     def __repr__(self):
         return '<Resource>@' + self.name
 
+    @property
+    def file_type(self):
+        return str(self.filename).split('.')[-1]
 
     def save(self):
         db.session.add(self)

@@ -99,5 +99,11 @@ def get_count(user=None, usage=None):
 def get_by_name(filename):
     return Resource.query.filter(Resource.filename==filename).first_or_404()
 
-def url(filename):
-    return resource.url(filename)
+def url(file):
+    return resource.url(file.filename)
+
+def file_size(file):
+    try:
+        return os.path.getsize(resource.path(file.filename))
+    except:
+        return 0

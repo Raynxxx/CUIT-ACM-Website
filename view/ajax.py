@@ -422,7 +422,7 @@ def add_book():
 @login_required
 def get_resource_list_item(resource):
     return render_template('ajax/resource_list_item.html',
-                           resource = resource, url=resource_server.url)
+                           resource = resource, file_size=resource_server.file_size)
 #
 # @brief: ajax resource list
 # @allowed user: admin coach

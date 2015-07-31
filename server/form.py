@@ -119,7 +119,14 @@ class BookForm(Form):
 class FileUploadForm(Form):
     name = StringField(u'name', validators=[validators.DataRequired(), validators.Length(min=1, max=48)])
     description = TextAreaField(u'description', validators=[validators.Optional()])
-    level = RadioField('level', choices=[('0', u'Public'), ('1', u'Shared'), ('2', u'Private')], coerce=str, default=2)
-    usage = RadioField('usage',choices=[('0', u'图书资源'), ('1', u'荣誉资源'), ('2', u'新闻资源'),('3',u'题解资源'),('4',u'其他资源')], coerce=str, default=2)
+    level = RadioField('level', choices=[('0', u'公开'), ('1', u'内部共享'), ('2', u'私有')], coerce=str, default=2)
+    usage = RadioField('usage',choices=[('0', u'图书资源'), ('1', u'荣誉资源'), ('2', u'新闻资源'),('3',u'题解资源'),('4',u'其他资源')], coerce=str, default=4)
     upload = FileField(u'file')
+    submit = SubmitField(u'提交')
+
+class FileInfoForm(Form):
+    name = StringField(u'name', validators=[validators.DataRequired(), validators.Length(min=1, max=48)])
+    description = TextAreaField(u'description', validators=[validators.Optional()])
+    level = RadioField('level', choices=[('0', u'公开'), ('1', u'内部共享'), ('2', u'私有')], coerce=str, default=2)
+    usage = RadioField('usage',choices=[('0', u'图书资源'), ('1', u'荣誉资源'), ('2', u'新闻资源'),('3',u'题解资源'),('4',u'其他资源')], coerce=str, default=4)
     submit = SubmitField(u'提交')
