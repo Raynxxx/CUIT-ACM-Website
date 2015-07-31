@@ -5,10 +5,10 @@ import time
 from sqlalchemy import or_
 
 
-def get_info_list(lim=100):
+def get_rank_list(limit=100):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc', 'vj']
     info_list = []
-    users = User.query.filter(User.active==1).order_by(User.score.desc()).limit(lim)
+    users = User.query.filter(User.active==1).order_by(User.score.desc()).limit(limit)
     rank = 1
     for user in users:
         cur = {
@@ -35,17 +35,17 @@ def get_info_list(lim=100):
     return info_list
 
 
-def get_weekly_info(last_week, lim=100):
+def get_weekly_info(last_week, limit=100):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc']
     info_list = []
     if last_week:
-        users = User.query.filter(User.active==1).order_by(User.last_week_solved.desc()).limit(lim)
+        users = User.query.filter(User.active==1).order_by(User.last_week_solved.desc()).limit(limit)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.last_week_solved,
                    'submitted': user.last_week_submit}
             info_list.append(cur)
     else:
-        users = User.query.filter(User.active==1).order_by(User.current_week_solved.desc()).limit(lim)
+        users = User.query.filter(User.active==1).order_by(User.current_week_solved.desc()).limit(limit)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.current_week_solved,
                    'submitted': user.current_week_submit}
@@ -86,7 +86,8 @@ def get_sys_info():
     sys_info = dict()
     sys_info['time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     sys_info['user_count'] = User.query.count()
-    permit_date = datetime.datetime.now() - datetime.timedelta(days=1)
-    sys_info['daily_submit'] = len(Submit.query.filter(Submit.submit_time > permit_date).all())
+    today = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    sys_info['daily_submit'] = Submit.query.filter(Submit.submit_time > today).count()
     sys_info['total_submit'] = Submit.query.count()
+    sys_info['news_count'] = News.query.count()
     return sys_info

@@ -96,11 +96,14 @@ def get_count(user=None, usage=None):
     else:
         return query.count()
 
+
 def get_by_name(filename):
     return Resource.query.filter(Resource.filename==filename).first_or_404()
 
+
 def url(file):
     return resource.url(file.filename)
+
 
 def file_size(file):
     try:

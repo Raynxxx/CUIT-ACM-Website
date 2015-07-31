@@ -29,6 +29,7 @@ def get_user_list_item(user):
 
 #
 # @brief: ajax user list
+# @route: /ajax/user_list
 # @allowed user: admin and coach
 #
 @ajax.route('/ajax/user_list', methods=["POST"])
@@ -51,7 +52,7 @@ def get_user_list():
 
 #
 # @brief: add user
-# @route: /create_user
+# @route: /ajax/create_user
 # @accepted methods: [post]
 # @allowed user: admin and coach
 # @ajax return: 用户是否添加成功
@@ -81,7 +82,7 @@ def create_user():
 
 #
 # @brief: edit user
-# @route: /edit_user
+# @route: /ajax/edit_user
 # @accepted methods: [post]
 # @allowed user: admin and coach
 #
@@ -109,7 +110,7 @@ def edit_user():
 
 #
 # @brief: edit user for self
-# @route: /edit_user_self
+# @route: /ajax/edit_user_self
 # @accepted methods: [post]
 # @allowed user: all
 #
@@ -131,7 +132,7 @@ def edit_user_self():
 
 #
 # @brief: modify password
-# @route: /ajax/modify_pwd
+# @route: /ajax/modify_password
 # @accepted methods: [post]
 # @allowed user: all
 # @ajax return: 密码是否修改成功 => string
@@ -149,7 +150,7 @@ def modify_password():
 
 #
 # @brief: delete user
-# @route: /delete_user
+# @route: /ajax/delete_user
 # @accepted methods: [post]
 # @allowed user: admin and coach
 #
@@ -176,6 +177,7 @@ def get_news_list_item(news):
 
 #
 # @brief: ajax news list
+# @route: /ajax/news_list
 # @allowed user: administrator
 #
 @ajax.route('/ajax/news_list', methods=['POST'])
@@ -201,7 +203,7 @@ def get_news_list():
 
 #
 # @brief: delete news
-# @route: /delete_news
+# @route: /ajax/delete_news
 # @accepted methods: [post]
 # @allowed user: admin and coach
 #
@@ -219,7 +221,7 @@ def delete_news():
 
 #
 # @brief: post news
-# @route: /post_news
+# @route: /ajax/post_news
 # @accepted methods: [post]
 # @allowed user: admin and coach
 #
@@ -243,7 +245,6 @@ def post_news():
 
 
 
-
 #
 # @brief: ajax html for one account item
 # @allowed user: self, admin and coach
@@ -257,10 +258,9 @@ def get_account_item(account, user):
 
 #
 # @brief: add or modify account
-# @route: /account_manager
+# @route: /ajax/account_manager
 # @accepted methods: [post]
 # @allowed user: administrator or the user
-# @ajax return: string
 #
 @ajax.route('/ajax/account_info_list', methods=['POST', 'GET'])
 @login_required
@@ -302,7 +302,7 @@ def update_account():
 
 #
 # @brief: add or modify account
-# @route: /account_manager
+# @route: /ajax/account_manager
 # @accepted methods: [post]
 # @allowed user: administrator or the user
 # @ajax return: string
@@ -368,7 +368,7 @@ def delete_account():
 
 #
 # @brief: add or modify solution
-# @route: /solution_manager
+# @route: /ajax/solution_manager
 # @accepted methods: [post]
 # @allowed user: administrator or the user
 # @ajax return: string
@@ -419,13 +419,22 @@ def add_book():
     return 'error:数据填写有误'
 
 
+#
+# @brief: ajax html for one resource item
+# @allowed user: self, admin and coach
+#
 @login_required
 def get_resource_list_item(resource):
     return render_template('ajax/resource_list_item.html',
-                           resource = resource, file_size=resource_server.file_size)
+                           resource = resource,
+                           file_size = resource_server.file_size)
+
+
 #
 # @brief: ajax resource list
-# @allowed user: admin coach
+# @route: /ajax/resource_list
+# @accepted methods: [post]
+# @allowed user: self, admin, coach
 #
 @ajax.route('/ajax/resource_list', methods=['POST'])
 @login_required
@@ -440,6 +449,33 @@ def get_resource_list():
     return jsonify(news_list=[get_resource_list_item(resource) for resource in resource_list],
                    sum=sum, offset=int(offset), limit=len(resource_list))
 
+#
+# @brief: ajax to upload resource
+# @route: /ajax/upload
+# @accepted methods: [post]
+#
+@ajax.route('/ajax/upload', methods=['POST'])
+@login_required
+def upload():
+    file_form = form.FileUploadForm()
+    if file_form.validate_on_submit():
+        try:
+            if file_form.upload.data:
+                file = request.files[file_form.upload.name]
+                msg = resource_server.save_file(file_form, file, current_user)
+                return msg
+            else:
+                return u'上传数据失败'
+        except Exception, e:
+            return u'错误: ' + e.message
+    return u'数据填写有误'
+
+
+#
+# @brief: ajax to delete resource
+# @route: /ajax/delete_resource
+# @accepted methods: [post]
+#
 @ajax.route("/ajax/delete_resource", methods = ['POST'])
 @login_required
 def delete_resource():
@@ -452,20 +488,6 @@ def delete_resource():
     except:
         return u'删除失败'
 
-@ajax.route('/ajax/upload', methods=['POST'])
-@login_required
-def upload():
-    file_form = form.FileUploadForm()
-    if file_form.validate_on_submit():
-        try:
-            if file_form.upload.data:
-                file = request.files[file_form.upload.name]
-                msg = resource_server.save_file(file_form, file, current_user)
-                return msg
-            else:
-                return 'error:没有上传数据'
-        except Exception, e:
-            return 'error:' + e.message
-    return 'error:数据填写有误'
+
 
 

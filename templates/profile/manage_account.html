@@ -139,6 +139,11 @@
           }
         }
         $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+      }).error(function() {
+        var $list_table = $('.list-table-body').first();
+        $list_table.empty();
+        $list_table.append('<tr><td colspan="5"><h2>加载失败</h2></tr>');
+        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
       });
     }
     function deleteAccount(checked) {
@@ -168,7 +173,7 @@
       $('button.to_refresh').click(function() {
         loadAccountInfo();
       });
-      $('.to_delete_account, .to_edit_account, .update-account').click(function() {
+      $('.to_delete_account, .to_edit_account').click(function() {
         var $checked = $('input[name="account"]:checked');
         if ($checked.length <= 0) {
           return false;
@@ -179,9 +184,13 @@
         deleteAccount($checked);
       });
       $('.update-account').click(function() {
-        var $checked = $('input[name="account"]:checked').val();
+        var $checked = $('input[name="account"]:checked');
+        if ($checked.length <= 0) {
+          return false;
+        }
+        var checked = $checked.val();
         var data = {
-          'account_id': $checked,
+          'account_id': checked,
           'user_id': {{ user.id }}
         };
         $.post("{{ url_for('ajax.update_account') }}", data).success(function(ret) {
