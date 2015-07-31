@@ -1,6 +1,7 @@
 {% extends "admin/base.html" %}
 {% block head %}
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-fileinput/css/fileinput.min.css') }}"/>
 {% endblock %}
 {% block content %}
 <div class="box box-primary">
@@ -65,9 +66,13 @@
     </div>
   </form>
 </div>
+
+
 {% endblock %}
 {%- block script -%}
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap-fileinput/js/fileinput_locale_zh.js') }}"></script>
 <script>
 
 function make_iCheck() {
@@ -92,17 +97,7 @@ $(document).ready(function () {
   previewer.on('click', function() {
      $("#inputFile").click();
   });
-  $("#inputFile").on('change', function() {
-    var fr = new FileReader();
-    fr.onload = function(evt) {
-       previewer.attr('src',evt.target.result);
-    };
-    var file = this.files[0];
-    if (file != 'undefined' && /image\/\w+/.test(file.type)) {
-        $("#inputIcon").val(file.name);
-        fr.readAsDataURL(file);
-    }
-  });
+  $("#inputFile").fileinput({'showUpload':false});
   $('#postForm').submit(function() {
       var data = new FormData($('#postForm')[0]);
       var file = $("#inputFile")[0];

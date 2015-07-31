@@ -8,8 +8,8 @@
   <td class="list-item-description">
       <b>{{ resource.description }}</b>
   </td>
-  <td class="list-item-link">
-      <a href="{{ url(resource.filename)}}">{{ url(resource.filename) }}</a>
+  <td class="list-item-size">
+      {{ file_size(resource) }}bytes
   </td>
   <td class="list-iten-user">
       <label class="oj-nickname label label-primary">{{ resource.user.name }}</label>
