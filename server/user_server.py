@@ -63,12 +63,7 @@ def get_list(offset=0, limit=20, school=None):
     if not school:
         users = User.query.offset(offset).limit(limit).all()
     else:
-        all_users = User.query\
-            .filter(User.school==school)\
-            .offset(offset).limit(limit).all()
-        users = list()
-        for user in all_users:
-            users.append(user) if not user.is_admin else None
+        users = User.query.filter(User.school==school, User.rights < 4).offset(offset).limit(limit).all()
     return users
 
 
@@ -76,10 +71,7 @@ def get_count(school=None):
     if not school:
         count = User.query.count()
     else:
-        all_users = User.query.filter(User.school==school).all()
-        count = 0
-        for user in all_users:
-            count = count + 1 if not user.is_admin else count
+        count = User.query.filter(User.school==school, User.rights < 4).count()
     return count
 
 

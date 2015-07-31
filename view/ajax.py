@@ -68,8 +68,6 @@ def create_user():
             rights = 0
             for item in rights_list:
                 rights = rights | int(item)
-            print reg_form.school
-            print reg_form.school.data
             ret = user_server.create_user(reg_form, rights)
             if ret == 'OK':
                 return u"添加用户成功"
@@ -146,7 +144,6 @@ def modify_password():
         if not current_user.verify_password(pwd_modify_form.password.data):
             return u"当前密码输入错误"
         return user_server.modify_password(pwd_modify_form, current_user)
-    print pwd_modify_form.errors
     return u"修改密码失败"
 
 
@@ -438,14 +435,8 @@ def get_resource_list():
         return redirect(url_for('main.index'))
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    resource_list = list()
-    sum = 0
-    if current_user.is_admin:
-        resource_list = resource_server.get_list(offset, limit)
-        sum = resource_server.get_count()
-    elif current_user.is_coach:
-        resource_list = resource_server.get_list(offset, limit, coach=current_user)
-        sum = resource_server.get_count(coach=current_user)
+    resource_list = resource_server.get_list(offset, limit, current_user)
+    sum = resource_server.get_count(current_user)
     return jsonify(news_list=[get_resource_list_item(resource) for resource in resource_list],
                    sum=sum, offset=int(offset), limit=len(resource_list))
 
@@ -456,7 +447,7 @@ def delete_resource():
         return redirect(url_for('main.index'))
     try:
         resource_id = request.form.get('resource_id')
-        msg = resource_server.delete_file(resource_id)
+        msg = resource_server.delete_file(resource_id, current_user)
         return msg
     except:
         return u'删除失败'

@@ -65,7 +65,7 @@ class User(UserMixin, db.Model):
         raise AttributeError('password is not a readable attribute')
 
     def is_coach_of(self, other):
-        return self.is_coach and (self.school == other.school)
+        return self.is_coach and (self.school == other.school) and not other.is_admin
 
     def update_score(self):
         score = 0

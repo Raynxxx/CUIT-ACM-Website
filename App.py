@@ -9,7 +9,6 @@ from view.admin import admin
 from view.profile import profile
 from view.ajax import ajax
 from view.index import main
-from config import UPLOADED_RESOURCE_DEST
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -39,7 +38,7 @@ def init():
     app.register_blueprint(admin)
     app.register_blueprint(profile)
     app.register_blueprint(ajax)
-    patch_request_class(app)
+    patch_request_class(app, size=8*1024*1024)
     configure_uploads(app, resource)
 
 
