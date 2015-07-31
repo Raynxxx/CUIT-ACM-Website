@@ -2,7 +2,7 @@
 from __init__ import *
 from server import user_server, general, article_server, form
 from config import OJ_MAP
-import util
+import util, config
 #
 # @blueprint: profile
 # @created: 2015/06/22
@@ -84,6 +84,28 @@ def update_account():
     if current_user == profile_user or current_user.is_admin or current_user.is_coach:
         general.update_all_account_status(profile_user)
     return redirect(url_for('profile.index', username=profile_user.username))
+
+
+#
+# @brief: The Resource management page
+# @route: /profile/manage_resource
+# @accepted methods: [get]
+# @allowed user: self, admin and coach
+#
+@profile.route("/profile/manage_resource", methods=['GET'])
+@login_required
+def manage_resource():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    file_upload_form = form.FileUploadForm()
+    file_edit_form = form.FileInfoForm()
+    return render_template('manage_resource.html',
+                           title = u'资源管理',
+                           user = current_user,
+                           limit = config.RESOURCE_MANAGE_PER_PAGE,
+                           upload_form = file_upload_form,
+                           file_edit_form = file_edit_form)
+
 
 
 

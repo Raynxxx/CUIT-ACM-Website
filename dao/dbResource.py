@@ -5,11 +5,12 @@ class ResourceLevel():
     SHARED = 1
     PRIVATE = 2
 
+
 class ResourceUsage():
     BOOK_RES = 0
     HONOR_RES = 1
     NEWS_RES = 2
-    SOLUTION_RES =3
+    SOLUTION_RES = 3
     OTHER_RES = 4
 
 
@@ -18,12 +19,12 @@ class Resource(db.Model):
     filename = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(50), nullable=False, default='UNTITLED')
     description = db.Column(db.Text)
-    level = db.Column(db.Integer,nullable=False, default=ResourceLevel.PRIVATE)
-    usage = db.Column(db.Integer,nullable=False, default=ResourceUsage.OTHER_RES)
+    level = db.Column(db.Integer, nullable=False, default=ResourceLevel.PRIVATE)
+    usage = db.Column(db.Integer, nullable=False, default=ResourceUsage.OTHER_RES)
     upload_time = db.Column(db.DateTime)
 
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id',  ondelete="SET NULL"))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"))
     user = db.relationship('User', backref=db.backref('resource', lazy='dynamic'))
 
     def __repr__(self):
