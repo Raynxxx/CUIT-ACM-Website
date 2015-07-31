@@ -1,4 +1,7 @@
 {% extends "admin/base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
+{% endblock %}
 {% block content %}
 <div class="box box-primary">
   <div class="box-header with-border">
@@ -26,7 +29,28 @@
             {{ form.upload(id="inputFile") }}
           </div>
         </div>
-
+        <div class="form-group">
+          <label class="control-label col-sm-2"><span class="required-star">* </span>权限</label>
+          <div class="col-sm-9">
+            {%- for sub in form.level %}
+              <label class="radio-inline">
+                {{ sub }}
+                {{ sub.label(style='margin-left:10px;') }}
+              </label>
+            {%- endfor %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2"><span class="required-star">* </span>用途</label>
+          <div class="col-sm-9">
+            {%- for sub in form.usage %}
+              <label class="radio-inline">
+                {{ sub }}
+                {{ sub.label(style='margin-left:10px;') }}
+              </label>
+            {%- endfor %}
+          </div>
+        </div>
         <div class="form-group">
           <div class="control-label col-sm-2"></div>
           <div class="col-sm-9">
@@ -43,8 +67,19 @@
 </div>
 {% endblock %}
 {%- block script -%}
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
 <script>
+
+function make_iCheck() {
+  $('input[type="radio"], input[type="checkbox"]').iCheck({
+    checkboxClass: 'icheckbox_square-blue',
+    radioClass: 'iradio_square-blue',
+     increaseArea: '20%' // optional
+  });
+}
+
 $(document).ready(function () {
+  make_iCheck();
   var previewer = $("#preview");
   if(typeof FileReader == 'undefined') {
     previewer.InnerHTML="<p>你的浏览器不支持FileReader接口！</p>";

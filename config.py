@@ -25,9 +25,11 @@ OJ_MAP = {
     'vj': 'Virtual Judge',
 }
 
+
 CSRF_ENABLED = True
 import os.path
-UPLOADED_RESOURCE_DEST = os.path.abspath('.') + '/static/resource/'
+UPLOADED_RESOURCE_DEST = os.path.split(os.path.realpath(__file__))[0] + '/static/resource/'
+UPLOADED_RESOURCE_URL = '/upload/resource/'
 IMAGE_FILE_PATH = 'static/image/bookimg/'
 SECRET_KEY = 'a very hard string'
 from datetime import timedelta

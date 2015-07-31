@@ -27,10 +27,10 @@
           </div>
         </div>
         <table class="table table-bordered table-hover table-striped list-table">
-          <thead><tr><th>选择</th><th>名称</th><th>描述</th><th>链接</th><th>上传时间</th></tr></thead>
+          <thead><tr><th>选择</th><th>名称</th><th>描述</th><th>链接</th><th>上传用户</th><th>权限</th><th>用途</th><th>上传时间</th></tr></thead>
           <tbody class="list-table-body">
           </tbody>
-          <tfoot><tr><th>选择</th><th>名称</th><th>描述</th><th>链接</th><th>上传时间</th></tr></tfoot>
+          <tfoot><tr><th>选择</th><th>名称</th><th>描述</th><th>链接</th><th>上传用户</th><th>权限</th><th>用途</th><th>上传时间</th></tr></tfoot>
         </table>
       </div>
       <div class="box-footer no-padding">
@@ -94,7 +94,7 @@
       var $list_table = $('.list-table-body').first();
       $list_table.empty();
       if (length == 0) {
-        $list_table.append('<tr><td colspan="5"><h2>无资源</h2></tr>');
+        $list_table.append('<tr><td colspan="8"><h2>无资源</h2></tr>');
       } else {
         for (var i = 0; i < length; ++i) {
           $list_table.append(news_list[i]);

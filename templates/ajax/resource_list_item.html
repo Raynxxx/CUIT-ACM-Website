@@ -9,7 +9,32 @@
       <b>{{ resource.description }}</b>
   </td>
   <td class="list-item-link">
-      <a href="{{ url(resource.name)}}">{{ url(resource.name) }}</a>
+      <a href="{{ url(resource.filename)}}">{{ url(resource.filename) }}</a>
+  </td>
+  <td class="list-iten-user">
+      <label class="oj-nickname label label-primary">{{ resource.user.name }}</label>
+  </td>
+  <td class="list-item-rights">
+    {% if resource.level == 0 %}
+      <label class="label label-primary">公开</label>
+    {% elif resource.level == 1 %}
+      <label class="label label-success">共享</label>
+    {% else %}
+      <label class="label label-danger">私有</label>
+    {% endif %}
+  </td>
+  <td class="list-item-usage">
+    {% if resource.usage == 0 %}
+      <label class="label label-primary">图书</label>
+    {% elif resource.usage == 1 %}
+      <label class="label label-success">荣誉墙</label>
+    {% elif resource.usage == 2 %}
+      <label class="label label-danger">新闻</label>
+    {% elif resource.usage == 3 %}
+        <label class="label label-warning">题解</label>
+    {% else %}
+        <label class="label label-info">其他</label>
+    {% endif %}
   </td>
   <td class="list-item-time text-muted">
     {{ resource.upload_time }}
