@@ -131,6 +131,13 @@
           next.show();
           next.val(start + length);
         }
+      }).error(function() {
+        var $list_table = $('.list-table-body').first();
+        $list_table.empty();
+        $list_table.append('<tr><td colspan="6"><h2>加载失败</h2></tr>');
+        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+        $('.prev-page').hide();
+        $('.next-page').hide();
       });
     }
     function delete_users(checked) {

@@ -55,7 +55,8 @@ def logout():
 @main.route('/')
 @main.route('/index')
 def index():
-    return render_template('index/index.html')
+    return render_template('index/index.html',
+                           recent_news = news_server.get_recent())
 
 
 #
@@ -138,7 +139,7 @@ def news_archive(tag=None):
 def ranklist():
     weekly_rank_list = general.get_weekly_info(False)[0:10]
     last_week_rank = general.get_weekly_info(True)[0:10]
-    info_list = general.get_info_list()
+    info_list = general.get_rank_list()
     return render_template('index/ranklist.html',
                            weekly_rank = weekly_rank_list,
                            last_week_rank = last_week_rank,

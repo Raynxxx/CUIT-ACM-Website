@@ -67,8 +67,7 @@ def create_user():
     registerForm.school.data = current_user.school
     return render_template('add_user.html',
                            title = u'添加用户',
-                           form1 = registerForm,
-                           form2 = form.PasswordModifyForm())
+                           register_form = registerForm)
 
 
 #
@@ -170,28 +169,6 @@ def edit_news():
     return render_template('post_news.html', title=u'修改新闻', action=u'修改新闻',
                            form=news_form, my_button=my_button)
 
-
-
-@admin.route("/admin/manage_resource", methods=['GET'])
-@login_required
-def manage_resource():
-    if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('main.index'))
-    file_upload_form = form.FileUploadForm()
-    file_edit_form = form.FileInfoForm()
-    return render_template('admin/manage_resource.html',
-                           title=u'资源管理',
-                           limit = config.RESOURCE_MANAGE_PER_PAGE,
-                           form = file_upload_form,
-                           form1 = file_edit_form)
-
-@admin.route('/admin/upload', methods=['GET'])
-@login_required
-def upload():
-    if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('main.index'))
-    file_form = form.FileUploadForm()
-    return render_template('admin/upload.html', form = file_form)
 
 
 @admin.route("/admin/add_book", methods = ['GET'])
