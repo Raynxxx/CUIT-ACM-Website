@@ -25,6 +25,7 @@
    * ========================== */
 
   var Markdown = function (element, options) {
+    // @TODO : remove this BC on next major release
     // @see : https://github.com/toopay/bootstrap-markdown/issues/109
     var opts = ['autofocus', 'savable', 'hideable', 'width', 
       'height', 'resize', 'iconlibrary', 'language', 
@@ -1051,10 +1052,13 @@
               chunk = selected.text;
             }
 
-            link = prompt(e.__localize('Insert Image Hyperlink'),'http://');
 
+            $('#myModal').modal('show');
+              //TODO
+              link = '';
             if (link !== null && link !== '' && link !== 'http://' && link.substr(0,4) === 'http') {
               var sanitizedLink = $('<div>'+link+'</div>').text();
+
 
               // transform selection and set the cursor into chunked text
               e.replaceSelection('!['+chunk+']('+sanitizedLink+' "'+e.__localize('enter image title here')+'")');

@@ -24,7 +24,6 @@
             </button>
             <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2"><i class="fa fa-upload"></i>
               上传</a>
-
             <div class="pull-right">
               <div class="btn-group">
                 <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
@@ -35,14 +34,14 @@
           <table class="table table-bordered table-hover table-striped list-table">
             <thead>
             <tr>
-              <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限</th><th>用途</th><th>上传时间</th>
+              <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限用途</th><th>上传时间</th>
             </tr>
             </thead>
             <tbody class="list-table-body">
             </tbody>
             <tfoot>
             <tr>
-              <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限</th><th>用途</th><th>上传时间</th>
+              <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限用途</th><th>上传时间</th>
             </tr>
             </tfoot>
           </table>
@@ -88,10 +87,8 @@
           <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
         </div>
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+  </div>
   <div class="modal fade" id="myModal2" style="margin-top: 50px;">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -104,7 +101,7 @@
           <div class="modal-body">
             {{ upload_form.hidden_tag() }}
             <div class="form-group">
-              <label class="control-label col-sm-2" for="inputName">名称</label>
+              <label class="control-label col-sm-2" for="inputName"><span class="required-star">* </span>名称</label>
               <div class="col-sm-9">
                 {{ upload_form.name(class="form-control required",id="inputName", placeholder="名称") }}
               </div>
@@ -116,7 +113,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label col-sm-2" for="inputShortcut">选择文件</label>
+              <label class="control-label col-sm-2" for="inputShortcut"><span class="required-star">* </span>选择文件</label>
               <div class="col-sm-9">
                 {{ upload_form.upload(id="inputFile") }}
               </div>
@@ -170,7 +167,7 @@
           <div class="modal-body">
             {{ file_edit_form.hidden_tag() }}
             <div class="form-group">
-              <label class="control-label col-sm-2" for="inputName">名称</label>
+              <label class="control-label col-sm-2" for="inputName"><span class="required-star">* </span>名称</label>
               <div class="col-sm-9">
                 {{ file_edit_form.name(class="form-control required",id="inputName", placeholder="名称") }}
               </div>
@@ -239,7 +236,7 @@
         var $list_table = $('.list-table-body').first();
         $list_table.empty();
         if (length == 0) {
-          $list_table.append('<tr><td colspan="8"><h2>无资源</h2></tr>');
+          $list_table.append('<tr><td colspan="7"><h2>无资源</h2></tr>');
         } else {
           for (var i = 0; i < length; ++i) {
             $list_table.append(news_list[i]);
@@ -263,7 +260,7 @@
       }).error(function () {
         var $list_table = $('.list-table-body').first();
         $list_table.empty();
-        $list_table.append('<tr><td colspan="5"><h2>加载失败</h2></tr>');
+        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr>');
         $('.list-box > div.overlay').fadeOut(300, make_iCheck());
         $('.prev-page').hide();
         $('.next-page').hide();

@@ -183,3 +183,25 @@
   padding: 0 !important;
   width: 3%;
 }
+
+.list-item-filename {
+  font-weight: 700;
+  width: 15%;
+}
+
+.list-item-user {
+  width: 6%;
+}
+.list-item-rights {
+  width: 12%;
+}
+.list-item-rights .label {
+  display: inline-block;
+}
+.list-item-size {
+  font-weight: 500;
+  width: 8%;
+}
+.list-item-description {
+  width: 25%;
+}

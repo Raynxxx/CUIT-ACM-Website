@@ -1,8 +1,11 @@
 {% extends "admin/base.html" %}
 {%- block head -%}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='markdown/css/bootstrap-markdown.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/bootstrap-switch/bootstrap-switch.min.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-fileinput/css/fileinput.min.css') }}"/>
 {%- endblock -%}
 {% block content %}
 <div class="box box-primary">
@@ -11,37 +14,37 @@
   </div>
   <form id="postForm" method="post"  class="form-horizontal">
     <div class="box-body">
-      {{ form.hidden_tag() }}
-      {{ form.sid(style="display:none") }}
+      {{ news_form.hidden_tag() }}
+      {{ news_form.sid(style="display:none") }}
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputTitle">新闻标题</label>
         <div class="col-sm-6">
-          {{ form.title(class="form-control required",id="inputTitle", placeholder="在此填入标题") }}
+          {{ news_form.title(class="form-control required",id="inputTitle", placeholder="在此填入标题") }}
         </div>
-        <div class="col-sm-3">{{ form.is_top() }}</div>
+        <div class="col-sm-3">{{ news_form.is_top() }}</div>
       </div>
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputUrl">固定链接</label>
         <div class="col-sm-9">
-          {{ form.url(class="form-control required",id="inputUrl", placeholder="固定链接URL") }}
+          {{ news_form.url(class="form-control required",id="inputUrl", placeholder="固定链接URL") }}
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputTag">标签</label>
         <div class="col-sm-9">
-          {{ form.tags(class='form-control required', id="inputTag" ) }}
+          {{ news_form.tags(class='form-control required', id="inputTag" ) }}
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputShortcut">摘要</label>
         <div class="col-sm-9">
-          {{ form.shortcut(class=' required',id="inputShortcut", rows="6", style="resize:none;padding:10px;" , placeholder="摘要") }}
+          {{ news_form.shortcut(class=' required',id="inputShortcut", rows="6", style="resize:none;padding:10px;" , placeholder="摘要") }}
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputContent">正文</label>
         <div class="col-sm-9">
-          {{ form.content(class='required', id="inputContent" , rows="25", style="resize:none;padding:10px;" , placeholder="正文") }}
+          {{ news_form.content(class='required', id="inputContent" , rows="25", style="resize:none;padding:10px;" , placeholder="正文") }}
         </div>
       </div>
       <div class="alert alert-danger  col-sm-offset-2 col-sm-9"  id="post-info" style="display: none;">
@@ -52,10 +55,89 @@
     <div class="box-footer text-center">
       <div class="btn-group">
         <button type="button" class="btn btn-primary" id="save-post">{{ my_button[0] }}</button>
-        {{ form.submit(class='btn btn-danger', value=my_button[1]) }}
+        {{ news_form.submit(class='btn btn-danger', value=my_button[1]) }}
        </div>
     </div>
   </form>
+</div>
+<div class="modal fade" id="myModal" style="margin-top: 50px;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body no-padding">
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_1" data-toggle="tab">选择图片</a></li>
+            <li><a href="#tab_2" data-toggle="tab">上传图片</a></li>
+            <li class="pull-right"><a href="#" data-dismiss="modal"><i class="fa fa-times"></i></a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab_1">
+              <ul class="img-choose-tab">
+                <li></li>
+              </ul>
+            </div>
+            <div class="tab-pane" id="tab_2">
+              <form id="postImg" method="post" class="form-horizontal">
+                {{ upload_form.hidden_tag() }}
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="inputName"><span class="required-star">* </span>名称</label>
+                    <div class="col-sm-9">
+                      {{ upload_form.name(class="form-control required",id="inputName", placeholder="名称") }}
+                    </div>
+                  </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="inputShortcut">简介</label>
+                    <div class="col-sm-9">
+                      {{ upload_form.description(class='form-control required',id="inputdescription", rows="6", style="resize:none;" , placeholder="简介") }}
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="inputShortcut"><span class="required-star">* </span>选择文件</label>
+                  <div class="col-sm-9">
+                    {{ upload_form.upload(id="inputFile") }}
+                  </div>
+                </div>
+                <div class="form-group sr-only">
+                  <label class="control-label col-sm-2"><span class="required-star">* </span>权限</label>
+                  <div class="col-sm-9">
+                    {%- for sub in upload_form.level %}
+                      <label class="radio-inline">
+                        {{ sub }}
+                        {{ sub.label(style='margin-left:10px;') }}
+                      </label>
+                    {%- endfor %}
+                  </div>
+                </div>
+                <div class="form-group sr-only">
+                  <label class="control-label col-sm-2"><span class="required-star">* </span>用途</label>
+                  <div class="col-sm-9">
+                      {%- for sub in upload_form.usage %}
+                        <label class="radio-inline">
+                          {{ sub }}
+                          {{ sub.label(style='margin-left:10px;') }}
+                        </label>
+                      {%- endfor %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="alert alert-danger col-sm-offset-2 col-sm-9" id="post-img" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span id="post-img-text">xxxx</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-9">
+                    {{ upload_form.submit(class='btn btn-primary', value='上传') }}
+                    <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 {%- block script -%}
@@ -63,7 +145,15 @@
 <script src="{{ url_for('static', filename='markdown/js/bootstrap-markdown.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/bootstrap-switch/bootstrap-switch.min.js') }}"></script>
 <script src="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 <script>
+  function make_iCheck() {
+    $('.radio-inline input[type="checkbox"], .radio-inline input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue'
+    });
+  }
   function makeBootstrapSwitch() {
     $.fn.bootstrapSwitch.defaults.onColor = 'primary';
     $.fn.bootstrapSwitch.defaults.offColor = 'default';
@@ -79,9 +169,12 @@
           'label label-danger',
           'label label-success',
           'label label-warning',
-          'label label-info'
+          'label label-info',
+          'label bg-purple',
+          'label bg-orange',
+          'label bg-maroon'
         ];
-        return label[parseInt(Math.random() *  5, 10)];
+        return label[parseInt(Math.random() *  8, 10)];
       },
       trimValue: true
     });
@@ -103,11 +196,17 @@
     }
   }
   $(document).ready(function () {
+    make_iCheck();
     makeBootstrapSwitch();
     makeTagsInput();
+    $("#inputFile").fileinput({
+      'showUpload': false,
+      'allowedFileTypes': ['image'],
+      'maxFileSize': 8192,
+      'maxFileCount': 1
+    });
     $("button.close").click(function () {
       $(".alert").slideUp();
-      return false;
     });
     $('#inputShortcut').markdown({iconlibrary: 'fa'});
     $('#inputContent').markdown({iconlibrary: 'fa'});
@@ -120,6 +219,27 @@
     $('#postForm').submit(function () {
         save_post(false);
         return false;
+    });
+    $('#postImg').submit(function () {
+      var data = new FormData($('#postImg'));
+      var file = $("#inputFile");
+      data.append(file.name, file.files);
+      $.ajax({
+        url: "{{ url_for('ajax.upload') }}",
+        type: "POST",
+        data: data,
+        processData: false,  // 告诉jQuery不要去处理发送的数据
+        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+        success: function (msg) {
+          if (msg != 'ok') {
+            $("#post-img-text").html(msg);
+            $("#post-img").hide().fadeIn(200);
+          } else {
+            $('.closeModal').click();
+          }
+        }
+      });
+      return false;
     });
   });
 </script>

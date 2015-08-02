@@ -131,9 +131,17 @@ def post_news():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     news_form = form.NewsForm()
+    upload_form = form.FileUploadForm()
+    from dao.dbResource import ResourceLevel, ResourceUsage
+    upload_form.level.data = ResourceLevel.PUBLIC
+    upload_form.usage.data = ResourceUsage.NEWS_RES
     my_button = [u"保存草稿", u"直接发布"]
-    return render_template('post_news.html', title=u'发布新闻', action=u'发布新闻',
-                           form=news_form, my_button=my_button)
+    return render_template('post_news.html',
+                           title = u'发布新闻',
+                           action = u'发布新闻',
+                           news_form = news_form,
+                           upload_form = upload_form,
+                           my_button = my_button)
 
 #
 # @brief: the page for admin to edit news
@@ -148,9 +156,10 @@ def edit_news():
         return redirect(url_for('main.index'))
     try:
         one = news_server.get_by_id(request.args['p'])
-    except :
+    except:
         return redirect(url_for('admin.manage_news'))
     news_form = form.NewsForm()
+    upload_form = form.FileUploadForm()
     if one:
         news_form.sid.data = one.id
         news_form.title.data = one.title
@@ -166,8 +175,12 @@ def edit_news():
         my_button = [u"保存草稿", u"直接发布"]
     else :
         my_button = [u"保存草稿", u"提交更新"]
-    return render_template('post_news.html', title=u'修改新闻', action=u'修改新闻',
-                           form=news_form, my_button=my_button)
+    return render_template('post_news.html',
+                           title = u'修改新闻',
+                           action = u'修改新闻',
+                           news_form = news_form,
+                           upload_form = upload_form,
+                           my_button = my_button)
 
 
 

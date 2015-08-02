@@ -85,3 +85,8 @@
 .edit-user td:nth-child(2) {
   width: 15%;
 }
+
+.modal .nav-tabs-custom {
+  margin-bottom: 0 !important;
+  box-shadow: none !important;
+}
