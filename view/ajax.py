@@ -439,9 +439,6 @@ def get_resource_list_item(resource):
 @ajax.route('/ajax/resource_list', methods=['POST'])
 @login_required
 def get_resource_list():
-    if not current_user.is_admin and not current_user.is_coach:
-        print "你没有权限访问该模块"
-        return redirect(url_for('main.index'))
     offset = request.form.get('offset')
     limit = request.form.get('limit')
     resource_list = resource_server.get_list(offset, limit, current_user)
@@ -479,8 +476,6 @@ def upload():
 @ajax.route("/ajax/delete_resource", methods = ['POST'])
 @login_required
 def delete_resource():
-    if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('main.index'))
     try:
         resource_id = request.form.get('resource_id')
         msg = resource_server.delete_file(resource_id, current_user)

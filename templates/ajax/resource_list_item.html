@@ -2,17 +2,18 @@
   <td class="list-item-check">
     <label><input type="radio" name="resource" value="{{ resource.id }}"></label>
   </td>
-  <td class="list-item-name">
+  <td class="list-item-filename">
     <p>{{ resource.name }}</p>
+    <span class="badge">{{ resource.file_type }}</span>
   </td>
   <td class="list-item-description">
-      <b>{{ resource.description }}</b>
+    <b>{{ resource.description }}</b>
   </td>
   <td class="list-item-size">
-      {{ file_size(resource) }}bytes
+    {{ file_size(resource) }} KB
   </td>
-  <td class="list-iten-user">
-      <label class="oj-nickname label label-primary">{{ resource.user.name }}</label>
+  <td class="list-item-user">
+    {{ resource.user.name }}
   </td>
   <td class="list-item-rights">
     {% if resource.level == 0 %}
@@ -22,8 +23,6 @@
     {% else %}
       <label class="label label-danger">私有</label>
     {% endif %}
-  </td>
-  <td class="list-item-usage">
     {% if resource.usage == 0 %}
       <label class="label label-primary">图书</label>
     {% elif resource.usage == 1 %}
@@ -33,7 +32,7 @@
     {% elif resource.usage == 3 %}
         <label class="label label-warning">题解</label>
     {% else %}
-        <label class="label label-info">其他</label>
+        <label class="label label-default bg-purple">其他</label>
     {% endif %}
   </td>
   <td class="list-item-time text-muted">
