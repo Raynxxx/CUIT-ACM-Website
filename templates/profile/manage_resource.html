@@ -19,11 +19,14 @@
             <button class="btn btn-default btn-sm to_delete_resource" data-toggle="modal" data-target="#myModal">
               <i class="fa fa-trash-o"></i> 删除
             </button>
-            <button class="btn btn-default btn-sm edit_resource" data-toggle="modal" data-target="#myModal3"><i
+            <button class="btn btn-default btn-sm to_edit_resource" data-toggle="modal" data-target="#myModal3"><i
                     class="fa fa-pencil-square-o"></i> 修改
             </button>
-            <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2"><i class="fa fa-upload"></i>
+            <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2"><i class="fa fa-cloud-upload"></i>
               上传</a>
+            <button class="btn btn-default btn-sm download_resource"><i
+                    class="fa fa-cloud-download"></i> 下载
+            </button>
             <div class="pull-right">
               <div class="btn-group">
                 <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
@@ -51,11 +54,14 @@
             <button class="btn btn-default btn-sm to_delete_resource" data-toggle="modal" data-target="#myModal">
               <i class="fa fa-trash-o"></i> 删除
             </button>
-            <button class="btn btn-default btn-sm edit_resource" data-toggle="modal" data-target="#myModal3"><i
+            <button class="btn btn-default btn-sm to_edit_resource" data-toggle="modal" data-target="#myModal3"><i
                     class="fa fa-pencil-square-o"></i> 修改
             </button>
             <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2"><i
-                    class="fa fa-upload"></i> 上传
+                    class="fa fa-cloud-upload"></i> 上传
+            </button>
+            <button class="btn btn-default btn-sm download_resource" ><i
+                    class="fa fa-cloud-download"></i> 下载
             </button>
             <div class="pull-right">
               <div class="btn-group">
@@ -156,62 +162,6 @@
     </div>
   </div>
   <div class="modal fade" id="myModal3" style="margin-top: 50px;">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                  aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">修改资源信息</h4>
-        </div>
-        <form id="editForm" method="post" class="form-horizontal">
-          <div class="modal-body">
-            {{ file_edit_form.hidden_tag() }}
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="inputName"><span class="required-star">* </span>名称</label>
-              <div class="col-sm-9">
-                {{ file_edit_form.name(class="form-control required",id="inputName", placeholder="名称") }}
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="inputShortcut">简介</label>
-              <div class="col-sm-9">
-                {{ file_edit_form.description(class='form-control required',id="inputdescription", rows="6", style="resize:none;" , placeholder="简介") }}
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-2"><span class="required-star">* </span>权限</label>
-              <div class="col-sm-9">
-                {%- for sub in file_edit_form.level %}
-                  <label class="radio-inline">
-                    {{ sub }}
-                    {{ sub.label(style='margin-left:10px;') }}
-                  </label>
-                {%- endfor %}
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-2"><span class="required-star">* </span>用途</label>
-              <div class="col-sm-9">
-                {%- for sub in file_edit_form.usage %}
-                  <label class="radio-inline">
-                    {{ sub }}
-                    {{ sub.label(style='margin-left:10px;') }}
-                  </label>
-                {%- endfor %}
-              </div>
-            </div>
-            <div class="alert alert-info col-sm-offset-2 col-sm-9" id="post-info" style="display: none;">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-              <span id="post-info-text"></span>
-            </div>
-          </div>
-          <div class="modal-footer">
-            {{ file_edit_form.submit(class='btn btn-primary', value='上传') }}
-            <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
-          </div>
-        </form>
-      </div>
-    </div>
   </div>
 {% endblock %}
 
@@ -299,11 +249,35 @@
         var check = $('input[name="resource"]:checked').val();
         delete_resource(check);
       });
-      $('.edit_resource').click(function () {
+      $('.download_resource').click(function() {
+          var name = $('input[name="resource"]:checked').attr('filename');
+          window.open("/upload/resource/"+name);
+      });
+      $('.to_edit_resource').click(function () {
         var $check = $('input[name="resource"]:checked');
         if ($check.length <= 0) {
           return false;
         }
+        else {
+            var data = {'resource_id': $check.val()};
+            $.post("{{ url_for('ajax.get_resource_info') }}", data).success(function (ret) {
+                $("#myModal3").html(ret)
+                make_iCheck();
+            });
+        }
+      });
+      $("#myModal3").on("click","#edit_submit", function() {
+          var data = $('#editForm').serialize();
+          $.post("{{ url_for("ajax.edit_resource") }}", data).success(function (ret) {
+              if (ret!='ok') {
+                $("#edit-info-text").html(ret);
+                $("#edit-info").hide().fadeIn(200);
+              }
+              else {
+                  $('.closeModal').click();
+                  get_resource_list(0, limit);
+              }
+          });
       });
       $('#postForm').submit(function () {
         var data = new FormData($('#postForm')[0]);

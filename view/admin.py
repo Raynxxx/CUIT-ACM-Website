@@ -133,8 +133,8 @@ def post_news():
     news_form = form.NewsForm()
     upload_form = form.FileUploadForm()
     from dao.dbResource import ResourceLevel, ResourceUsage
-    upload_form.level.data = ResourceLevel.PUBLIC
-    upload_form.usage.data = ResourceUsage.NEWS_RES
+    upload_form.level.data = str(ResourceLevel.PUBLIC)
+    upload_form.usage.data = str(ResourceUsage.NEWS_RES)
     my_button = [u"保存草稿", u"直接发布"]
     return render_template('post_news.html',
                            title = u'发布新闻',
@@ -160,6 +160,9 @@ def edit_news():
         return redirect(url_for('admin.manage_news'))
     news_form = form.NewsForm()
     upload_form = form.FileUploadForm()
+    from dao.dbResource import ResourceLevel, ResourceUsage
+    upload_form.level.data = str(ResourceLevel.PUBLIC)
+    upload_form.usage.data = str(ResourceUsage.NEWS_RES)
     if one:
         news_form.sid.data = one.id
         news_form.title.data = one.title

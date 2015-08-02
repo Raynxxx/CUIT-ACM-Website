@@ -126,6 +126,7 @@ class FileUploadForm(Form):
     submit = SubmitField(u'提交')
 
 class FileInfoForm(Form):
+    id = IntegerField('id',validators=[validators.optional()],default=-1)
     name = StringField(u'name', validators=[validators.DataRequired(), validators.Length(min=1, max=48)])
     description = TextAreaField(u'description', validators=[validators.Optional()])
     level = RadioField('level', choices=[('0', u'公开'), ('1', u'内部共享'), ('2', u'私有')], coerce=str, default=2)

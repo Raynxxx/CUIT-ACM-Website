@@ -430,6 +430,22 @@ def get_resource_list_item(resource):
                            file_size = resource_server.file_size)
 
 
+@ajax.route('/ajax/resource_info', methods=['POST'])
+@login_required
+def get_resource_info():
+    resource_id = request.form.get('resource_id')
+    rs = resource_server.get_by_id(resource_id)
+    if rs.level >= 2 and not current_user.is_admin and not current_user.is_coach_of(rs.user):
+        return u'permission denied'
+    file_edit_form = form.FileInfoForm()
+    file_edit_form.id.data = rs.id
+    file_edit_form.level.data = str(rs.level)
+    file_edit_form.name.data = rs.name
+    file_edit_form.description.data = rs.description
+    file_edit_form.usage.data = str(rs.usage)
+    return render_template('ajax/resource_modify_modal.html',file_edit_form = file_edit_form)
+
+
 #
 # @brief: ajax resource list
 # @route: /ajax/resource_list
@@ -482,6 +498,17 @@ def delete_resource():
         return msg
     except:
         return u'删除失败'
+
+@ajax.route("/ajax/edit_resource", methods = ['POST'])
+@login_required
+def edit_resource():
+    file_edit_form = form.FileInfoForm()
+    if file_edit_form.validate_on_submit():
+        return resource_server.modify_file(file_edit_form, current_user)
+    return u'表单填写错误'
+
+
+
 
 
 

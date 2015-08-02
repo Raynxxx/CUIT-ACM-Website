@@ -1,0 +1,57 @@
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">修改资源信息</h4>
+        </div>
+        <form id="editForm" method="post" class="form-horizontal">
+          <div class="modal-body">
+            {{ file_edit_form.hidden_tag() }}
+            {{ file_edit_form.id(style='display:none;') }}
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="inputName">名称</label>
+              <div class="col-sm-9">
+                {{ file_edit_form.name(class="form-control required",id="inputName", placeholder="名称") }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="inputShortcut">简介</label>
+              <div class="col-sm-9">
+                {{ file_edit_form.description(class='form-control required',id="inputdescription", rows="6", style="resize:none;" , placeholder="简介") }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2"><span class="required-star">* </span>权限</label>
+              <div class="col-sm-9">
+                {%- for sub in file_edit_form.level %}
+                  <label class="radio-inline">
+                    {{ sub }}
+                    {{ sub.label(style='margin-left:10px;') }}
+                  </label>
+                {%- endfor %}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2"><span class="required-star">* </span>用途</label>
+              <div class="col-sm-9">
+                {%- for sub in file_edit_form.usage %}
+                  <label class="radio-inline">
+                    {{ sub }}
+                    {{ sub.label(style='margin-left:10px;') }}
+                  </label>
+                {%- endfor %}
+              </div>
+            </div>
+            <div class="alert alert-error alert-block" id="edit-info" style="display: none;">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <span id="edit-info-text"></span>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-flat" id="edit_submit">提交</button>
+            <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>

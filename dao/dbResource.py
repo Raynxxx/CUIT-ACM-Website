@@ -32,7 +32,11 @@ class Resource(db.Model):
 
     @property
     def file_type(self):
-        return str(self.filename).split('.')[-1]
+        return unicode(self.filename).split('.')[-1]
+
+    @property
+    def serialize(self):
+        return { c.name: getattr(self, c.name) for c in self.__table__.columns }
 
     def save(self):
         db.session.add(self)
