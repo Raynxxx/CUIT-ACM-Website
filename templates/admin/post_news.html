@@ -72,9 +72,24 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
-              <ul class="img-choose-tab">
-                <li></li>
-              </ul>
+              <table class="table table-bordered table-hover table-striped list-table">
+                <thead>
+                <tr>
+                  <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限用途</th><th>上传时间</th>
+                </tr>
+                </thead>
+                <tbody class="list-table-body">
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限用途</th><th>上传时间</th>
+                </tr>
+                </tfoot>
+              </table>
+              <div style="text-align: right">
+                <button type="button" class="btn btn-danger btn-flat" id="insert_resource">确定</button>
+                <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+              </div>
             </div>
             <div class="tab-pane" id="tab_2">
               <form id="postImg" method="post" class="form-horizontal">
@@ -153,7 +168,51 @@
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'iradio_square-blue'
     });
+    $('.list-table-body input[type="checkbox"], input[type="radio"]').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+      });
   }
+    function get_resource_list(offset, limit) {
+      var data = {offset: offset, limit: limit};
+      $.post("{{ url_for('ajax.get_resource_list') }}", data).success(function (ret) {
+        var news_count = ret.sum;
+        var start = ret.offset;
+        var length = ret.limit;
+        var news_list = ret.news_list;
+        var $list_table = $('.list-table-body').first();
+        $list_table.empty();
+        if (length == 0) {
+          $list_table.append('<tr><td colspan="7"><h2>无资源</h2></tr>');
+        } else {
+          for (var i = 0; i < length; ++i) {
+            $list_table.append(news_list[i]);
+          }
+        }
+        make_iCheck();
+        var prev = $('.prev-page');
+        var next = $('.next-page');
+        if (start == 0) {
+          prev.hide();
+        } else {
+          prev.show();
+          prev.val(start - limit);
+        }
+        if (news_count == start + length) {
+          next.hide();
+        } else {
+          next.show();
+          next.val(start + length);
+        }
+      }).error(function () {
+        var $list_table = $('.list-table-body').first();
+        $list_table.empty();
+        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr>');
+        make_iCheck();
+        $('.prev-page').hide();
+        $('.next-page').hide();
+      });
+    }
   function makeBootstrapSwitch() {
     $.fn.bootstrapSwitch.defaults.onColor = 'primary';
     $.fn.bootstrapSwitch.defaults.offColor = 'default';
@@ -198,6 +257,7 @@
   $(document).ready(function () {
     make_iCheck();
     makeBootstrapSwitch();
+      get_resource_list(0,15);
     makeTagsInput();
     $("#inputFile").fileinput({
       'showUpload': false,
@@ -208,8 +268,9 @@
     $("button.close").click(function () {
       $(".alert").slideUp();
     });
-    $('#inputShortcut').markdown({iconlibrary: 'fa'});
-    $('#inputContent').markdown({iconlibrary: 'fa'});
+    var md_shortcut = $('#inputShortcut').markdown({iconlibrary: 'fa',
+    });
+    var md_input_content = $('#inputContent').markdown({iconlibrary: 'fa'});
     $('.md-editor').on("click",".btn[title='Preview']", function(){
       MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     });
@@ -220,10 +281,21 @@
         save_post(false);
         return false;
     });
+    $('#insert_resource').click(function(){
+        var $check = $('input[name="resource"]:checked');
+        if ($check.length <= 0) {
+          return false;
+        }
+        else {
+            var resource_id = $check.val();
+            alert(this.getAttribute('data-target'));
+
+        }
+    });
     $('#postImg').submit(function () {
-      var data = new FormData($('#postImg'));
-      var file = $("#inputFile");
-      data.append(file.name, file.files);
+      var data = new FormData($('#postImg')[0]);
+      var file = $("#inputFile")[0];
+      data.append(file.name, file.files[0]);
       $.ajax({
         url: "{{ url_for('ajax.upload') }}",
         type: "POST",
@@ -235,7 +307,7 @@
             $("#post-img-text").html(msg);
             $("#post-img").hide().fadeIn(200);
           } else {
-            $('.closeModal').click();
+            $('.nav-tabs a:first').tab('show');
           }
         }
       });

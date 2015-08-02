@@ -30,13 +30,12 @@ def save_file(file_attr, file_data, user):
     except UploadNotAllowed:
         return 'your upload is not allowed'
     except Exception, e:
-        print e.message
         return 'filed to save you upload'
 
 
-def modify_file(file_attr, resource_id, user):
+def modify_file(file_attr, user):
     try:
-        rc = Resource.query.filter(Resource.id==resource_id).first_or_404()
+        rc = Resource.query.filter(Resource.id==file_attr.id.data).first_or_404()
         if rc.user != user and not user.is_admin and not user.is_coach_of(rc.user):
             return 'failed, no permission'
         rc.name = file_attr.name.data
@@ -102,6 +101,9 @@ def get_count(user=None, usage=None):
 
 def get_by_name(filename):
     return Resource.query.filter(Resource.filename==filename).first_or_404()
+
+def get_by_id(resource_id):
+    return Resource.query.filter(Resource.id==resource_id).first_or_404()
 
 
 def file_url(file):
