@@ -1043,7 +1043,7 @@
           icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture' },
           callback: function(e){
             // Give ![] surround the selection and prepend the image link
-            var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link;
+            var chunk, cursor, selected = e.getSelection(), content = e.getContent();
 
             if (selected.length === 0) {
               // Give extra word
@@ -1051,25 +1051,27 @@
             } else {
               chunk = selected.text;
             }
-
-
             $('#myModal').modal('show');
-              //TODO
-              link = '';
-            if (link !== null && link !== '' && link !== 'http://' && link.substr(0,4) === 'http') {
-              var sanitizedLink = $('<div>'+link+'</div>').text();
-
-
-              // transform selection and set the cursor into chunked text
-              e.replaceSelection('!['+chunk+']('+sanitizedLink+' "'+e.__localize('enter image title here')+'")');
-              cursor = selected.start+2;
-
-              // Set the next tab
-              e.setNextTab(e.__localize('enter image title here'));
-
-              // Set the cursor
-              e.setSelection(cursor,cursor+chunk.length);
-            }
+            $('#insert_img').click(function() {
+                var $check = $('.selected');
+                if ($check.length != 1) {
+                    //return false;
+                }
+                var link = $check.data('target');
+                $('#myModal').modal('hide');
+                $('.img-item').each(function() {
+                  $(this).removeClass('selected');
+                });
+                if (link !== null && link !== '' && link !== 'http://') {
+                    // transform selection and set the cursor into chunked text
+                    e.replaceSelection('!['+chunk+']('+link+')');
+                    cursor = selected.start+2;
+                    // Set the next tab
+                    e.setNextTab(e.__localize('enter image title here'));
+                    // Set the cursor
+                    e.setSelection(cursor,cursor+chunk.length);
+                }
+            });
           }
         }]
       },{

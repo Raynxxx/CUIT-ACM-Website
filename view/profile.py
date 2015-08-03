@@ -96,7 +96,6 @@ def update_account():
 @login_required
 def manage_resource():
     file_upload_form = form.FileUploadForm()
-    file_edit_form = form.FileInfoForm()
     return render_template('manage_resource.html',
                            title = u'资源管理',
                            user = current_user,
@@ -135,3 +134,4 @@ def edit_article():
         solution_form.problem_oj_name.data = one.problem_oj_name
         solution_form.problem_pid.data = one.problem_pid
     return render_template('post_article.html', user=current_user, form=solution_form)
+

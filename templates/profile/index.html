@@ -177,13 +177,13 @@
     });
     $('.to-edit-user').click(function() {
       $(this).hide();
-      $('.user-info').hide();
+      $('.active .user-info').hide();
       $('#userEditForm').fadeIn();
       return false;
     });
     $('.back-user-info').click(function() {
       $('#userEditForm').hide();
-      $('.user-info').fadeIn();
+      $('.active .user-info').fadeIn();
       $('.to-edit-user').fadeIn();
       return false;
     });

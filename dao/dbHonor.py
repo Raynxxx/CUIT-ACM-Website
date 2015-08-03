@@ -31,7 +31,7 @@ class Honor(db.Model):
 
 
     def __repr__(self):
-        return '<Honor>'
+        return '<Honor>@' + self.contest_name
 
     @property
     def serialize(self):
