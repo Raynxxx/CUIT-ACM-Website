@@ -19,6 +19,28 @@ def create_user(user_form, user_rights):
     new_user.save()
     return 'OK'
 
+def create_mul_users(user_form, current_user):
+    success_count = 0
+    try:
+        for info in user_form.user_info.data.split(';'):
+            data = info.split(',')
+            if len(data) < 4:
+                continue
+            try:
+                new_user = User(username=data[0],
+                                name = data[1],
+                                password=data[2],
+                                school=current_user.school,
+                                gender=True if data[3] == '1' else False,
+                                email=None)
+                new_user.rights = 1
+                new_user.save()
+                success_count += 1
+            except:
+                pass
+        return '{0} user added'.format(success_count)
+    except Exception, e:
+        return 'failed'
 
 def update_user(user_form, user_rights = 0, for_self = False):
     has_user = User.query.filter_by(id = user_form.id.data).with_lockmode('update').first()

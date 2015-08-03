@@ -79,6 +79,22 @@ def create_user():
         #print reg_form.errors
         return u"添加用户失败: 表单填写有误"
 
+@ajax.route('/ajax/create_users', methods=["POST"])
+@login_required
+def create_users():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    reg_form = form.MultiRegisterForm()
+    if reg_form.validate_on_submit():
+        try:
+            ret = user_server.create_mul_users(reg_form, current_user)
+            return ret
+        except Exception, e:
+            return u"添加用户失败: " + e.message
+    else:
+        #print reg_form.errors
+        return u"添加用户失败: 表单填写有误"
+
 
 #
 # @brief: edit user
@@ -239,7 +255,7 @@ def post_news():
         except IntegrityError:
             return u"发表新闻失败: 固定链接已存在"
         except Exception, e:
-            return u"发表新闻失败" + e.message
+            return u"发表新闻失败: " + e.message
     else:
         return u"发表新闻失败,请检查内容"
 
@@ -389,8 +405,9 @@ def get_img_choose_list():
         return redirect(url_for('index'))
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    images = resource_server.get_list(offset, limit, current_user)
-    sum = resource_server.get_count(current_user)
+    from dao.dbResource import ResourceType
+    images = resource_server.get_list(offset, limit, current_user, type=ResourceType.IMAGES)
+    sum = resource_server.get_count(current_user, type=ResourceType.IMAGES)
     return jsonify(img_list=[get_img_choose_item(img) for img in images],
                    sum=sum, offset=int(offset), limit=len(images))
 

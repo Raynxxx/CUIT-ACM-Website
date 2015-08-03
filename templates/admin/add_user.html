@@ -101,7 +101,29 @@
           </div>
         </form>
       </div>
+  <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="fa fa-user-plus"></i> <span>批量添加用户</span></h3>
+        </div>
+        <form id="multiRegForm" method="post" class="form-horizontal">
+          <div class="box-body">
+              {{ multi_reg_form.hidden_tag() }}
+              {{ multi_reg_form.user_info(class='form-control required', rows="6", style="resize:none;",
+                 placeholder="呢称1,姓名1,密码1,性别1;呢称2,姓名2,密码2,性别2;..."
+              )}}
+              <span id="helpBlock" class="help-block">学校默认为添加人的学校，权限默认为学生, 1表示男,0表示女</span>
+              <div class="alert alert-danger col-sm-offset-3 col-sm-6" id="add-mul-info" style="display: none;margin-top: 20px;">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <span id="add-mul-info-text"></span>
+            </div>
+          </div>
+          <div class="box-footer text-center">
+            {{ multi_reg_form.submit(class='btn btn-primary btn-flat', value='提交') }}
+          </div>
+        </form>
+      </div>
     </div>
+
   </div>
 {% endblock %}
 {%- block script -%}
@@ -151,6 +173,15 @@
         );
       }
       return false;
+    });
+    $("#multiRegForm").submit(function(){
+        $.post("{{ url_for('ajax.create_users') }}", $('#multiRegForm').serialize()).success(
+          function (data) {
+            $("#add-mul-info-text").html(data);
+            $("#add-mul-info").fadeIn(200);
+          }
+        );
+        return false;
     });
   });
 </script>
