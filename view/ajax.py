@@ -366,6 +366,36 @@ def delete_account():
         return 'ERROR: unknown error'
 
 
+
+#
+# @brief: ajax html for one img choose item
+# @allowed user: admin and coach
+#
+@login_required
+def get_img_choose_item(img_item):
+    return render_template('ajax/img-choose-item.html',
+                           img_item = img_item,
+                           file_url = resource_server.file_url)
+
+#
+# @brief: ajax img choose list
+# @route: /ajax/img_choose_list
+# @allowed user: admin and coach
+#
+@ajax.route('/ajax/img_choose_list', methods=["POST"])
+@login_required
+def get_img_choose_list():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('index'))
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    images = resource_server.get_list(offset, limit, current_user)
+    sum = resource_server.get_count(current_user)
+    return jsonify(img_list=[get_img_choose_item(img) for img in images],
+                   sum=sum, offset=int(offset), limit=len(images))
+
+
+
 #
 # @brief: add or modify solution
 # @route: /ajax/solution_manager

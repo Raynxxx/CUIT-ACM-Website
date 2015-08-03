@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 {%- block head -%}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resource.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='markdown/css/bootstrap-markdown.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/bootstrap-switch/bootstrap-switch.min.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.css') }}"/>
@@ -71,23 +71,19 @@
             <li class="pull-right"><a href="#" data-dismiss="modal"><i class="fa fa-times"></i></a></li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane active" id="tab_1">
-              <table class="table table-bordered table-hover table-striped list-table">
-                <thead>
-                <tr>
-                  <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限用途</th><th>上传时间</th>
-                </tr>
-                </thead>
-                <tbody class="list-table-body">
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限用途</th><th>上传时间</th>
-                </tr>
-                </tfoot>
-              </table>
-              <div style="text-align: right">
-                <button type="button" class="btn btn-danger btn-flat" id="insert_resource">确定</button>
+            <div class="tab-pane active no-padding" id="tab_1">
+              <div class="img-choose-box row"></div>
+              <div class="overlay row" style="display: none">
+                <i class="fa fa-refresh fa-spin"></i>
+              </div>
+              <nav>
+                <ul class="pager">
+                  <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+                  <li class="next"><a href="#">下一页<span aria-hidden="true">&rarr;</span></a></li>
+                </ul>
+              </nav>
+              <div class="button-label">
+                <button type="button" class="btn btn-primary btn-flat" id="insert_img">确定</button>
                 <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
               </div>
             </div>
@@ -163,156 +159,170 @@
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
 <script src="{{ url_for('static', filename='bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 <script>
-  function make_iCheck() {
-    $('.radio-inline input[type="checkbox"], .radio-inline input[type="radio"]').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue'
+function gao_selected() {
+  $(document).on('click', '.img-item', function() {
+    $('.img-item').each(function() {
+      $(this).removeClass('selected');
     });
-    $('.list-table-body input[type="checkbox"], input[type="radio"]').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue'
-      });
-  }
-    function get_resource_list(offset, limit) {
-      var data = {offset: offset, limit: limit};
-      $.post("{{ url_for('ajax.get_resource_list') }}", data).success(function (ret) {
-        var news_count = ret.sum;
-        var start = ret.offset;
-        var length = ret.limit;
-        var news_list = ret.news_list;
-        var $list_table = $('.list-table-body').first();
-        $list_table.empty();
-        if (length == 0) {
-          $list_table.append('<tr><td colspan="7"><h2>无资源</h2></tr>');
-        } else {
-          for (var i = 0; i < length; ++i) {
-            $list_table.append(news_list[i]);
-          }
-        }
-        make_iCheck();
-        var prev = $('.prev-page');
-        var next = $('.next-page');
-        if (start == 0) {
-          prev.hide();
-        } else {
-          prev.show();
-          prev.val(start - limit);
-        }
-        if (news_count == start + length) {
-          next.hide();
-        } else {
-          next.show();
-          next.val(start + length);
-        }
-      }).error(function () {
-        var $list_table = $('.list-table-body').first();
-        $list_table.empty();
-        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr>');
-        make_iCheck();
-        $('.prev-page').hide();
-        $('.next-page').hide();
-      });
-    }
-  function makeBootstrapSwitch() {
-    $.fn.bootstrapSwitch.defaults.onColor = 'primary';
-    $.fn.bootstrapSwitch.defaults.offColor = 'default';
-    $.fn.bootstrapSwitch.defaults.onText = '置顶';
-    $.fn.bootstrapSwitch.defaults.offText = '取消置顶';
-    $("input[type='checkbox']").bootstrapSwitch();
-  }
-  function makeTagsInput() {
-    $('input[id="inputTag"]').tagsinput({
-      tagClass: function(item) {
-        var label = [
-          'label label-primary',
-          'label label-danger',
-          'label label-success',
-          'label label-warning',
-          'label label-info',
-          'label bg-purple',
-          'label bg-orange',
-          'label bg-maroon'
-        ];
-        return label[parseInt(Math.random() *  8, 10)];
-      },
-      trimValue: true
-    });
-  }
-  function save_post(is_draft) {
-    var title = $('#inputTitle');
-    if (requiredCheck(title, '文章标题')) {
-      if (is_draft) {
-        url = "{{ url_for('ajax.post_news', draft='1') }}";
-      } else {
-        url = "{{ url_for('ajax.post_news', draft='0') }}";
-      }
-      $.post(url, $('#postForm').serialize()).success(
-          function (data) {
-            $("#post-info-text").html(data);
-            $("#post-info").hide().fadeIn(200);
-          }
-      );
-    }
-  }
-  $(document).ready(function () {
-    make_iCheck();
-    makeBootstrapSwitch();
-      get_resource_list(0,15);
-    makeTagsInput();
-    $("#inputFile").fileinput({
-      'showUpload': false,
-      'allowedFileTypes': ['image'],
-      'maxFileSize': 8192,
-      'maxFileCount': 1
-    });
-    $("button.close").click(function () {
-      $(".alert").slideUp();
-    });
-    var md_shortcut = $('#inputShortcut').markdown({iconlibrary: 'fa',
-    });
-    var md_input_content = $('#inputContent').markdown({iconlibrary: 'fa'});
-    $('.md-editor').on("click",".btn[title='Preview']", function(){
-      MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-    });
-    $('#save-post').click(function(){
-        save_post(true);
-    });
-    $('#postForm').submit(function () {
-        save_post(false);
-        return false;
-    });
-    $('#insert_resource').click(function(){
-        var $check = $('input[name="resource"]:checked');
-        if ($check.length <= 0) {
-          return false;
-        }
-        else {
-            var resource_id = $check.val();
-            alert(this.getAttribute('data-target'));
-
-        }
-    });
-    $('#postImg').submit(function () {
-      var data = new FormData($('#postImg')[0]);
-      var file = $("#inputFile")[0];
-      data.append(file.name, file.files[0]);
-      $.ajax({
-        url: "{{ url_for('ajax.upload') }}",
-        type: "POST",
-        data: data,
-        processData: false,  // 告诉jQuery不要去处理发送的数据
-        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-        success: function (msg) {
-          if (msg != 'ok') {
-            $("#post-img-text").html(msg);
-            $("#post-img").hide().fadeIn(200);
-          } else {
-            $('.nav-tabs a:first').tab('show');
-          }
-        }
-      });
-      return false;
-    });
+    $(this).addClass('selected');
   });
+}
+function get_img_choose_list(offset, limit) {
+  $('.img-choose-box+.overlay').fadeIn(300);
+  var data = {offset: offset, limit: limit};
+  $.post("{{ url_for('ajax.get_img_choose_list') }}", data).success(function (ret) {
+    var img_count = ret.sum;
+    var start = ret.offset;
+    var length = ret.limit;
+    var img_list = ret.img_list;
+    var $img_box = $('.img-choose-box').first();
+    $img_box.empty();
+    if (length == 0) {
+      $img_box.append('<div><h1>无图片</h1></div>');
+    } else {
+      $('.img-choose-box+.overlay').fadeOut(300);
+      for (var i = 0; i < length; ++i) {
+        $img_box.append(img_list[i]);
+      }
+    }
+    //$('.img-choose-box+.overlay').fadeOut(300);
+    var prev = $('.pager>.previous');
+    var next = $('.pager>.next');
+    if (start == 0) {
+      prev.hide();
+    } else {
+      prev.show();
+      prev.val(start - limit);
+    }
+    if (img_count == start + length) {
+      next.hide();
+    } else {
+      next.show();
+      next.val(start + length);
+    }
+  }).error(function() {
+    var $img_box = $('.img-choose-box').first();
+    $img_box.empty();
+    $img_box.append('<div><h1>加载失败</h1></div>');
+    $('.img-choose-box+.overlay').fadeOut(300);
+    $('.pager>.previous').hide();
+    $('.pager>.next').hide();
+  });
+}
+function make_pager(limit) {
+  $('.pager>.previous').click(function () {
+    var offset = parseInt($(this).val());
+    get_img_choose_list(offset, limit);
+    return false;
+  });
+  $('.pager>.next').click(function () {
+    var offset = parseInt($(this).val());
+    get_img_choose_list(offset, limit);
+    return false;
+  });
+}
+$(document).ready(function() {
+  var limit = 8;
+  get_img_choose_list(0, limit);
+  make_pager(limit);
+  gao_selected();
+});
+</script>
+<script>
+function make_iCheck() {
+  $('.radio-inline input[type="checkbox"], input[type="radio"]').iCheck({
+    checkboxClass: 'icheckbox_square-blue',
+    radioClass: 'iradio_square-blue'
+  });
+}
+function makeBootstrapSwitch() {
+  $.fn.bootstrapSwitch.defaults.onColor = 'primary';
+  $.fn.bootstrapSwitch.defaults.offColor = 'default';
+  $.fn.bootstrapSwitch.defaults.onText = '置顶';
+  $.fn.bootstrapSwitch.defaults.offText = '取消置顶';
+  $("input[type='checkbox']").bootstrapSwitch();
+}
+function makeTagsInput() {
+  $('input[id="inputTag"]').tagsinput({
+    tagClass: function(item) {
+      var label = [
+        'label label-primary',
+        'label label-danger',
+        'label label-success',
+        'label label-warning',
+        'label label-info',
+        'label bg-purple',
+        'label bg-orange',
+        'label bg-maroon'
+      ];
+      return label[parseInt(Math.random() *  8, 10)];
+    },
+    trimValue: true
+  });
+}
+function save_post(is_draft) {
+  var title = $('#inputTitle');
+  if (requiredCheck(title, '文章标题')) {
+    if (is_draft) {
+      url = "{{ url_for('ajax.post_news', draft='1') }}";
+    } else {
+      url = "{{ url_for('ajax.post_news', draft='0') }}";
+    }
+    $.post(url, $('#postForm').serialize()).success(
+        function (data) {
+          $("#post-info-text").html(data);
+          $("#post-info").hide().fadeIn(200);
+        }
+    );
+  }
+}
+$(document).ready(function () {
+  make_iCheck();
+  makeBootstrapSwitch();
+  makeTagsInput();
+  $("#inputFile").fileinput({
+    'showUpload': false,
+    'allowedFileTypes': ['image'],
+    'maxFileSize': 8192,
+    'maxFileCount': 1
+  });
+  $("button.close").click(function () {
+    $(".alert").slideUp();
+  });
+  var md_shortcut = $('#inputShortcut').markdown({iconlibrary: 'fa'});
+  var md_input_content = $('#inputContent').markdown({iconlibrary: 'fa'});
+  $('.md-editor').on("click",".btn[title='Preview']", function(){
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+  });
+  $('#save-post').click(function(){
+      save_post(true);
+  });
+  $('#postForm').submit(function () {
+      save_post(false);
+      return false;
+  });
+  $('#postImg').submit(function () {
+    var data = new FormData($('#postImg')[0]);
+    var file = $("#inputFile")[0];
+    data.append(file.name, file.files[0]);
+    $.ajax({
+      url: "{{ url_for('ajax.upload') }}",
+      type: "POST",
+      data: data,
+      processData: false,  // 告诉jQuery不要去处理发送的数据
+      contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+      success: function (msg) {
+        if (msg == 'ok') {
+          $('.nav-tabs a:first').tab('show');
+          $('#postImg').get(0).reset();
+        } else {
+          $("#post-img-text").html(msg);
+          $("#post-img").hide().fadeIn(200);
+        }
+      }
+    });
+    return false;
+  });
+});
 </script>
 {%- endblock -%}

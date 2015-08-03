@@ -227,7 +227,11 @@
       make_iCheck();
       var limit = {{ limit }};
       get_resource_list(0, limit);
-      $("#inputFile").fileinput({'showUpload': false});
+      $("#inputFile").fileinput({
+        'showUpload': false,
+        'maxFileCount': 1,
+        'maxFileSize': 8192
+      });
       $('button.to_refresh').click(function () {
         get_resource_list(0, limit);
       });
@@ -250,30 +254,32 @@
         delete_resource(check);
       });
       $('.download_resource').click(function() {
-          var name = $('input[name="resource"]:checked').attr('filename');
-          window.open("/upload/resource/"+name);
+        var $check = $('input[name="resource"]:checked');
+        if ($check.length <= 0) {
+          return false;
+        }
+        var name = $check.attr('filename');
+        window.open("/upload/resource/"+name);
       });
       $('.to_edit_resource').click(function () {
         var $check = $('input[name="resource"]:checked');
         if ($check.length <= 0) {
           return false;
-        }
-        else {
-            var data = {'resource_id': $check.val()};
-            $.post("{{ url_for('ajax.get_resource_info') }}", data).success(function (ret) {
-                $("#myModal3").html(ret)
-                make_iCheck();
-            });
+        } else {
+          var data = {'resource_id': $check.val()};
+          $.post("{{ url_for('ajax.get_resource_info') }}", data).success(function (ret) {
+              $("#myModal3").html(ret)
+              make_iCheck();
+          });
         }
       });
-      $("#myModal3").on("click","#edit_submit", function() {
+      $("#myModal3").on("click", "#edit_submit", function() {
           var data = $('#editForm').serialize();
           $.post("{{ url_for("ajax.edit_resource") }}", data).success(function (ret) {
               if (ret!='ok') {
                 $("#edit-info-text").html(ret);
                 $("#edit-info").hide().fadeIn(200);
-              }
-              else {
+              } else {
                   $('.closeModal').click();
                   get_resource_list(0, limit);
               }
@@ -290,12 +296,13 @@
           processData: false,  // 告诉jQuery不要去处理发送的数据
           contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
           success: function (msg) {
-            if (msg != 'ok') {
-              $("#post-info-text").html(msg);
-              $("#post-info").hide().fadeIn(200);
-            } else {
+            if (msg == 'ok') {
               $('.closeModal').click();
               get_resource_list(0, limit);
+              $('#postForm').get(0).reset();
+            } else {
+              $("#post-info-text").html(msg);
+              $("#post-info").hide().fadeIn(200);
             }
           }
         });
