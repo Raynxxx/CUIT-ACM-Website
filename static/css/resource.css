@@ -1,4 +1,11 @@
 
+.md-editor>.md-preview img{
+  max-width: 80%;
+  border: solid 1px #999;
+  box-shadow: 1px 2px 1px #ccc;
+}
+
+
 .modal .nav-tabs-custom {
   margin-bottom: 0 !important;
   box-shadow: none !important;
@@ -101,5 +108,9 @@
 
 .button-label {
   margin-top: 10px;
+  text-align: center;
+}
+
+.nothing {
   text-align: center;
 }

@@ -1055,7 +1055,7 @@
             $('#insert_img').click(function() {
                 var $check = $('.selected');
                 if ($check.length != 1) {
-                    //return false;
+                    return false;
                 }
                 var link = $check.data('target');
                 $('#myModal').modal('hide');
