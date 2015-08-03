@@ -2,24 +2,21 @@
 from __init__ import *
 from dao.db import db
 
-class Certificate(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    certificate_url = db.Column(db.String(100), nullable=False)
-    type = db.Column(db.Enum('single','group'), default='single')
 
 
 class Honor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    acquire_year = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    acquire_time = db.Column(db.DateTime)
     introduce = db.Column(db.Text)
-
-    contest_name = db.Column(db.String(30), nullable=False)
-    contest_level = db.Column(db.String(20), nullable=False)
+    type = db.Column(db.Enum('single','group'), default='single')
+    contest_name = db.Column(db.String(64), nullable=False)
+    contest_level = db.Column(db.Integer, nullable=False, default=0)
 
     #rank = db.Column(db.Integer, default=0)
-    # connect to Certificatem
-    certificate_id = db.Column(db.Integer, db.ForeignKey('certificate.id'))
-    certificate = db.relationship('Certificate', backref=db.backref('honor', lazy='dynamic'))
+    # connect to Resource
+    resource_id = db.Column(db.Integer, db.ForeignKey('resource.id', ondelete="SET NULL"))
+    resource = db.relationship('Resource', backref=db.backref('honor', lazy='dynamic'))
 
     # connect to User
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))

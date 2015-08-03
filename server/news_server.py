@@ -20,18 +20,29 @@ def generate_tags(data):
 def post(form, user, is_draft):
     has_news = News.query.filter(News.id == form.sid.data).with_lockmode('update').first()
     tags = generate_tags(form.tags.data)
+    content_list = form.content.data.split('<-more->')
+    list_len = len(content_list)
+    if list_len > 2:
+        raise Exception(u'more标签的使用超过限制')
     if has_news and not user.is_admin and user != has_news.user:
         db.session.commit()
         raise Exception(u'没有权限')
     if not has_news:
-        has_news = News(form.title.data,form.shortcut.data,form.content.data, form.url.data, form.is_top.data, user)
+        has_news = News(form.title.data, form.url.data, form.is_top.data, user)
     else:
         has_news.title = form.title.data
-        has_news.md_shortcut = form.shortcut.data
-        has_news.md_content = form.content.data
         has_news.url = form.url.data
         has_news.is_top = form.is_top.data
         has_news.last_update_time = datetime.datetime.now()
+    if list_len == 1 :
+        has_news.md_shortcut = content_list[0]
+        has_news.md_content = ""
+    elif content_list[0].strip() == "" :
+        has_news.md_shortcut = content_list[1]
+        has_news.md_content = ""
+    else:
+        has_news.md_shortcut = content_list[0]
+        has_news.md_content = content_list[1]
     has_news.is_draft = is_draft
     has_news.tags = tags
     has_news.save()

@@ -32,6 +32,10 @@ class RegisterForm(Form):
     email = StringField('Email', validators=[validators.DataRequired(), validators.Length(min=1, max=64), validators.Email()])
     submit = SubmitField(u'注册')
 
+class MultiRegisterForm(Form):
+    user_info = TextAreaField(u'用户信息', validators=[validators.DataRequired()])
+    submit = SubmitField(u'提交')
+
 
 class UserModifyForm(Form):
     id = IntegerField('id', validators=[validators.optional()])
@@ -100,8 +104,7 @@ class NewsForm(Form):
     sid = IntegerField('id',validators=[validators.optional()],default=-1)
     title = StringField(u'标题', validators=[validators.DataRequired()])
     url = StringField(u'url', validators=[validators.DataRequired(), validators.Regexp('^[a-zA-Z0-9-_&+%]*$', flags=0)])
-    shortcut = TextAreaField(u'摘要', validators=[validators.DataRequired()])
-    content = TextAreaField(u'正文', validators=[validators.DataRequired()])
+    content = TextAreaField(u'正文', validators=[validators.DataRequired(),validators.Length(min=10)])
     is_top = BooleanField(u'置顶')
     tags = TagListField(u'标签', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')

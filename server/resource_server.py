@@ -1,13 +1,26 @@
 from __init__ import *
-from flask.ext.uploads import UploadSet, DEFAULTS, ARCHIVES, UploadNotAllowed
+from flask.ext.uploads import UploadSet, DEFAULTS, ARCHIVES, DOCUMENTS, TEXT, DATA, IMAGES, UploadNotAllowed
 import datetime
 import os
-from dao.dbResource import Resource, ResourceLevel, ResourceUsage
+from dao.dbResource import Resource, ResourceLevel, ResourceUsage, ResourceType
 from sqlalchemy import or_, and_
 
 resource = UploadSet('resource', DEFAULTS + ARCHIVES, default_dest=lambda app: app.instance_root)
 
 
+def get_type(file_type):
+    if file_type in TEXT:
+        return ResourceType.TEXT
+    elif file_type in DOCUMENTS:
+        return ResourceType.DOCUMENTS
+    elif file_type in DATA:
+        return ResourceType.DATA
+    elif file_type in IMAGES:
+        return ResourceType.IMAGES
+    elif file_type in ARCHIVES:
+        return ResourceType.ARCHIVES
+    else:
+        return ResourceType.OTHER
 #
 # @brief: save one file to the configured path
 # @arg1: file_attr (file_upload_form)
@@ -25,6 +38,7 @@ def save_file(file_attr, file_data, user):
         rc.level = file_attr.level.data if int(file_attr.level.data) in xrange(0, 3) else ResourceLevel.PRIVATE
         rc.usage = file_attr.usage.data if int(file_attr.usage.data) in xrange(0, 5) else ResourceUsage.OTHER_RES
         rc.upload_time = datetime.datetime.now()
+        rc.type = get_type(rc.file_type)
         rc.save()
         return 'ok'
     except UploadNotAllowed:
@@ -66,7 +80,7 @@ def delete_file(resource_id, user):
         return 'failed'
 
 
-def get_list(offset=0, limit=10, user=None, usage=None):
+def get_list(offset=0, limit=10, user=None, usage=None, type=None):
     if not user:
         query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC)
     elif user.is_admin:
@@ -77,13 +91,14 @@ def get_list(offset=0, limit=10, user=None, usage=None):
     else:
         query = Resource.query.filter(or_(Resource.level<=ResourceLevel.SHARED, Resource.user==user))
     if usage:
-        return query.filter(Resource.usage==usage).offset(offset).limit(limit).all()
-    else:
-        return query.offset(offset).limit(limit).all()
+        query = query.filter(Resource.usage==usage)
+    if type:
+        query = query.filter(Resource.type==type)
+    return query.offset(offset).limit(limit).all()
 
 
 
-def get_count(user=None, usage=None):
+def get_count(user=None, usage=None, type=None):
     if not user:
         query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC)
     elif user.is_admin:
@@ -94,9 +109,10 @@ def get_count(user=None, usage=None):
     else:
         query = Resource.query.filter(or_(Resource.level<=ResourceLevel.SHARED, Resource.user==user))
     if usage:
-        return query.filter(Resource.usage==usage).count()
-    else:
-        return query.count()
+        query =  query.filter(Resource.usage==usage)
+    if type:
+        query = query.filter(Resource.type==type)
+    return query.count()
 
 
 def get_by_name(filename):

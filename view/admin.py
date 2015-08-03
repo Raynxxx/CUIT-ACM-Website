@@ -65,9 +65,11 @@ def create_user():
         return redirect(url_for('main.index'))
     registerForm = form.RegisterForm()
     registerForm.school.data = current_user.school
+    multi_registerForm = form.MultiRegisterForm()
     return render_template('add_user.html',
                            title = u'添加用户',
-                           register_form = registerForm)
+                           register_form = registerForm,
+                           multi_reg_form = multi_registerForm)
 
 
 #
@@ -166,8 +168,7 @@ def edit_news():
     if one:
         news_form.sid.data = one.id
         news_form.title.data = one.title
-        news_form.shortcut.data = one.shortcut
-        news_form.content.data = one.content
+        news_form.content.data = one.shortcut + '<-more->' + one.content
         news_form.url.data = one.url
         news_form.is_top.data = one.is_top
         tags = []

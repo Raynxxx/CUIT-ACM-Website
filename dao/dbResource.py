@@ -13,12 +13,22 @@ class ResourceUsage():
     SOLUTION_RES = 3
     OTHER_RES = 4
 
+class ResourceType:
+    TEXT = 0
+    DOCUMENTS = 1
+    DATA = 2
+    IMAGES = 3
+    ARCHIVES = 4
+    OTHER = 5
+
+
 
 class Resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(50), nullable=False, default='UNTITLED')
     description = db.Column(db.Text)
+    type = db.Column(db.Integer, nullable=False)
     level = db.Column(db.Integer, nullable=False, default=ResourceLevel.PRIVATE)
     usage = db.Column(db.Integer, nullable=False, default=ResourceUsage.OTHER_RES)
     upload_time = db.Column(db.DateTime)

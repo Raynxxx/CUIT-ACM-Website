@@ -6,8 +6,9 @@ import config
 from dao.dbACCOUNT import Account
 from dao.dbSUBMIT import Submit
 from dao.dbBook import Book, Borrowinfo
-from dao.dbHonor import Honor, Certificate
 from dao.dbResource import Resource
+from dao.dbHonor import Honor
+
 from dao.dbArticle import  *
 from dao.dbTag import Tag
 from dao.dbNews import News
