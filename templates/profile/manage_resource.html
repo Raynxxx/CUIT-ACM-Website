@@ -2,6 +2,8 @@
 {%- block head -%}
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-fileinput/css/fileinput.min.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resource.css') }}"/>
+
 {%- endblock -%}
 {% block content %}
   <div class="row">
@@ -34,20 +36,7 @@
               </div>
             </div>
           </div>
-          <table class="table table-bordered table-hover table-striped list-table">
-            <thead>
-            <tr>
-              <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限用途</th><th>上传时间</th>
-            </tr>
-            </thead>
-            <tbody class="list-table-body">
-            </tbody>
-            <tfoot>
-            <tr>
-              <th>选择</th><th>名称</th><th>描述</th><th>大小</th><th>上传用户</th><th>权限用途</th><th>上传时间</th>
-            </tr>
-            </tfoot>
-          </table>
+          <div class="img-choose-box row"></div>
         </div>
         <div class="box-footer no-padding">
           <div class="list-box-controls">
@@ -175,24 +164,32 @@
         radioClass: 'iradio_square-blue'
       });
     }
+    function gao_selected() {
+      $(document).on('click', '.img-item', function() {
+        $('.img-item').each(function() {
+          $(this).removeClass('selected');
+        });
+        $(this).addClass('selected');
+      });
+    }
     function get_resource_list(offset, limit) {
-      $('.list-box > div.overlay').fadeIn(300, make_iCheck());
+      $('.list-box > div.overlay').fadeIn(300);
       var data = {offset: offset, limit: limit};
       $.post("{{ url_for('ajax.get_resource_list') }}", data).success(function (ret) {
         var news_count = ret.sum;
         var start = ret.offset;
         var length = ret.limit;
         var news_list = ret.news_list;
-        var $list_table = $('.list-table-body').first();
+        var $list_table = $('.img-choose-box').first();
         $list_table.empty();
         if (length == 0) {
-          $list_table.append('<tr><td colspan="7"><h2>无资源</h2></tr>');
+          $list_table.append('<div class="nothing"><h1>无资源</h1></div>');
         } else {
           for (var i = 0; i < length; ++i) {
             $list_table.append(news_list[i]);
           }
         }
-        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+        $('.list-box > div.overlay').fadeOut(300);
         var prev = $('.prev-page');
         var next = $('.next-page');
         if (start == 0) {
@@ -210,28 +207,13 @@
       }).error(function () {
         var $list_table = $('.list-table-body').first();
         $list_table.empty();
-        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr>');
-        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr><div class="nothing"><h1>加载失败</h1></div>');
+        $('.list-box > div.overlay').fadeOut(300);
         $('.prev-page').hide();
         $('.next-page').hide();
       });
     }
-    function delete_resource(checked) {
-      var data = {'resource_id': checked};
-      $.post("{{ url_for('ajax.delete_resource') }}", data).success(function (ret) {
-        $('.closeModal').click();
-        get_resource_list(0, {{ limit }});
-      });
-    }
-    $(function () {
-      make_iCheck();
-      var limit = {{ limit }};
-      get_resource_list(0, limit);
-      $("#inputFile").fileinput({
-        'showUpload': false,
-        'maxFileCount': 1,
-        'maxFileSize': 8192
-      });
+    function make_pager(limit) {
       $('button.to_refresh').click(function () {
         get_resource_list(0, limit);
       });
@@ -243,32 +225,56 @@
         var offset = parseInt($(this).val());
         get_resource_list(offset, limit);
       });
+    }
+    $(document).ready(function() {
+      var limit = {{ limit }};
+      get_resource_list(0, limit);
+      make_pager(limit);
+      gao_selected();
+    });
+  </script>
+  <script>
+    function delete_resource(checked) {
+      var data = {'resource_id': checked};
+      $.post("{{ url_for('ajax.delete_resource') }}", data).success(function (ret) {
+        $('.closeModal').click();
+        get_resource_list(0, {{ limit }});
+      });
+    }
+    $(function () {
+      var limit = {{ limit }};
+      make_iCheck();
+      $("#inputFile").fileinput({
+        'showUpload': false,
+        'maxFileCount': 1,
+        'maxFileSize': 8192
+      });
       $('.to_delete_resource').click(function () {
-        var $check = $('input[name="resource"]:checked');
-        if ($check.length <= 0) {
+        var $selected = $('.img-choose-box .selected');
+        if ($selected.length <= 0) {
           return false;
         }
       });
       $('.delete_resource').click(function () {
-        var check = $('input[name="resource"]:checked').val();
-        delete_resource(check);
+        var $selected = $('.img-choose-box .selected').data('target');
+        delete_resource($selected);
       });
       $('.download_resource').click(function() {
-        var $check = $('input[name="resource"]:checked');
-        if ($check.length <= 0) {
+        var $selected = $('.img-choose-box .selected');
+        if ($selected.length <= 0) {
           return false;
         }
-        var name = $check.attr('filename');
+        var name = $selected.data('filename');
         window.open("/upload/resource/"+name);
       });
       $('.to_edit_resource').click(function () {
-        var $check = $('input[name="resource"]:checked');
-        if ($check.length <= 0) {
+        var $selected = $('.img-choose-box .selected');
+        if ($selected.length <= 0) {
           return false;
         } else {
-          var data = {'resource_id': $check.val()};
+          var data = {'resource_id': $selected.data('target')};
           $.post("{{ url_for('ajax.get_resource_info') }}", data).success(function (ret) {
-              $("#myModal3").html(ret)
+              $("#myModal3").html(ret);
               make_iCheck();
           });
         }

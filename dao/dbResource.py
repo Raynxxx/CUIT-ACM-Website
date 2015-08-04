@@ -13,6 +13,7 @@ class ResourceUsage():
     SOLUTION_RES = 3
     OTHER_RES = 4
 
+
 class ResourceType:
     TEXT = 0
     DOCUMENTS = 1
@@ -20,7 +21,6 @@ class ResourceType:
     IMAGES = 3
     ARCHIVES = 4
     OTHER = 5
-
 
 
 class Resource(db.Model):

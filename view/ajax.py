@@ -383,35 +383,6 @@ def delete_account():
 
 
 
-#
-# @brief: ajax html for one img choose item
-# @allowed user: admin and coach
-#
-@login_required
-def get_img_choose_item(img_item):
-    return render_template('ajax/img-choose-item.html',
-                           img_item = img_item,
-                           file_url = resource_server.file_url)
-
-#
-# @brief: ajax img choose list
-# @route: /ajax/img_choose_list
-# @allowed user: admin and coach
-#
-@ajax.route('/ajax/img_choose_list', methods=["POST"])
-@login_required
-def get_img_choose_list():
-    if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('index'))
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    from dao.dbResource import ResourceType
-    images = resource_server.get_list(offset, limit, current_user, type=ResourceType.IMAGES)
-    sum = resource_server.get_count(current_user, type=ResourceType.IMAGES)
-    return jsonify(img_list=[get_img_choose_item(img) for img in images],
-                   sum=sum, offset=int(offset), limit=len(images))
-
-
 
 #
 # @brief: add or modify solution
@@ -438,7 +409,11 @@ def solution_manager():
         return u"发表文章失败,请检查内容"
 
 
-
+#
+# @brief: ajax to get status list
+# @route: /ajax/fitch_status/<oj_name>
+# @allowed user: all
+#
 @ajax.route('/ajax/fitch_status/<oj_name>', methods=['POST'])
 @login_required
 def fitch_status(oj_name):
@@ -466,6 +441,43 @@ def add_book():
     return 'error:数据填写有误'
 
 
+
+#
+# @brief: ajax html for one img choose item
+# @allowed user: admin and coach
+#
+@login_required
+def get_img_choose_item(img_item):
+    return render_template('ajax/img-choose-item.html',
+                           img_item = img_item,
+                           file_url = resource_server.file_url)
+
+
+#
+# @brief: ajax img choose list
+# @route: /ajax/img_choose_list
+# @allowed user: admin and coach
+#
+@ajax.route('/ajax/img_choose_list', methods=["POST"])
+@login_required
+def get_img_choose_list():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('index'))
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    from dao.dbResource import ResourceType, ResourceLevel
+    images = resource_server.get_list(offset, limit,
+                                      user=current_user,
+                                      type=ResourceType.IMAGES,
+                                      level=ResourceLevel.PUBLIC)
+    sum = resource_server.get_count(user=current_user,
+                                    type=ResourceType.IMAGES,
+                                    level=ResourceLevel.PUBLIC)
+    return jsonify(img_list=[get_img_choose_item(img) for img in images],
+                   sum=sum, offset=int(offset), limit=len(images))
+
+
+
 #
 # @brief: ajax html for one resource item
 # @allowed user: self, admin and coach
@@ -474,23 +486,9 @@ def add_book():
 def get_resource_list_item(resource):
     return render_template('ajax/resource_list_item.html',
                            resource = resource,
-                           file_size = resource_server.file_size)
+                           file_size = resource_server.file_size,
+                           file_url = resource_server.file_url)
 
-
-@ajax.route('/ajax/resource_info', methods=['POST'])
-@login_required
-def get_resource_info():
-    resource_id = request.form.get('resource_id')
-    rs = resource_server.get_by_id(resource_id)
-    if rs.level >= 2 and not current_user.is_admin and not current_user.is_coach_of(rs.user):
-        return u'permission denied'
-    file_edit_form = form.FileInfoForm()
-    file_edit_form.id.data = rs.id
-    file_edit_form.level.data = str(rs.level)
-    file_edit_form.name.data = rs.name
-    file_edit_form.description.data = rs.description
-    file_edit_form.usage.data = str(rs.usage)
-    return render_template('ajax/resource_modify_modal.html',file_edit_form = file_edit_form)
 
 
 #
@@ -532,6 +530,28 @@ def upload():
 
 
 #
+# @brief: ajax to get modal with edit-resource form
+# @route: /ajax/resource_info
+# @accepted methods: [post]
+#
+@ajax.route('/ajax/resource_info', methods=['POST'])
+@login_required
+def get_resource_info():
+    resource_id = request.form.get('resource_id')
+    rs = resource_server.get_by_id(resource_id)
+    if rs.level >= 2 and not current_user.is_admin and not current_user.is_coach_of(rs.user):
+        return u'permission denied'
+    file_edit_form = form.FileInfoForm()
+    file_edit_form.id.data = rs.id
+    file_edit_form.level.data = str(rs.level)
+    file_edit_form.name.data = rs.name
+    file_edit_form.description.data = rs.description
+    file_edit_form.usage.data = str(rs.usage)
+    return render_template('ajax/resource_modify_modal.html',
+                           file_edit_form = file_edit_form)
+
+
+#
 # @brief: ajax to delete resource
 # @route: /ajax/delete_resource
 # @accepted methods: [post]
@@ -546,6 +566,12 @@ def delete_resource():
     except:
         return u'删除失败'
 
+
+#
+# @brief: ajax to edit resource
+# @route: /ajax/resource_info
+# @accepted methods: [post]
+#
 @ajax.route("/ajax/edit_resource", methods = ['POST'])
 @login_required
 def edit_resource():

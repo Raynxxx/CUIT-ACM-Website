@@ -21,7 +21,8 @@
   border: solid 1px #fff;
   border-radius: 5px;
 }
-
+.res-item .thumbnail {
+}
 .thumbnail:before {
   content: "\2714";
   display: block;
@@ -79,18 +80,30 @@
   -moz-animation:   unselected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
   -webkit-animation: unselected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
 }
+.file-icon {
+  width: 100%;
+  padding: 1em 0;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #eee;
+  box-shadow: 1px 1px 1px #ccc;
+}
+.file-icon .fa {
+  font-size: 5em;
+}
 .caption {
   background-color: #fff;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .overlay {
   position: absolute;
-  left: 0;
-  top: 10%;
+  left: 0; right: 0;
+  top: 45px; bottom: 50px;
   width: 100%;
-  height: 80%;
   margin: auto 0 !important;
-  padding: 15px 0;
+  padding: 0;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.4);
 }
@@ -113,4 +126,16 @@
 
 .nothing {
   text-align: center;
+}
+
+.badge {
+  font-weight: 500;
+  padding: 3px 10px 7px 10px;
+}
+
+.res-name {
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space:nowrap;
 }
