@@ -14,7 +14,8 @@
 .article-title {
   font-size: 2em;
   font-weight: bold;
-  margin: 0.1em 0.3em 0.3em 0.2em;
+  margin: 0.1em 1em 0.5em 0.2em;
+  word-break: break-all;
   font-family: "Lucida Grande", Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei,
     Verdana, Aril, sans-serif;
 }
@@ -38,11 +39,17 @@
   font-size: 8px;
 }
 .article-body {
-  padding: 1em 0.5em;
+  padding: 1em 0.8em;
   word-break: break-all;
   text-overflow: ellipsis;
+  color: #333;
+  font-weight: 600;
 }
-
+.article-body img {
+  max-width: 80%;
+  border: solid 1px #999;
+  box-shadow: 1px 2px 1px #ccc;
+}
 .article-more-link {
   text-decoration: none;
   letter-spacing: 1px;
@@ -78,23 +85,29 @@
   list-style: none;
   padding: 2px 20px !important;
   font-size: 14px;
+  margin-top: 10px;
 }
 .recent_articles li {
   font-size: 16px;
   margin: 5px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .recent_articles li a {
   color: #333;
   text-decoration: none;
   font-weight: bold;
+  padding: 0.1em 0.5em;
 }
 .recent_articles li a:hover {
-  color: #258fb8;
-  border-bottom: solid 1px #999;
+  color: #fff;
+  font-weight: 400;
+  background-color:#258fb8;
 }
 .recent_articles li .fa {
   font-size: 0.8em;
-  padding-right: 8px;
+
 }
 
 /*
@@ -161,14 +174,14 @@
 .tags_cloud a {
   display: inline-block;
   white-space: nowrap;
-  padding: 3px 8px;
+  padding: 2px 5px;
   font-weight: 500;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 .tags_cloud a:hover {
   text-shadow: 0 1px 1px rgba(200, 200, 200, 0.2);
   color: #fff !important;
-  background-color: #001a35 !important;
+  background-color: #367fa9 !important;
 }
 .tags_cloud a span {
   vertical-align: super;

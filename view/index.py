@@ -92,7 +92,6 @@ def news_list(page = 0):
 #
 @main.route('/news')
 @main.route('/news/<url>', methods = ['GET'])
-@login_required
 def news(url=None):
     try:
         if url:
