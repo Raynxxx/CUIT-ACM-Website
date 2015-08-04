@@ -1,41 +1,44 @@
-<tr id="resource{{ resource.id }}">
-  <td class="list-item-check">
-    <label><input type="radio" name="resource" value="{{ resource.id }}" data-target="{{ resource.id }}"></label>
-  </td>
-  <td class="list-item-filename">
-    <p>{{ resource.name }}</p>
-    <span class="badge">{{ resource.file_type }}</span>
-  </td>
-  <td class="list-item-description">
-    <b>{{ resource.description }}</b>
-  </td>
-  <td class="list-item-size">
-    {{ file_size(resource) }} KB
-  </td>
-  <td class="list-item-user">
-    {{ resource.user.name }}
-  </td>
-  <td class="list-item-rights">
-    {% if resource.level == 0 %}
-      <label class="label label-primary">公开</label>
-    {% elif resource.level == 1 %}
-      <label class="label label-success">共享</label>
+<div class="col-sm-4 col-md-3 img-item res-item" id="{{ resource.id }}"
+     data-target="{{ resource.id }}" data-filename="{{ resource.filename }}">
+  <div class="thumbnail">
+    {% if resource.type == 0 %}
+    <div class="file-icon"><i class="fa fa-file-text-o"></i></div>
+    {% elif resource.type == 1 %}
+    <div class="file-icon"><i class="fa fa-file-word-o"></i></div>
+    {% elif resource.type == 2 %}
+    <div class="file-icon"><i class="fa fa-file-code-o"></i></div>
+    {% elif resource.type == 3 %}
+    <!--<div class="img-responsive"><img src="{{ file_url(resource) }}"></div>-->
+    <div class="file-icon"><i class="fa fa-file-image-o"></i></div>
+    {% elif resource.type == 4 %}
+    <div class="file-icon"><i class="fa fa-file-archive-o"></i></div>
     {% else %}
-      <label class="label label-danger">私有</label>
+    <div class="file-icon"><i class="fa fa-file-o"></i></div>
     {% endif %}
-    {% if resource.usage == 0 %}
-      <label class="label label-primary">图书</label>
-    {% elif resource.usage == 1 %}
-      <label class="label label-success">荣誉墙</label>
-    {% elif resource.usage == 2 %}
-      <label class="label label-danger">新闻</label>
-    {% elif resource.usage == 3 %}
-        <label class="label label-warning">题解</label>
-    {% else %}
-        <label class="label label-default bg-purple">其他</label>
-    {% endif %}
-  </td>
-  <td class="list-item-time text-muted">
-    {{ resource.upload_time }}
-  </td>
-</tr>
+    <div class="caption">
+      <p class="res-name">{{ resource.name }}</p>
+      <p>{{ file_size(resource) }} KB <span class="badge pull-right">{{ resource.file_type }}</span></p>
+      <p>
+        {% if resource.level == 0 %}
+          <label class="label label-primary">公开</label>
+        {% elif resource.level == 1 %}
+          <label class="label label-success">共享</label>
+        {% else %}
+          <label class="label label-danger">私有</label>
+        {% endif %}
+        {% if resource.usage == 0 %}
+          <label class="label label-primary">图书</label>
+        {% elif resource.usage == 1 %}
+          <label class="label label-success">荣誉墙</label>
+        {% elif resource.usage == 2 %}
+          <label class="label label-danger">新闻</label>
+        {% elif resource.usage == 3 %}
+            <label class="label label-warning">题解</label>
+        {% else %}
+            <label class="label label-default bg-purple">其他</label>
+        {% endif %}
+      </p>
+      <p>{{ resource.user.name }} / {{ resource.upload_time }}</p>
+    </div>
+  </div>
+</div>

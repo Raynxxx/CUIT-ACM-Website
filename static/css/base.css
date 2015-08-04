@@ -116,6 +116,8 @@
   width: 36%;
   font-size: 20px;
   font-weight: bold;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 .list-item-name {
   width: 10%;
@@ -187,6 +189,9 @@
 .list-item-filename {
   font-weight: 700;
   width: 15%;
+}
+.list-item-filename p {
+  margin-bottom: 5px;
 }
 
 .list-item-user {

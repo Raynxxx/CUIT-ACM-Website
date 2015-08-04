@@ -1,7 +1,6 @@
 from __init__ import *
 from flask.ext.uploads import UploadSet, DEFAULTS, ARCHIVES, DOCUMENTS, TEXT, DATA, IMAGES, UploadNotAllowed
-import datetime
-import os
+import datetime, os
 from dao.dbResource import Resource, ResourceLevel, ResourceUsage, ResourceType
 from sqlalchemy import or_, and_
 
@@ -21,6 +20,8 @@ def get_type(file_type):
         return ResourceType.ARCHIVES
     else:
         return ResourceType.OTHER
+
+
 #
 # @brief: save one file to the configured path
 # @arg1: file_attr (file_upload_form)
@@ -80,7 +81,7 @@ def delete_file(resource_id, user):
         return 'failed'
 
 
-def get_list(offset=0, limit=10, user=None, usage=None, type=None):
+def get_list(offset=0, limit=10, user=None, usage=None, type=None, level=None):
     if not user:
         query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC)
     elif user.is_admin:
@@ -94,11 +95,11 @@ def get_list(offset=0, limit=10, user=None, usage=None, type=None):
         query = query.filter(Resource.usage==usage)
     if type:
         query = query.filter(Resource.type==type)
+    if level:
+        query = query.filter(Resource.level==level)
     return query.offset(offset).limit(limit).all()
 
-
-
-def get_count(user=None, usage=None, type=None):
+def get_count(user=None, usage=None, type=None, level=None):
     if not user:
         query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC)
     elif user.is_admin:
@@ -112,8 +113,9 @@ def get_count(user=None, usage=None, type=None):
         query =  query.filter(Resource.usage==usage)
     if type:
         query = query.filter(Resource.type==type)
+    if level:
+        query = query.filter(Resource.level==level)
     return query.count()
-
 
 def get_by_name(filename):
     return Resource.query.filter(Resource.filename==filename).first_or_404()
@@ -128,7 +130,6 @@ def file_url(file):
 
 def file_size(file):
     try:
-
         return round(os.path.getsize(resource.path(file.filename)) / 1024.0, 2)
     except:
         return 0

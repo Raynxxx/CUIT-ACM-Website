@@ -234,18 +234,25 @@ def about():
     return redirect(url_for('main.ranklist'))
     #return render_template('index/about.html')
 
+
+#
+# @brief: rout to fitch resource
+# @route: /upload/resource/<path:name>
+# @accepted methods: [all]
+# @allowed user: all
+#
 @main.route('/upload/resource/<path:name>')
 def resource(name):
     rs = resource_server.get_by_name(name)
     if rs.level ==  ResourceLevel.PUBLIC:
         return send_from_directory(config.UPLOADED_RESOURCE_DEST, rs.filename, as_attachment=True,
                                    attachment_filename=rs.filename.encode('utf-8'))
-    elif rs.level ==ResourceLevel.SHARED :
+    elif rs.level ==ResourceLevel.SHARED:
         if not current_user.is_authenticated():
             abort(403)
         return send_from_directory(config.UPLOADED_RESOURCE_DEST, rs.filename, as_attachment=True,
                                    attachment_filename=rs.filename.encode('utf-8'))
-    else :
+    else:
         if not current_user.is_authenticated():
             abort(403)
         elif current_user.is_admin or current_user.is_coach_of(rs.user):
@@ -253,6 +260,7 @@ def resource(name):
                                        attachment_filename=rs.filename.encode('utf-8'))
         else:
             abort(403)
+
 
 @main.route('/footmark')
 @login_required

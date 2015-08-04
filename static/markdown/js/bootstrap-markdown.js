@@ -1070,6 +1070,7 @@
                     e.setNextTab(e.__localize('enter image title here'));
                     // Set the cursor
                     e.setSelection(cursor,cursor+chunk.length);
+                    $('#inputContent').focus();
                 }
             });
           }
