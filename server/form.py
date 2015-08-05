@@ -1,11 +1,12 @@
 # coding=utf-8
 from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField
-from wtforms import BooleanField, SubmitField, RadioField, IntegerField, TextAreaField, FileField
+from wtforms import BooleanField, SubmitField, RadioField, IntegerField, \
+    TextAreaField, FileField, DateField, SelectMultipleField
 from wtforms import SelectField
 from wtforms import Field, widgets
 import wtforms.validators as validators
-from config import OJ_MAP, SCHOOL_MAP
+from config import OJ_MAP, SCHOOL_MAP ,HONOR_LEVEL_MAP
 
 
 class LoginForm(Form):
@@ -64,7 +65,7 @@ class PasswordModifyForm(Form):
 
 class AccountForm(Form):
     nickname = StringField('Username', validators=[validators.DataRequired(), validators.Length(min=1, max=24),
-                    validators.Regexp('^[A-Za-z][A-Za-z0-9_.]*$', flags=0,
+                    validators.Regexp('^[A-Za-z0-9_.][A-Za-z0-9_.]*$', flags=0,
                     message='Username must have only letters, numbers, dots or underscores')])
     password = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=3, max=24)])
     oj_name = SelectField('OJ', validators=[validators.DataRequired()],
@@ -135,4 +136,17 @@ class FileInfoForm(Form):
     level = RadioField('level', choices=[('0', u'公开'), ('1', u'内部共享'), ('2', u'私有')], coerce=str, default=2)
     usage = RadioField('usage',choices=[('0', u'图书资源'), ('1', u'荣誉资源'), ('2', u'新闻资源'),
                                         ('3',u'题解资源'), ('4',u'其他资源')], coerce=str, default=4)
+    submit = SubmitField(u'提交')
+
+class HonorForm(Form):
+    id = IntegerField('id',validators=[validators.optional()],default=-1)
+    title = StringField(u'标题', validators=[validators.DataRequired()])
+    introduce = TextAreaField(u'introduce', validators=[validators.Optional()])
+    type = RadioField('type', choices=[('single', u'单人'), ('group', u'组队')], coerce=str, default='single')
+    acquire_time = DateField('acquire_time',format='%Y/%m/%d')
+    contest_name = StringField(u'contest_name', validators=[validators.DataRequired(), validators.Length(min=1, max=48)])
+    contest_level = SelectField('contest_level', validators=[validators.DataRequired()],
+                         choices=[(str(honor), HONOR_LEVEL_MAP[honor]) for honor in HONOR_LEVEL_MAP],
+                         default='0')
+    users = SelectMultipleField(u'users', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')

@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
 from __init__ import *
+from util import mdFilter
 from dao.db import db
 
+honor_users = db.Table('honor_users',
+    db.Column('honor_id', db.Integer, db.ForeignKey('honor.id', ondelete="CASCADE")),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
+)
 
+honor_resources = db.Table('honor_resources',
+    db.Column('honor_id', db.Integer, db.ForeignKey('honor.id', ondelete="CASCADE")),
+    db.Column('resource_id', db.Integer, db.ForeignKey('resource.id', ondelete="CASCADE"))
+)
 
 class Honor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,13 +24,10 @@ class Honor(db.Model):
 
     #rank = db.Column(db.Integer, default=0)
     # connect to Resource
-    resource_id = db.Column(db.Integer, db.ForeignKey('resource.id', ondelete="SET NULL"))
-    resource = db.relationship('Resource', backref=db.backref('honor', lazy='dynamic'))
+    resources = db.relationship('Resource', secondary=honor_resources ,backref=db.backref('honors', lazy='dynamic'))
 
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
-    user = db.relationship('User', backref=db.backref('honor', cascade="all, delete-orphan",  passive_deletes=True, lazy='dynamic'))
-
+    users = db.relationship('User', secondary=honor_users,backref=db.backref('honors', lazy='dynamic'))
 
     def __init__(self):
         pass
@@ -29,6 +35,14 @@ class Honor(db.Model):
 
     def __repr__(self):
         return '<Honor>@' + self.contest_name
+
+    @property
+    def md_introduce(self):
+        return mdFilter.markdown(self.introduce)
+
+    @md_introduce.setter
+    def md_introduce(self, data):
+        self.introduce = data
 
     @property
     def serialize(self):

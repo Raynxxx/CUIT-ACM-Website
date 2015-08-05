@@ -1,0 +1,170 @@
+{% extends "admin/base.html" %}
+{%- block head -%}
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}">
+{%- endblock -%}
+{% block content %}
+<div class="row">
+  <div class="col-sm-12">
+    <div class="box box-primary list-box">
+      <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-list"></i> 荣誉列表</h3>
+        <div class="box-tools">
+          <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+        </div>
+      </div>
+      <div class="box-body no-padding">
+        <div class="list-box-controls">
+          <button class="btn btn-default btn-sm to_delete_honor" data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-trash-o"></i> 删除
+          </button>
+          <button class="btn btn-default btn-sm edit_honor"><i class="fa fa-pencil-square-o"></i> 修改</button>
+          <a class="btn btn-default btn-sm" href="{{ url_for('admin.add_honor') }}"><i class="fa fa-plus"></i> 添加</a>
+          <div class="pull-right">
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+              <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped list-table">
+          <thead><tr><th>选择</th><th>标题</th><th>简介</th><th>比赛名称</th><th>等级</th><th>获奖时间</th></tr></thead>
+          <tbody class="list-table-body">
+          </tbody>
+          <tfoot><tr><th>选择</th><th>标题</th><th>简介</th><th>比赛名称</th><th>等级</th><th>获奖时间</th></tr></tfoot>
+        </table>
+      </div>
+      <div class="box-footer no-padding">
+        <div class="list-box-controls">
+          <button class="btn btn-default btn-sm to_delete_honor" data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-trash-o"></i> 删除
+          </button>
+          <button class="btn btn-default btn-sm edit_honor"><i class="fa fa-pencil-square-o"></i> 修改</button>
+          <a class="btn btn-default btn-sm" href="{{ url_for('admin.post_news') }}"><i class="fa fa-plus"></i> 添加</a>
+          <div class="pull-right">
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+              <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="overlay"  id="news-overlay">
+        <i class="fa fa-refresh fa-spin"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal" style="margin-top: 50px;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 1.4em;">是否确定删除当前选定新闻！</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-flat delete_honor">确定删除</button>
+        <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{%- block script -%}
+  <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+  <script>
+  function make_iCheck() {
+    $('.list-box input[type="checkbox"], .list-box input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue'
+    });
+  }
+  function get_honor_list(offset, limit) {
+    $('.list-box > div.overlay').fadeIn(300, make_iCheck());
+    var data = { offset: offset, limit: limit };
+    $.post("{{ url_for('ajax.get_honor_list') }}", data).success(function(ret) {
+      var honor_count = ret.sum;
+      var start = ret.offset;
+      var length = ret.limit;
+      var honor_list = ret.honor_list;
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
+      if (length == 0) {
+        $list_table.append('<tr><td colspan="7"><h2>无荣誉</h2></tr>');
+      } else {
+        for (var i = 0; i < length; ++i) {
+          $list_table.append(honor_list[i]);
+        }
+      }
+      $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+      var prev = $('.prev-page');
+      var next = $('.next-page');
+      if (start == 0) {
+        prev.hide();
+      } else {
+        prev.show();
+        prev.val(start - limit);
+      }
+      if (honor_count == start + length) {
+        next.hide();
+      } else {
+        next.show();
+        next.val(start + length);
+      }
+    }).error(function() {
+        var $list_table = $('.list-table-body').first();
+        $list_table.empty();
+        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr>');
+        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+        $('.prev-page').hide();
+        $('.next-page').hide();
+      });
+  }
+  function delete_honor(checked) {
+    var data = { 'honor_id': checked };
+    $.post("{{ url_for('ajax.delete_honor') }}", data).success(function(ret) {
+      $('.closeModal').click();
+      get_honor_list(0, {{ limit }});
+    });
+  }
+  $(function () {
+    make_iCheck();
+    var limit = {{ limit }};
+    get_honor_list(0, limit);
+    $('button.to_refresh').click(function() {
+      get_honor_list(0, limit);
+    });
+    $('.prev-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_honor_list(offset, limit);
+    });
+    $('.next-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_honor_list(offset, limit);
+    });
+    $('.to_delete_honor').click(function() {
+      var $check = $('input[name="honor"]:checked');
+      if ($check.length <= 0) {
+        return false;
+      }
+    });
+    $('.delete_honor').click(function() {
+      var check = $('input[name="honor"]:checked').val();
+      delete_honor(check);
+    });
+    $('.edit_honor').click(function() {
+      var $check = $('input[name="honor"]:checked');
+      if ($check.length <= 0) {
+        return false;
+      }
+      var url = "{{ url_for('admin.modify_honor', p='') }}";
+      var honor_id = $check.val();
+      window.location.href = url + honor_id;
+    });
+  });
+  </script>
+{%- endblock -%}

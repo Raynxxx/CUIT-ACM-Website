@@ -1,7 +1,7 @@
 # coding=utf-8
 from __init__ import *
 from werkzeug.exceptions import NotFound
-from server import user_server, general, article_server, form, book_server, news_server, resource_server
+from server import user_server, general, article_server, form, book_server, news_server, resource_server, honor_server
 from dao.dbBase import User
 from dao.dbResource import ResourceLevel
 import config
@@ -243,11 +243,11 @@ def about():
 #
 @main.route('/upload/resource/<path:name>')
 def resource(name):
-    rs = resource_server.get_by_name(name)
+    rs = resource_server.get_by_filename(name)
     if rs.level ==  ResourceLevel.PUBLIC:
         return send_from_directory(config.UPLOADED_RESOURCE_DEST, rs.filename, as_attachment=True,
                                    attachment_filename=rs.filename.encode('utf-8'))
-    elif rs.level ==ResourceLevel.SHARED:
+    elif rs.level == ResourceLevel.SHARED:
         if not current_user.is_authenticated():
             abort(403)
         return send_from_directory(config.UPLOADED_RESOURCE_DEST, rs.filename, as_attachment=True,
@@ -275,5 +275,9 @@ def book_list():
     books = book_server.list_book()
     return render_template('index/book_list.html', books = books, smap = status_map)
 
+@main.route("/honor_wall", methods = ['GET'])
+def honor_wall():
+    honors = honor_server.get_honor_wall()
+    return render_template('index/honor_wall.html', honors = honors)
 
 

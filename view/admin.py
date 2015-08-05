@@ -1,6 +1,6 @@
 # coding=utf-8
 from __init__ import *
-from server import general, user_server, form, news_server
+from server import general, user_server, form, news_server, honor_server
 import util, config
 
 #
@@ -186,6 +186,54 @@ def edit_news():
                            upload_form = upload_form,
                            my_button = my_button)
 
+
+@admin.route("/admin/add_honor", methods = ['GET'])
+@login_required
+def add_honor():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    honor_form = form.HonorForm()
+    honor_form.users.choices = user_server.get_user_choice()
+    return render_template('add_honor.html',
+                           title = u'添加荣誉',
+                           honor_form = honor_form,
+                           show_upload = True)
+
+@admin.route("/admin/modify_honor", methods = ['GET'])
+@login_required
+def modify_honor():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    honor_form = form.HonorForm()
+    honor_form.users.choices = user_server.get_user_choice()
+    try:
+        honor = honor_server.get_by_id(request.args['p'])
+    except:
+        return redirect(url_for('admin.manage_honor'))
+    honor_form.id.data = honor.id
+    honor_form.title.data = honor.title
+    honor_form.introduce.data = honor.introduce
+    honor_form.acquire_time.data = honor.acquire_time
+    honor_form.contest_name.data = honor.contest_name
+    honor_form.contest_level.data = honor.contest_level
+    users = []
+    for user in honor.users:
+        users.append(user.username)
+    honor_form.users.data = users
+    return render_template('edit_honor.html',
+                           title = u'修改荣誉',
+                           honor_form = honor_form,
+                           show_upload = False)
+
+
+@admin.route("/admin/manage_honor", methods = ['GET'])
+@login_required
+def manage_honor():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('admin.index'))
+    return render_template('admin/manage_honor.html',
+                           title=u'荣誉管理',
+                           limit = config.NEWS_MANAGE_PER_PAGE)
 
 
 @admin.route("/admin/add_book", methods = ['GET'])

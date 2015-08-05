@@ -26,7 +26,7 @@ class ResourceType:
 class Resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(50), nullable=False)
-    name = db.Column(db.String(50), nullable=False, default='UNTITLED')
+    name = db.Column(db.String(50), nullable=False, unique=True, default='UNTITLED')
     description = db.Column(db.Text)
     type = db.Column(db.Integer, nullable=False)
     level = db.Column(db.Integer, nullable=False, default=ResourceLevel.PRIVATE)
@@ -38,7 +38,7 @@ class Resource(db.Model):
     user = db.relationship('User', backref=db.backref('resource', lazy='dynamic'))
 
     def __repr__(self):
-        return '<Resource>@' + self.name
+        return '<Resource>@' + self.name.encode('utf-8')
 
     @property
     def file_type(self):

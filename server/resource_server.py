@@ -3,6 +3,7 @@ from flask.ext.uploads import UploadSet, DEFAULTS, ARCHIVES, DOCUMENTS, TEXT, DA
 import datetime, os
 from dao.dbResource import Resource, ResourceLevel, ResourceUsage, ResourceType
 from sqlalchemy import or_, and_
+from sqlalchemy.exc import IntegrityError
 
 resource = UploadSet('resource', DEFAULTS + ARCHIVES, default_dest=lambda app: app.instance_root)
 
@@ -29,6 +30,7 @@ def get_type(file_type):
 # return 'ok' if ok else the error msg
 #
 def save_file(file_attr, file_data, user):
+    filename = ''
     try:
         filename = resource.save(file_data, name=file_attr.name.data + '.')
         rc = Resource()
@@ -44,6 +46,10 @@ def save_file(file_attr, file_data, user):
         return 'ok'
     except UploadNotAllowed:
         return 'your upload is not allowed'
+    except IntegrityError:
+        os.remove(resource.path(filename))
+        db.session.rollback()
+        return 'file name exist'
     except Exception, e:
         return 'filed to save you upload'
 
@@ -81,7 +87,7 @@ def delete_file(resource_id, user):
         return 'failed'
 
 
-def get_list(offset=0, limit=10, user=None, usage=None, type=None, level=None):
+def get_list(offset=0, limit=10, user=None, usage=None, type=None):
     if not user:
         query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC)
     elif user.is_admin:
@@ -95,11 +101,20 @@ def get_list(offset=0, limit=10, user=None, usage=None, type=None, level=None):
         query = query.filter(Resource.usage==usage)
     if type:
         query = query.filter(Resource.type==type)
-    if level:
-        query = query.filter(Resource.level==level)
     return query.offset(offset).limit(limit).all()
 
-def get_count(user=None, usage=None, type=None, level=None):
+
+def get_image_list(offset=0, limit=10):
+    query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC,Resource.type==ResourceType.IMAGES,
+                                  Resource.usage==ResourceUsage.NEWS_RES)
+    return query.offset(offset).limit(limit).all()
+
+def get_image_count(offset=0, limit=10):
+    query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC,Resource.type==ResourceType.IMAGES,
+                                  Resource.usage==ResourceUsage.NEWS_RES)
+    return query.count()
+
+def get_count(user=None, usage=None, type=None):
     if not user:
         query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC)
     elif user.is_admin:
@@ -113,12 +128,14 @@ def get_count(user=None, usage=None, type=None, level=None):
         query =  query.filter(Resource.usage==usage)
     if type:
         query = query.filter(Resource.type==type)
-    if level:
-        query = query.filter(Resource.level==level)
     return query.count()
 
-def get_by_name(filename):
+
+def get_by_filename(filename):
     return Resource.query.filter(Resource.filename==filename).first_or_404()
+
+def get_by_name(name):
+    return Resource.query.filter(Resource.name==name).first_or_404()
 
 def get_by_id(resource_id):
     return Resource.query.filter(Resource.id==resource_id).first_or_404()
