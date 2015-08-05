@@ -81,7 +81,7 @@ def get_by_url(url):
     return News.query.filter(News.url == url).first_or_404()
 
 def delete_by_id(sid):
-    one = News.query.filter(News.id == sid).with_lockmode('update').delete()
+    News.query.filter(News.id == sid).with_lockmode('update').delete()
     db.session.commit()
 
 def get_archive():

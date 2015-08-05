@@ -81,6 +81,10 @@ def get_by_username(username):
     return User.query.filter_by(username=username).first()
 
 
+def get_user_choice():
+    users = db.session.query(User.username).all()
+    return [(username[0], username[0]) for username in users]
+
 def get_list(offset=0, limit=20, school=None):
     if not school:
         users = User.query.offset(offset).limit(limit).all()

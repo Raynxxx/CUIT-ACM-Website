@@ -38,7 +38,7 @@ def init():
     app.register_blueprint(admin)
     app.register_blueprint(profile)
     app.register_blueprint(ajax)
-    patch_request_class(app, size=8*1024*1024)
+    patch_request_class(app, size=16*1024*1024)
     configure_uploads(app, resource)
 
 

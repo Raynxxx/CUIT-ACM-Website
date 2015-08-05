@@ -6,8 +6,8 @@ from dao.db import db
 
 # Table of Article
 new_stags = db.Table('news_tags',
-    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')),
-    db.Column('news_id', db.Integer, db.ForeignKey('news.id'))
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id', ondelete="CASCADE")),
+    db.Column('news_id', db.Integer, db.ForeignKey('news.id', ondelete="CASCADE"))
 )
 
 class News(db.Model):

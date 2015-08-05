@@ -1,20 +1,39 @@
 from __init__ import *
 from dao.dbHonor import Honor
+from dao.dbBase import User
 import resource_server
 
+class UserNotExist(BaseException):
+    pass
 
-def add_honor(honor_attr, user):
+def get_users(data):
+    user_list = []
+    for name in data:
+        if name == '':
+            continue
+        user = User.query.filter(User.username == name).first()
+        if not user:
+            raise UserNotExist(u'user not exist')
+        else:
+            user_list.append(user)
+    return user_list
+
+def add_honor(honor_attr, honor_resource):
     try:
         honor = Honor()
+        user_list = get_users(honor_attr.users.data)
         honor.title = honor_attr.title.data
-        honor.introduce = honor_attr.introduce.data
+        honor.md_introduce = honor_attr.introduce.data
         honor.contest_name = honor_attr.contest_name.data
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
-        honor.resource = resource_server.get_by_id(honor_attr.resource_id.data)
-        honor.user = user
+        honor.type = honor_attr.type.data
+        honor.resources = honor_resource
+        honor.users = user_list
         honor.save()
         return 'ok'
+    except UserNotExist, e:
+        return e.message
     except Exception:
         return 'failed'
 
@@ -26,23 +45,31 @@ def delete_honor(honor_id):
     except:
         return 'failed'
 
-def modify_honor(honor_attr, user):
+def modify_honor(honor_attr):
     try:
         honor = Honor.query.filter(Honor.id==honor_attr.id.data).first_or_404()
         honor.title = honor_attr.title.data
-        honor.introduce = honor_attr.introduce.data
+        user_list = get_users(honor_attr.users.data)
+        honor.md_introduce = honor_attr.introduce.data
         honor.contest_name = honor_attr.contest_name.data
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
-        honor.resource = resource_server.get_by_id(honor_attr.resource_id.data)
-        honor.user = user
+        honor.users = user_list
         honor.save()
         return 'ok'
-    except:
+    except UserNotExist, e:
+        return e.message
+    except Exception, e:
         return 'failed'
 
 def get_honor_list(offset=0, limit=10, filter_args=None):
-    pass
+    return Honor.query.offset(offset).limit(limit).all()
+
+def get_honor_wall():
+    return Honor.query.order_by(Honor.acquire_time.desc()).all()
 
 def get_honor_count(offset=0, limit=10, filter_args=None):
-    pass
+    return Honor.query.count()
+
+def get_by_id(sid):
+    return Honor.query.filter(Honor.id == sid).first_or_404()

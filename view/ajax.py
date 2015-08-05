@@ -2,6 +2,7 @@
 import os
 from __init__ import *
 from server import user_server, article_server, status_server, form, account_server, book_server, news_server, resource_server
+from server import honor_server
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
 from werkzeug.utils import secure_filename
@@ -232,7 +233,8 @@ def delete_news():
         news_id = request.form.get('news_id')
         news_server.delete_by_id(news_id)
         return u'删除成功'
-    except:
+    except Exception, e:
+        print e.message
         return u'删除失败'
 
 #
@@ -466,13 +468,8 @@ def get_img_choose_list():
     offset = request.form.get('offset')
     limit = request.form.get('limit')
     from dao.dbResource import ResourceType, ResourceLevel
-    images = resource_server.get_list(offset, limit,
-                                      user=current_user,
-                                      type=ResourceType.IMAGES,
-                                      level=ResourceLevel.PUBLIC)
-    sum = resource_server.get_count(user=current_user,
-                                    type=ResourceType.IMAGES,
-                                    level=ResourceLevel.PUBLIC)
+    images = resource_server.get_image_list(offset, limit)
+    sum = resource_server.get_image_count()
     return jsonify(img_list=[get_img_choose_item(img) for img in images],
                    sum=sum, offset=int(offset), limit=len(images))
 
@@ -567,6 +564,68 @@ def delete_resource():
         return u'删除失败'
 
 
+@login_required
+def get_honor_list_item(honor):
+    from config import HONOR_LEVEL_MAP
+    return render_template('ajax/honor_list_item.html',
+                           honor = honor, level_mapper=HONOR_LEVEL_MAP)
+
+@ajax.route('/ajax/honor_list', methods=['POST'])
+@login_required
+def get_honor_list():
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    honor_list = honor_server.get_honor_list(offset, limit)
+    sum = honor_server.get_honor_count()
+    return jsonify(honor_list=[get_honor_list_item(honor) for honor in honor_list],
+                   sum=sum, offset=int(offset), limit=len(honor_list))
+
+@ajax.route("/ajax/add_honor", methods = ['POST'])
+@login_required
+def add_honor():
+    honor_form = form.HonorForm()
+    file_form = form.FileUploadForm()
+    honor_form.users.choices = user_server.get_user_choice()
+    if honor_form.validate_on_submit():
+        try:
+            from dao.dbResource import ResourceLevel,ResourceUsage
+            resource_list = []
+            for name, file in request.files.items(multi=True):
+                file_form.level.data = ResourceLevel.PUBLIC
+                file_form.name.data = file.filename
+                file_form.usage.data = ResourceUsage.HONOR_RES
+                resource_server.save_file(file_form, file, current_user)
+                resource = resource_server.get_by_name(file_form.name.data)
+                resource_list.append(resource)
+            msg = honor_server.add_honor(honor_form, resource_list)
+            return msg
+        except Exception, e:
+            print e
+            return 'failed'
+    return u'数据填写有误'
+
+@ajax.route("/ajax/modify_honor", methods = ['POST'])
+@login_required
+def modify_honor():
+    honor_form = form.HonorForm()
+    honor_form.users.choices = user_server.get_user_choice()
+    if honor_form.validate_on_submit():
+        try:
+            msg = honor_server.modify_honor(honor_form)
+            return msg
+        except:
+            return 'failed'
+    return u'数据填写有误'
+
+@ajax.route("/ajax/delete_honor", methods = ['POST'])
+@login_required
+def delete_honor():
+    try:
+        honor_id = request.form.get('honor_id')
+        msg = honor_server.delete_honor(honor_id)
+        return msg
+    except:
+        return u'删除失败'
 #
 # @brief: ajax to edit resource
 # @route: /ajax/resource_info
