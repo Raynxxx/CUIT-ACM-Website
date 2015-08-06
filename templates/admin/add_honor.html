@@ -114,6 +114,7 @@ $(document).ready(function () {
     makeUserInput();
     $('#inputTime').datetimepicker({format: 'YYYY/MM/DD'});
     $("#inputFile").fileinput({
+      'showUpload': false,
       'maxFileSize': 8192,
       'maxFileCount': 5
     });

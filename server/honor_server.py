@@ -62,13 +62,31 @@ def modify_honor(honor_attr):
     except Exception, e:
         return 'failed'
 
-def get_honor_list(offset=0, limit=10, filter_args=None):
-    return Honor.query.offset(offset).limit(limit).all()
+def get_honor_list(offset=0, limit=10):
+        return Honor.query.offset(offset).limit(limit).all()
 
-def get_honor_wall():
-    return Honor.query.order_by(Honor.acquire_time.desc()).all()
+def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
+    if query_type == 'user':
+        user = User.query.filter(User.name==keyword).first()
+        if user:
+            return user.honors.order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
+        else:
+            return list()
+    elif query_type == 'time':
+        year = datetime.datetime(keyword,0,0)
+        return Honor.query.filter(Honor.acquire_time.between(year,year + datetime.timedelta(days=365))).\
+            order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
+    elif query_type == 'level':
+        return Honor.query.filter(Honor.contest_level==keyword).\
+            order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
+    elif query_type == 'contest':
+        return Honor.query.filter(Honor.contest_name.like('%'+keyword+'%')).\
+            order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
+    else:
+        return Honor.query.order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
 
-def get_honor_count(offset=0, limit=10, filter_args=None):
+
+def get_honor_count(offset=0, limit=10):
     return Honor.query.count()
 
 def get_by_id(sid):
