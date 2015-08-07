@@ -54,6 +54,7 @@ class Book(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
 class Borrowinfo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     borrow_time = db.Column(db.DATETIME)

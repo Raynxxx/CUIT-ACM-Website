@@ -23,7 +23,9 @@
       </div>
       <div class="level-select" style="display: none">
         <select class="form-control" name="type">
-<option selected value="0">区域赛金奖</option><option value="1">区域赛银奖</option><option value="2">区域赛铜奖</option><option value="3">区域赛优胜奖</option><option value="4">省赛金奖</option><option value="5">省赛银奖</option><option value="6">省赛铜奖</option><option value="7">省赛优胜奖</option><option value="8">校赛特等奖</option><option value="9">校赛一等奖</option><option value="10">校赛二等奖</option><option value="11">校赛三等奖</option>
+          {% for level in HONOR_LEVEL_MAP %}
+          <option value="{{ level }}">{{ HONOR_LEVEL_MAP[level] }}</option>
+          {% endfor %}
         </select>
       </div>
         <button class="btn btn-primary honor-search" type="button"><i class="fa fa-search"></i></button>
@@ -31,7 +33,10 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-offset-1 col-sm-10">
+  <div class="col-sm-offset-1 col-sm-10 honor-timeline">
+    <div class="text-center timeline-error" style="display: none">
+      <h2>无数据</h2>
+    </div>
     <ul class="timeline">
       <li class="timeline-one sr-only timeline-guard" data-year="0" style="height: 0; margin: 0"></li>
       <li class="timeline-end">
@@ -63,12 +68,13 @@
     $('li.timeline-end .more-honor').hide();
   }
   function get_honor_wall(offset, limit, query_type, keyword) {
-    var $timeline_end = $('li.timeline-end');
-    var $end_fa = $('li.timeline-end > .fa');
-    var $more_btn = $('li.timeline-end .more-honor');
-    var $progress = $('li.timeline-end .progress');
-    $end_fa.hide(); $more_btn.hide(); $progress.show();
-    var data = { offset: offset, limit: limit ,query_type: query_type, keyword:keyword};
+    var $timeline_end = $('li.timeline-end'),
+        $end_fa = $('li.timeline-end > .fa'),
+        $more_btn = $('li.timeline-end .more-honor'),
+        $progress = $('li.timeline-end .progress'),
+        $timeline_error = $('div.timeline-error');
+    $timeline_error.hide(); $end_fa.hide(); $more_btn.hide(); $progress.fadeIn(300);
+    var data = { offset: offset, limit: limit, query_type: query_type, keyword: keyword };
     $.post("{{ url_for('ajax.get_honor_wall') }}", data).success(function(ret) {
       var honor_wall = ret.honor_wall,
           honor_count = ret.sum,
@@ -77,8 +83,8 @@
       var $last_honor = $timeline_end.prev('li.timeline-one');
       var last_honor_year = $last_honor.data('year');
       if (honor_count == 0) {
-        $('.col-sm-9').append('<div class="text-center"><h2>暂无荣誉</h2></div>');
-        $('ul.timeline').hide();
+        $progress.hide();
+        $('div.timeline-error').fadeIn(300);
         return ;
       } else {
         for (var cur_year in honor_wall) {
@@ -101,24 +107,26 @@
         $more_btn.fadeIn(300);
       }
     }).error(function() {
-
+      reset_honor_wall();
+      $progress.fadeOut(300);
+      $timeline_error.fadeIn(300);
     });
-
   }
-  function make_filter() {
-      $(".honor-search").on('click', function() {
-          var limit = {{ limit }};
-          var query_type = $(".select-type").val();
-          var keyword;
-          if (query_type == 'level') {
-              keyword = $(".level-select select").val();
-          }
-          else {
-              keyword = $(".query-input input").val()
-          }
-          reset_honor_wall();
-          get_honor_wall(0, limit, query_type, keyword);
-      });
+  function make_filter(limit) {
+    $(document).on('click', '.honor-search', function() {
+      var query_type = $(".select-type").val();
+      var keyword;
+      if (query_type == 'level') {
+        keyword = $(".level-select select").val();
+      } else {
+        keyword = $(".query-input input").val()
+      }
+      $('li.timeline-end .more-honor')
+              .data('type', query_type)
+              .data('keyword', keyword);
+      reset_honor_wall();
+      get_honor_wall(0, limit, query_type, keyword);
+    });
   }
   function make_more_button(limit) {
     $(document).on('click', '.timeline-footer .more-info', function() {
@@ -136,8 +144,9 @@
     });
     $(document).on('click', 'li.timeline-end .more-honor', function() {
       var offset = $(this).data('offset');
-      alert(offset);
-      get_honor_wall(offset, limit);
+      var query_type = $(this).data('type');
+      var keyword = $(this).data('keyword');
+      get_honor_wall(offset, limit, query_type, keyword);
     });
   }
   function change_filter() {
@@ -157,7 +166,7 @@
     get_honor_wall(0, limit);
     make_more_button(limit);
     change_filter();
-    make_filter();
+    make_filter(limit);
   });
 </script>
 {% endblock %}

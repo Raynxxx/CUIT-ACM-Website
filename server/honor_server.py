@@ -79,10 +79,10 @@ def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
     elif query_type == 'time' and keyword != '':
         try:
             year = int(keyword)
+            year_start = datetime.datetime(year, 1, 1)
+            year_end = datetime.datetime(year, 12, 31)
         except:
-            year = datetime.date.min.year
-        year_start = datetime.datetime(year, 1, 1)
-        year_end = datetime.datetime(year, 12, 31)
+            year_start = year_end = datetime.date.min
         return Honor.query\
             .filter(Honor.acquire_time.between(year_start, year_end)).\
             order_by(Honor.acquire_time.desc())\
@@ -120,10 +120,14 @@ def get_honor_count(query_type=None, keyword=''):
         return user.honors\
             .count() if user else 0
     elif query_type == 'time' and keyword != '':
-        year = datetime.datetime(int(keyword), 0, 0)
-        next_year = datetime.datetime(int(keyword), 0, 0)
+        try:
+            year = int(keyword)
+            year_start = datetime.datetime(year, 1, 1)
+            year_end = datetime.datetime(year, 12, 31)
+        except:
+            year_start = year_end = datetime.date.min
         return Honor.query\
-            .filter(Honor.acquire_time.between(year,year + next_year))\
+            .filter(Honor.acquire_time.between(year_start, year_end))\
             .count()
     elif query_type == 'level' and keyword != '':
         return Honor.query\

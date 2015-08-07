@@ -191,18 +191,23 @@
 }
 .contest_resources img {
   height: 150px;
-  border: solid 1px #ccc;
-  box-shadow: 1px 1px 2px #ccc;
+  border: solid 1px #999;
+  box-shadow: 1px 2px 1px #ccc;
   margin: auto 10px 10px auto;
 }
 .introduce {
   padding: 10px;
   margin-bottom: 10px;
   display: none;
-  color: #777;
+  color: #666;
+  word-break: break-all;
+  text-overflow: ellipsis;
 }
 .introduce img {
   height: 150px;
+  border: solid 1px #999;
+  box-shadow: 1px 2px 1px #ccc;
+  margin: auto 10px 10px auto;
 }
 .timeline-footer {
   padding-left: 25px !important;
