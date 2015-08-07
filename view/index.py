@@ -229,14 +229,9 @@ def article_archive(tag=None):
     return render_template('index/archive.html', archives=archives)
 
 
-@main.route('/aboutus')
-def about():
-    return redirect(url_for('main.ranklist'))
-    #return render_template('index/about.html')
-
 
 #
-# @brief: rout to fitch resource
+# @brief: route to fitch resource
 # @route: /upload/resource/<path:name>
 # @accepted methods: [all]
 # @allowed user: all
@@ -262,6 +257,28 @@ def resource(name):
             abort(403)
 
 
+
+#
+# @brief: page for honor wall
+# @route: /honor_wall
+# @accepted methods: [get]
+# @allowed user: all
+#
+@main.route("/honor_wall", methods = ['GET'])
+def honor_wall():
+    honor_years = honor_server.get_honor_wall_by_year()
+    return render_template('index/honor_wall.html',
+                           title = u'荣誉墙',
+                           limit = config.HONOR_PER_PAGE)
+
+
+@main.route('/aboutus')
+def about():
+    return redirect(url_for('main.ranklist'))
+    #return render_template('index/about.html')
+
+
+
 @main.route('/footmark')
 @login_required
 def footmark():
@@ -275,9 +292,6 @@ def book_list():
     books = book_server.list_book()
     return render_template('index/book_list.html', books = books, smap = status_map)
 
-@main.route("/honor_wall", methods = ['GET'])
-def honor_wall():
-    honors = honor_server.get_honor_wall()
-    return render_template('index/honor_wall.html', honors = honors)
+
 
 

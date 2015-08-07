@@ -1,10 +1,13 @@
+# coding=utf-8
 from __init__ import *
 from dao.dbHonor import Honor
 from dao.dbBase import User
 import resource_server
 
+
 class UserNotExist(BaseException):
     pass
+
 
 def get_users(data):
     user_list = []
@@ -18,76 +21,117 @@ def get_users(data):
             user_list.append(user)
     return user_list
 
+
 def add_honor(honor_attr, honor_resource):
     try:
         honor = Honor()
         user_list = get_users(honor_attr.users.data)
-        honor.title = honor_attr.title.data
-        honor.md_introduce = honor_attr.introduce.data
         honor.contest_name = honor_attr.contest_name.data
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
         honor.type = honor_attr.type.data
+        honor.md_introduce = honor_attr.introduce.data
         honor.resources = honor_resource
         honor.users = user_list
         honor.save()
-        return 'ok'
+        return u'添加成功'
     except UserNotExist, e:
         return e.message
     except Exception:
-        return 'failed'
+        return u'添加失败'
+
 
 def delete_honor(honor_id):
     try:
         Honor.query.filter(Honor.id==honor_id).delete()
         db.session.commit()
-        return 'ok'
+        return u'删除成功'
     except:
-        return 'failed'
+        return u'删除失败'
+
 
 def modify_honor(honor_attr):
     try:
         honor = Honor.query.filter(Honor.id==honor_attr.id.data).first_or_404()
-        honor.title = honor_attr.title.data
         user_list = get_users(honor_attr.users.data)
-        honor.md_introduce = honor_attr.introduce.data
         honor.contest_name = honor_attr.contest_name.data
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
+        honor.md_introduce = honor_attr.introduce.data
         honor.users = user_list
         honor.save()
-        return 'ok'
+        return u'修改成功'
     except UserNotExist, e:
         return e.message
     except Exception, e:
-        return 'failed'
+        return u'修改失败'
+
 
 def get_honor_list(offset=0, limit=10):
         return Honor.query.offset(offset).limit(limit).all()
 
+
 def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
     if query_type == 'user':
         user = User.query.filter(User.name==keyword).first()
-        if user:
-            return user.honors.order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
-        else:
-            return list()
+        return user.honors.order_by(Honor.acquire_time.desc())\
+            .offset(offset).limit(limit).all() if user else []
     elif query_type == 'time':
-        year = datetime.datetime(keyword,0,0)
-        return Honor.query.filter(Honor.acquire_time.between(year,year + datetime.timedelta(days=365))).\
-            order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
+        year = datetime.datetime(int(keyword), 0, 0)
+        next_year = datetime.datetime(int(keyword), 0, 0)
+        return Honor.query\
+            .filter(Honor.acquire_time.between(year, next_year)).\
+            order_by(Honor.acquire_time.desc())\
+            .offset(offset).limit(limit).all()
     elif query_type == 'level':
-        return Honor.query.filter(Honor.contest_level==keyword).\
-            order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
-    elif query_type == 'contest':
-        return Honor.query.filter(Honor.contest_name.like('%'+keyword+'%')).\
-            order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
+        return Honor.query\
+            .filter(Honor.contest_level==keyword).\
+            order_by(Honor.acquire_time.desc())\
+            .offset(offset).limit(limit).all()
+    elif query_type == 'contest_name':
+        return Honor.query\
+            .filter(Honor.contest_name.like('%' + keyword + '%')).\
+            order_by(Honor.acquire_time.desc())\
+            .offset(offset).limit(limit).all()
     else:
-        return Honor.query.order_by(Honor.acquire_time.desc()).offset(offset).limit(limit).all()
+        return Honor.query\
+            .order_by(Honor.acquire_time.desc())\
+            .offset(offset).limit(limit).all()
 
 
-def get_honor_count(offset=0, limit=10):
-    return Honor.query.count()
+def get_honor_wall_by_year(offset=0, limit=10, query_type=None, keyword=''):
+    honor_list = get_honor_wall(offset, limit, query_type, keyword)
+    honor_wall = dict()
+    for honor in honor_list:
+        year = honor.acquire_time.year
+        if year not in honor_wall:
+            honor_wall[year] = []
+        honor_wall[year].append(honor)
+    return honor_wall
+
+
+def get_honor_count(query_type=None, keyword=''):
+    if query_type == 'user':
+        user = User.query.filter(User.name==keyword).first()
+        return user.honors\
+            .count() if user else 0
+    elif query_type == 'time':
+        year = datetime.datetime(int(keyword), 0, 0)
+        next_year = datetime.datetime(int(keyword), 0, 0)
+        return Honor.query\
+            .filter(Honor.acquire_time.between(year,year + next_year))\
+            .count()
+    elif query_type == 'level':
+        return Honor.query\
+            .filter(Honor.contest_level==keyword)\
+            .count()
+    elif query_type == 'contest_name':
+        return Honor.query\
+            .filter(Honor.contest_name.like('%' + keyword + '%'))\
+            .count()
+    else:
+        return Honor.query.count()
+
 
 def get_by_id(sid):
     return Honor.query.filter(Honor.id == sid).first_or_404()

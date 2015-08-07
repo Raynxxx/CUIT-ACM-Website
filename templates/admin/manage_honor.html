@@ -27,10 +27,10 @@
           </div>
         </div>
         <table class="table table-bordered table-hover table-striped list-table">
-          <thead><tr><th>选择</th><th>标题</th><th>简介</th><th>比赛名称</th><th>等级</th><th>获奖时间</th></tr></thead>
+          <thead><tr><th>选择</th><th>比赛名称</th><th>比赛等级</th><th>参赛队员</th><th>获奖时间</th></tr></thead>
           <tbody class="list-table-body">
           </tbody>
-          <tfoot><tr><th>选择</th><th>标题</th><th>简介</th><th>比赛名称</th><th>等级</th><th>获奖时间</th></tr></tfoot>
+          <tfoot><tr><th>选择</th><th>比赛名称</th><th>比赛等级</th><th>参赛队员</th><th>获奖时间</th></tr></tfoot>
         </table>
       </div>
       <div class="box-footer no-padding">
@@ -63,7 +63,7 @@
         <h4 class="modal-title">提示</h4>
       </div>
       <div class="modal-body">
-        <p style="font-size: 1.4em;">是否确定删除当前选定新闻！</p>
+        <p style="font-size: 1.4em;">是否确定删除当前选定荣誉项目！</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger btn-flat delete_honor">确定删除</button>
@@ -94,7 +94,7 @@
       var $list_table = $('.list-table-body').first();
       $list_table.empty();
       if (length == 0) {
-        $list_table.append('<tr><td colspan="7"><h2>无荣誉</h2></tr>');
+        $list_table.append('<tr><td colspan="5"><h2>无荣誉</h2></tr>');
       } else {
         for (var i = 0; i < length; ++i) {
           $list_table.append(honor_list[i]);
@@ -116,13 +116,13 @@
         next.val(start + length);
       }
     }).error(function() {
-        var $list_table = $('.list-table-body').first();
-        $list_table.empty();
-        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr>');
-        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
-        $('.prev-page').hide();
-        $('.next-page').hide();
-      });
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
+      $list_table.append('<tr><td colspan="5"><h2>加载失败</h2></tr>');
+      $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+      $('.prev-page').hide();
+      $('.next-page').hide();
+    });
   }
   function delete_honor(checked) {
     var data = { 'honor_id': checked };

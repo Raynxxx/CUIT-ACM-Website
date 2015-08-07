@@ -32,13 +32,11 @@
       <span class="logo-mini"><b>ACM</b></span>
       <span class="logo-lg">CUIT <b>ACM</b> Team</span>
     </a>
-    <!-- Header Navbar: style can be found in header.less -->
+
     <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
-      <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <li><a href="{{ url_for('main.ranklist') }}"><span>回到前台</span></a></li>
@@ -78,9 +76,7 @@
   </header>
 
   <div class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar" style="height: auto;">
-      <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
           <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
@@ -98,20 +94,17 @@
           {% endif %}
         </div>
       </div>
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">导航</li>
         <li><a href="{{ url_for('admin.sys_info') }}"><i class="fa fa-plug"></i> <span>系统信息</span></a></li>
         <li><a href="{{ url_for('admin.manage_user') }}"><i class="fa fa-users"></i> <span>用户管理</span></a></li>
         <li><a href="{{ url_for('admin.manage_news') }}"><i class="fa fa-rss"></i> <span>新闻管理</span></a></li>
-        <li><a href="{{ url_for('admin.manage_honor') }}"><i class="fa fa-certificate"></i> <span>荣誉管理</span></a></li>
+        <li><a href="{{ url_for('admin.manage_honor') }}"><i class="fa fa-flag"></i> <span>荣誉管理</span></a></li>
         <!--
         <li><a href="{{ url_for('admin.add_book') }}" id="user-add"><i class="fa fa-book"> </i> <span>添加书籍</span></a>
         </li>-->
       </ul>
     </section>
-    <!-- /.sidebar -->
   </div>
 
   <div class="content-wrapper" style="min-height: 299px;">
