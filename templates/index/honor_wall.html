@@ -1,69 +1,120 @@
 {% extends "index/base.html" %}
 {% block head %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resource.css') }}">
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-<ul class="timeline">
-    {% for honor in honors %}
-    <!-- timeline time label -->
-    <li class="time-label">
-        <span class="bg-red">
-            {{ honor.acquire_time.strftime("%Y/%m/%d") }}
-        </span>
-    </li>
-    <!-- /.timeline-label -->
-
-    <!-- timeline item -->
-    <li>
-        <!-- timeline icon -->
-        <i class="fa fa-envelope bg-blue"></i>
-        <div class="timeline-item">
-            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-            <h3 class="timeline-header"><a href="#">{{ honor.title }}</a> ...</h3>
-
-            <div class="timeline-body">
-                {% for resource in honor.resources %}
-                <img src="{{ url_for('main.resource', name=resource.filename) }}" width="200px">
-                {% endfor %}
-                {{ honor.md_introduce|safe }}
-            </div>
-
-            <div class="timeline-footer">
-                <a class="btn btn-primary btn-xs">...</a>
-            </div>
+<div class="row">
+  <div class="col-sm-3">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">查找</h3>
+        <div class="box-tools pull-right">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
-    </li>
-    {% endfor %}
-    <!-- END timeline item -->
-</ul>
+      </div>
+      <div class="box-body">
+        TODO
+      </div>
     </div>
+  </div>
+  <div class="col-sm-9">
+    <ul class="timeline">
+      <li class="timeline-one sr-only" data-year="0" style="height: 0; margin: 0"></li>
+      <li class="timeline-end">
+        <i class="fa fa-power-off"></i>
+        <div class="timeline-item">
+          <div class="timeline-body no-padding">
+            <button class="more-honor btn btn-primary btn-block" data-offset="0">
+              <i class="fa fa-chevron-down"></i>
+            </button>
+            <div class="progress">
+              <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar"
+                   aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                <span class="sr-only">加载中</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
-  function gaoTags() {
-    var colors = [
-      '#3c8dbc', '#357ca5', '#00c0ef', '#00a7d0',
-      '#00a65a', '#008d4c', '#f39c12', '#db8b0b',
-      '#dd4b39', '#d33724', '#39cccc', '#30bbbb',
-      '#001f3f', '#001a35', '#605ca8', '#555299',
-      '#ff851b', '#ff7701', '#d81b60', '#ca195a',
-      '#111', '#000'
-    ];
-    $(".tags_cloud a").each(function(){
-      var $tag = $(this);
-      $tag.css('color', colors[parseInt(Math.random() * colors.length, 10)]);
-      $tag.css('font-size', parseInt(Math.random() * 16  + 14) + 'px');
-      var opacity = Math.random();
-      if (opacity <= 0.5) opacity = opacity + 0.5;
-      //$tag.css('opacity', opacity);
+<script>
+  function get_honor_wall(offset, limit) {
+    var $timeline_end = $('li.timeline-end');
+    var $end_fa = $('li.timeline-end > .fa');
+    var $more_btn = $('li.timeline-end .more-honor');
+    var $progress = $('li.timeline-end .progress');
+    $end_fa.hide(); $more_btn.hide(); $progress.show();
+    var data = { offset: offset, limit: limit };
+    $.post("{{ url_for('ajax.get_honor_wall') }}", data).success(function(ret) {
+      var honor_wall = ret.honor_wall,
+          honor_count = ret.sum,
+          start = ret.offset,
+          length = ret.limit;
+      var $last_honor = $timeline_end.prev('li.timeline-one');
+      var last_honor_year = $last_honor.data('year');
+      if (honor_count == 0) {
+        $('.col-sm-9').append('<div class="text-center"><h2>暂无荣誉</h2></div>');
+        $('ul.timeline').hide();
+        return ;
+      } else {
+        for (var cur_year in honor_wall) {
+          if (cur_year != last_honor_year) {
+            $last_honor.after('<li class="time-label"><span class="bg-red">' + cur_year +  '</span></li>');
+            $last_honor = $last_honor.next();
+          }
+          for (var index in honor_wall[cur_year]) {
+            $last_honor.after(honor_wall[cur_year][index]);
+            $last_honor = $last_honor.next();
+          }
+        }
+      }
+      $progress.hide();
+      $end_fa.fadeIn(300);
+      $more_btn.data('offset', start + length);
+      if (honor_count == start + length) {
+        $more_btn.hide();
+      } else {
+        $more_btn.fadeIn(300);
+      }
+    }).error(function() {
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
+      $list_table.append('<tr><td colspan="5"><h2>加载失败</h2></tr>');
+      $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+      $('.prev-page').hide();
+      $('.next-page').hide();
     });
   }
-  $(document).ready(function(){
-    gaoTags();
+  function make_more_button(limit) {
+    $(document).on('click', '.timeline-footer .more-info', function() {
+      var state = $(this).data('state');
+      var id = $(this).data('target');
+      if (state == '0') {
+        $(this).data('state', '1');
+        $('#honor' + id + ' .introduce').slideDown();
+        $(this).html('收起 <i class="fa fa-chevron-up"></i>');
+      } else {
+        $(this).data('state', '0');
+        $('#honor' + id + ' .introduce').slideUp();
+        $(this).html('更多详情 <i class="fa fa-chevron-down"></i>');
+      }
+    });
+    $(document).on('click', 'li.timeline-end .more-honor', function() {
+      var offset = $(this).data('offset');
+      alert(offset);
+      get_honor_wall(offset, limit);
+    });
+  }
+  $(document).ready(function() {
+    var limit = {{ limit }};
+    get_honor_wall(0, limit);
+    make_more_button(limit);
   });
 </script>
 {% endblock %}

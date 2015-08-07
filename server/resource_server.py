@@ -104,16 +104,6 @@ def get_list(offset=0, limit=10, user=None, usage=None, type=None):
     return query.offset(offset).limit(limit).all()
 
 
-def get_image_list(offset=0, limit=10):
-    query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC,Resource.type==ResourceType.IMAGES,
-                                  Resource.usage==ResourceUsage.NEWS_RES)
-    return query.offset(offset).limit(limit).all()
-
-def get_image_count(offset=0, limit=10):
-    query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC,Resource.type==ResourceType.IMAGES,
-                                  Resource.usage==ResourceUsage.NEWS_RES)
-    return query.count()
-
 def get_count(user=None, usage=None, type=None):
     if not user:
         query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC)
@@ -130,6 +120,18 @@ def get_count(user=None, usage=None, type=None):
         query = query.filter(Resource.type==type)
     return query.count()
 
+def get_image_list(offset=0, limit=10, usage=ResourceUsage.NEWS_RES):
+    query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC,
+                                  Resource.type==ResourceType.IMAGES,
+                                  Resource.usage==usage)
+    return query.offset(offset).limit(limit).all()
+
+
+def get_image_count(usage=ResourceUsage.NEWS_RES):
+    query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC,
+                                  Resource.type==ResourceType.IMAGES,
+                                  Resource.usage==usage)
+    return query.count()
 
 def get_by_filename(filename):
     return Resource.query.filter(Resource.filename==filename).first_or_404()

@@ -42,6 +42,7 @@ def create_mul_users(user_form, current_user):
     except Exception, e:
         return 'failed'
 
+
 def update_user(user_form, user_rights = 0, for_self = False):
     has_user = User.query.filter_by(id = user_form.id.data).with_lockmode('update').first()
     if not has_user:

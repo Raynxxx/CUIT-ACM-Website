@@ -225,6 +225,29 @@
     $('.md-editor').on("click",".btn[title='Preview']", function(){
       MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     });
+    $('#postImg').submit(function () {
+      var data = new FormData($('#postImg')[0]);
+      var file = $("#inputFile")[0];
+      data.append(file.name, file.files[0]);
+      $.ajax({
+        url: "{{ url_for('ajax.upload') }}",
+        type: "POST",
+        data: data,
+        processData: false,  // 告诉jQuery不要去处理发送的数据
+        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+        success: function (msg) {
+          if (msg == 'ok') {
+            $('.nav-tabs a:first').tab('show');
+            $('#postImg').get(0).reset();
+            get_img_choose_list(0, 8);
+          } else {
+            $("#post-img-text").html(msg);
+            $("#post-img").hide().fadeIn(200);
+          }
+        }
+      });
+      return false;
+    });
   });
 </script>
 <script>
@@ -296,29 +319,7 @@
         save_post(false);
         return false;
     });
-    $('#postImg').submit(function () {
-      var data = new FormData($('#postImg')[0]);
-      var file = $("#inputFile")[0];
-      data.append(file.name, file.files[0]);
-      $.ajax({
-        url: "{{ url_for('ajax.upload') }}",
-        type: "POST",
-        data: data,
-        processData: false,  // 告诉jQuery不要去处理发送的数据
-        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-        success: function (msg) {
-          if (msg == 'ok') {
-            $('.nav-tabs a:first').tab('show');
-            $('#postImg').get(0).reset();
-            get_img_choose_list(0, 8);
-          } else {
-            $("#post-img-text").html(msg);
-            $("#post-img").hide().fadeIn(200);
-          }
-        }
-      });
-      return false;
-    });
+
   });
 </script>
 {%- endblock -%}

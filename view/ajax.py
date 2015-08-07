@@ -467,9 +467,14 @@ def get_img_choose_list():
         return redirect(url_for('index'))
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    from dao.dbResource import ResourceType, ResourceLevel
-    images = resource_server.get_image_list(offset, limit)
-    sum = resource_server.get_image_count()
+    type = request.form.get('type')
+    from dao.dbResource import ResourceUsage
+    if type == 'honor':
+        images = resource_server.get_image_list(offset, limit, ResourceUsage.HONOR_RES)
+        sum = resource_server.get_image_count(ResourceUsage.HONOR_RES)
+    else:
+        images = resource_server.get_image_list(offset, limit)
+        sum = resource_server.get_image_count()
     return jsonify(img_list=[get_img_choose_item(img) for img in images],
                    sum=sum, offset=int(offset), limit=len(images))
 
@@ -548,6 +553,21 @@ def get_resource_info():
                            file_edit_form = file_edit_form)
 
 
+
+#
+# @brief: ajax to edit resource
+# @route: /ajax/resource_info
+# @accepted methods: [post]
+#
+@ajax.route("/ajax/edit_resource", methods = ['POST'])
+@login_required
+def edit_resource():
+    file_edit_form = form.FileInfoForm()
+    if file_edit_form.validate_on_submit():
+        return resource_server.modify_file(file_edit_form, current_user)
+    return u'表单填写错误'
+
+
 #
 # @brief: ajax to delete resource
 # @route: /ajax/delete_resource
@@ -564,12 +584,25 @@ def delete_resource():
         return u'删除失败'
 
 
+
+#
+# @brief: ajax html for one honor item
+# @allowed user: self, admin and coach
+#
 @login_required
 def get_honor_list_item(honor):
     from config import HONOR_LEVEL_MAP
     return render_template('ajax/honor_list_item.html',
-                           honor = honor, level_mapper=HONOR_LEVEL_MAP)
+                           honor = honor,
+                           level_mapper = HONOR_LEVEL_MAP)
 
+
+#
+# @brief: ajax honor list
+# @route: /ajax/honor_list
+# @accepted methods: [post]
+# @allowed user: self, admin, coach
+#
 @ajax.route('/ajax/honor_list', methods=['POST'])
 @login_required
 def get_honor_list():
@@ -580,6 +613,52 @@ def get_honor_list():
     return jsonify(honor_list=[get_honor_list_item(honor) for honor in honor_list],
                    sum=sum, offset=int(offset), limit=len(honor_list))
 
+
+#
+# @brief: ajax html for one honor wall item
+# @allowed user: all
+#
+@login_required
+def get_honor_wall_item(honor):
+    from config import HONOR_LEVEL_MAP
+    return render_template('ajax/honor_wall_item.html',
+                           honor = honor,
+                           level_mapper = HONOR_LEVEL_MAP)
+
+
+#
+# @brief: ajax to get honor wall
+# @route: /ajax/honor_wall
+# @accepted methods: [post]
+# @allowed user: all
+#
+@ajax.route('/ajax/honor_wall', methods=['POST'])
+@login_required
+def get_honor_wall():
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    print offset, limit
+    honor_wall = honor_server.get_honor_wall_by_year(offset, limit)
+    honor_length = 0
+    for honor_year in honor_wall:
+        honor_html_list = list()
+        for honor in honor_wall[honor_year]:
+            honor_length += 1
+            honor_html_list.append(get_honor_wall_item(honor))
+        honor_wall[honor_year] = honor_html_list
+    honor_sum = honor_server.get_honor_count()
+    return jsonify(honor_wall = honor_wall,
+                   sum = honor_sum,
+                   offset = int(offset),
+                   limit = honor_length)
+
+
+#
+# @brief: ajax to add honor
+# @route: /ajax/add_honor
+# @accepted methods: [post]
+# @allowed user: self, admin, coach
+#
 @ajax.route("/ajax/add_honor", methods = ['POST'])
 @login_required
 def add_honor():
@@ -588,7 +667,7 @@ def add_honor():
     honor_form.users.choices = user_server.get_user_choice()
     if honor_form.validate_on_submit():
         try:
-            from dao.dbResource import ResourceLevel,ResourceUsage
+            from dao.dbResource import ResourceLevel, ResourceUsage
             resource_list = []
             for name, file in request.files.items(multi=True):
                 file_form.level.data = ResourceLevel.PUBLIC
@@ -604,6 +683,14 @@ def add_honor():
             return 'failed'
     return u'数据填写有误'
 
+
+
+#
+# @brief: ajax to modify honor
+# @route: /ajax/modify_honor
+# @accepted methods: [post]
+# @allowed user: self, admin, coach
+#
 @ajax.route("/ajax/modify_honor", methods = ['POST'])
 @login_required
 def modify_honor():
@@ -617,6 +704,14 @@ def modify_honor():
             return 'failed'
     return u'数据填写有误'
 
+
+
+#
+# @brief: ajax to delete honor
+# @route: /ajax/delete_honor
+# @accepted methods: [post]
+# @allowed user: self, admin, coach
+#
 @ajax.route("/ajax/delete_honor", methods = ['POST'])
 @login_required
 def delete_honor():
@@ -626,18 +721,7 @@ def delete_honor():
         return msg
     except:
         return u'删除失败'
-#
-# @brief: ajax to edit resource
-# @route: /ajax/resource_info
-# @accepted methods: [post]
-#
-@ajax.route("/ajax/edit_resource", methods = ['POST'])
-@login_required
-def edit_resource():
-    file_edit_form = form.FileInfoForm()
-    if file_edit_form.validate_on_submit():
-        return resource_server.modify_file(file_edit_form, current_user)
-    return u'表单填写错误'
+
 
 
 

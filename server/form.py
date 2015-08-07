@@ -89,6 +89,7 @@ class TagListField(Field):
         else:
             self.data = []
 
+
 class SolutionForm(Form):
     sid = IntegerField('id',validators=[validators.optional()],default=-1)
     title = StringField(u'标题', validators=[validators.DataRequired()])
@@ -101,6 +102,7 @@ class SolutionForm(Form):
     tags = TagListField(u'标签', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
 
+
 class NewsForm(Form):
     sid = IntegerField('id',validators=[validators.optional()],default=-1)
     title = StringField(u'标题', validators=[validators.DataRequired()])
@@ -109,6 +111,7 @@ class NewsForm(Form):
     is_top = BooleanField(u'置顶')
     tags = TagListField(u'标签', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
+
 
 class BookForm(Form):
     id = IntegerField('id',validators=[validators.optional()],default=-1)
@@ -120,6 +123,7 @@ class BookForm(Form):
     isbn = StringField(u'标题', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
 
+
 class FileUploadForm(Form):
     name = StringField(u'name', validators=[validators.DataRequired(), validators.Length(min=1, max=48)])
     description = TextAreaField(u'description', validators=[validators.Optional()])
@@ -128,6 +132,7 @@ class FileUploadForm(Form):
                                         ('3',u'题解资源'), ('4',u'其他资源')], coerce=str, default=2)
     upload = FileField(u'file')
     submit = SubmitField(u'提交')
+
 
 class FileInfoForm(Form):
     id = IntegerField('id',validators=[validators.optional()],default=-1)
@@ -138,15 +143,15 @@ class FileInfoForm(Form):
                                         ('3',u'题解资源'), ('4',u'其他资源')], coerce=str, default=4)
     submit = SubmitField(u'提交')
 
+
 class HonorForm(Form):
     id = IntegerField('id',validators=[validators.optional()],default=-1)
-    title = StringField(u'标题', validators=[validators.DataRequired()])
-    introduce = TextAreaField(u'introduce', validators=[validators.Optional()])
-    type = RadioField('type', choices=[('single', u'单人'), ('group', u'组队')], coerce=str, default='single')
-    acquire_time = DateField('acquire_time',format='%Y/%m/%d')
     contest_name = StringField(u'contest_name', validators=[validators.DataRequired(), validators.Length(min=1, max=48)])
     contest_level = SelectField('contest_level', validators=[validators.DataRequired()],
                          choices=[(str(honor), HONOR_LEVEL_MAP[honor]) for honor in HONOR_LEVEL_MAP],
                          default='0')
+    acquire_time = DateField('acquire_time', format='%Y/%m/%d')
+    type = RadioField('type', choices=[('single', u'单人'), ('group', u'组队')], coerce=str, default='single')
+    introduce = TextAreaField(u'introduce', validators=[validators.Optional()])
     users = SelectMultipleField(u'users', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')

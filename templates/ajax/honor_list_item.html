@@ -2,19 +2,18 @@
   <td class="list-item-check">
     <label><input type="radio" name="honor" value="{{ honor.id }}"></label>
   </td>
-  <td class="list-item-title">
-    {{ honor.title }}
-  </td>
-  <td class="list-item-introduce">
-      {{ honor.md_introduce|safe }}
-  </td>
   <td class="list-item-contest-name">
       {{ honor.contest_name }}
   </td>
   <td class="list-item-level">
       {{ level_mapper[honor.contest_level] }}
   </td>
+  <td class="list-item-users">
+    {% for user in honor.users %}
+      <span class="label label-primary">{{ user.name }}</span>
+    {% endfor %}
+  </td>
   <td class="list-item-time text-muted">
-    {{ honor.acquire_time }}
+    {{ honor.acquire_time.strftime('%Y-%m-%d') }}
   </td>
 </tr>

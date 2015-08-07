@@ -3,12 +3,14 @@ from __init__ import *
 from server import general, user_server, form, news_server, honor_server
 import util, config
 
+
 #
 # @blueprint: admin
 # @created: 2015/06/22
 # @author: Z2Y
 #
 admin = blueprints.Blueprint('admin', __name__, template_folder='../templates/admin')
+
 
 #
 # @brief: the index page for administrator
@@ -22,6 +24,7 @@ def index():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     return redirect(url_for('admin.sys_info'))
+
 
 #
 # @brief: the page for administrator to view system info
@@ -37,6 +40,7 @@ def sys_info():
     sys = general.get_sys_info()
     return render_template('sys_info.html', sys=sys)
 
+
 #
 # @brief: the page for administrator to manage users
 # @route: /admin/manage_user
@@ -51,6 +55,7 @@ def manage_user():
     return render_template('manage_user.html',
                            title = u'用户管理',
                            limit = config.USER_MANAGE_PER_PAGE)
+
 
 #
 # @brief: the page for administrator to manage user
@@ -187,6 +192,29 @@ def edit_news():
                            my_button = my_button)
 
 
+#
+# @brief: the page for admin to manage honor
+# @route: /admin/manage_honor
+# @accepted methods: [get]
+# @allowed user: admin and coach
+#
+@admin.route("/admin/manage_honor", methods = ['GET'])
+@login_required
+def manage_honor():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('admin.index'))
+    return render_template('admin/manage_honor.html',
+                           title = u'荣誉墙管理',
+                           limit = config.HONOR_MANAGE_PER_PAGE)
+
+
+
+#
+# @brief: the page for admin to add honor
+# @route: /admin/add_honor
+# @accepted methods: [get]
+# @allowed user: admin and coach
+#
 @admin.route("/admin/add_honor", methods = ['GET'])
 @login_required
 def add_honor():
@@ -194,11 +222,23 @@ def add_honor():
         return redirect(url_for('main.index'))
     honor_form = form.HonorForm()
     honor_form.users.choices = user_server.get_user_choice()
+    upload_form = form.FileUploadForm()
+    from dao.dbResource import ResourceLevel, ResourceUsage
+    upload_form.level.data = str(ResourceLevel.PUBLIC)
+    upload_form.usage.data = str(ResourceUsage.HONOR_RES)
     return render_template('add_honor.html',
                            title = u'添加荣誉',
                            honor_form = honor_form,
+                           upload_form = upload_form,
                            show_upload = True)
 
+
+#
+# @brief: the page for admin to modify honor
+# @route: /admin/modify_honor
+# @accepted methods: [get]
+# @allowed user: admin and coach
+#
 @admin.route("/admin/modify_honor", methods = ['GET'])
 @login_required
 def modify_honor():
@@ -211,7 +251,6 @@ def modify_honor():
     except:
         return redirect(url_for('admin.manage_honor'))
     honor_form.id.data = honor.id
-    honor_form.title.data = honor.title
     honor_form.introduce.data = honor.introduce
     honor_form.acquire_time.data = honor.acquire_time
     honor_form.contest_name.data = honor.contest_name
@@ -220,20 +259,17 @@ def modify_honor():
     for user in honor.users:
         users.append(user.username)
     honor_form.users.data = users
+    upload_form = form.FileUploadForm()
+    from dao.dbResource import ResourceLevel, ResourceUsage
+    upload_form.level.data = str(ResourceLevel.PUBLIC)
+    upload_form.usage.data = str(ResourceUsage.HONOR_RES)
     return render_template('edit_honor.html',
                            title = u'修改荣誉',
                            honor_form = honor_form,
+                           upload_form = upload_form,
                            show_upload = False)
 
 
-@admin.route("/admin/manage_honor", methods = ['GET'])
-@login_required
-def manage_honor():
-    if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('admin.index'))
-    return render_template('admin/manage_honor.html',
-                           title=u'荣誉管理',
-                           limit = config.NEWS_MANAGE_PER_PAGE)
 
 
 @admin.route("/admin/add_book", methods = ['GET'])

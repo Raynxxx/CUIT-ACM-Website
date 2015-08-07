@@ -15,14 +15,12 @@ honor_resources = db.Table('honor_resources',
 
 class Honor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    acquire_time = db.Column(db.DateTime)
-    introduce = db.Column(db.Text)
-    type = db.Column(db.Enum('single','group'), default='single')
     contest_name = db.Column(db.String(64), nullable=False)
     contest_level = db.Column(db.Integer, nullable=False, default=0)
+    acquire_time = db.Column(db.DateTime, nullable=False)
+    type = db.Column(db.Enum('single', 'group'), default='single')
+    introduce = db.Column(db.Text)
 
-    #rank = db.Column(db.Integer, default=0)
     # connect to Resource
     resources = db.relationship('Resource', secondary=honor_resources ,backref=db.backref('honors', lazy='dynamic'))
 

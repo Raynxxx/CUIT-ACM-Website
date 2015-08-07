@@ -5,14 +5,12 @@
   box-shadow: 1px 2px 1px #ccc;
 }
 
-
 .modal .nav-tabs-custom {
   margin-bottom: 0 !important;
   box-shadow: none !important;
 }
 
 .img-choose-box {
-  min-height: 320px;
   overflow: auto;
   margin: auto 0 !important;
 }
@@ -97,7 +95,7 @@
   word-break: break-all;
 }
 
-.overlay {
+.img-choose-box  .overlay {
   position: absolute;
   left: 0; right: 0;
   top: 45px; bottom: 50px;
@@ -107,7 +105,7 @@
   text-align: center;
   background-color: rgba(255, 255, 255, 0.4);
 }
-.overlay .fa {
+.img-choose-box .overlay .fa {
   font-size: 36px;
   position: absolute;
   top: 40%;
@@ -138,4 +136,90 @@
   text-overflow: ellipsis;
   word-break: keep-all;
   white-space:nowrap;
+}
+
+
+/*
+ * Honor
+ */
+.timeline {
+  margin-bottom: 60px !important;
+}
+.time-label {
+  font-size: 1.8em;
+  letter-spacing: 0.1em;
+}
+.time-label span {
+  padding: 5px 10px !important;
+}
+.timeline-header {
+  font-size: 1.5em !important;
+  font-weight: 700;
+  padding-left: 20px !important;
+}
+
+.contest_level {
+  margin: 5px 15px 10px;
+}
+.contest_users {
+  margin: 5px 15px 20px;
+}
+.contest_level span,
+.contest_users span {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 1.2em;
+  padding: .3em .6em .3em !important;
+  margin: auto 0.2em;
+}
+.contest_resources {
+  margin: 5px 15px 5px;
+}
+.contest_resources img {
+  height: 150px;
+  border: solid 1px #ccc;
+  box-shadow: 1px 1px 2px #ccc;
+  margin: auto 10px 10px auto;
+}
+.introduce {
+  padding: 10px;
+  margin-bottom: 10px;
+  display: none;
+  color: #777;
+}
+.introduce img {
+  height: 150px;
+}
+.timeline-footer {
+  padding-left: 25px !important;
+  padding-bottom: 15px !important;
+  border-top: 1px solid #f4f4f4;
+}
+.timeline-footer .btn {
+  margin-left: 10px;
+}
+
+.timeline-end > .fa {
+  width: 45px !important;
+  height: 45px !important;
+  font-size: 22px !important;
+  line-height: 45px !important;
+  left: 10px !important;
+}
+.more-honor {
+  margin: 5px auto;
+  font-size: 1em;
+  text-shadow: 1px 1px 2px #eee;
+  display: block;
+}
+.more-honor:hover {
+  border-color: #3c8dbc !important;
+}
+.more-honor + .progress {
+  height: 25px;
+  margin: 10px 0;
+  display: none;
+}
+.more-honor + .progress .progress-bar {
+  vertical-align: middle;
 }

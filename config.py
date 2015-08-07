@@ -15,19 +15,18 @@ SCHOOL_MAP = {
 }
 
 HONOR_LEVEL_MAP = {
-    0:u'区域赛金奖',
-    1:u'区域赛银奖',
-    2:u'区域赛铜奖',
-    3:u'区域赛优胜奖',
-    4:u'省赛金奖',
-    5:u'省赛银奖',
-    6:u'省赛铜奖',
-    7:u'省赛优胜奖',
-    8:u'校赛特等奖',
-    9:u'校赛一等奖',
-    10:u'校赛二胜奖',
-    11:u'校赛三胜奖',
-
+    0: u'区域赛金奖',
+    1: u'区域赛银奖',
+    2: u'区域赛铜奖',
+    3: u'区域赛优胜奖',
+    4: u'省赛金奖',
+    5: u'省赛银奖',
+    6: u'省赛铜奖',
+    7: u'省赛优胜奖',
+    8: u'校赛特等奖',
+    9: u'校赛一等奖',
+    10: u'校赛二等奖',
+    11: u'校赛三等奖',
 }
 
 OJ_MAP = {
@@ -53,6 +52,8 @@ REMEMBER_COOKIE_DURATION = timedelta(days=1)
 
 ## some config for front end
 NEWS_PER_PAGE = 5
+HONOR_PER_PAGE = 10
 USER_MANAGE_PER_PAGE = 5
 NEWS_MANAGE_PER_PAGE = 5
+HONOR_MANAGE_PER_PAGE = 5
 RESOURCE_MANAGE_PER_PAGE = 8
