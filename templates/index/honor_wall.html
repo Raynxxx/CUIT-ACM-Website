@@ -4,21 +4,38 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-  <div class="col-sm-3">
-    <div class="box box-primary">
-      <div class="box-header with-border">
-        <h3 class="box-title">查找</h3>
-        <div class="box-tools pull-right">
-          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        </div>
-      </div>
-      <div class="box-body">
-        TODO
-      </div>
-    </div>
+<div class="row filter-row">
+  <div class="col-sm-offset-1 col-sm-3">
+    <h2>荣誉墙</h2>
   </div>
-  <div class="col-sm-9">
+  <div class="col-sm-7">
+    <fieldset class="form-inline pull-right">
+      <select class="form-control select-type" name="type">
+        <option value="user">队员名</option>
+        <option value="time">年份</option>
+        <option value="contest_name">比赛名称</option>
+        <option value="level">获奖成果</option>
+      </select>
+      <div class="input-group">
+        <input type="text" class="form-control">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+        </span>
+      </div>
+      <div class="level-select" style="display: none">
+        <select class="form-control" name="type">
+          <option value="user">队员名</option>
+          <option value="time">年份</option>
+          <option value="contest_name">比赛名称</option>
+          <option value="level">获奖成果</option>
+        </select>
+        <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+      </div>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-offset-1 col-sm-10">
     <ul class="timeline">
       <li class="timeline-one sr-only" data-year="0" style="height: 0; margin: 0"></li>
       <li class="timeline-end">
@@ -83,12 +100,7 @@
         $more_btn.fadeIn(300);
       }
     }).error(function() {
-      var $list_table = $('.list-table-body').first();
-      $list_table.empty();
-      $list_table.append('<tr><td colspan="5"><h2>加载失败</h2></tr>');
-      $('.list-box > div.overlay').fadeOut(300, make_iCheck());
-      $('.prev-page').hide();
-      $('.next-page').hide();
+
     });
   }
   function make_more_button(limit) {
@@ -111,10 +123,23 @@
       get_honor_wall(offset, limit);
     });
   }
+  function change_filter() {
+     $(document).on('change', '.filter-row .select-type', function() {
+       var val = $(this).children('option:selected').val();
+       if (val == 'level') {
+         $('.filter-row .level-select').css('display', 'inline');
+         $('.filter-row .input-group').css('display', 'none');
+       } else {
+         $('.filter-row .level-select').css('display', 'none');
+         $('.filter-row .input-group').css('display', 'inline-table');
+       }
+     });
+  }
   $(document).ready(function() {
     var limit = {{ limit }};
     get_honor_wall(0, limit);
     make_more_button(limit);
+    change_filter();
   });
 </script>
 {% endblock %}
