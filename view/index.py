@@ -266,10 +266,10 @@ def resource(name):
 #
 @main.route("/honor_wall", methods = ['GET'])
 def honor_wall():
-    honor_years = honor_server.get_honor_wall_by_year()
     return render_template('index/honor_wall.html',
                            title = u'荣誉墙',
-                           limit = config.HONOR_PER_PAGE)
+                           limit = config.HONOR_PER_PAGE,
+                           HONOR_LEVEL_MAP = HONOR_LEVEL_MAP)
 
 
 @main.route('/aboutus')
