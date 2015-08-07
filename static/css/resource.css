@@ -142,6 +142,20 @@
 /*
  * Honor
  */
+
+.filter-row {
+  margin-bottom: 20px;
+}
+.filter-row h2 {
+  margin-top: 0;
+}
+.filter-row .form-inline {
+  margin-right: 20px;
+}
+.filter-row .btn-primary:hover {
+  border-color: #367fa9;
+}
+
 .timeline {
   margin-bottom: 60px !important;
 }
@@ -194,9 +208,6 @@
   padding-left: 25px !important;
   padding-bottom: 15px !important;
   border-top: 1px solid #f4f4f4;
-}
-.timeline-footer .btn {
-  margin-left: 10px;
 }
 
 .timeline-end > .fa {

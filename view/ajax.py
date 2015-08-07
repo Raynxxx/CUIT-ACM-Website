@@ -637,7 +637,6 @@ def get_honor_wall_item(honor):
 def get_honor_wall():
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    print offset, limit
     honor_wall = honor_server.get_honor_wall_by_year(offset, limit)
     honor_length = 0
     for honor_year in honor_wall:
