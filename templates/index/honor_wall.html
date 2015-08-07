@@ -37,7 +37,7 @@
 <div class="row">
   <div class="col-sm-offset-1 col-sm-10">
     <ul class="timeline">
-      <li class="timeline-one sr-only" data-year="0" style="height: 0; margin: 0"></li>
+      <li class="timeline-one sr-only timeline-guard" data-year="0" style="height: 0; margin: 0"></li>
       <li class="timeline-end">
         <i class="fa fa-power-off"></i>
         <div class="timeline-item">
@@ -61,7 +61,12 @@
 
 {% block script %}
 <script>
-  function get_honor_wall(offset, limit) {
+  function reset_honor_wall() {
+    $('li.timeline-guard').nextAll('li.timeline-one').remove();
+    $('li.timeline-end > .fa').hide();
+    $('li.timeline-end .more-honor').hide();
+  }
+  function get_honor_wall(offset, limit, query_type, keyword) {
     var $timeline_end = $('li.timeline-end');
     var $end_fa = $('li.timeline-end > .fa');
     var $more_btn = $('li.timeline-end .more-honor');
@@ -82,7 +87,7 @@
       } else {
         for (var cur_year in honor_wall) {
           if (cur_year != last_honor_year) {
-            $last_honor.after('<li class="time-label"><span class="bg-red">' + cur_year +  '</span></li>');
+            $last_honor.after('<li class="time-label timeline-one"><span class="bg-red">' + cur_year +  '</span></li>');
             $last_honor = $last_honor.next();
           }
           for (var index in honor_wall[cur_year]) {
@@ -102,6 +107,10 @@
     }).error(function() {
 
     });
+
+  }
+  function make_filter() {
+
   }
   function make_more_button(limit) {
     $(document).on('click', '.timeline-footer .more-info', function() {
@@ -140,6 +149,7 @@
     get_honor_wall(0, limit);
     make_more_button(limit);
     change_filter();
+    make_filter();
   });
 </script>
 {% endblock %}
