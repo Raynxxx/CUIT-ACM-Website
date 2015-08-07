@@ -637,7 +637,9 @@ def get_honor_wall_item(honor):
 def get_honor_wall():
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    honor_wall = honor_server.get_honor_wall_by_year(offset, limit)
+    query_type = request.form.get('query_type')
+    keyword = request.form.get('keyword')
+    honor_wall = honor_server.get_honor_wall_by_year(offset, limit, query_type, keyword)
     honor_length = 0
     for honor_year in honor_wall:
         honor_html_list = list()
@@ -645,7 +647,7 @@ def get_honor_wall():
             honor_length += 1
             honor_html_list.append(get_honor_wall_item(honor))
         honor_wall[honor_year] = honor_html_list
-    honor_sum = honor_server.get_honor_count()
+    honor_sum = honor_server.get_honor_count(query_type, keyword)
     return jsonify(honor_wall = honor_wall,
                    sum = honor_sum,
                    offset = int(offset),

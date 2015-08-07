@@ -25,6 +25,9 @@ class Book(db.Model):
     isbn = db.Column(db.String(100), nullable=False, index=True)
     last_borrow_time = db.Column(db.DateTime)
     #rank = db.Column(db.Integer, default=0)
+
+    resource_id = db.Column(db.Integer, db.ForeignKey('resource.id', ondelete="SET NULL"), nullable=True)
+    resource = db.relationship('Resource', backref=db.backref('book', lazy='dynamic'))
     # connect to User
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"))
     user = db.relationship('User', backref=db.backref('book', lazy='dynamic'))

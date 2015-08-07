@@ -16,21 +16,17 @@
         <option value="contest_name">比赛名称</option>
         <option value="level">获奖成果</option>
       </select>
-      <div class="input-group">
+      <div class="input-group query-input">
         <input type="text" class="form-control">
         <span class="input-group-btn">
-          <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
         </span>
       </div>
       <div class="level-select" style="display: none">
         <select class="form-control" name="type">
-          <option value="user">队员名</option>
-          <option value="time">年份</option>
-          <option value="contest_name">比赛名称</option>
-          <option value="level">获奖成果</option>
+<option selected value="0">区域赛金奖</option><option value="1">区域赛银奖</option><option value="2">区域赛铜奖</option><option value="3">区域赛优胜奖</option><option value="4">省赛金奖</option><option value="5">省赛银奖</option><option value="6">省赛铜奖</option><option value="7">省赛优胜奖</option><option value="8">校赛特等奖</option><option value="9">校赛一等奖</option><option value="10">校赛二等奖</option><option value="11">校赛三等奖</option>
         </select>
-        <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
       </div>
+        <button class="btn btn-primary honor-search" type="button"><i class="fa fa-search"></i></button>
     </fieldset>
   </div>
 </div>
@@ -72,7 +68,7 @@
     var $more_btn = $('li.timeline-end .more-honor');
     var $progress = $('li.timeline-end .progress');
     $end_fa.hide(); $more_btn.hide(); $progress.show();
-    var data = { offset: offset, limit: limit };
+    var data = { offset: offset, limit: limit ,query_type: query_type, keyword:keyword};
     $.post("{{ url_for('ajax.get_honor_wall') }}", data).success(function(ret) {
       var honor_wall = ret.honor_wall,
           honor_count = ret.sum,
@@ -110,7 +106,19 @@
 
   }
   function make_filter() {
-
+      $(".honor-search").on('click', function() {
+          var limit = {{ limit }};
+          var query_type = $(".select-type").val();
+          var keyword;
+          if (query_type == 'level') {
+              keyword = $(".level-select select").val();
+          }
+          else {
+              keyword = $(".query-input input").val()
+          }
+          reset_honor_wall();
+          get_honor_wall(0, limit, query_type, keyword);
+      });
   }
   function make_more_button(limit) {
     $(document).on('click', '.timeline-footer .more-info', function() {
