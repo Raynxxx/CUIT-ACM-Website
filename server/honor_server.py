@@ -72,23 +72,27 @@ def get_honor_list(offset=0, limit=10):
 
 
 def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
-    if query_type == 'user':
+    if query_type == 'user' and keyword != '':
         user = User.query.filter(User.name==keyword).first()
         return user.honors.order_by(Honor.acquire_time.desc())\
             .offset(offset).limit(limit).all() if user else []
-    elif query_type == 'time':
-        year = datetime.datetime(int(keyword), 0, 0)
-        next_year = datetime.datetime(int(keyword), 0, 0)
+    elif query_type == 'time' and keyword != '':
+        try:
+            year = int(keyword)
+        except:
+            year = datetime.date.min.year
+        year_start = datetime.datetime(year, 1, 1)
+        year_end = datetime.datetime(year, 12, 31)
         return Honor.query\
-            .filter(Honor.acquire_time.between(year, next_year)).\
+            .filter(Honor.acquire_time.between(year_start, year_end)).\
             order_by(Honor.acquire_time.desc())\
             .offset(offset).limit(limit).all()
-    elif query_type == 'level':
+    elif query_type == 'level' and keyword != '':
         return Honor.query\
             .filter(Honor.contest_level==keyword).\
             order_by(Honor.acquire_time.desc())\
             .offset(offset).limit(limit).all()
-    elif query_type == 'contest_name':
+    elif query_type == 'contest_name' and keyword != '':
         return Honor.query\
             .filter(Honor.contest_name.like('%' + keyword + '%')).\
             order_by(Honor.acquire_time.desc())\
@@ -111,21 +115,21 @@ def get_honor_wall_by_year(offset=0, limit=10, query_type=None, keyword=''):
 
 
 def get_honor_count(query_type=None, keyword=''):
-    if query_type == 'user':
+    if query_type == 'user' and keyword != '':
         user = User.query.filter(User.name==keyword).first()
         return user.honors\
             .count() if user else 0
-    elif query_type == 'time':
+    elif query_type == 'time' and keyword != '':
         year = datetime.datetime(int(keyword), 0, 0)
         next_year = datetime.datetime(int(keyword), 0, 0)
         return Honor.query\
             .filter(Honor.acquire_time.between(year,year + next_year))\
             .count()
-    elif query_type == 'level':
+    elif query_type == 'level' and keyword != '':
         return Honor.query\
             .filter(Honor.contest_level==keyword)\
             .count()
-    elif query_type == 'contest_name':
+    elif query_type == 'contest_name' and keyword != '':
         return Honor.query\
             .filter(Honor.contest_name.like('%' + keyword + '%'))\
             .count()
