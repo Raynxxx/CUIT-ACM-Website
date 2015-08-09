@@ -28,7 +28,7 @@
             {% endif %}
           </div>
         </div>
-        <div class="article-body">
+        <div class="article-body shortcut" data-news="{{ one.id }}" data-title="{{ one.title }}">
           {{ one.md_shortcut|safe }}
         </div>
         <a href="{{ url_for('main.news',url=one.url) }}" class="article-more-link btn btn-primary btn-flat">阅读全文 >></a>
@@ -112,8 +112,20 @@
       //$tag.css('opacity', opacity);
     });
   }
+  function make_lightbox() {
+    $('.article-body img').each(function() {
+      var $fa = $(this).closest('.article-body');
+      var href = $(this).attr('src');
+      $(this).wrap('<a></a>').parent().attr({
+        'href': href,
+        'data-lightbox':'news' + $fa.data('news'),
+        'data-title':  $fa.data('title')
+      });
+    });
+  }
   $(document).ready(function(){
     gaoTags();
+    make_lightbox();
   });
 </script>
 {% endblock %}

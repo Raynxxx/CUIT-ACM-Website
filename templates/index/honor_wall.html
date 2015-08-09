@@ -106,11 +106,13 @@
       } else {
         $more_btn.fadeIn(300);
       }
+      make_lightbox();
     }).error(function() {
       reset_honor_wall();
       $progress.fadeOut(300);
       $timeline_error.fadeIn(300);
     });
+
   }
   function make_filter(limit) {
     $(document).on('click', '.honor-search', function() {
@@ -161,12 +163,24 @@
        }
      });
   }
+  function make_lightbox() {
+    $('.introduce img').each(function() {
+      var $fa = $(this).closest('.introduce');
+      var href = $(this).attr('src');
+      $(this).wrap('<a></a>').parent().attr({
+        'href': href,
+        'data-lightbox':'honor' + $fa.data('honor'),
+        'data-title': 'Honor'
+      });
+    });
+  }
   $(document).ready(function() {
     var limit = {{ limit }};
     get_honor_wall(0, limit);
     make_more_button(limit);
     change_filter();
     make_filter(limit);
+
   });
 </script>
 {% endblock %}
