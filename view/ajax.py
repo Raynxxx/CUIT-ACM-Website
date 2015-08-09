@@ -544,6 +544,8 @@ def get_resource_info():
     if rs.level >= 2 and not current_user.is_admin and not current_user.is_coach_of(rs.user):
         return u'permission denied'
     file_edit_form = form.FileInfoForm()
+    if not current_user.is_admin and not current_user.is_coach:
+        file_edit_form.usage.choices = [('3',u'题解资源'), ('4',u'其他资源')]
     file_edit_form.id.data = rs.id
     file_edit_form.level.data = str(rs.level)
     file_edit_form.name.data = rs.name
@@ -618,7 +620,6 @@ def get_honor_list():
 # @brief: ajax html for one honor wall item
 # @allowed user: all
 #
-@login_required
 def get_honor_wall_item(honor):
     from config import HONOR_LEVEL_MAP
     return render_template('ajax/honor_wall_item.html',
@@ -633,7 +634,6 @@ def get_honor_wall_item(honor):
 # @allowed user: all
 #
 @ajax.route('/ajax/honor_wall', methods=['POST'])
-@login_required
 def get_honor_wall():
     offset = request.form.get('offset')
     limit = request.form.get('limit')

@@ -120,11 +120,13 @@ def news(url=None):
 @main.route('/news/archive/<tag>', methods = ['GET'])
 def news_archive(tag=None):
     if tag:
+        title = u'Archive ' + tag
         archives = news_server.get_archive_by_tag(tag)
     else:
+        title = u'Archive'
         archives = news_server.get_archive()
     return render_template('index/archive.html',
-                           title = u'Archive ' + tag,
+                           title = title,
                            archives = archives)
 
 
