@@ -96,6 +96,8 @@ def update_account():
 @login_required
 def manage_resource():
     file_upload_form = form.FileUploadForm()
+    if not current_user.is_admin and not current_user.is_coach:
+        file_upload_form.usage.choices = [('3',u'题解资源'), ('4',u'其他资源')]
     return render_template('manage_resource.html',
                            title = u'资源管理',
                            user = current_user,

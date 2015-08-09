@@ -96,7 +96,8 @@ def get_list(offset=0, limit=10, user=None, usage=None, type=None):
         query = Resource.query.join(Resource.user)\
             .filter(or_(Resource.level<=ResourceLevel.SHARED, and_(User.school==user.school, User.rights < 4)))
     else:
-        query = Resource.query.filter(or_(Resource.level<=ResourceLevel.SHARED, Resource.user==user))
+        query = Resource.query.filter(or_(Resource.level<=ResourceLevel.SHARED, Resource.user==user),
+                                      or_(Resource.usage==ResourceUsage.SOLUTION_RES,Resource.usage==ResourceUsage.OTHER_RES))
     if usage:
         query = query.filter(Resource.usage==usage)
     if type:
