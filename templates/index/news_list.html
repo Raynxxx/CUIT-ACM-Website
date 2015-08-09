@@ -5,6 +5,11 @@
 
 {% block content %}
 <div class="row">
+{% if not news %}
+  <div class="col-sm-offset-1 col-sm-10 text-center">
+    <h1>无新闻</h1>
+  </div>
+{% endif %}
   <div class="col-sm-offset-1 col-sm-7">
     {% for one in news %}
       <div class="article-box">
@@ -67,6 +72,9 @@
    <div class="box box-default">
       <div class="box-header with-border">
         <h3 class="box-title"> 标签云</h3>
+        <div class="box-tools pull-right">
+          <a class="btn btn-link btn-sm" href="{{ url_for('main.news_archive') }}">新闻存档 >></a>
+        </div>
       </div>
       <div class="box-body no-padding">
         <div class="tags_cloud">
