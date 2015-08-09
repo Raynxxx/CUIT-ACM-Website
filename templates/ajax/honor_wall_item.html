@@ -18,12 +18,15 @@
       </div>
       <div class="contest_resources">
         {% for resource in honor.resources %}
+          <a href="{{ url_for('main.resource', name=resource.filename) }}"
+            data-lightbox="honor{{ honor.id }}" data-title="{{ resource.filename }}">
           <img src="{{ url_for('main.resource', name=resource.filename) }}">
+          </a>
         {% endfor %}
       </div>
     </div>
     <div class="timeline-footer">
-      <div class="introduce">
+      <div class="introduce" data-honor="{{ honor.id }}">
         {{ honor.md_introduce|safe }}
       </div>
       <a class="btn btn-default btn-sm more-info" data-target="{{ honor.id }}" data-state="0">

@@ -84,8 +84,20 @@
       //$tag.css('opacity', opacity);
     });
   }
+  function make_lightbox() {
+    $('.article-body img').each(function() {
+      var $fa = $(this).closest('.article-body');
+      var href = $(this).attr('src');
+      $(this).wrap('<a></a>').parent().attr({
+        'href': href,
+        'data-lightbox':'news' + $fa.data('news'),
+        'data-title':  $fa.data('title')
+      });
+    });
+  }
   $(document).ready(function(){
     gaoTags();
+    make_lightbox();
   });
 </script>
 {% endblock %}

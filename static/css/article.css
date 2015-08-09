@@ -45,12 +45,18 @@
   text-overflow: ellipsis;
   color: #333;
   font-weight: 600;
+  text-indent: 2em;
 }
 .article-body img {
-  max-width: 90%;
+  max-width: 80%;
   border: solid 1px #999;
   box-shadow: 1px 2px 1px #ccc;
 }
+
+.shortcut img {
+  max-height: 150px !important;
+}
+
 .article-more-link {
   text-decoration: none;
   letter-spacing: 1px;
