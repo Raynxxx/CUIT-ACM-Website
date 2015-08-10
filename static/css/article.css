@@ -40,22 +40,27 @@
   font-size: 8px;
 }
 .article-body {
-  padding: 1em 0.8em;
+  padding: 0.2em 0.8em 0.8em;
   word-break: break-all;
   text-overflow: ellipsis;
   color: #333;
-  font-weight: 600;
-  text-indent: 2em;
+  font-weight: 400;
 }
 .article-body img {
   max-width: 80%;
   border: solid 1px #999;
   box-shadow: 1px 2px 1px #ccc;
 }
+.article-body pre {
+  padding: 5px;
+}
 
 .shortcut img {
   max-height: 150px !important;
 }
+
+
+
 
 .article-more-link {
   text-decoration: none;

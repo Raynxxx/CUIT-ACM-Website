@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-fileinput/css/fileinput.min.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='highlight/github.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='highlight/monokai_sublime.css') }}"/>
 {%- endblock -%}
 {% block content %}
 <div class="box box-primary">
@@ -152,6 +154,7 @@
 <script src="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
 <script src="{{ url_for('static', filename='bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+<script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
 <script>
   function gao_selected() {
     $(document).on('click', '.img-item', function() {
@@ -251,6 +254,14 @@
   });
 </script>
 <script>
+  function make_highlight() {
+    $('pre code').each(function(i, block) {
+      hljs.configure({
+        tabReplace: '    '
+      });
+      hljs.highlightBlock(block);
+    });
+  }
   function make_iCheck() {
     $('.radio-inline input[type="checkbox"], input[type="radio"]').iCheck({
       checkboxClass: 'icheckbox_square-blue',
@@ -319,7 +330,7 @@
         save_post(false);
         return false;
     });
-
+    make_highlight();
   });
 </script>
 {%- endblock -%}
