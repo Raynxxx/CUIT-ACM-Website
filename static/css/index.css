@@ -87,3 +87,19 @@ body {
   border: solid 1px #fff;
   background-color: #fff;
 }
+
+.index-info h3 {
+  display: inline-block;
+  vertical-align: middle;
+}
+.index-info .more-link {
+  margin-top: 15px;
+}
+.index-info .more-link a {
+  color: #fff;
+}
+.index-info .more-link a:hover {
+  color: #333;
+  border: solid 1px #fff;
+  background-color: #fff;
+}

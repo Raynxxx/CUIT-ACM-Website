@@ -65,15 +65,25 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row index-info">
     <div class="col-sm-5">
-      <h3>最近新闻</h3>
+      <div>
+        <h3>最近新闻</h3>
+        <div class="pull-right more-link">
+          <a class="btn btn-link" href="{{ url_for('main.news_list') }}">更多新闻 >></a>
+        </div>
+      </div>
       {% for news in recent_news %}
-        <p class="leading"><a href="{{ url_for('main.news', url=news.url) }}">{{ news.title }}</a></p>
+        <p class="leading"><i class="fa fa-link"></i> <a href="{{ url_for('main.news', url=news.url) }}">{{ news.title }}</a></p>
       {% endfor %}
     </div>
     <div class="col-sm-offset-1 col-sm-5">
-      <h3>校队简介</h3>
+      <div>
+        <h3>校队简介</h3>
+        <div class="pull-right more-link">
+          <a class="btn btn-link" href="{{ url_for('main.news_list') }}">详情 >></a>
+        </div>
+      </div>
     </div>
   </div>
 </div> <!-- /container -->

@@ -159,6 +159,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   background-color: #555;
   font-family: "Consolas", sans-serif !important;
 }
-code {
+.background-code code {
   font-size: 3em !important;
 }
