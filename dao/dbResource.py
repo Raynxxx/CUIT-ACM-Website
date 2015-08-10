@@ -34,7 +34,7 @@ class Resource(db.Model):
     upload_time = db.Column(db.DateTime)
 
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"), nullable=True)
     user = db.relationship('User', backref=db.backref('resource', lazy='dynamic'))
 
     def __repr__(self):
