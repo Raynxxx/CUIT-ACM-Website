@@ -7,11 +7,11 @@
 {% block content %}
 <div class="row">
 {% if not news %}
-  <div class="col-sm-offset-1 col-sm-10 text-center">
+  <div class="col-xs-offset-1 col-xs-10 text-center">
     <h1>无新闻</h1>
   </div>
 {% endif %}
-  <div class="col-sm-offset-1 col-sm-7">
+  <div class="col-md-offset-1 col-md-7">
     {% for one in news %}
       <div class="article-box">
         <div class="article-header">
@@ -54,7 +54,7 @@
     </nav>
     {% endif %}
   </div>
-  <div class="col-sm-3">
+  <div class="col-md-3">
   {% if recent_news != [] %}
     <div class="box box-default">
       <div class="box-header with-border">

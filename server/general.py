@@ -90,4 +90,5 @@ def get_sys_info():
     sys_info['daily_submit'] = Submit.query.filter(Submit.submit_time > today).count()
     sys_info['total_submit'] = Submit.query.count()
     sys_info['news_count'] = News.query.count()
+    sys_info['honor_count'] = Honor.query.count()
     return sys_info
