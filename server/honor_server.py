@@ -57,6 +57,7 @@ def modify_honor(honor_attr):
         honor.contest_name = honor_attr.contest_name.data
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
+        honor.type = honor_attr.type.data
         honor.md_introduce = honor_attr.introduce.data
         honor.users = user_list
         honor.save()

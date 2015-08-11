@@ -30,7 +30,7 @@ class RegisterForm(Form):
                          choices=[(school, SCHOOL_MAP[school]) for school in SCHOOL_MAP],
                          default='cuit')
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
-    email = StringField('Email', validators=[validators.DataRequired(), validators.Length(min=1, max=64), validators.Email()])
+    email = StringField('Email', validators=[validators.Optional(), validators.Length(min=1, max=64), validators.Email()])
     submit = SubmitField(u'注册')
 
 class MultiRegisterForm(Form):

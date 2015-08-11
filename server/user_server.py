@@ -83,8 +83,8 @@ def get_by_username(username):
 
 
 def get_user_choice():
-    users = db.session.query(User.username).all()
-    return [(username[0], username[0]) for username in users]
+    users = db.session.query(User.username, User.name).all()
+    return [(user[0], user[1]) for user in users]
 
 def get_list(offset=0, limit=20, school=None):
     if not school:
