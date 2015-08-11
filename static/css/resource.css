@@ -209,6 +209,46 @@
   box-shadow: 1px 2px 1px #ccc;
   margin: auto 10px 10px auto;
 }
+
+.introduce a:hover {
+  color: #fff;
+  background-color: #333;
+}
+.introduce pre {
+  padding: 5px;
+  background-color: #f9f9f9 !important;
+  box-shadow: 1px 1px 1px #ccc;
+}
+.introduce table {
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: 10px auto 20px auto;
+  border: 1px solid #ddd;
+  display: table;
+}
+.introduce table th,
+.introduce table td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  display: table-cell;
+}
+.introduce table th:first-child,
+.introduce table td:first-child {
+  white-space: nowrap;
+}
+.introduce table>thead>tr>th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #ddd;
+  line-height: 1.42857143;
+}
+.introduce table>tbody>tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
 .timeline-footer {
   padding-left: 25px !important;
   padding-bottom: 15px !important;

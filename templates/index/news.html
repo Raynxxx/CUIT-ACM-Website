@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="col-sm-offset-1 col-sm-7">
+  <div class="col-md-offset-1 col-md-7">
     <div class="article-box">
       <div class="article-header">
         <h3 class="article-title">{{ one.title }}</h3>
@@ -30,7 +30,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-3">
+  <div class="col-md-3">
   {% if recent_news != [] %}
     <div class="box box-default">
       <div class="box-header with-border">
@@ -49,6 +49,9 @@
    <div class="box box-default">
       <div class="box-header with-border">
         <h3 class="box-title"> 标签云</h3>
+        <div class="box-tools pull-right">
+          <a class="btn btn-link btn-sm" href="{{ url_for('main.news_archive') }}">新闻存档 >></a>
+        </div>
       </div>
       <div class="box-body no-padding">
         <div class="tags_cloud">
@@ -67,7 +70,7 @@
 
 {% block script %}
 <script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
-<script type="text/javascript">
+<script>
   function make_highlight() {
     $('pre code').each(function(i, block) {
       hljs.configure({

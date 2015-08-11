@@ -23,6 +23,7 @@ def index():
         profile_user = user_server.get_by_username_or_404(request.args['username'])
     except:
         profile_user = current_user
+    title = profile_user.name + u'的主页'
     statistic = user_server.get_statistic(profile_user)
     user_modify_form = form.UserModifyForm()
     user_modify_form.id.data = profile_user.id
@@ -38,7 +39,7 @@ def index():
     pwd_modify_form = form.PasswordModifyForm()
     pwd_modify_form.id.data = profile_user.id
     return render_template('index.html',
-                           title=u'你的主页',
+                           title = title,
                            user = profile_user,
                            user_modify_form = user_modify_form,
                            pwd_modify_form = pwd_modify_form,
