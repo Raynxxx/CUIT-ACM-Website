@@ -672,7 +672,7 @@ def add_honor():
             resource_list = []
             for name, file in request.files.items(multi=True):
                 file_form.level.data = ResourceLevel.PUBLIC
-                file_form.name.data = file.filename
+                file_form.name.data = unicode(file.filename).split('.')[0]
                 file_form.usage.data = ResourceUsage.HONOR_RES
                 resource_server.save_file(file_form, file, current_user)
                 resource = resource_server.get_by_name(file_form.name.data)
