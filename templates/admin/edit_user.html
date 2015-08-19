@@ -25,9 +25,9 @@
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputEmail">
-                  <span class="required-star">* </span>邮箱</label>
+                  邮箱</label>
                 <div class="col-sm-9">
-                  {{ user_modify_form.email(class='form-control required', id="inputEmail", placeholder="邮箱") }}
+                  {{ user_modify_form.email(class='form-control', id="inputEmail", placeholder="邮箱") }}
                 </div>
               </div>
               <div class="form-group">
@@ -151,10 +151,8 @@
       });
       $('#userEditForm').submit(function () {
         var name_field = $('#inputName');
-        var email_field = $('#inputEmail');
         var rights_field = $('input[name="rights"]:checked');
-        if (requiredCheck(name_field, '真实姓名') &&
-                requiredCheck(email_field, '邮箱')) {
+        if (requiredCheck(name_field, '真实姓名')) {
           if (rights_field.length <= 0) {
             rights_field.focus();
             $("#add-info-text").html("必须为用户设定权限");

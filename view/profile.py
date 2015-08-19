@@ -106,13 +106,20 @@ def manage_resource():
                            upload_form = file_upload_form)
 
 
-
+@profile.route("/profile/manage_article", methods = ['GET'])
+@login_required
+def manage_article():
+    return render_template('profile/manage_article.html',
+                           title=u'题解管理',
+                           user = current_user,
+                           limit = config.ARTICLE_MANAGE_PER_PAGE)
 
 @profile.route('/profile/post_article', methods=['GET'])
 @login_required
 def post_article():
     solution_form = form.SolutionForm()
-    return render_template('post_article.html', user=current_user, form=solution_form)
+    my_button = [u"保存草稿", u"直接发布"]
+    return render_template('post_article.html', user=current_user, form=solution_form, my_button=my_button)
 
 
 @profile.route('/profile/edit_article', methods=['GET'])
@@ -128,13 +135,16 @@ def edit_article():
     if one:
         solution_form.sid.data = one.id
         solution_form.title.data = one.title
-        solution_form.shortcut.data = one.shortcut
-        solution_form.content.data = one.content
+        solution_form.content.data = one.shortcut + '<-more->' + one.content
         tags = []
         for tag in one.tags:
             tags.append(tag.__repr__())
         solution_form.tags.data = tags
         solution_form.problem_oj_name.data = one.problem_oj_name
         solution_form.problem_pid.data = one.problem_pid
-    return render_template('post_article.html', user=current_user, form=solution_form)
+    if one.is_draft:
+        my_button = [u"保存草稿", u"直接发布"]
+    else :
+        my_button = [u"保存草稿", u"提交更新"]
+    return render_template('post_article.html', user=current_user, form=solution_form, my_button=my_button)
 

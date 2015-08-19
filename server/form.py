@@ -30,7 +30,7 @@ class RegisterForm(Form):
                          choices=[(school, SCHOOL_MAP[school]) for school in SCHOOL_MAP],
                          default='cuit')
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
-    email = StringField('Email', validators=[validators.DataRequired(), validators.Length(min=1, max=64), validators.Email()])
+    email = StringField('Email', validators=[validators.Optional(), validators.Length(min=1, max=64), validators.Email()])
     submit = SubmitField(u'注册')
 
 class MultiRegisterForm(Form):
@@ -93,8 +93,7 @@ class TagListField(Field):
 class SolutionForm(Form):
     sid = IntegerField('id',validators=[validators.optional()],default=-1)
     title = StringField(u'标题', validators=[validators.DataRequired()])
-    shortcut = TextAreaField(u'摘要', validators=[validators.DataRequired()])
-    content = TextAreaField(u'正文', validators=[validators.DataRequired()])
+    content = TextAreaField(u'正文', validators=[validators.DataRequired(),validators.Length(min=10)])
     problem_oj_name = SelectField('OJ',
                           choices=[(oj, OJ_MAP[oj]) for oj in OJ_MAP],
                           default='bnu')
@@ -151,7 +150,7 @@ class HonorForm(Form):
                          choices=[(str(honor), HONOR_LEVEL_MAP[honor]) for honor in HONOR_LEVEL_MAP],
                          default='0')
     acquire_time = DateField('acquire_time', format='%Y/%m/%d')
-    type = RadioField('type', choices=[('single', u'单人'), ('group', u'组队')], coerce=str, default='single')
+    team_name = StringField(u'team', validators=[validators.Optional(), validators.Length(min=1, max=48)])
     introduce = TextAreaField(u'introduce', validators=[validators.Optional()])
     users = SelectMultipleField(u'users', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')

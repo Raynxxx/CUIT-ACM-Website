@@ -34,17 +34,12 @@
           {{ honor_form.acquire_time(class="form-control date required",id="inputTime", placeholder="时间") }}
         </div>
       </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2"><span class="required-star">* </span>比赛类型</label>
-        <div class="col-sm-9">
-          {%- for sub in honor_form.type %}
-            <label class="radio-inline">
-              {{ sub }}
-              {{ sub.label(style='margin-left:10px;') }}
-            </label>
-          {%- endfor %}
+        <div class="form-group">
+          <label class="control-label col-sm-2">队伍名称</label>
+          <div class="col-sm-9">
+            {{ honor_form.team_name(class="form-control",id="inputTeamName", placeholder="队伍名称") }}
+          </div>
         </div>
-      </div>
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputUser"><span class="required-star">* </span>参赛队员</label>
         <div class="col-sm-9">

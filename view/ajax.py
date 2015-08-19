@@ -403,7 +403,8 @@ def solution_manager():
     solution_form = form.SolutionForm()
     if solution_form.validate_on_submit():
         try:
-            article_server.post(solution_form, profile_user)
+            is_draft = int(request.args['draft'])
+            article_server.post(solution_form, profile_user, is_draft)
             return u"发表成功!"
         except Exception, e:
             return u"发表文章失败" + e.message
@@ -672,7 +673,7 @@ def add_honor():
             resource_list = []
             for name, file in request.files.items(multi=True):
                 file_form.level.data = ResourceLevel.PUBLIC
-                file_form.name.data = file.filename
+                file_form.name.data = unicode(file.filename).split('.')[0]
                 file_form.usage.data = ResourceUsage.HONOR_RES
                 resource_server.save_file(file_form, file, current_user)
                 resource = resource_server.get_by_name(file_form.name.data)
@@ -724,8 +725,41 @@ def delete_honor():
         return u'删除失败'
 
 
+@login_required
+def get_article_list_item(article):
+    return render_template('ajax/article_list_item.html', article = article)
+#
+# @brief: ajax article list
+# @route: /ajax/article_list
+# @accepted methods: [post]
+# @allowed user: self, admin, coach
+#
+@ajax.route("/ajax/article_list", methods = ['POST'])
+@login_required
+def get_article_list():
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    article_list = article_server.get_list(offset, limit, current_user)
+    sum = article_server.get_count(current_user)
+    return jsonify(article_list=[get_article_list_item(article) for article in article_list],
+                   sum=sum, offset=int(offset), limit=len(article_list))
 
-
+#
+# @brief: ajax to delete article
+# @route: /ajax/delete_article
+# @accepted methods: [post]
+# @allowed user: self, admin, coach
+#
+@ajax.route("/ajax/delete_article", methods = ['POST'])
+@login_required
+def delete_article():
+    try:
+        article_id = request.form.get('article_id')
+        article_server.delete_by_id(article_id)
+        return u'删除成功'
+    except Exception, e:
+        print e
+        return u'删除失败'
 
 
 

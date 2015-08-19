@@ -2,6 +2,7 @@
   <i class="fa fa-flag bg-blue"></i>
   <div class="timeline-item">
     <span class="time"><i class="fa fa-calendar"></i>
+      获奖时间：
       {{ honor.acquire_time.strftime("%Y-%m-%d") }}
     </span>
     <h3 class="timeline-header">{{ honor.contest_name }}</h3>
@@ -11,7 +12,9 @@
         <span class="label label-primary">{{ level_mapper[honor.contest_level] }}</span>
       </div>
       <div class="contest_users">
-        <b style="padding-right: 20px;">参赛队员</b>
+        <b style="padding-right: 20px;">参赛队伍</b>
+        <span class="label label-primary">{{ honor.team_name }}</span>
+        <b style="padding: 20px;">队员</b>
         {% for user in honor.users %}
           <span class="label label-primary">{{ user.name }}</span>
         {% endfor %}

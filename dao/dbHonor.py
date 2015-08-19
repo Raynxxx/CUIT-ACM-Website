@@ -18,7 +18,7 @@ class Honor(db.Model):
     contest_name = db.Column(db.String(64), nullable=False)
     contest_level = db.Column(db.Integer, nullable=False, default=0)
     acquire_time = db.Column(db.DateTime, nullable=False)
-    type = db.Column(db.Enum('single', 'group'), default='single')
+    team_name = db.Column(db.String(64))
     introduce = db.Column(db.Text)
 
     # connect to Resource
