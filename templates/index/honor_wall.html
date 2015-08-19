@@ -5,13 +5,14 @@
 
 {% block content %}
 <div class="row filter-row">
-  <div class="col-sm-offset-1 col-sm-3">
+  <div class="col-sm-offset-2 col-sm-3">
     <h2>荣誉墙</h2>
   </div>
-  <div class="col-sm-7">
+  <div class="col-sm-5">
     <fieldset class="form-inline pull-right">
       <select class="form-control select-type" name="type">
         <option value="user">队员名</option>
+        <option value="team_name">队伍名</option>
         <option value="time">年份</option>
         <option value="contest_name">比赛名称</option>
         <option value="level">获奖成果</option>
@@ -33,7 +34,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-offset-1 col-sm-10 honor-timeline">
+  <div class="col-sm-offset-2 col-sm-8 honor-timeline">
     <div class="text-center timeline-error" style="display: none">
       <h2>无数据</h2>
     </div>

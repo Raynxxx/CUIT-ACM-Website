@@ -6,8 +6,8 @@ from dao.db import db
 
 # Table of Article
 solution_tags = db.Table('solution_tags',
-    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')),
-    db.Column('solution_id', db.Integer, db.ForeignKey('solution_article.id'))
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id', ondelete="CASCADE")),
+    db.Column('solution_id', db.Integer, db.ForeignKey('solution_article.id', ondelete="CASCADE"))
 )
 
 solution_submits = db.Table('solution_submits',
@@ -44,16 +44,14 @@ class SolutionArticle(db.Model):
 
     @property
     def md_content(self):
-        return mdFilter.markdown(self.content)
+        return mdFilter.markdown(self.shortcut+self.content)
 
     @md_content.setter
     def md_content(self, data):
         self.content = data
 
-    def __init__(self, title, shortcut, content, user):
+    def __init__(self, title, user):
         self.title = title
-        self.shortcut = shortcut
-        self.content = content
         self.user = user
         self.last_update_time = datetime.datetime.now()
 

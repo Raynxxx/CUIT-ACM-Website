@@ -1,6 +1,7 @@
 {% extends "index/base.html" %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='highlight/monokai_sublime.css') }}"/>
 {% endblock %}
 
 {% block loginbar %}
@@ -8,6 +9,11 @@
 {% endblock %}
 {% block content %}
 <div class="row">
+{% if not articles %}
+  <div class="col-xs-offset-1 col-xs-10 text-center">
+    <h1>无题解</h1>
+  </div>
+{% endif %}
   <div class="col-sm-offset-1 col-sm-7">
     {% for one in articles %}
       <div class="article-box">
@@ -38,25 +44,41 @@
         </div>
       </div>
     {% endfor %}
+    {% if articles %}
+    <nav>
+      <ul class="pager">
+        {% if page > 0 %}
+        <li class="previous"><a href="{{ url_for('main.article_list', page = page - 1) }}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+        {% endif %}
+        {% if page * limit + limit < sum %}
+          <li class="next"><a href="{{ url_for('main.article_list', page = page + 1) }}">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
   </div>
-  <div class="col-sm-3">
-    <div class="box box-primary">
-      <div class="box-header">
-        <h3 class="box-title">近期文章</h3>
+
+    <div class="col-sm-3">
+     {% if recent_articles != [] %}
+      <div class="box box-primary">
+        <div class="box-header">
+          <h3 class="box-title">近期文章</h3>
+        </div>
+        <div class="box-body no-padding">
+          <ul class="recent_articles">
+            {% for article in recent_articles %}
+              <li><a href="{{ url_for('main.article', p=article.id) }}">{{ article.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      <div class="box-body no-padding">
-        <ul class="recent_articles">
-          {% for article in recent_articles %}
-            <li><a href="{{ url_for('main.article', p=article.id) }}">{{ article.title }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
+      {% endif %}
     </div>
-  </div>
+
 </div>
 {% endblock %}
 {% block script %}
-<script src="{{ url_for('static', filename='scripts/highlight.pack.js') }}"></script>
+<script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
 <script type="text/javascript">
   hljs.initHighlightingOnLoad();
 </script>

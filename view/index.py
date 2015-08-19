@@ -188,13 +188,21 @@ def view_code(oj_name, run_id):
 # @allowed user: all
 #
 @main.route('/article_list', methods=['GET'])
+@main.route('/article_list/<page>', methods=['GET'])
 @login_required
-def article_list():
-    articles = article_server.get_list()
+def article_list(page=0):
+    limit = config.ARTICLE_PER_PAGE
+    offset = int(page) * limit
+    news_server.get_archive()
+    articles = article_server.get_list(offset, limit)
     recent_articles = article_server.get_recent()
+    sum = article_server.get_count()
     return render_template('index/article_list.html',
+                           title = u'新闻',
                            articles = articles,
-                           recent_articles = recent_articles)
+                           recent_articles = recent_articles,
+                           page = int(page),
+                           sum = sum, limit = limit)
 
 
 #

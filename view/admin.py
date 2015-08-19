@@ -254,7 +254,7 @@ def modify_honor():
     honor_form.introduce.data = honor.introduce
     honor_form.acquire_time.data = honor.acquire_time
     honor_form.contest_name.data = honor.contest_name
-    honor_form.type.data = str(honor.type)
+    honor_form.team_name.data = honor.team_name
     honor_form.contest_level.data = str(honor.contest_level)
     users = []
     for user in honor.users:

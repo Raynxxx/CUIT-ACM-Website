@@ -1,0 +1,170 @@
+{% extends "profile/base.html" %}
+{%- block head -%}
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}">
+{%- endblock -%}
+{% block content %}
+<div class="row">
+  <div class="col-sm-12">
+    <div class="box box-primary list-box">
+      <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-list"></i> 题解列表</h3>
+        <div class="box-tools">
+          <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+        </div>
+      </div>
+      <div class="box-body no-padding">
+        <div class="list-box-controls">
+          <button class="btn btn-default btn-sm to_delete_article" data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-trash-o"></i> 删除
+          </button>
+          <button class="btn btn-default btn-sm edit_article"><i class="fa fa-pencil-square-o"></i> 修改</button>
+          <a class="btn btn-default btn-sm" href="{{ url_for('profile.post_article') }}"><i class="fa fa-plus"></i> 添加</a>
+          <div class="pull-right">
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+              <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped list-table">
+          <thead><tr><th>选择</th><th>标题</th><th>作者</th><th>状态</th><th>上回更新</th></tr></thead>
+          <tbody class="list-table-body">
+          </tbody>
+          <tfoot><tr><th>选择</th><th>标题</th><th>作者</th><th>状态</th><th>上回更新</th></tr></tfoot>
+        </table>
+      </div>
+      <div class="box-footer no-padding">
+        <div class="list-box-controls">
+          <button class="btn btn-default btn-sm to_delete_article" data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-trash-o"></i> 删除
+          </button>
+          <button class="btn btn-default btn-sm edit_news"><i class="fa fa-pencil-square-o"></i> 修改</button>
+          <a class="btn btn-default btn-sm" href="{{ url_for('profile.post_article') }}"><i class="fa fa-plus"></i> 添加</a>
+          <div class="pull-right">
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+              <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="overlay"  id="news-overlay">
+        <i class="fa fa-refresh fa-spin"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal" style="margin-top: 50px;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 1.4em;">是否确定删除当前选定题解！</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-flat delete_article">确定删除</button>
+        <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{%- block script -%}
+  <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+  <script>
+  function make_iCheck() {
+    $('.list-box input[type="checkbox"], .list-box input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue'
+    });
+  }
+  function get_article_list(offset, limit) {
+    $('.list-box > div.overlay').fadeIn(300, make_iCheck());
+    var data = { offset: offset, limit: limit };
+    $.post("{{ url_for('ajax.get_article_list') }}", data).success(function(ret) {
+      var news_count = ret.sum;
+      var start = ret.offset;
+      var length = ret.limit;
+      var article_list = ret.article_list;
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
+      if (length == 0) {
+        $list_table.append('<tr><td colspan="5"><h2>无题解</h2></tr>');
+      } else {
+        for (var i = 0; i < length; ++i) {
+          $list_table.append(article_list[i]);
+        }
+      }
+      $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+      var prev = $('.prev-page');
+      var next = $('.next-page');
+      if (start == 0) {
+        prev.hide();
+      } else {
+        prev.show();
+        prev.val(start - limit);
+      }
+      if (news_count == start + length) {
+        next.hide();
+      } else {
+        next.show();
+        next.val(start + length);
+      }
+    }).error(function() {
+        var $list_table = $('.list-table-body').first();
+        $list_table.empty();
+        $list_table.append('<tr><td colspan="5"><h2>加载失败</h2></tr>');
+        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
+        $('.prev-page').hide();
+        $('.next-page').hide();
+      });
+  }
+  function delete_article(checked) {
+    var data = { 'article_id': checked };
+    $.post("{{ url_for('ajax.delete_article') }}", data).success(function(ret) {
+      $('.closeModal').click();
+      get_article_list(0, {{ limit }});
+    });
+  }
+  $(function () {
+    make_iCheck();
+    var limit = {{ limit }};
+    get_article_list(0, limit);
+    $('button.to_refresh').click(function() {
+      get_article_list(0, limit);
+    });
+    $('.prev-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_article_list(offset, limit);
+    });
+    $('.next-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_article_list(offset, limit);
+    });
+    $('.to_delete_article').click(function() {
+      var $check = $('input[name="article"]:checked');
+      if ($check.length <= 0) {
+        return false;
+      }
+    });
+    $('.delete_article').click(function() {
+      var check = $('input[name="article"]:checked').val();
+      delete_article(check);
+    });
+    $('.edit_article').click(function() {
+      var $check = $('input[name="article"]:checked');
+      if ($check.length <= 0) {
+        return false;
+      }
+      var url = "{{ url_for('profile.edit_article', p='') }}";
+      var article_id = $check.val();
+      window.location.href = url + article_id;
+    });
+  });
+  </script>
+{%- endblock -%}

@@ -17,32 +17,74 @@ def generate_tags(data):
             tag_list.append(has_tag)
     return tag_list
 
-def post(form, user):
+def post(form, user, is_draft):
     has = SolutionArticle.query.filter(SolutionArticle.id == form.sid.data).first()
     tags = generate_tags(form.tags.data)
+    content_list = form.content.data.split('<-more->')
+    list_len = len(content_list)
+    if list_len > 2:
+        raise Exception(u'more标签的使用超过限制')
     if has and has.user != user and user.is_admin == 0:
         raise Exception(u'你没有权限修改该文章')
     if not has:
-        has = SolutionArticle(form.title.data,form.shortcut.data,form.content.data,user)
+        has = SolutionArticle(form.title.data,user)
     else:
         has.title = form.title.data
-        has.md_shortcut = form.shortcut.data
-        has.md_content = form.content.data
         has.last_update_time = datetime.datetime.now()
+    if list_len == 1 :
+        has.md_shortcut = content_list[0]
+        has.md_content = ""
+    elif content_list[0].strip() == "" :
+        has.md_shortcut = content_list[1]
+        has.md_content = ""
+    else:
+        has.md_shortcut = content_list[0]
+        has.md_content = content_list[1]
     oj = form.problem_oj_name.data
     pid = form.problem_pid.data
+    has.is_draft = is_draft
     has.problem_oj_name = oj
     has.problem_pid = pid
     has.tags = tags
     has.save()
 
-def get_count():
-    return SolutionArticle.query.count()
+def get_list(offset=0, limit=20,user=None):
+    if not user:
+        return SolutionArticle.query.filter(SolutionArticle.is_draft==0).\
+            order_by(SolutionArticle.last_update_time.desc()).\
+            offset(offset).limit(limit).all()
+    elif user.is_admin:
+        return SolutionArticle.query.\
+            order_by(SolutionArticle.last_update_time.desc()).\
+            offset(offset).limit(limit).all()
+    elif user.is_coach:
+        return SolutionArticle.query.join(SolutionArticle.user)\
+            .filter(User.school==user.school, User.rights < 4).\
+            order_by(SolutionArticle.last_update_time.desc()).\
+            offset(offset).limit(limit).all()
+    else:
+        return SolutionArticle.query.filter(SolutionArticle.user==user).\
+            order_by(SolutionArticle.last_update_time.desc()).\
+            offset(offset).limit(limit).all()
 
-def get_list(offset=0, limit=20):
-    return SolutionArticle.query.\
-        order_by(SolutionArticle.last_update_time.desc()).\
-        offset(offset).limit(limit)
+def get_count(user=None):
+    if not user:
+        return SolutionArticle.query.filter(SolutionArticle.is_draft==0).\
+            order_by(SolutionArticle.last_update_time.desc()).\
+            count()
+    elif user.is_admin:
+        return SolutionArticle.query.\
+            order_by(SolutionArticle.last_update_time.desc()).\
+            count()
+    elif user.is_coach:
+        return SolutionArticle.query.join(SolutionArticle.user)\
+            .filter(User.school==user.school, User.rights < 4).\
+            order_by(SolutionArticle.last_update_time.desc()).\
+            count()
+    else:
+        return SolutionArticle.query.filter(SolutionArticle.user==user).\
+            order_by(SolutionArticle.last_update_time.desc()).\
+            count()
 
 def get_recent(limit=5):
     return get_list(0, limit)
@@ -51,9 +93,8 @@ def get_by_id(sid):
     return SolutionArticle.query.filter(SolutionArticle.id == sid).first_or_404()
 
 def delete_by_id(sid):
-    one = SolutionArticle.query.filter(SolutionArticle.id == sid).first()
-    if one:
-        one.delete()
+   SolutionArticle.query.filter(SolutionArticle.id == sid).with_lockmode('update').delete()
+   db.session.commit()
 
 def get_archive():
     archive = db.session\

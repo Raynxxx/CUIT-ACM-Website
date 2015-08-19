@@ -29,7 +29,7 @@ def add_honor(honor_attr, honor_resource):
         honor.contest_name = honor_attr.contest_name.data
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
-        honor.type = honor_attr.type.data
+        honor.team_name = honor_attr.team_name.data
         honor.md_introduce = honor_attr.introduce.data
         honor.resources = honor_resource
         honor.users = user_list
@@ -57,7 +57,7 @@ def modify_honor(honor_attr):
         honor.contest_name = honor_attr.contest_name.data
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
-        honor.type = honor_attr.type.data
+        honor.team_name = honor_attr.team_name.data
         honor.md_introduce = honor_attr.introduce.data
         honor.users = user_list
         honor.save()
@@ -75,7 +75,7 @@ def get_honor_list(offset=0, limit=10):
 def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
     if query_type == 'user' and keyword != '':
         user = User.query.filter(User.name==keyword).first()
-        return user.honors.order_by(Honor.acquire_time.desc())\
+        return user.honors.order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
             .offset(offset).limit(limit).all() if user else []
     elif query_type == 'time' and keyword != '':
         try:
@@ -86,21 +86,26 @@ def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
             year_start = year_end = datetime.date.min
         return Honor.query\
             .filter(Honor.acquire_time.between(year_start, year_end)).\
-            order_by(Honor.acquire_time.desc())\
+            order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
             .offset(offset).limit(limit).all()
     elif query_type == 'level' and keyword != '':
         return Honor.query\
             .filter(Honor.contest_level==keyword).\
-            order_by(Honor.acquire_time.desc())\
+            order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
             .offset(offset).limit(limit).all()
     elif query_type == 'contest_name' and keyword != '':
         return Honor.query\
             .filter(Honor.contest_name.like('%' + keyword + '%')).\
-            order_by(Honor.acquire_time.desc())\
+            order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
+            .offset(offset).limit(limit).all()
+    elif query_type == 'team_name' and keyword != '':
+        return Honor.query\
+            .filter(Honor.team_name.like('%' + keyword + '%'))\
+            .order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
             .offset(offset).limit(limit).all()
     else:
         return Honor.query\
-            .order_by(Honor.acquire_time.desc())\
+            .order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
             .offset(offset).limit(limit).all()
 
 
@@ -137,6 +142,10 @@ def get_honor_count(query_type=None, keyword=''):
     elif query_type == 'contest_name' and keyword != '':
         return Honor.query\
             .filter(Honor.contest_name.like('%' + keyword + '%'))\
+            .count()
+    elif query_type == 'team_name' and keyword != '':
+        return Honor.query\
+            .filter(Honor.team_name.like('%' + keyword + '%'))\
             .count()
     else:
         return Honor.query.count()
