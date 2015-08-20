@@ -132,7 +132,8 @@
   list-style: none;
   padding: 2px 20px !important;
   font-size: 14px;
-  margin-top: 10px;
+  margin-top: 4px;
+  text-overflow: ellipsis;
 }
 .recent_articles li {
   font-size: 16px;
@@ -244,4 +245,12 @@
 }
 .box-tools .btn-link:hover {
   color: #258fb8;
+}
+
+.filter-row {
+  margin-bottom: 2em;
+}
+
+#tagCanvas {
+        height: 100%; width: 100%;
 }

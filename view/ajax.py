@@ -2,6 +2,7 @@
 import os
 from __init__ import *
 from server import user_server, article_server, status_server, form, account_server, book_server, news_server, resource_server
+from server import general
 from server import honor_server
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
@@ -706,6 +707,41 @@ def get_article_list():
     sum = article_server.get_count(current_user)
     return jsonify(article_list=[get_article_list_item(article) for article in article_list],
                    sum=sum, offset=int(offset), limit=len(article_list))
+
+
+@login_required
+def get_related_submits_item(submit):
+    return render_template('ajax/related_submits_item.html', submit=submit)
+
+@ajax.route("/ajax/related_submits", methods = ['POST'])
+@login_required
+def get_related_submits():
+    article_id = request.form.get('article_id')
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    one = article_server.get_by_id(article_id)
+    related_submits = article_server.related_submits(one, offset, limit)
+    sum = article_server.related_submits_count(one)
+    return jsonify(submits_list=[get_related_submits_item(submit) for submit in related_submits],
+                   sum=sum, offset=int(offset), limit=len(related_submits))
+
+
+@login_required
+def get_related_article_item(article):
+    return render_template('ajax/related_article_item.html', article=article)
+
+@ajax.route("/ajax/related_article", methods = ['POST'])
+@login_required
+def get_related_article():
+    submit_id = request.form.get('submit_id')
+    offset = request.form.get('offset')
+    limit = request.form.get('limit')
+    one = general.get_submit_by_id(submit_id)
+    related_article = general.related_article(one, offset, limit)
+    sum = general.related_article_count(one)
+    return jsonify(article_list=[get_related_article_item(article) for article in related_article],
+                   sum=sum, offset=int(offset), limit=len(related_article))
+
 
 #
 # @brief: ajax to delete article

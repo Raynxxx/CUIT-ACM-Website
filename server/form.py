@@ -97,6 +97,7 @@ class SolutionForm(Form):
     problem_oj_name = SelectField('OJ',
                           choices=[(oj, OJ_MAP[oj]) for oj in OJ_MAP],
                           default='bnu')
+    is_top = BooleanField(u'置顶', default=False)
     problem_pid = StringField('PID', validators=[validators.optional(), validators.Regexp('^[A-Z0-9]*$', flags=0)])
     tags = TagListField(u'标签', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')

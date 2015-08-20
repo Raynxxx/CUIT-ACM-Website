@@ -1,6 +1,7 @@
 from __init__ import *
 import sys
 from dao.dbACCOUNT import AccountStatus
+from dao.dbArticle import SolutionArticle
 import time
 from sqlalchemy import or_
 
@@ -80,6 +81,22 @@ def update_all_account_status(user):
 def get_submit(oj_name, run_id):
     submit = Submit.query.filter_by(run_id=run_id, oj_name=oj_name).first()
     return submit
+
+def get_submit_by_id(sid):
+    submit = Submit.query.filter(Submit.id==sid).first()
+    return submit
+
+def related_article(submit, offset=0, limit=10):
+    query = SolutionArticle.query.filter(SolutionArticle.problem_oj_name==submit.oj_name,
+                                         SolutionArticle.problem_pid==submit.pro_id)
+        #filter(or_(Submit.result == 'OK', Submit.result == 'Accepted')).all()
+    return query.offset(offset).limit(limit).all()
+
+def related_article_count(submit):
+    query = SolutionArticle.query.filter(SolutionArticle.problem_oj_name==submit.oj_name,
+                                         SolutionArticle.problem_pid==submit.pro_id)
+        #filter(or_(Submit.result == 'OK', Submit.result == 'Accepted')).all()
+    return query.count()
 
 
 def get_sys_info():

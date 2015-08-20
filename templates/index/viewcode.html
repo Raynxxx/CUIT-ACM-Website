@@ -1,6 +1,7 @@
 {% extends "index/base.html" %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='highlight/github.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"/>
 {% endblock %}
 
 {% block content %}
@@ -26,6 +27,24 @@
         </table>
       </div>
     </div>
+      <div class="box box-default">
+        <div class="box-header">
+          <h3 class="box-title">相关题解</h3>
+            <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body no-padding">
+          <ul class="recent_articles">
+          </ul>
+            <div class="pull-right">
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+              <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
   <div class="col-md-7">
     <div id="codeBlock" class="box box-default">
@@ -44,6 +63,46 @@
 {% block script %}
 <script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
 <script type="text/javascript">
+
+    function get_related_article_list(offset, limit) {
+    var data = {submit_id: {{ submit.id }},offset: offset, limit: limit };
+    $.post("{{ url_for('ajax.get_related_article') }}", data).success(function(ret) {
+      var article_count = ret.sum;
+      var start = ret.offset;
+      var length = ret.limit;
+      var article_list = ret.article_list;
+      var $list_table = $('.recent_articles').first();
+      $list_table.empty();
+      if (length == 0) {
+        $list_table.parent().parent().hide();
+      } else {
+        for (var i = 0; i < length; ++i) {
+          $list_table.append(article_list[i]);
+        }
+      }
+      var prev = $('.prev-page');
+      var next = $('.next-page');
+      if (start == 0) {
+        prev.hide();
+      } else {
+        prev.show();
+        prev.val(start - limit);
+      }
+      if (article_count == start + length) {
+        next.hide();
+      } else {
+        next.show();
+        next.val(start + length);
+      }
+    }).error(function() {
+        var $list_table = $('.list-table-body').first();
+        $list_table.empty();
+        $list_table.append('<li><h2>加载失败</h2></li>');
+        $('.prev-page').hide();
+        $('.next-page').hide();
+      });
+    }
+
   $(document).ready(function() {
     $('pre code').each(function(i, block) {
       hljs.configure({
@@ -51,6 +110,16 @@
       });
       hljs.highlightBlock(block);
     });
+        var limit = 10;
+        get_related_article_list(0, limit);
+        $('.prev-page').click(function() {
+          var offset = parseInt($(this).val());
+          get_related_article_list(offset, limit);
+        });
+        $('.next-page').click(function() {
+          var offset = parseInt($(this).val());
+          get_related_article_list(offset, limit);
+        });
   });
 
 </script>

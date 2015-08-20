@@ -193,16 +193,20 @@ def view_code(oj_name, run_id):
 def article_list(page=0):
     limit = config.ARTICLE_PER_PAGE
     offset = int(page) * limit
-    news_server.get_archive()
-    articles = article_server.get_list(offset, limit)
+    query_type = request.args.get('query_type')
+    keyword = request.args.get('keyword')
+    keyword = keyword if keyword else ''
+    tags = article_server.get_all_tags()
+    articles = article_server.get_list(offset, limit, query_type=query_type, keyword = keyword)
     recent_articles = article_server.get_recent()
-    sum = article_server.get_count()
+    sum = article_server.get_count(query_type=query_type, keyword = keyword)
     return render_template('index/article_list.html',
-                           title = u'新闻',
+                           title = u'解题报告',
                            articles = articles,
+                           tags = tags,
                            recent_articles = recent_articles,
                            page = int(page),
-                           sum = sum, limit = limit)
+                           sum = sum, limit = limit, query_type = query_type, keyword = keyword)
 
 
 #
@@ -222,23 +226,6 @@ def article():
                                recent_articles = recent_articles)
     except:
         return redirect(url_for('main.article_list'))
-
-
-
-#
-# @brief: page for archive of article tag
-# @route: /article/archive/<tag>
-# @accepted methods: [get]
-# @allowed user: all
-#
-@main.route('/article/archive', methods=['GET'])
-@main.route('/article/archive/<tag>', methods=['GET'])
-def article_archive(tag=None):
-    if tag:
-        archives = article_server.get_archive_by_tag(tag)
-    else:
-        archives = article_server.get_archive()
-    return render_template('index/archive.html', archives=archives)
 
 
 

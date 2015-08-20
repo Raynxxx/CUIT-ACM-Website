@@ -135,11 +135,12 @@ def edit_article():
     if one:
         solution_form.sid.data = one.id
         solution_form.title.data = one.title
-        solution_form.content.data = one.shortcut + '<-more->' + one.content
+        solution_form.content.data = one.shortcut + '<-more->' + one.content if len(one.content) else one.shortcut
         tags = []
         for tag in one.tags:
             tags.append(tag.__repr__())
         solution_form.tags.data = tags
+        solution_form.is_top.data = one.is_top
         solution_form.problem_oj_name.data = one.problem_oj_name
         solution_form.problem_pid.data = one.problem_pid
     if one.is_draft:
