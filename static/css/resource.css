@@ -21,7 +21,7 @@
 }
 .res-item .thumbnail {
 }
-.thumbnail:before {
+.res-item .thumbnail:before {
   content: "\2714";
   display: block;
   position: absolute;
@@ -146,6 +146,9 @@
 .filter-row {
   margin-bottom: 20px;
 }
+.filter-row .refresh {
+  margin-left: 20px;
+}
 .filter-row h2 {
   margin-top: 0;
 }
@@ -156,126 +159,55 @@
   border-color: #367fa9;
 }
 
-.timeline {
-  margin-bottom: 60px !important;
+.honor-year h2 {
+  padding-left: 20px;
+  font-weight: 900;
+  font-size: 36px !important;
 }
-.time-label {
-  font-size: 1.8em;
-  letter-spacing: 0.1em;
+.honor-one {
+  margin-bottom: 20px;
 }
-.time-label span {
-  padding: 5px 10px !important;
-}
-.timeline-header {
-  font-size: 1.5em !important;
-  font-weight: 700;
-  padding-left: 20px !important;
+.honor-wall .honor-one:hover {
+  border: 3px solid #3a87ad;
 }
 
-.contest_level {
-  margin: 5px 15px 10px;
+.honor-one .thumbnail {
+  border: 1px solid #bbb;
+  border-bottom: none;
+  padding: 0;
 }
-.contest_users {
-  margin: 5px 15px 20px;
-}
-.contest_level span,
-.contest_users span {
-  display: inline-block;
-  font-weight: 500;
+.honor-one .contest-name {
   font-size: 1.2em;
-  padding: .3em .6em .3em !important;
-  margin: auto 0.2em;
 }
-.contest_resources {
-  margin: 5px 15px 5px;
-}
-.contest_resources img {
-  height: 150px;
-  border: solid 1px #999;
-  box-shadow: 1px 2px 1px #ccc;
-  margin: auto 10px 10px auto;
-}
-.introduce {
-  padding: 10px;
-  margin-bottom: 10px;
-  display: none;
+.honor-one .contest-level,
+.honor-one .contest-time {
   color: #666;
+  margin-bottom: 3px;
+}
+.honor-one .team-name {
+  color: #666;
+  word-wrap: break-word;
   word-break: break-all;
-  text-overflow: ellipsis;
+  margin-bottom: 0;
 }
-.introduce img {
-  height: 150px;
-  border: solid 1px #999;
-  box-shadow: 1px 2px 1px #ccc;
-  margin: auto 10px 10px auto;
+.caption .fa {
+  margin-right: 6px;
 }
 
-.introduce a:hover {
-  color: #fff;
-  background-color: #333;
+.honor-one .tacker {
+  padding: 8px 5px 10px 5px;
+  clear: both;
+  background: #f9f9f9;
+  border-top: 1px solid #e1e1e1;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
-.introduce pre {
-  padding: 5px;
-  background-color: #f9f9f9 !important;
-  box-shadow: 1px 1px 1px #ccc;
+.honor-one .tacker p {
+  margin-bottom: 0;
 }
-.introduce table {
-  width: 100%;
-  max-width: 100%;
-  background-color: transparent;
-  border-spacing: 0;
-  border-collapse: collapse;
-  margin: 10px auto 20px auto;
-  border: 1px solid #ddd;
-  display: table;
-}
-.introduce table th,
-.introduce table td {
-  padding: 8px;
-  line-height: 1.42857143;
-  vertical-align: middle;
-  border: 1px solid #ddd;
-  display: table-cell;
-}
-.introduce table th:first-child,
-.introduce table td:first-child {
-  white-space: nowrap;
-}
-.introduce table>thead>tr>th {
-  vertical-align: bottom;
-  border-bottom: 2px solid #ddd;
-  line-height: 1.42857143;
-}
-.introduce table>tbody>tr:nth-of-type(odd) {
-  background-color: #f9f9f9;
-}
-.timeline-footer {
-  padding-left: 25px !important;
-  padding-bottom: 15px !important;
-  border-top: 1px solid #f4f4f4;
+.honor-one .poster {
+  border-bottom: 1px solid #ddd;
 }
 
-.timeline-end > .fa {
-  width: 45px !important;
-  height: 45px !important;
-  font-size: 22px !important;
-  line-height: 45px !important;
-  left: 10px !important;
-}
-.more-honor {
-  margin: 5px auto;
-  font-size: 1em;
-  text-shadow: 1px 1px 2px #eee;
-  display: block;
-}
-.more-honor:hover {
-  border-color: #3c8dbc !important;
-}
-.more-honor + .progress {
-  height: 25px;
-  margin: 10px 0;
-  display: none;
-}
-.more-honor + .progress .progress-bar {
-  vertical-align: middle;
-}
+

@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/dist/css/skins/_all-skins.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='lightbox/css/lightbox.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='fakeLoader/fakeLoader.css') }}"/>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -26,6 +27,7 @@
   {%- block head -%}{%- endblock -%}
 </head>
 <body class="skin-blue layout-top-nav fixed">
+<div id="fakeLoader"></div>
 <div class="wrapper">
   <header class="main-header">
     <nav class="navbar navbar-static-top">
@@ -107,6 +109,7 @@
 </div>
 
 <a href="#" class="back_to_top">Top</a>
+
 <!-- Javascript -->
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -114,15 +117,18 @@
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/fastclick/fastclick.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ url_for('static', filename='lightbox/js/lightbox.min.js') }}"></script>
-<script src="{{ url_for('static', filename='scripts/tools.js') }}"></script>
+<script src="{{ url_for('static', filename='lightbox/js/lightbox.min.js') }}"></script>
+<script src="{{ url_for('static', filename='fakeLoader/fakeLoader.min.js') }}"></script>
 <script>
   $(document).ready(function () {
-    $('.content-wrapper').hide().fadeIn(500);
+    $("#fakeLoader").fakeLoader({
+      spinner: "spinner1",
+      bgColor: "#3c8dbc"
+    });
   });
 </script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-
 </script>
 <script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 {%- block script -%}{%- endblock -%}

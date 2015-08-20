@@ -617,43 +617,6 @@ def get_honor_list():
                    sum=sum, offset=int(offset), limit=len(honor_list))
 
 
-#
-# @brief: ajax html for one honor wall item
-# @allowed user: all
-#
-def get_honor_wall_item(honor):
-    from config import HONOR_LEVEL_MAP
-    return render_template('ajax/honor_wall_item.html',
-                           honor = honor,
-                           level_mapper = HONOR_LEVEL_MAP)
-
-
-#
-# @brief: ajax to get honor wall
-# @route: /ajax/honor_wall
-# @accepted methods: [post]
-# @allowed user: all
-#
-@ajax.route('/ajax/honor_wall', methods=['POST'])
-def get_honor_wall():
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    query_type = request.form.get('query_type')
-    keyword = request.form.get('keyword')
-    honor_wall = honor_server.get_honor_wall_by_year(offset, limit, query_type, keyword)
-    honor_length = 0
-    for honor_year in honor_wall:
-        honor_html_list = list()
-        for honor in honor_wall[honor_year]:
-            honor_length += 1
-            honor_html_list.append(get_honor_wall_item(honor))
-        honor_wall[honor_year] = honor_html_list
-    honor_sum = honor_server.get_honor_count(query_type, keyword)
-    return jsonify(honor_wall = honor_wall,
-                   sum = honor_sum,
-                   offset = int(offset),
-                   limit = honor_length)
-
 
 #
 # @brief: ajax to add honor

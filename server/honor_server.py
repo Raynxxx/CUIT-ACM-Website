@@ -109,8 +109,9 @@ def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
             .offset(offset).limit(limit).all()
 
 
-def get_honor_wall_by_year(offset=0, limit=10, query_type=None, keyword=''):
-    honor_list = get_honor_wall(offset, limit, query_type, keyword)
+def get_honor_wall_by_year(query_type=None, keyword=''):
+    total = get_honor_count(query_type, keyword)
+    honor_list = get_honor_wall(0, total, query_type, keyword)
     honor_wall = dict()
     for honor in honor_list:
         year = honor.acquire_time.year
