@@ -8,13 +8,35 @@
 
 {% endblock %}
 {% block content %}
-<div class="row">
-{% if not articles %}
-  <div class="col-xs-offset-1 col-xs-10 text-center">
-    <h1>无题解</h1>
+<div class="row filter-row">
+  <div class="col-md-11">
+    <fieldset class="form-inline pull-right">
+      <select class="form-control select-type" name="type">
+        {% if query_type == "tag" %}
+            <option value="title">标题</option>
+            <option value="tag" selected>标签</option>
+        {% else %}
+            <option value="title" selected>标题</option>
+            <option value="tag">标签</option>
+        {% endif %}
+
+      </select>
+      <div class="input-group query-input">
+        <input type="text" class="form-control" value="{{ keyword }}">
+        <span class="input-group-btn">
+        </span>
+      </div>
+        <button class="btn btn-primary article-search" type="button"><i class="fa fa-search"></i></button>
+    </fieldset>
   </div>
-{% endif %}
-  <div class="col-sm-offset-1 col-sm-7">
+</div>
+<div class="row">
+  <div class="col-md-offset-1 col-md-7">
+    {% if not articles %}
+      <div class="text-center">
+        <h1>无题解</h1>
+      </div>
+    {% endif %}
     {% for one in articles %}
       <div class="article-box">
         <div class="article-header">
@@ -27,9 +49,6 @@
           <div class="article-meta">
             <span><i class="fa fa-calendar"></i> {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
             <span><a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>
-            {% if current_user == one.user %}
-              <span><a href="{{ url_for('profile.edit_article', p=one.id) }}">edit</a></span>
-            {% endif %}
           </div>
         </div>
         <div class="article-body text-muted">
@@ -39,7 +58,7 @@
         <div class="article-footer">
           <i class="fa fa-tags"></i>
           {% for tag in one.tags %}
-            <span><a href="{{ url_for('main.article_archive', tag=tag.name) }}" class="label label-default"> {{ tag.name }}</a></span>
+            <span><a href="{{ url_for('main.article_list', query_type ='tag', keyword=tag.name) }}" class="label label-default"> {{ tag.name }}</a></span>
           {% endfor %}
         </div>
       </div>
@@ -48,17 +67,17 @@
     <nav>
       <ul class="pager">
         {% if page > 0 %}
-        <li class="previous"><a href="{{ url_for('main.article_list', page = page - 1) }}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+        <li class="previous"><a href="{{ url_for('main.article_list', page = page - 1, query_type = query_type, keyword = keyword) }}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
         {% endif %}
         {% if page * limit + limit < sum %}
-          <li class="next"><a href="{{ url_for('main.article_list', page = page + 1) }}">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+          <li class="next"><a href="{{ url_for('main.article_list', page = page + 1, query_type = query_type, keyword = keyword) }}">下一页 <span aria-hidden="true">&rarr;</span></a></li>
         {% endif %}
       </ul>
     </nav>
     {% endif %}
   </div>
 
-    <div class="col-sm-3">
+    <div class="col-md-3">
      {% if recent_articles != [] %}
       <div class="box box-primary">
         <div class="box-header">
@@ -67,19 +86,66 @@
         <div class="box-body no-padding">
           <ul class="recent_articles">
             {% for article in recent_articles %}
-              <li><a href="{{ url_for('main.article', p=article.id) }}">{{ article.title }}</a></li>
+              <li><a href="{{ url_for('main.article', p=article.id) }}">{{ article.title }}</a>
+               <span class="pull-right">[{{ article.last_update_time.strftime("%Y-%m-%d") }}]</span></li>
             {% endfor %}
           </ul>
         </div>
       </div>
       {% endif %}
+      {% if tags != [] %}
+       <div class="box box-default">
+          <div class="box-header with-border">
+            <h3 class="box-title"> 标签云</h3>
+          </div>
+          <div class="box-body no-padding">
+              <div id="tagContainer">
+             <canvas  height="260" id="tagCanvas">
+              </canvas>
+            </div>
+            <div id="tags_cloud">
+            <ul>
+              {% for tag in tags %}
+                <li>><a href="{{ url_for('main.article_list', query_type ='tag', keyword=tag.name) }}" class="tag">
+                  {{ tag.name }}
+                </a>
+                </li>
+              {% endfor %}
+            </ul>
+            </div>
+          </div>
+        </div>
+    {% endif %}
     </div>
 
 </div>
 {% endblock %}
 {% block script %}
 <script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/jquery.tagcanvas.min.js') }}" ></script>
 <script type="text/javascript">
   hljs.initHighlightingOnLoad();
+
+  function make_filter(limit) {
+    $(document).on('click', '.article-search', function () {
+
+        var query_type = $(".select-type").val();
+        var keyword = $(".query-input input").val();
+        window.location = "/article_list?query_type=" + query_type + "&keyword=" + keyword;
+    });
+  }
+  $(document).ready(function(){
+      make_filter();
+      if(!$('#tagCanvas').tagcanvas({
+          textColour: '#000000',
+          outlineColour: '#000000',
+          reverse: true,
+          depth: 0.8,
+          maxSpeed: 0.05
+        },'tags_cloud')) {
+          // something went wrong, hide the canvas container
+          $('#tagContainer').hide();
+      }
+  });
 </script>
 {% endblock %}

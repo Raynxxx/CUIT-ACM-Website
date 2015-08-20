@@ -2,6 +2,7 @@
 {%- block head -%}
   <link rel="stylesheet" href="{{ url_for('static', filename='markdown/css/bootstrap-markdown.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/bootstrap-switch/bootstrap-switch.min.css') }}"/>
 {%- endblock -%}
 {% block content %}
   <div class="box box-primary">
@@ -14,9 +15,16 @@
         {{ form.sid(style="display:none") }}
         <div class="form-group">
           <label class="control-label col-sm-2" for="inputShortcut">标题</label>
+          {% if user.is_admin or user.is_coach %}
+          <div class="col-sm-6">
+            {{ form.title(class="form-control required",id="inputTitle", placeholder="在此输入标题") }}
+          </div>
+          <div class="col-sm-3">{{ form.is_top() }}</div>
+          {% else %}
           <div class="col-sm-9">
             {{ form.title(class="form-control required",id="inputTitle", placeholder="在此输入标题") }}
           </div>
+          {% endif %}
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2" for="inputContent">正文</label>
@@ -56,6 +64,7 @@
 {%- block script -%}
 <script src="{{ url_for('static', filename='markdown/js/markdown.min.js') }}"></script>
 <script src="{{ url_for('static', filename='markdown/js/bootstrap-markdown.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/bootstrap-switch/bootstrap-switch.min.js') }}"></script>
 <script src="{{ url_for('static', filename='bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
 <script>
   function makeTagsInput() {
@@ -72,6 +81,13 @@
       },
       trimValue: true
     });
+  }
+  function makeBootstrapSwitch() {
+    $.fn.bootstrapSwitch.defaults.onColor = 'primary';
+    $.fn.bootstrapSwitch.defaults.offColor = 'default';
+    $.fn.bootstrapSwitch.defaults.onText = '置顶';
+    $.fn.bootstrapSwitch.defaults.offText = '取消置顶';
+    $("input[type='checkbox']").bootstrapSwitch();
   }
   function save_post(is_draft) {
     var title = $('#inputTitle');
@@ -91,6 +107,7 @@
   }
   $(document).ready(function () {
     makeTagsInput();
+    makeBootstrapSwitch();
     $("button.close").click(function () {
       $(".alert").slideUp();
       return false;

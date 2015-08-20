@@ -87,7 +87,7 @@
     $('.list-box > div.overlay').fadeIn(300, make_iCheck());
     var data = { offset: offset, limit: limit };
     $.post("{{ url_for('ajax.get_article_list') }}", data).success(function(ret) {
-      var news_count = ret.sum;
+      var article_count = ret.sum;
       var start = ret.offset;
       var length = ret.limit;
       var article_list = ret.article_list;
@@ -109,7 +109,7 @@
         prev.show();
         prev.val(start - limit);
       }
-      if (news_count == start + length) {
+      if (article_count == start + length) {
         next.hide();
       } else {
         next.show();
