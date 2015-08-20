@@ -5,10 +5,12 @@
 
 {% block content %}
 <div class="row filter-row">
-  <div class="col-sm-offset-2 col-sm-3">
-    <h2>荣誉墙</h2>
+  <div class="col-sm-offset-1 col-sm-2 col-xs-offset-1 col-xs-2">
+    <a href="{{ url_for('main.honor_wall') }}" class="btn btn-primary refresh">
+      <i class="fa fa-refresh"> </i> 刷新
+    </a>
   </div>
-  <div class="col-sm-5">
+  <div class="col-sm-8 col-xs-9">
     <fieldset class="form-inline pull-right">
       <select class="form-control select-type" name="type">
         <option value="user">队员名</option>
@@ -34,88 +36,62 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-offset-2 col-sm-8 honor-timeline">
+  <div class="col-sm-offset-1 col-sm-10">
     <div class="text-center timeline-error" style="display: none">
       <h2>无数据</h2>
     </div>
-    <ul class="timeline">
-      <li class="timeline-one sr-only timeline-guard" data-year="0" style="height: 0; margin: 0"></li>
-      <li class="timeline-end">
-        <i class="fa fa-power-off"></i>
-        <div class="timeline-item">
-          <div class="timeline-body no-padding">
-            <button class="more-honor btn btn-primary btn-block" data-offset="0">
-              <i class="fa fa-chevron-down"></i>
-            </button>
-            <div class="progress">
-              <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar"
-                   aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                <span class="sr-only">加载中</span>
+    {% for honor_year in honor_wall %}
+      <div class="honor-year">
+        <h2>{{ honor_year }}</h2>
+      </div>
+      <div class="honor-wall">
+      {% for honor in honor_wall[honor_year] %}
+        <div class="col-xs-6 col-sm-3">
+          <div class="honor-one" data-honor="{{ honor.id }}">
+            <div class="thumbnail">
+              <img src="{{ url_for('main.resource', name=honor.resources[0].filename) }}" class="poster">
+              <div class="caption">
+                <p class="contest-name">{{ honor.contest_name }}</p>
+                <p class="contest-level"><i class="fa fa-flag"> </i>
+                  {{ HONOR_LEVEL_MAP[honor.contest_level] }}
+                </p>
+                <p class="contest-time"><i class="fa fa-calendar"> </i>
+                  {{ honor.acquire_time.strftime('%Y-%m-%d') }}
+                </p>
+                <p class="team-name"><i class="fa fa-diamond"></i>
+                  {{ honor.team_name }}</p>
               </div>
+            </div>
+            <div class="tacker">
+              <p>
+              {% for user in honor.users %}
+                <span class="label label-primary">{{ user.name }}</span>
+              {% endfor %}
+              </p>
             </div>
           </div>
         </div>
-      </li>
-    </ul>
+      {% endfor %}
+      </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
 
 {% block script %}
+<script src="{{ url_for('static', filename='masonry/imagesloaded.pkgd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='masonry/masonry.pkgd.min.js') }}"></script>
 <script>
-  function reset_honor_wall() {
-    $('li.timeline-guard').nextAll('li.timeline-one').remove();
-    $('li.timeline-end > .fa').hide();
-    $('li.timeline-end .more-honor').hide();
-  }
-  function get_honor_wall(offset, limit, query_type, keyword) {
-    var $timeline_end = $('li.timeline-end'),
-        $end_fa = $('li.timeline-end > .fa'),
-        $more_btn = $('li.timeline-end .more-honor'),
-        $progress = $('li.timeline-end .progress'),
-        $timeline_error = $('div.timeline-error');
-    $timeline_error.hide(); $end_fa.hide(); $more_btn.hide(); $progress.fadeIn(300);
-    var data = { offset: offset, limit: limit, query_type: query_type, keyword: keyword };
-    $.post("{{ url_for('ajax.get_honor_wall') }}", data).success(function(ret) {
-      var honor_wall = ret.honor_wall,
-          honor_count = ret.sum,
-          start = ret.offset,
-          length = ret.limit;
-      var $last_honor = $timeline_end.prev('li.timeline-one');
-      var last_honor_year = $last_honor.data('year');
-      if (honor_count == 0) {
-        $progress.hide();
-        $('div.timeline-error').fadeIn(300);
-        return ;
-      } else {
-        for (var cur_year in honor_wall) {
-          if (cur_year != last_honor_year) {
-            $last_honor.after('<li class="time-label timeline-one"><span class="bg-red">' + cur_year +  '</span></li>');
-            $last_honor = $last_honor.next();
-          }
-          for (var index in honor_wall[cur_year]) {
-            $last_honor.after(honor_wall[cur_year][index]);
-            $last_honor = $last_honor.next();
-          }
-        }
-      }
-      $progress.hide();
-      $end_fa.fadeIn(300);
-      $more_btn.data('offset', start + length);
-      if (honor_count == start + length) {
-        $more_btn.hide();
-      } else {
-        $more_btn.fadeIn(300);
-      }
-      make_lightbox();
-    }).error(function() {
-      reset_honor_wall();
-      $progress.fadeOut(300);
-      $timeline_error.fadeIn(300);
+  function make_masonry() {
+    var $container = $('.honor-wall');
+    $container.imagesLoaded(function(){
+      $container.masonry({
+        itemSelector : '.col-sm-3',
+        isAnimated: true
+      });
     });
-
   }
-  function make_filter(limit) {
+  function make_filter() {
     $(document).on('click', '.honor-search', function() {
       var query_type = $(".select-type").val();
       var keyword;
@@ -124,64 +100,43 @@
       } else {
         keyword = $(".query-input input").val()
       }
-      $('li.timeline-end .more-honor')
-              .data('type', query_type)
-              .data('keyword', keyword);
-      reset_honor_wall();
-      get_honor_wall(0, limit, query_type, keyword);
-    });
-  }
-  function make_more_button(limit) {
-    $(document).on('click', '.timeline-footer .more-info', function() {
-      var state = $(this).data('state');
-      var id = $(this).data('target');
-      if (state == '0') {
-        $(this).data('state', '1');
-        $('#honor' + id + ' .introduce').slideDown();
-        $(this).html('收起 <i class="fa fa-chevron-up"></i>');
-      } else {
-        $(this).data('state', '0');
-        $('#honor' + id + ' .introduce').slideUp();
-        $(this).html('更多详情 <i class="fa fa-chevron-down"></i>');
+      if (keyword.length == 0) {
+        $(".query-input input").focus().attr('placeholder', '请填写数据');
+        return false;
       }
-    });
-    $(document).on('click', 'li.timeline-end .more-honor', function() {
-      var offset = $(this).data('offset');
-      var query_type = $(this).data('type');
-      var keyword = $(this).data('keyword');
-      get_honor_wall(offset, limit, query_type, keyword);
+
+      var url = "{{ url_for('main.honor_wall') }}";
+      url += '?query_type=' + query_type;
+      url += '&keyword=' + keyword;
+      window.location.href = url;
     });
   }
   function change_filter() {
      $(document).on('change', '.filter-row .select-type', function() {
        var val = $(this).children('option:selected').val();
+       $(".query-input input").attr('placeholder', '');
        if (val == 'level') {
          $('.filter-row .level-select').css('display', 'inline');
-         $('.filter-row .input-group').css('display', 'none');
+         $('.filter-row .input-group').css('display', 'none')
+                 .attr('placeholder', '');
        } else {
          $('.filter-row .level-select').css('display', 'none');
          $('.filter-row .input-group').css('display', 'inline-table');
        }
      });
   }
-  function make_lightbox() {
-    $('.introduce img').each(function() {
-      var $fa = $(this).closest('.introduce');
-      var href = $(this).attr('src');
-      $(this).wrap('<a></a>').parent().attr({
-        'href': href,
-        'data-lightbox':'honor' + $fa.data('honor'),
-        'data-title': 'Honor'
-      });
+  function to_honor() {
+    $(document).on('click', 'div.honor-one', function() {
+      var honor_id = $(this).data('honor');
+      var url = "{{ url_for('main.honor', honor_id='') }}";
+      window.location.href = url + honor_id;
     });
   }
   $(document).ready(function() {
-    var limit = {{ limit }};
-    get_honor_wall(0, limit);
-    make_more_button(limit);
     change_filter();
-    make_filter(limit);
-
+    make_masonry();
+    make_filter();
+    to_honor();
   });
 </script>
 {% endblock %}

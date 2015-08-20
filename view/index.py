@@ -278,9 +278,30 @@ def resource(name):
 #
 @main.route("/honor_wall", methods = ['GET'])
 def honor_wall():
+    query_type = request.args.get('query_type')
+    keyword = request.args.get('keyword')
+    print query_type, keyword
+    honor_wall = honor_server.get_honor_wall_by_year(query_type, keyword)
     return render_template('index/honor_wall.html',
                            title = u'荣誉墙',
-                           limit = config.HONOR_PER_PAGE,
+                           honor_wall = honor_wall,
+                           HONOR_LEVEL_MAP = HONOR_LEVEL_MAP)
+
+#
+# @brief: page for honor
+# @route: /honor/honor_id
+# @accepted methods: [get]
+# @allowed user: all
+#
+@main.route("/honor", methods = ['GET'])
+@main.route("/honor/<honor_id>", methods = ['GET'])
+def honor(honor_id=None):
+    if not honor_id:
+        return redirect(url_for('main.honor_wall'))
+    honor = honor_server.get_by_id(honor_id)
+    return render_template('index/honor.html',
+                           title = u'荣誉墙',
+                           honor = honor,
                            HONOR_LEVEL_MAP = HONOR_LEVEL_MAP)
 
 
