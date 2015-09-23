@@ -21,8 +21,8 @@
           <tr><td>题目 ID</td><td>{{ submit.pro_id }}</td></tr>
           <tr><td>Result</td><td>{{ submit.result }}</td></tr>
           <tr><td>Language</td><td>{{ submit.lang }}</td></tr>
-          <tr><td>Run Time</td><td>{{ submit.run_time }} MS</td></tr>
-          <tr><td>Memory</td><td>{{ submit.memory }} KB</td></tr>
+          <tr><td>Run Time</td><td>{% if submit.run_time != -1 %} {{submit.run_time }} {% else %} {{ "UNKNOWN" }} {% endif %}MS</td></tr>
+          <tr><td>Memory</td><td>{% if submit.memory != -1 %} {{submit.memory }} {% else %} {{ "UNKNOWN" }}{% endif %} KB</td></tr>
           <tr><td>Submit Time</td><td>{{ submit.submit_time }}</td></tr>
         </table>
       </div>

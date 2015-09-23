@@ -12,39 +12,38 @@
             <h3 class="box-title"><i class="fa fa-list-ol"></i> <span>水表</span></h3>
           </div>
           <div class="box-body no-padding">
-            <table class="table table-bordered text-center">
+            <table class="table text-center">
               <thead><tr><th>#</th><th>学生</th><th>BNU</th><th>HDU</th><th>POJ</th><th>ZOJ</th><th>UVA</th>
                             <th>Virtual<br>Judge</th><th>BestCoder</th><th>Codeforces</th></tr></thead>
               <tbody>
               {% for info in info_list %}
                 <tr>
-                  <td class="stu-rank">{{ info['rank'] }}</td>
-                  <td class="stu-grid">
+                  <td  width="30">{{ info['rank'] }}</td>
+                  <td class="stu-grid" width="100">
                     <ul class="stu-meta">
-                      <li class="stu-name"><a href="{{ url_for('profile.index',username=info['username']) }}"
-                              target="_blank">{{ info['name'] }}</a></li>
-                      <li class="stu-rating label label-danger">{{ info['score'] }}</li>
+                      <li ><a href="{{ url_for('profile.index',username=info['username']) }}"
+                              target="_blank" style="color:{{ function.user_rank_color(info['score']) }}">{{ info['name'] }}</a></li>
                     </ul>
                   </td>
-                  <td>{{ info['bnu']['solved'] }} / {{ info['bnu']['submitted'] }}</td>
-                  <td>{{ info['hdu']['solved'] }} / {{ info['hdu']['submitted'] }}</td>
-                  <td>{{ info['poj']['solved'] }} / {{ info['poj']['submitted'] }}</td>
-                  <td>{{ info['zoj']['solved'] }} / {{ info['zoj']['submitted'] }}</td>
-                  <td>{{ info['uva']['solved'] }} / {{ info['uva']['submitted'] }}</td>
-                  <td>{{ info['vj']['solved'] }} / {{ info['vj']['submitted'] }}</td>
+                  <td width="80">{{ info['bnu']['solved'] }} / {{ info['bnu']['submitted'] }}</td>
+                  <td width="80">{{ info['hdu']['solved'] }} / {{ info['hdu']['submitted'] }}</td>
+                  <td width="80">{{ info['poj']['solved'] }} / {{ info['poj']['submitted'] }}</td>
+                  <td width="80">{{ info['zoj']['solved'] }} / {{ info['zoj']['submitted'] }}</td>
+                  <td width="80">{{ info['uva']['solved'] }} / {{ info['uva']['submitted'] }}</td>
+                  <td width="80">{{ info['vj']['solved'] }} / {{ info['vj']['submitted'] }}</td>
                   {% if info['bc_username'] %}
-                    <td><a href="http://bestcoder.hdu.edu.cn/rating.php?user={{ info['bc_username'] }}"
+                    <td width="100"><a href="http://bestcoder.hdu.edu.cn/rating.php?user={{ info['bc_username'] }}"
                            target="_blank">{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</a>
                     </td>
                   {% else %}
-                    <td>{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</td>
+                    <td width="100">{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</td>
                   {% endif %}
                   {% if info['cf_username'] %}
-                    <td><a href="http://codeforces.com/profile/{{ info['cf_username'] }}"
+                    <td width="100"><a href="http://codeforces.com/profile/{{ info['cf_username'] }}"
                            target="_blank">{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }})</a>
                     </td>
                   {% else %}
-                    <td>{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }} )</td>
+                    <td width="100">{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }} )</td>
                   {% endif %}
                 </tr>
               {% endfor %}
@@ -74,7 +73,7 @@
                 {% for info in weekly_rank %}
                   <tr>
                     <td>{{ info['rank'] }}</td>
-                    <td><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></td>
+                    <td><a href="{{ url_for('profile.index',username=info['username']) }}" style="color:{{ function.user_rank_color(info['score']) }}">{{ info['name'] }}</a></td>
                     <td>{{ info['solved'] }}</td>
                     <td>{{ info['submitted'] }}</td>
                   </tr>
@@ -97,7 +96,7 @@
                 {% for info in last_week_rank %}
                   <tr>
                     <td>{{ info['rank'] }}</td>
-                    <td><a href="{{ url_for('profile.index',username=info['username']) }}">{{ info['name'] }}</a></td>
+                    <td><a href="{{ url_for('profile.index',username=info['username']) }}" style="color:{{ function.user_rank_color(info['score']) }}">{{ info['name'] }}</a></td>
                     <td>{{ info['solved'] }}</td>
                     <td>{{ info['submitted'] }}</td>
                   </tr>

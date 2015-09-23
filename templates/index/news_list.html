@@ -5,92 +5,27 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-{% if not news %}
-  <div class="col-xs-offset-1 col-xs-10 text-center">
-    <h1>无新闻</h1>
-  </div>
-{% endif %}
-  <div class="col-md-offset-1 col-md-7">
-    {% for one in news %}
-      <div class="article-box">
-        <div class="article-header">
-          <h2 class="article-title">
-            <a href="{{ url_for('main.news', url=one.url) }}">{{ one.title }}</a>
-            {% if one.is_top %}
-            <label class="text-red pull-right"><i class="fa fa-thumb-tack"></i></label>
-            {% endif %}
-          </h2>
-          <div class="article-meta">
-            <span><i class="fa fa-calendar"></i> {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
-            <span><a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>
-            {% if current_user.is_admin or (current_user.is_coach and current_user == one.user) %}
-              <span><a href="{{ url_for('admin.edit_news', p=one.id) }}">edit</a></span>
-            {% endif %}
+    <div class="container">
+      <div class="row index-info">
+      <div class="col-sm-5">
+        <div>
+          <h3>最近新闻</h3>
+          <div class="pull-right more-link">
+            <a class="btn btn-link" href="{{ url_for('main.news_list') }}">更多新闻 >></a>
           </div>
         </div>
-        <div class="article-body shortcut" data-news="{{ one.id }}" data-title="{{ one.title }}">
-          {{ one.md_shortcut|safe }}
-        </div>
-        <a href="{{ url_for('main.news',url=one.url) }}" class="article-more-link btn btn-primary btn-flat">阅读全文 >></a>
-        <div class="article-footer">
-          <i class="fa fa-tags"></i>
-          {% for tag in one.tags %}
-            <span><a href="{{ url_for('main.news_archive', tag=tag.name) }}" class="label label-default"> {{ tag.name }}</a></span>
-          {% endfor %}
-        </div>
+        {% for news in recent_news %}
+          <p class="leading"><i class="fa fa-link"></i> <a href="{{ url_for('main.news', url=news.url) }}">{{ news.title }}</a></p>
+        {% endfor %}
       </div>
-    {% endfor %}
-    {% if news %}
-    <nav>
-      <ul class="pager">
-        {% if page > 0 %}
-        <li class="previous"><a href="{{ url_for('main.news_list', page = page - 1) }}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
-        {% endif %}
-        {% if page * limit + limit < sum %}
-          <li class="next"><a href="{{ url_for('main.news_list', page = page + 1) }}">下一页 <span aria-hidden="true">&rarr;</span></a></li>
-        {% endif %}
-      </ul>
-    </nav>
-    {% endif %}
-  </div>
-  <div class="col-md-3">
-  {% if recent_news != [] %}
-    <div class="box box-default">
-      <div class="box-header with-border">
-        <h3 class="box-title">近期新闻</h3>
-      </div>
-      <div class="box-body no-padding">
-        <ul class="recent_articles">
-          {% for news in recent_news %}
-            <li><i class="fa fa-link"></i> <a href="{{ url_for('main.news', url=news.url) }}">{{ news.title }}</a></li>
-          {% endfor %}
-        </ul>
-
-      </div>
-    </div>
-  {% endif %}
-  {% if tags != [] %}
-   <div class="box box-default">
-      <div class="box-header with-border">
-        <h3 class="box-title"> 标签云</h3>
-        <div class="box-tools pull-right">
-          <a class="btn btn-link btn-sm" href="{{ url_for('main.news_archive') }}">新闻存档 >></a>
-        </div>
-      </div>
-      <div class="box-body no-padding">
-        <div class="tags_cloud">
-          {% for tag in tags %}
-            <a href="{{ url_for('main.news_archive', tag=tag.name) }}" class="tag">
-              {{ tag.name }} <span>{{ tag.news.count() }}</span>
-            </a>
-          {% endfor %}
+      <div class="col-sm-offset-1 col-sm-5">
+        <div>
+          <h3><b>校队简介</b></h3>
+            <p>2011年，团队在软件工程学院院长舒红平，软件工程学院党委书记朱毅的领导下，在学校教务处的支持下成立，由软件工程学院教师杜晓宇任教练，在集结了18名同学后，初步建立。在成立的第一年起，就顺利的夺得现场赛资格。在2012年的ACM四川省赛中，夺得了一等奖1队，二等奖2队的好成绩，也被赋予“优秀组织奖”荣誉。在3年的比赛中，共夺得亚洲区奖项12项，省级奖项15项，并于2013年11月，在ACM-ICPC亚洲区赛长沙站夺得我校第一块铜奖，实现了我校奖牌零突破。</p>
         </div>
       </div>
     </div>
-  {% endif %}
-  </div>
-</div>
+    </div>
 {% endblock %}
 
 {% block script %}

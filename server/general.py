@@ -5,8 +5,10 @@ from dao.dbArticle import SolutionArticle
 import time
 from sqlalchemy import or_
 
-
-def get_rank_list(limit=100):
+#
+# default limit set to 1024 ....
+#
+def get_rank_list(limit=1024):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc', 'vj']
     info_list = []
     users = User.query.filter(User.active==1).order_by(User.score.desc()).limit(limit)
@@ -43,13 +45,13 @@ def get_weekly_info(last_week, limit=100):
         users = User.query.filter(User.active==1).order_by(User.last_week_solved.desc()).limit(limit)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.last_week_solved,
-                   'submitted': user.last_week_submit}
+                   'submitted': user.last_week_submit, 'score': user.score}
             info_list.append(cur)
     else:
         users = User.query.filter(User.active==1).order_by(User.current_week_solved.desc()).limit(limit)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.current_week_solved,
-                   'submitted': user.current_week_submit}
+                   'submitted': user.current_week_submit, 'score': user.score}
             info_list.append(cur)
     rank = 1
     for info in info_list:

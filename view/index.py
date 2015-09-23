@@ -4,6 +4,8 @@ from werkzeug.exceptions import NotFound
 from server import user_server, general, article_server, form, book_server, news_server, resource_server, honor_server
 from dao.dbBase import User
 from dao.dbResource import ResourceLevel
+from cache import cache
+from util import function
 import config
 
 
@@ -56,8 +58,7 @@ def logout():
 @main.route('/')
 @main.route('/index')
 def index():
-    return render_template('index/index.html',
-                           recent_news = news_server.get_recent())
+    return redirect(url_for('main.news_list'))
 
 
 #
@@ -69,20 +70,22 @@ def index():
 @main.route('/news_list', methods=['GET'])
 @main.route('/news_list/<page>', methods=['GET'])
 def news_list(page = 0):
-    limit = config.NEWS_PER_PAGE
-    offset = int(page) * limit
-    news_server.get_archive()
-    news = news_server.get_list(offset, limit)
-    recent_news = news_server.get_recent()
-    tags = news_server.get_all_tags()
-    sum = news_server.get_count()
-    return render_template('index/news_list.html',
-                           title = u'新闻',
-                           news = news, tags = tags,
-                           recent_news = recent_news,
-                           page = int(page),
-                           sum = sum, limit = limit)
-
+    return redirect(url_for("main.ranklist"))
+    #
+    #limit = config.NEWS_PER_PAGE
+    #offset = int(page) * limit
+    #news_server.get_archive()
+    #news = news_server.get_list(offset, limit)
+    #recent_news = news_server.get_recent()
+    #tags = news_server.get_all_tags()
+    #sum = news_server.get_count()
+    #return render_template('index/news_list.html',
+    #                       title = u'新闻',
+    #                       news = news, tags = tags,
+    #                       recent_news = recent_news,
+    #                       page = int(page),
+    #                       sum = sum, limit = limit)
+    #
 
 #
 # @brief: page for one news
@@ -146,7 +149,8 @@ def ranklist():
                            title = u'查水表',
                            weekly_rank = weekly_rank_list,
                            last_week_rank = last_week_rank,
-                           info_list = info_list)
+                           info_list = info_list,
+                           function = function)
 
 
 #
@@ -267,7 +271,6 @@ def resource(name):
 def honor_wall():
     query_type = request.args.get('query_type')
     keyword = request.args.get('keyword')
-    print query_type, keyword
     honor_wall = honor_server.get_honor_wall_by_year(query_type, keyword)
     return render_template('index/honor_wall.html',
                            title = u'荣誉墙',
