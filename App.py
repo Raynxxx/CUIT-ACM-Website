@@ -13,7 +13,6 @@ from view.index import main
 app = Flask(__name__)
 login_manager = LoginManager()
 
-
 @login_manager.user_loader
 def load_user(uid):
     return User.query.get(int(uid))
