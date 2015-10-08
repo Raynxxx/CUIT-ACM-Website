@@ -42,13 +42,13 @@ def get_weekly_info(last_week, limit=100):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc']
     info_list = []
     if last_week:
-        users = User.query.filter(User.active==1).order_by(User.last_week_solved.desc()).limit(limit)
+        users = User.query.filter(User.active==1).order_by(User.last_week_solved.desc(), User.score.desc()).limit(limit)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.last_week_solved,
                    'submitted': user.last_week_submit, 'score': user.score}
             info_list.append(cur)
     else:
-        users = User.query.filter(User.active==1).order_by(User.current_week_solved.desc()).limit(limit)
+        users = User.query.filter(User.active==1).order_by(User.current_week_solved.desc(), User.score.desc()).limit(limit)
         for user in users:
             cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.current_week_solved,
                    'submitted': user.current_week_submit, 'score': user.score}

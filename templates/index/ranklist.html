@@ -33,14 +33,14 @@
                   <td width="80">{{ info['vj']['solved'] }} / {{ info['vj']['submitted'] }}</td>
                   {% if info['bc_username'] %}
                     <td width="100"><a href="http://bestcoder.hdu.edu.cn/rating.php?user={{ info['bc_username'] }}"
-                           target="_blank">{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</a>
+                           target="_blank" style="color:#444">{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</a>
                     </td>
                   {% else %}
                     <td width="100">{{ info['bc']['rating'] }} (max {{ info['bc']['max_rating'] }})</td>
                   {% endif %}
                   {% if info['cf_username'] %}
                     <td width="100"><a href="http://codeforces.com/profile/{{ info['cf_username'] }}"
-                           target="_blank">{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }})</a>
+                           target="_blank" style="color:#444">{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }})</a>
                     </td>
                   {% else %}
                     <td width="100">{{ info['cf']['rating'] }} (max {{ info['cf']['max_rating'] }} )</td>

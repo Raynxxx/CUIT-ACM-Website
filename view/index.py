@@ -1,10 +1,9 @@
 # coding=utf-8
 from __init__ import *
 from werkzeug.exceptions import NotFound
-from server import user_server, general, article_server, form, book_server, news_server, resource_server, honor_server
+from server import user_server, general, article_server, form, news_server, resource_server, honor_server
 from dao.dbBase import User
 from dao.dbResource import ResourceLevel
-from cache import cache
 from util import function
 import config
 
@@ -191,26 +190,31 @@ def view_code(oj_name, run_id):
 # @accepted methods: [get]
 # @allowed user: all
 #
+@main.route('/article_list/', methods=['GET'])
 @main.route('/article_list', methods=['GET'])
 @main.route('/article_list/<page>', methods=['GET'])
 @login_required
 def article_list(page=0):
     limit = config.ARTICLE_PER_PAGE
-    offset = int(page) * limit
     query_type = request.args.get('query_type')
     keyword = request.args.get('keyword')
     keyword = keyword if keyword else ''
-    tags = article_server.get_all_tags()
-    articles = article_server.get_list(offset, limit, query_type=query_type, keyword = keyword)
-    recent_articles = article_server.get_recent()
     sum = article_server.get_count(query_type=query_type, keyword = keyword)
-    return render_template('index/article_list.html',
-                           title = u'解题报告',
-                           articles = articles,
-                           tags = tags,
-                           recent_articles = recent_articles,
-                           page = int(page),
-                           sum = sum, limit = limit, query_type = query_type, keyword = keyword)
+    try :
+        offset = int(page) * limit
+        tags = article_server.get_all_tags()
+        articles = article_server.get_list(offset, limit, query_type=query_type, keyword = keyword)
+        recent_articles = article_server.get_recent()
+
+        return render_template('index/article_list.html',
+                               title = u'解题报告',
+                               articles = articles,
+                               tags = tags,
+                               recent_articles = recent_articles,
+                               page = int(page),
+                               sum = sum, limit = limit, query_type = query_type, keyword = keyword)
+    except:
+        return redirect(url_for("main.article_list"))
 
 
 #
@@ -307,13 +311,6 @@ def about():
 def footmark():
     return render_template('index/footmark.html')
 
-
-@main.route("/book", methods = ['GET'])
-@login_required
-def book_list():
-    status_map = {0:u'可借', 1:u'已借出',2:"超时未归还"}
-    books = book_server.list_book()
-    return render_template('index/book_list.html', books = books, smap = status_map)
 
 
 

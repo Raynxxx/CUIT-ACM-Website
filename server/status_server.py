@@ -1,5 +1,6 @@
 from __init__ import *
 import sys
+from util import function
 
 class DataTablesServer():
     def __init__(self, request, oj_name, headers):
@@ -62,12 +63,13 @@ class DataTablesServer():
             status = {
                 'id': row.id,
                 'oj_name': OJ_MAP[row.oj_name],
-                'pro_id':  str(row.pro_id),
+                'pro_id': function.submit_problem_page(row.oj_name,row.pro_id),
                 'run_id':"<a href='/viewcode/{url}'>".format(url=row.oj_name+'/'+row.run_id) + row.run_id+"</a>",
                 'submit_time': row.submit_time,
                 'run_time': str(row.run_time) + ' MS',
                 'memory': str(row.memory) + ' KB',
-                'result': row.result,
+                'result': "<span style='color:{color}'>{res}</span>".format(res=row.result,
+                                                                            color=function.submit_result_color(row.result)),
                 'lang': row.lang,
                 'user_name': row.user_name
             }
