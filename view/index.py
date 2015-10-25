@@ -30,7 +30,7 @@ def login():
             flash(u'密码错误!')
         else:
             login_user(user, remember=login_form.remember_me.data)
-            return redirect(request.args.get('next') or url_for('main.news_list'))
+            return redirect(request.args.get('next') or url_for('main.index'))
     return render_template('index/login.html',
                            login_form = login_form)
 
@@ -58,7 +58,9 @@ def logout():
 @main.route('/')
 @main.route('/index')
 def index():
-    return redirect(url_for('main.news_list'))
+    title = 'CUIT ACM Team'
+    return render_template('index/index.html',
+                           title = title)
 
 
 #
@@ -70,22 +72,20 @@ def index():
 @main.route('/news_list', methods=['GET'])
 @main.route('/news_list/<page>', methods=['GET'])
 def news_list(page = 0):
-    return redirect(url_for("main.ranklist"))
-    #
-    #limit = config.NEWS_PER_PAGE
-    #offset = int(page) * limit
-    #news_server.get_archive()
-    #news = news_server.get_list(offset, limit)
-    #recent_news = news_server.get_recent()
-    #tags = news_server.get_all_tags()
-    #sum = news_server.get_count()
-    #return render_template('index/news_list.html',
-    #                       title = u'新闻',
-    #                       news = news, tags = tags,
-    #                       recent_news = recent_news,
-    #                       page = int(page),
-    #                       sum = sum, limit = limit)
-    #
+    limit = config.NEWS_PER_PAGE
+    offset = int(page) * limit
+    news_server.get_archive()
+    news = news_server.get_list(offset, limit)
+    recent_news = news_server.get_recent()
+    tags = news_server.get_all_tags()
+    sum = news_server.get_count()
+    return render_template('index/news_list.html',
+                          title = u'新闻',
+                          news = news, tags = tags,
+                          recent_news = recent_news,
+                          page = int(page),
+                          sum = sum, limit = limit)
+
 
 #
 # @brief: page for one news
@@ -301,11 +301,6 @@ def about():
     #return render_template('index/about.html')
 
 
-
-@main.route('/footmark')
-@login_required
-def footmark():
-    return render_template('index/footmark.html')
 
 
 @main.route("/book", methods = ['GET'])

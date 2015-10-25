@@ -2,11 +2,10 @@
 # public function used by CUIT web site
 #
 
-
 def user_rank_color(score):
     if score in xrange(0,1000):
-        return "#24e5bf"
+        return "#0000FF"
     elif score in xrange(1000,1500):
-        return "#f2cf2e"
+        return "#0000FF"
     else :
-        return "#fd8321"
+        return "#0000FF"

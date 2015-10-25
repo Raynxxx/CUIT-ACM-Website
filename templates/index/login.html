@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/dist/css/AdminLTE.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='fakeLoader/fakeLoader.css') }}"/>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -26,8 +27,9 @@
   {%- block head -%}{%- endblock -%}
 </head>
 <body class="login-page" style="background-color: #333;">
+<div id="fakeLoader"></div>
 <div class="login-box">
-  <div class="login-logo" style="font-size: 48px">
+  <div class="login-logo" style="font-size: 45px">
     <a href="{{ url_for('main.index') }}" style="color: #eee;">CUIT <b>ACM</b> Team</a>
   </div>
   <div class="login-box-body">
@@ -44,7 +46,7 @@
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
-            <label style="margin-right: 5px;">{{ login_form.remember_me }}</label> 记住我
+            <label style="margin-right: 5px">{{ login_form.remember_me }}</label> 记住我
           </div>
         </div>
         <div class="col-xs-4">
@@ -68,11 +70,16 @@
 </div>
 <!-- /container -->
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='fakeLoader/fakeLoader.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts/tools.js') }}"></script>
 <script>
   $(document).ready(function () {
+    $("#fakeLoader").fakeLoader({
+      spinner: "spinner1",
+      bgColor: "#333"
+    });
     $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'iradio_square-blue',
