@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 from __init__ import *
-from server import user_server, article_server, status_server, form, account_server, book_server, news_server, resource_server
+from server import user_server, article_server, status_server, form, account_server, news_server, resource_server
 from server import general
 from server import honor_server
 from dao.dbACCOUNT import Account
@@ -425,24 +425,6 @@ def fitch_status(oj_name):
     ret = status_server.DataTablesServer(request.form, oj_name, headers).run_query()
     return json.dumps(ret, cls=CJsonEncoder)
 
-
-@ajax.route('/ajax/add_book', methods=['POST'])
-@login_required
-def add_book():
-    book_form = form.BookForm()
-    if book_form.validate_on_submit():
-        try:
-            book_form.shortcut.data = ''
-            if book_form.upload.data:
-                file = request.files[book_form.upload.name]
-                filename = secure_filename(file.filename)
-                book_form.shortcut.data = os.path.join(IMAGE_FILE_PATH, filename)
-                file.save(book_form.shortcut.data)
-            book_server.add_book(book_form)
-            return 'ok'
-        except Exception, e:
-            return 'error:' + e.message
-    return 'error:数据填写有误'
 
 
 
