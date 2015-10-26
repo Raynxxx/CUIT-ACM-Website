@@ -1,105 +1,62 @@
+/* Space out content a bit */
 body {
   padding-top: 20px;
   padding-bottom: 20px;
-  background-color: #333;
-  color: #fff;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  background-color: #fff;
 }
 
-@media (min-width: 1200px) {
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
   .container {
-    width: 970px;
+    max-width: 730px;
+  }
+}
+@media (min-width: 960px) {
+  .container {
+    max-width: 810px;
   }
 }
 
-.container-fluid {
-  padding-right: 0;
+.container-narrow > hr {
+  margin: 30px 0;
 }
 
-.navbar {
-  margin-bottom: 20px;
-}
 
-.navbar-inverse {
-  background-color: #333;
-  border-color: #333;
-}
-.navbar-inverse .navbar-brand {
-  color: #fff;
-  font-size: 28px;
-  padding-left: 0 !important;
-}
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
 
-.navbar-nav a {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  margin: auto 10px;
-  font-size: 20px;
-  font-weight: bold;
-  color: rgba(255,255,255,.75);
-  border-bottom: 2px solid transparent;
-}
-.navbar-nav a:hover {
-  color: rgba(255,255,255,.75);
-  border-bottom: 2px solid transparent;
-  border-bottom-color: rgba(255,255,255,.75);
-}
-.navbar-nav>.active>a {
-  color: #fff;
-  background-color: #333 !important;
-  border-bottom-color: #fff;
-}
-
-.shell-header {
-  padding: 0.5em;
-  margin-bottom: 0;
-  background-color: #444;
-  border-top-left-radius: 0.5em;
-  border-top-right-radius: 0.5em;
-}
-.shell-header h3 {
-  display: inline-block;
-  margin: 0;
-  padding: 0.4em 0.5em;
-}
-.shell-header .btn {
-  color: #fff;
-  font-size: 1.6em;
-  outline: none !important;
-}
-.shell-header .btn:hover {
-  color: #444;
-  background-color: #fff;
-}
-.leading {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.leading a {
-  color: #fff;
-  padding: 0.1em 0.5em;
-  text-decoration: none;
-  font-size: 1.1em;
-}
-.leading a:hover {
-  color: #333;
-  border: solid 1px #fff;
-  background-color: #fff;
-}
-
-.index-info h3 {
-  display: inline-block;
-  vertical-align: middle;
-}
-.index-info .more-link {
-  margin-top: 15px;
-}
-.index-info .more-link a {
-  color: #fff;
-}
-.index-info .more-link a:hover {
-  color: #333;
-  border: solid 1px #fff;
-  background-color: #fff;
 }
