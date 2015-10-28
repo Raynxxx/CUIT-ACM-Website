@@ -5,6 +5,7 @@ from dao.dbArticle import SolutionArticle
 import time
 from sqlalchemy import or_
 
+
 #
 # default limit set to 1024 ....
 #
@@ -111,3 +112,5 @@ def get_sys_info():
     sys_info['news_count'] = News.query.count()
     sys_info['honor_count'] = Honor.query.count()
     return sys_info
+
+

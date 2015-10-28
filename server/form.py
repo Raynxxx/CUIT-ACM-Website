@@ -155,3 +155,8 @@ class HonorForm(Form):
     introduce = TextAreaField(u'introduce', validators=[validators.Optional()])
     users = SelectMultipleField(u'users', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
+
+class PosterForm(Form):
+    img_url = StringField(u'image url', validators=[validators.DataRequired(), validators.Length(min=1, max=128)])
+    link_url = StringField(u'link url', validators=[validators.DataRequired(), validators.Length(min=1, max=128)])
+    submit = SubmitField(u'提交')

@@ -5,6 +5,7 @@ from server import user_server, general, article_server, form, news_server, reso
 from dao.dbBase import User
 from dao.dbResource import ResourceLevel
 from util import function
+from server.poster import poster
 import config
 
 
@@ -59,7 +60,7 @@ def logout():
 def index():
     title = 'CUIT ACM Team'
     return render_template('index/index.html',
-                           title = title)
+                           title = title, poster=poster.items())
 
 
 #

@@ -1,6 +1,7 @@
 # coding=utf-8
 from __init__ import *
 from server import general, user_server, form, news_server, honor_server
+from server.poster import poster
 import util, config
 
 
@@ -273,6 +274,7 @@ def modify_honor():
 
 
 
+# not used
 @admin.route("/admin/add_book", methods = ['GET'])
 @login_required
 def add_book():
@@ -281,3 +283,10 @@ def add_book():
     book_form = form.BookForm()
     return render_template('add_book.html', book_form=book_form)
 
+@admin.route("/admin/manage_poster", methods = ['GET'])
+@login_required
+def manage_poster():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    poster_form = form.PosterForm()
+    return render_template('manage_poster.html', poster=poster.items(), pform = poster_form)
