@@ -1,0 +1,89 @@
+{% extends "admin/base.html" %}
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<div class="box">
+{% for key, value in poster %}
+    <div class="col-md-4" >
+        <div class="thumbnail">
+          <div class="caption">
+            <a href="{{ value }}"><img src="{{ key }}" width="100%"></a>
+          </div>
+        </div>
+    </div>
+{% endfor %}
+    <div class="col-md-4" data-toggle="modal" data-target="#addPoster" >
+        <div class="thumbnail">
+          <div class="caption" style="cursor: pointer">
+            <img src="https://placeholdit.imgix.net/~text?txtsize=42&bg=00&txtclr=ffffff%26text%3Di%2Blove%2Bbootstrap&txt=%EF%BC%8B&w=900&h=500" width="100%"></a>
+          </div>
+        </div>
+    </div>
+</div>
+
+ <div class="modal fade" id="addPoster" style="margin-top: 50px;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">添加</h4>
+        </div>
+          <form id="postForm" method="post" class="form-horizontal">
+          <div class="modal-body">
+              {{ pform.hidden_tag() }}
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="imageUrl"><span class="required-star">* </span>图片链接</label>
+                  <div class="col-sm-9">
+                    {{ pform.img_url(class="form-control required",id="imageUrl", placeholder="图片链接") }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="newsUrl"><span class="required-star">* </span>新闻链接</label>
+                  <div class="col-sm-9">
+                    {{ pform.link_url(class='form-control required',id="newsUrl" , placeholder="新闻链接") }}
+                  </div>
+                </div>
+          </div>
+          <div class="modal-footer">
+            {{ pform.submit(class='btn btn-primary', value='提交') }}
+            <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+          </div>
+          </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{%- block script -%}
+    <script>
+        $(document).ready(function() {
+            $('.poster_item').click(function(){
+            });
+
+        $('#postForm').submit(function () {
+        var data = new FormData($('#postForm')[0]);
+        data.append('opt', 'set');
+        $.ajax({
+          url: "{{ url_for('ajax.manage_poster') }}",
+          type: "POST",
+          data: data,
+          processData: false,  // 告诉jQuery不要去处理发送的数据
+          contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+          success: function (msg) {
+            if (msg == '操作成功') {
+                window.location.reload();
+            } else {
+                $('.closeModal').click();
+                alert(msg);
+            }
+          }
+        });
+        return false;
+      });
+        });
+    </script>
+
+{%- endblock -%}

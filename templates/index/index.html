@@ -52,16 +52,23 @@
 
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
-        <div class="item active">
-          <img src="http://placehold.it/900x500/f39c12/ffffff&text=I+Love+Bootstrap" alt="...">
-          <div class="carousel-caption">
-          </div>
-        </div>
-        <div class="item">
-          <img src="http://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" alt="...">
-          <div class="carousel-caption">
-          </div>
-        </div>
+        {% set iter_cnt = 0 %}
+        {% for key, value in poster%}
+          {% if iter_cnt == 0 %}
+              <div class="item active">
+                <img src="{{ key }}" alt="...">
+                <div class="carousel-caption">
+                </div>
+              </div>
+          {% else %}
+              <div class="item">
+                <img src="{{ key }}" alt="...">
+                <div class="carousel-caption">
+                </div>
+              </div>
+          {% endif %}
+          {% set iter_cnt=iter_cnt + 1 %}
+        {% endfor %}
       </div>
 
       <!-- Controls -->

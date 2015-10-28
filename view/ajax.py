@@ -4,6 +4,7 @@ from __init__ import *
 from server import user_server, article_server, status_server, form, account_server, news_server, resource_server
 from server import general
 from server import honor_server
+from server.poster import poster
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
 from werkzeug.utils import secure_filename
@@ -739,9 +740,23 @@ def delete_article():
         article_server.delete_by_id(article_id)
         return u'删除成功'
     except Exception, e:
-        print e
         return u'删除失败'
 
+#opt set or delete
+@ajax.route("/ajax/manage_poster", methods= ['POST'])
+@login_required
+def manage_poster():
+    try:
+        url_key = request.form.get('img_url')
+        url_value = request.form.get('link_url')
+        opt = request.form.get('opt')
+        if not hasattr(poster, opt):
+            return u'操作不支持'
+        getattr(poster, opt)(url_key, url_value)
+        poster.save_config()
+        return u'操作成功'
+    except Exception:
+        return u'操作失败'
 
 
 

@@ -41,8 +41,10 @@ OJ_MAP = {
 }
 
 
+
 CSRF_ENABLED = True
 import os.path
+BRAND_CONFIG_DEST = os.path.split(os.path.realpath(__file__))[0] + '/brand.ini'
 UPLOADED_RESOURCE_DEST = os.path.split(os.path.realpath(__file__))[0] + '/static/resource/'
 UPLOADED_RESOURCE_URL = '/upload/resource/'
 IMAGE_FILE_PATH = 'static/image/bookimg/'
