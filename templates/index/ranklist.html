@@ -18,12 +18,11 @@
               <tbody>
               {% for info in info_list %}
                 <tr>
-                  <td class="stu-rank">{{ info['rank'] }}</td>
+                  <td class="stu-rank" >{{ info['rank'] }}</td>
                   <td class="stu-grid">
                     <ul class="stu-meta">
                       <li class="stu-name"><a href="{{ url_for('profile.index',username=info['username']) }}"
-                              target="_blank">{{ info['name'] }}</a></li>
-                      <li class="stu-rating label label-primary">{{ info['score'] }}</li>
+                                              target="_blank">{{ info['name'] }}</a></li>
                     </ul>
                   </td>
                   <td>{{ info['bnu']['solved'] }} / {{ info['bnu']['submitted'] }}</td>
@@ -53,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 col-xs-6">
         <div class="nav-tabs-custom">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">本周刷题榜</a></li>

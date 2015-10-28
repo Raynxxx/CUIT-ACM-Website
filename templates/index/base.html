@@ -48,7 +48,6 @@
             <li><a href="{{ url_for('main.ranklist') }}">查水表</a></li>
             <li><a href="{{ url_for('main.status') }}">提交</a></li>
             <li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>
-            <!--<li><a href="{{ url_for('main.book_list') }}">图书</a></li> -->
             {% endif %}
             <!--
             <li><a href="http://222.18.167.49/" target="_blank">校内OJ</a></li>
@@ -117,11 +116,13 @@
 <script>
   $(document).ready(function () {
     $("#fakeLoader").fakeLoader({
+      timeToHide: 600,
       spinner: "spinner1",
       bgColor: "#3c8dbc"
     });
   });
 </script>
+<script src="{{ url_for('static', filename='scripts/tools.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/dist/js/app.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/fastclick/fastclick.min.js') }}"></script>

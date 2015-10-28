@@ -26,10 +26,11 @@
 </head>
 
 <body class="skin-blue sidebar-mini fixed">
+<div id="fakeLoader"></div>
 <div class="wrapper">
   <header class="main-header">
     <!-- Logo -->
-    <a href="" class="logo" onclick="return false;">
+    <a href="{{ url_for('main.index') }}" class="logo" >
       <span class="logo-mini"><b>ACM</b></span>
       <span class="logo-lg">CUIT <b>ACM</b> Team</span>
     </a>
@@ -40,7 +41,7 @@
       </a>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <li><a href="{{ url_for('main.ranklist') }}"><span>回到前台</span></a></li>
+          <li><a href="{{ url_for('main.index') }}"><span>回到前台</span></a></li>
           <li class="dropdown user user-menu">
             <a href="none" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
               <img src="{{ current_user.gravatar(size=256) }}" class="user-image" alt="User Image">
@@ -124,9 +125,19 @@
   </footer>
 </div>
 <a href="#" class="back_to_top">Top</a>
-<div id="fakeLoader"></div>
+
 <!-- Javascript -->
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='fakeLoader/fakeLoader.min.js') }}"></script>
+<script>
+  $(document).ready(function () {
+    $("#fakeLoader").fakeLoader({
+      timeToHide: 600,
+      spinner: "spinner1",
+      bgColor: "#3c8dbc"
+    });
+  });
+</script>
 <script src="{{ url_for('static', filename='AdminLTE2/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/dist/js/app.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/fastclick/fastclick.min.js') }}"></script>
