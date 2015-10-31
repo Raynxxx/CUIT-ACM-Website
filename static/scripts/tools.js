@@ -42,6 +42,7 @@ function gaoActiveLink(item) {
         }
     });
 }
+
 $(document).ready(function() {
     gaoActiveLink('.sidebar-menu > li > a');
     gaoActiveLink('.treeview-menu li a');

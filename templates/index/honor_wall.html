@@ -5,13 +5,8 @@
 
 {% block content %}
 <div class="row filter-row">
-  <div class="col-sm-offset-1 col-sm-2 col-xs-offset-1 col-xs-2">
-    <a href="{{ url_for('main.honor_wall') }}" class="btn btn-primary refresh">
-      <i class="fa fa-refresh"> </i> 刷新
-    </a>
-  </div>
-  <div class="col-sm-8 col-xs-9">
-    <fieldset class="form-inline pull-right">
+  <div class="col-sm-offset-1 col-sm-11 col-xs-offset-1 col-xs-11">
+    <fieldset class="form-inline pull-left">
       <select class="form-control select-type" name="type">
         <option value="user">队员名</option>
         <option value="team_name">队伍名</option>
@@ -42,25 +37,15 @@
     </div>
     {% for honor_year in honor_wall %}
       <div class="honor-year">
-        <h2>{{ honor_year }}</h2>
+        <h1>{{ honor_year }}</h1>
       </div>
       <div class="honor-wall">
       {% for honor in honor_wall[honor_year] %}
-        <div class="col-xs-6 col-sm-3">
+        <div class="col-xs-6 col-sm-3 col-lg-2">
           <div class="honor-one" data-honor="{{ honor.id }}">
             <div class="thumbnail">
               <img src="{{ url_for('main.resource', name=honor.resources[0].filename) }}" class="poster">
-              <div class="caption">
-                <p class="contest-name">{{ honor.contest_name }}</p>
-                <p class="contest-level"><i class="fa fa-flag"> </i>
-                  {{ HONOR_LEVEL_MAP[honor.contest_level] }}
-                </p>
-                <p class="contest-time"><i class="fa fa-calendar"> </i>
-                  {{ honor.acquire_time.strftime('%Y-%m-%d') }}
-                </p>
-                <p class="team-name"><i class="fa fa-diamond"></i>
-                  {{ honor.team_name }}</p>
-              </div>
+              <p class="contest-name">{{ honor.contest_name }}</p>
             </div>
             <div class="tacker">
               <p>

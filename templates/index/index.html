@@ -29,19 +29,19 @@
         {%- if current_user.is_authenticated() -%}
           <li role="presentation" class="btn-group">
             <a href="{{ url_for('profile.index') }}"
-               style="font-weight: bold;font-size: larger">
-              {{ current_user.name }}
+               style="font-weight: bold;">
+              {{ current_user.name }}的主页
             </a></li>
         {%- else -%}
           <li role="presentation"><a href="{{ url_for('main.login') }}">登录</a></li>
         {%- endif -%}
       </ul>
     </nav>
-    <h3 class="text-muted">{{ title }}</h3>
+    <h3 class="project-name">{{ title }}</h3>
   </div>
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-8">
       <div id="index-poster" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
       <ol class="carousel-indicators">
@@ -82,8 +82,7 @@
       </a>
     </div>
     </div>
-
-    <div class="col-md-6">
+    <div class="col-md-4">
       {% if recent_news != [] %}
       <div class="box box-default">
         <div class="box-header with-border">
@@ -99,9 +98,25 @@
       </div>
     {% endif %}
     </div>
-
-    <div class="col-md-6">
-
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title">近期比赛</h3>
+        </div>
+        <div class="box-body no-padding">
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title">推荐网站</h3>
+        </div>
+        <div class="box-body no-padding">
+        </div>
+      </div>
     </div>
   </div>
 
@@ -118,6 +133,7 @@
 <script>
   $(document).ready(function () {
     $("#fakeLoader").fakeLoader({
+      timeToHide: 600,
       spinner: "spinner1",
       bgColor: "#3c8dbc"
     });

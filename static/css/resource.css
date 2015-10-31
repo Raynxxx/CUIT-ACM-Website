@@ -56,6 +56,7 @@
   border: solid 1px #3c8dbc;
   background-color: #3c8dbc;
   box-shadow: 1px 3px 3px #eee;
+  cursor: pointer;
 }
 
 .thumbnail {
@@ -146,39 +147,47 @@
 .filter-row {
   margin-bottom: 20px;
 }
-.filter-row .refresh {
-  margin-left: 20px;
-}
 .filter-row h2 {
   margin-top: 0;
 }
 .filter-row .form-inline {
-  margin-right: 20px;
+  margin-left: 20px;
 }
 .filter-row .btn-primary:hover {
   border-color: #367fa9;
 }
 
-.honor-year h2 {
-  padding-left: 20px;
+.honor-year h1 {
+  padding-left: 15px;
   font-weight: 900;
-  font-size: 36px !important;
+  font-size: 40px !important;
 }
 .honor-one {
   margin-bottom: 20px;
+  -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.3);
 }
 .honor-wall .honor-one:hover {
-  border: 3px solid #3a87ad;
+  -moz-box-shadow: 0 0 2px 2px #3a87ad;
+  -webkit-box-shadow: 0 0 2px 2px #3a87ad;
+  box-shadow:0 0 2px 2px #3a87ad;
+  cursor: pointer;
 }
 
 .honor-one .thumbnail {
-  border: 1px solid #bbb;
+  /*border: 1px solid #bbb;*/
   border-bottom: none;
   padding: 0;
 }
 .honor-one .contest-name {
   font-size: 1.2em;
 }
+.thumbnail > .contest-name {
+  margin-bottom: 0 !important;
+  padding: 8px 5px 3px 8px;
+}
+
 .honor-one .contest-level,
 .honor-one .contest-time {
   color: #666;
@@ -197,11 +206,15 @@
 .honor-one .tacker {
   padding: 8px 5px 10px 5px;
   clear: both;
-  background: #f9f9f9;
+  background-color: #f9f9f9;
   border-top: 1px solid #e1e1e1;
-  border-bottom: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+.honor-wall .honor-one .tacker {
+  border-top: 1px solid #fff;
+  background-color: #fff;
 }
 .honor-one .tacker p {
   margin-bottom: 0;
@@ -210,4 +223,9 @@
   border-bottom: 1px solid #ddd;
 }
 
-
+.slider-wrapper {
+  -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
+}
