@@ -1,5 +1,6 @@
 # coding=utf-8
 from __init__ import *
+import collections
 from dao.dbHonor import Honor
 from dao.dbBase import User
 import resource_server
@@ -112,7 +113,7 @@ def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
 def get_honor_wall_by_year(query_type=None, keyword=''):
     total = get_honor_count(query_type, keyword)
     honor_list = get_honor_wall(0, total, query_type, keyword)
-    honor_wall = dict()
+    honor_wall = collections.OrderedDict()
     for honor in honor_list:
         year = honor.acquire_time.year
         if year not in honor_wall:

@@ -40,7 +40,7 @@
       <div class="box-body no-padding">
         <ul class="recent_articles">
           {% for news in recent_news %}
-            <li><i class="fa fa-link"></i> <a href="{{ url_for('main.news', url=news.url) }}">{{ news.title }}</a></li>
+            <li><i class="fa fa-link"></i> <a href="{{ url_for('main.news', p=news.id) }}">{{ news.title }}</a></li>
           {% endfor %}
         </ul>
       </div>

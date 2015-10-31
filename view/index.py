@@ -59,8 +59,13 @@ def logout():
 @main.route('/index')
 def index():
     title = 'CUIT ACM Team'
+    recent_news = news_server.get_recent()
     return render_template('index/index.html',
-                           title = title, poster=poster.items())
+                           title = title,
+                           poster = poster.items(),
+                           recent_news = recent_news,
+                           recommend_site = config.RECOMMEND_SITE,
+                           RECENT_CONTEST_JSON = RECENT_CONTEST_JSON)
 
 
 #
@@ -304,8 +309,6 @@ def honor(honor_id=None):
 def about():
     return redirect(url_for('main.ranklist'))
     #return render_template('index/about.html')
-
-
 
 
 

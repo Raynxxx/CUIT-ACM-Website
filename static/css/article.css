@@ -10,6 +10,8 @@
 
 .article-header {
   margin: 0.2em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #ccc;
 }
 .article-title {
   font-size: 2em;
@@ -149,8 +151,8 @@
   padding: 0.1em 0.5em;
 }
 .recent_articles li a:hover {
-  color: #258fb8;
-  border-bottom: dashed 2px #111;
+  color: #222;
+  text-shadow: 1px 1px 1px #aaa;
 }
 .recent_articles li .fa {
   font-size: 0.8em;
@@ -252,5 +254,46 @@
 }
 
 #tagCanvas {
-        height: 100%; width: 100%;
+  height: 100%; width: 100%;
+}
+
+.news-box .box-title {
+  font-size: 1.8em !important;
+  font-weight: bold !important;
+}
+.news-list {
+  list-style: none;
+  padding-left: 5px;
+}
+
+.news-list .news-item {
+  font-size: 1.8em;
+  margin: 10px;
+}
+
+.news-list .news-item .news-title {
+  color: #222;
+  font-weight: 600;
+  font-family: "Consolas", sans-serif;
+}
+.news-list .news-item .news-title:hover {
+  color: inherit;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #aaa;
+}
+
+.news-list .news-date {
+  float: right;
+  color: #777;
+  font-size: 0.8em;
+  font-weight: 600;
+  font-family: "Consolas", sans-serif;
+}
+
+.news-box .pager {
+  margin: 5px 0 !important;
+}
+
+.news-box .pager li {
+  font-weight: 600 !important;
 }
