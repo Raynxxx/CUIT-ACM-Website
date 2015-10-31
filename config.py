@@ -53,10 +53,22 @@ from datetime import timedelta
 REMEMBER_COOKIE_DURATION = timedelta(days=1)
 
 ## some config for front end
-NEWS_PER_PAGE = 5
+NEWS_PER_PAGE = 10
 ARTICLE_PER_PAGE = 5
 USER_MANAGE_PER_PAGE = 8
 NEWS_MANAGE_PER_PAGE = 8
 ARTICLE_MANAGE_PER_PAGE = 8
 HONOR_MANAGE_PER_PAGE = 8
 RESOURCE_MANAGE_PER_PAGE = 8
+
+
+#index information
+RECENT_CONTEST_JSON = os.path.split(os.path.realpath(__file__))[0] + '/static/json/contests.json'
+
+RECOMMEND_SITE = {
+    u'ACM/ICPC信息站' : 'http://acmicpc.info',
+    'BNU OJ' : 'http://acm.bnu.edu.cn',
+    u'ACM-ICPC官网' : 'https://icpc.baylor.edu/',
+    'BestCoder': 'http://bestcoder.acmcoder.com/',
+    u'CUIT学校主页': 'http://www.cuit.edu.cn'
+}

@@ -20,6 +20,24 @@ from server.account_server import AccountUpdatingException, AccountExistExceptio
 ajax = blueprints.Blueprint('ajax', __name__)
 
 
+@ajax.route("/ajax/contest.json", methods=['GET'])
+def recent_contests():
+    import json
+    json_file = open(RECENT_CONTEST_JSON, 'r').read()
+    json_contests = json.JSONDecoder().decode(json_file)
+    contests = []
+    for contest in json_contests:
+        name, link = contest['name'], contest['link']
+        new_contest = {
+            'name': '<a href="' + link + '">' + name + '</a>'
+        }
+        for key, value in contest.items():
+            if key not in ('id', 'name', 'link'):
+                new_contest[key] = value
+        contests.append(new_contest)
+    ret = { 'data': contests }
+    return json.JSONEncoder().encode(ret)
+
 #
 # @brief: ajax html for one user item
 # @allowed user: admin and coach
