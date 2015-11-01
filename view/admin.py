@@ -283,10 +283,21 @@ def add_book():
     book_form = form.BookForm()
     return render_template('add_book.html', book_form=book_form)
 
+
+
+#
+# @brief: the page for admin to manage psoter
+# @route: /admin/manage_poster
+# @accepted methods: [get]
+# @allowed user: admin and coach
+#
 @admin.route("/admin/manage_poster", methods = ['GET'])
 @login_required
 def manage_poster():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     poster_form = form.PosterForm()
-    return render_template('manage_poster.html', poster=poster.items(), pform = poster_form)
+    return render_template('manage_poster.html',
+                           title = u'首页图片管理',
+                           poster = poster.items(),
+                           pform = poster_form)

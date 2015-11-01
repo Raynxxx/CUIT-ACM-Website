@@ -1,89 +1,161 @@
 {% extends "admin/base.html" %}
+
 {% block head %}
 
 {% endblock %}
 
 {% block content %}
-<div class="box">
-{% for key, value in poster %}
-    <div class="col-md-4" >
-        <div class="thumbnail">
-          <div class="caption">
-            <a href="{{ value }}"><img src="{{ key }}" width="100%"></a>
-          </div>
+<div class="row poster-wall">
+  {% for key, value in poster %}
+    <div class="col-sm-4 col-md-3 col-lg-2">
+      <div class="index-poster">
+        <a href="{{ value }}" ><img src="{{ key }}"></a>
+        <div class="opt-btn">
+          <a class="label label-primary to-edit-poster" data-poster="{{ key }}"
+                  data-value="{{ value }}"><i class="fa fa-edit"></i>
+          </a>
+          <a class="label label-danger to-del-poster" data-poster="{{ key }}"
+                  data-toggle="modal" data-target="#delPoster">
+            <i class="fa fa-times"></i>
+          </a>
         </div>
+      </div>
     </div>
-{% endfor %}
-    <div class="col-md-4" data-toggle="modal" data-target="#addPoster" >
-        <div class="thumbnail">
-          <div class="caption" style="cursor: pointer">
-            <img src="https://placeholdit.imgix.net/~text?txtsize=42&bg=00&txtclr=ffffff%26text%3Di%2Blove%2Bbootstrap&txt=%EF%BC%8B&w=900&h=500" width="100%"></a>
-          </div>
-        </div>
+  {% endfor %}
+  <div class="col-sm-4 col-md-3 col-lg-2" data-toggle="modal" data-target="#addPoster">
+    <div class="index-poster" style="padding: 30px 0;cursor: pointer;">
+      <i class="fa fa-plus"></i>
     </div>
+  </div>
 </div>
 
- <div class="modal fade" id="addPoster" style="margin-top: 50px;">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                  aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">添加</h4>
+<div class="modal fade" id="addPoster" style="margin-top: 50px;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">添加/修改首页图片</h4>
+      </div>
+      <form id="postPoster" method="post" class="form-horizontal">
+        <div class="modal-body">
+          {{ pform.hidden_tag() }}
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="imageUrl"><span class="required-star">* </span>图片链接</label>
+
+            <div class="col-sm-9">
+              {{ pform.img_url(class="form-control required", id="imageUrl", placeholder="图片链接") }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="newsUrl"><span class="required-star">* </span>新闻链接</label>
+
+            <div class="col-sm-9">
+              {{ pform.link_url(class='form-control required',id="newsUrl" , placeholder="新闻链接") }}
+            </div>
+          </div>
         </div>
-          <form id="postForm" method="post" class="form-horizontal">
-          <div class="modal-body">
-              {{ pform.hidden_tag() }}
-                <div class="form-group">
-                  <label class="control-label col-sm-2" for="imageUrl"><span class="required-star">* </span>图片链接</label>
-                  <div class="col-sm-9">
-                    {{ pform.img_url(class="form-control required",id="imageUrl", placeholder="图片链接") }}
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2" for="newsUrl"><span class="required-star">* </span>新闻链接</label>
-                  <div class="col-sm-9">
-                    {{ pform.link_url(class='form-control required',id="newsUrl" , placeholder="新闻链接") }}
-                  </div>
-                </div>
-          </div>
-          <div class="modal-footer">
-            {{ pform.submit(class='btn btn-primary', value='提交') }}
-            <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
-          </div>
-          </form>
+        <div class="modal-footer">
+          {{ pform.submit(class='btn btn-primary', value='提交') }}
+          <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="delPoster" style="margin-top: 50px;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 1.4em;">是否确定删除当前选定项！</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-flat del-poster">确定删除</button>
+        <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
 
 {%- block script -%}
-    <script>
-        $(document).ready(function() {
-            $('.poster_item').click(function(){
-            });
-
-        $('#postForm').submit(function () {
-        var data = new FormData($('#postForm')[0]);
-        data.append('opt', 'set');
-        $.ajax({
-          url: "{{ url_for('ajax.manage_poster') }}",
-          type: "POST",
-          data: data,
-          processData: false,  // 告诉jQuery不要去处理发送的数据
-          contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-          success: function (msg) {
-            if (msg == '操作成功') {
-                window.location.reload();
-            } else {
-                $('.closeModal').click();
-                alert(msg);
-            }
-          }
-        });
-        return false;
+<script src="{{ url_for('static', filename='masonry/imagesloaded.pkgd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='masonry/masonry.pkgd.min.js') }}"></script>
+<script>
+  function make_masonry() {
+    var $container = $('.poster-wall');
+    $container.imagesLoaded(function(){
+      $container.masonry({
+        itemSelector : '.col-md-3',
+        isAnimated: true
       });
-        });
-    </script>
+    });
+  }
+  $(document).ready(function () {
+    make_masonry();
+    $('.to-del-poster').on('click', function () {
+      console.log($(this).data('poster'));
+      $('.del-poster').data('poster', $(this).data('poster'));
+    });
 
+    $('.to-edit-poster').on('click', function () {
+      var key = $(this).data('poster');
+      var value = $(this).data('value');
+      $('#imageUrl').val(key);
+      $('#newsUrl').val(value);
+      $('#addPoster').modal('show');
+    });
+
+    $('.del-poster').on('click', function () {
+      var data = new FormData();
+      data.append('img_url', $(this).data('poster'));
+      data.append('opt', 'delete');
+      $.ajax({
+        url: "{{ url_for('ajax.manage_poster') }}",
+        type: "POST",
+        data: data,
+        processData: false,
+        contentType: false,
+        success: function (msg) {
+          if (msg == 'Success') {
+            window.location.reload();
+          } else {
+            $('.closeModal').click();
+            alert(msg);
+          }
+        }
+      });
+      return false;
+    });
+
+    $('#postPoster').submit(function () {
+      var data = new FormData($('#postPoster')[0]);
+      data.append('opt', 'set');
+      $.ajax({
+        url: "{{ url_for('ajax.manage_poster') }}",
+        type: "POST",
+        data: data,
+        processData: false,  // 告诉jQuery不要去处理发送的数据
+        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+        success: function (msg) {
+          if (msg == 'Success') {
+            window.location.reload();
+          } else {
+            $('.closeModal').click();
+            alert(msg);
+          }
+        }
+      });
+      $('#imageUrl').val('');
+      $('#newsUrl').val('');
+      return false;
+    });
+
+  });
+</script>
 {%- endblock -%}
