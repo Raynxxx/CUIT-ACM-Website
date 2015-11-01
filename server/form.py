@@ -106,7 +106,7 @@ class SolutionForm(Form):
 class NewsForm(Form):
     sid = IntegerField('id',validators=[validators.optional()],default=-1)
     title = StringField(u'标题', validators=[validators.DataRequired()])
-    url = StringField(u'url', validators=[validators.DataRequired(), validators.Regexp('^[a-zA-Z0-9-_&+%]*$', flags=0)])
+    url = StringField(u'url', validators=[validators.optional(), validators.Regexp('^[a-zA-Z0-9-_&+%]*$', flags=0)])
     content = TextAreaField(u'正文', validators=[validators.DataRequired(),validators.Length(min=10)])
     is_top = BooleanField(u'置顶')
     tags = TagListField(u'标签', validators=[validators.DataRequired()])

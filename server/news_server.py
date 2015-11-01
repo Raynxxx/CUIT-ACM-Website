@@ -69,10 +69,14 @@ def get_list(offset=0, limit=10, show_draft=False, coach=None):
             .order_by(News.is_top.desc(), News.last_update_time.desc())\
             .offset(offset).limit(limit).all()
 
-def get_recent(limit=5):
-    return News.query.filter(News.is_draft==0)\
-            .order_by(News.last_update_time.desc())\
-            .offset(0).limit(limit).all()
+def get_recent(limit=5, sortTop = False):
+    query = News.query.filter(News.is_draft==0)
+    if sortTop:
+        query = query.order_by(News.is_top.desc(), News.last_update_time.desc())
+    else:
+        query = query.order_by(News.last_update_time.desc())
+    return query.offset(0).limit(limit).all()
+
 
 def get_by_id(sid):
     return News.query.filter(News.id == sid).first_or_404()

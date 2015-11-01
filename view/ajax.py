@@ -760,7 +760,13 @@ def delete_article():
     except Exception, e:
         return u'删除失败'
 
-#opt set or delete
+
+#
+# @brief: ajax to manage poster
+# @route: /ajax/manage_poster
+# @accepted methods: [post]
+# @allowed user: admin
+#
 @ajax.route("/ajax/manage_poster", methods= ['POST'])
 @login_required
 def manage_poster():
@@ -772,7 +778,7 @@ def manage_poster():
             return u'操作不支持'
         getattr(poster, opt)(url_key, url_value)
         poster.save_config()
-        return u'操作成功'
+        return u'Success'
     except Exception:
         return u'操作失败'
 

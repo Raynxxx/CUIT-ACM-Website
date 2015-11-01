@@ -107,8 +107,7 @@
         {% endif %}
         {% if user == current_user %}
           <li><a href="{{ url_for('profile.manage_resource') }}"><i class="fa fa-file"></i> <span>资源</span></a></li>
-          <li><a href="{{ url_for('profile.manage_article') }}"><i class="fa fa-book"> </i> <span>题解</span></a></li>
-
+          <!--<li><a href="{{ url_for('profile.manage_article') }}"><i class="fa fa-book"> </i> <span>题解</span></a></li>-->
         {% endif %}
       </ul>
     </section>

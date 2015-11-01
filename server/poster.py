@@ -20,6 +20,7 @@ def save_poster_config(brand_info):
         fp.write(line)
     fp.close()
 
+
 class Poster(object):
 
     def __new__(cls, *args, **kw):

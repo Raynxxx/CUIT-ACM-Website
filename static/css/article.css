@@ -247,6 +247,8 @@
 }
 .box-tools .btn-link:hover {
   color: #258fb8;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .filter-row {
@@ -267,14 +269,16 @@
 }
 
 .news-list .news-item {
-  font-size: 1.8em;
+  font-size: 1.6em;
   margin: 10px;
+  clear: both;
+  border-bottom: 0.05em dashed #c5c5c5;
 }
 
 .news-list .news-item .news-title {
   color: #222;
+  font-size: 1em;
   font-weight: 600;
-  font-family: "Consolas", sans-serif;
 }
 .news-list .news-item .news-title:hover {
   color: inherit;
@@ -284,10 +288,12 @@
 
 .news-list .news-date {
   float: right;
-  color: #777;
+  color: #555;
   font-size: 0.8em;
   font-weight: 600;
   font-family: "Consolas", sans-serif;
+  vertical-align: middle;
+  padding-top: 0.3em;
 }
 
 .news-box .pager {
