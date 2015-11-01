@@ -59,7 +59,7 @@ def logout():
 @main.route('/index')
 def index():
     title = 'CUIT ACM Team'
-    recent_news = news_server.get_recent()
+    recent_news = news_server.get_recent(sortTop=True)
     return render_template('index/index.html',
                            title = title,
                            poster = poster.items(),

@@ -2,7 +2,6 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   {% if title -%}
@@ -44,11 +43,11 @@
             <li><a href="{{ url_for('main.index') }}">首页</a></li>
             <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>
             <li><a href="{{ url_for('main.honor_wall') }}">荣誉墙</a></li>
-            <li><a href="http://oj.duxy.me" target="_blank">CUIT OJ</a></li>
+            <li><a href="http://oj.duxy.me" target="_blank">判题系统</a></li>
             {% if current_user.is_authenticated() %}
-            <li><a href="{{ url_for('main.ranklist') }}">查水表</a></li>
-            <li><a href="{{ url_for('main.status') }}">最近提交</a></li>
-            <li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>
+              <li><a href="{{ url_for('main.ranklist') }}">查水表</a></li>
+              <li><a href="{{ url_for('main.status') }}">最近提交</a></li>
+              <li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>
             {% endif %}
             <!--
             <li><a href="http://222.18.167.49/" target="_blank">校内OJ</a></li>

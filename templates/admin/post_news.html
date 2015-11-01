@@ -18,7 +18,7 @@
       {{ news_form.hidden_tag() }}
       {{ news_form.sid(style="display:none") }}
       <div class="form-group">
-        <label class="control-label col-sm-2" for="inputTitle">新闻标题</label>
+        <label class="control-label col-sm-2" for="inputTitle"><span class="required-star">* </span>新闻标题</label>
         <div class="col-sm-6">
           {{ news_form.title(class="form-control required",id="inputTitle", placeholder="在此填入标题") }}
         </div>
@@ -27,7 +27,7 @@
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputUrl">固定链接</label>
         <div class="col-sm-9">
-          {{ news_form.url(class="form-control required",id="inputUrl", placeholder="固定链接URL") }}
+          {{ news_form.url(class="form-control",id="inputUrl", placeholder="固定链接URL") }}
         </div>
       </div>
       <div class="form-group">
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="inputContent">正文</label>
+        <label class="control-label col-sm-2" for="inputContent"><span class="required-star">* </span>正文</label>
         <div class="col-sm-9">
           {{ news_form.content(class='required', id="inputContent" , rows="30", style="resize:none;padding:10px;" , placeholder="正文") }}
         </div>
