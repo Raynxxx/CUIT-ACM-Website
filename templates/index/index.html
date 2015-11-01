@@ -42,13 +42,13 @@
         <ul class="nav navbar-nav">
           <li class="active"><a onclick="return false;">首页 <span class="sr-only">(current)</span></a></li>
           <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>
-          <li><a href="{{ url_for('main.honor_wall') }}">荣誉墙</a></li>
-          <li><a href="http://oj.duxy.me">判题系统</a></li>
           {% if current_user.is_authenticated() %}
             <li><a href="{{ url_for('main.ranklist') }}">查水表</a></li>
             <li><a href="{{ url_for('main.status') }}">最近提交</a></li>
-            <li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>
+            <!--<li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>-->
           {% endif %}
+          <li><a href="{{ url_for('main.honor_wall') }}">荣誉墙</a></li>
+          <li><a href="http://oj.duxy.me">判题系统</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {%- if current_user.is_authenticated() -%}
