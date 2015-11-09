@@ -79,3 +79,20 @@ body>.container {
   font-size: 1.2em;
   font-weight: 900;
 }
+
+.carousel-inner .item.active {
+  border: 2px solid #eee;
+}
+.carousel-inner .item.active img {
+  width: 100%;
+  box-shadow: 1px 2px 2px #e5e5e5;
+}
+#recent_contest_table {
+  table-layout: fixed;
+}
+#recent_contest_table td:nth-of-type(2) {
+  word-break:keep-all;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

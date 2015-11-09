@@ -5,16 +5,37 @@
 .navbar-nav > li.active {
     background-color: #367fa9;
 }
+#search_filter {
+  margin-bottom: 15px;
+  padding: 8px 2px;
+  border-top: 3px solid #3c8dbc;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+#search_filter .control-label {
+  margin: 0 5px;
+}
 
 #search_filter .form-filter {
   margin: 0 5px;
 }
-#search_filter .control-label {
-  margin: 0 10px;
+
+#search_filter input[id='pid'],
+#search_filter input[id='uid'] {
+  width: 120px !important;
 }
+
 #search_filter .form-submit {
-  margin-left: 30px;
+  padding: 5px;
+  margin-left: 10px;
 }
+
+#status_data_table {
+  margin-top: 0 !important;
+}
+
 .radio-inline, .checkbox-inline {
   padding-left: 2px !important;
 }
@@ -220,6 +241,9 @@
 }
 .list-item-users {
   width: 15%;
+}
+.list-item-users .label {
+  display: inline-block;
 }
 
 

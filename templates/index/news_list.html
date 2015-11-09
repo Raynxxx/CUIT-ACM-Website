@@ -21,7 +21,7 @@
             {% for one in news %}
               <li class="news-item">
                 <i class="fa fa-angle-right"></i>
-                <a href="{{ url_for('main.news', url=one.url) }}" class="news-title">
+                <a href="{{ url_for('main.news', p=one.id) }}" class="news-title">
                   {% if one.is_top %}
                     <span class="text-red text-bold">[置顶]</span>
                   {% endif %}

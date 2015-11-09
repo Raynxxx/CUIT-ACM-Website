@@ -32,3 +32,4 @@ The New CUIT ACM Website Project.
 |lxml|3.4.3|
 |Markdown|2.6.2|
 |pyDes|2.0.1|
+|Flask-Cache|0.13.1|

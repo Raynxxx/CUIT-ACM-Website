@@ -29,11 +29,12 @@ def recent_contests():
     for contest in json_contests:
         name, link = contest['name'], contest['link']
         new_contest = {
-            'name': '<a href="' + link + '">' + name + '</a>'
+            'oj': contest['oj'],
+            'name': '<a href="' + link + '" class="contest-name" title="' + name + '">' + name + '</a>',
+            'start_time': contest['start_time'],
+            'week': contest['week'],
+            'access': contest['access'],
         }
-        for key, value in contest.items():
-            if key not in ('id', 'name', 'link'):
-                new_contest[key] = value
         contests.append(new_contest)
     ret = { 'data': contests }
     return json.JSONEncoder().encode(ret)
