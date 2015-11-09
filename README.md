@@ -5,6 +5,7 @@ The New CUIT ACM Website Project.
 配合后端爬虫使用 [CUIT-ACM-Spider](https://github.com/Raynxxx/CUIT-ACM-Spider)
 
 ## 版本发布
+* `0.3 release` 修正 0.2 beta bug, 新版首页, 新闻，正式上线使用
 * `0.1 beta` 用户管理模块, 新闻模块, 做题的提交信息.
 * `0.2 beta` 修正 `0.1 beta` bug, 加入用户修改密码, 水题榜界面更新, 新版首页, 媒体资源上传与管理, 荣誉墙
 
