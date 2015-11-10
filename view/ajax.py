@@ -104,6 +104,23 @@ def create_user():
         return u"添加用户失败: 表单填写有误"
 
 
+
+#
+# @brief: pass user apply
+# @route: /ajax/pass_user
+# @accepted methods: [post]
+# @allowed user: admin and coach
+# @ajax return: 用户是否通过成功
+#
+@ajax.route('/ajax/pass_user', methods=["POST"])
+@login_required
+def pass_user():
+    if not current_user.is_admin and not current_user.is_coach:
+        print u"你没有权限访问该模块"
+        return redirect(url_for('main.index'))
+    # TODO
+
+
 #
 # @brief: add many users
 # @route: /ajax/create_users
@@ -213,7 +230,7 @@ def delete_user():
     try:
         id = request.form.get('user_id')
         user_server.delete_by_id(id)
-        return "删除用户成功"
+        return u"删除用户成功"
     except Exception, e:
         return u"删除用户失败: " + e.message
 

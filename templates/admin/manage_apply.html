@@ -10,18 +10,18 @@
     {% for user in apply_users %}
     <div class="apply-box col-xs-12 col-sm-4 col-md-3">
       <div class="thumbnail">
-        <!--<img src="{{ user.gravatar(256) }}">-->
         <div class="caption">
-          <h3>{{ user.name }}</h3>
-          <p><i class="fa fa-angle-right"></i> {{ '男' if user.gender else '女' }}</p>
-          <p><i class="fa fa-angle-right"></i> {{ SCHOOL_MAP.get(user.school, '') }}</p>
-          <p><i class="fa fa-angle-right"></i> {{ COLLEGE_MAP.get(toInt(user.college), '未知') }} {{ user.grade }} 级</p>
-          <p class="apply-reason"> {{ user.apply_reason }}</p>
-
+          <h2><img src="{{ user.gravatar(36) }}" class="apply-face img-circle"> {{ user.name }}</h2>
+          <p><i class="fa fa-transgender"></i> {{ '男' if user.gender else '女' }}</p>
+          <p><i class="fa fa-asterisk"></i> {{ SCHOOL_MAP.get(user.school, '') }}</p>
+          <p><i class="fa fa-bars"></i> {{ COLLEGE_MAP.get(toInt(user.college), '未知') }} {{ user.grade }} 级</p>
+          <p><i class="fa fa-envelope-o"></i> {{ user.email }}</p>
+          <div class="apply-reason"> {{ user.apply_reason * 15 }}</div>
         </div>
         <div class="btn-group btn-group-justified">
-            <a class="btn btn-danger btn-flat"><i class="fa fa-check"></i></a>
-            <a class="btn btn-default btn-flat"><i class="fa fa-times"></i></a>
+            <a class="btn btn-danger btn-flat to_pass_user" data-uid="{{ user.id }}"
+                    data-toggle="modal" data-target="#myModal"><i class="fa fa-check"></i></a>
+            <a class="btn btn-default btn-flat reject_user" data-uid="{{ user.id }}"><i class="fa fa-times"></i></a>
           </div>
       </div>
     </div>
@@ -36,10 +36,10 @@
           <h4 class="modal-title">提示</h4>
         </div>
         <div class="modal-body">
-          <p style="font-size: 1.4em;">是否确定通过当前用户的申请！</p>
+          <p style="font-size: 1.4em;">确定通过当前用户的申请！</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger btn-flat delete_user">确定</button>
+          <button type="button" class="btn btn-danger btn-flat pass_user">确定</button>
           <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
         </div>
       </div>
@@ -48,7 +48,33 @@
 {% endblock %}
 
 {%- block script -%}
-  <script>
-
-  </script>
+<script src="{{ url_for('static', filename='masonry/masonry.pkgd.min.js') }}"></script>
+<script>
+  function make_masonry() {
+    var $container = $('.apply-wall');
+    $container.masonry({
+      itemSelector : '.apply-box',
+      isAnimated: true
+    });
+  }
+  function pass_user(uid) {
+    // TODO
+  }
+  function reject_user(uid) {
+    // TODO
+  }
+  $(document).ready(function () {
+    make_masonry();
+    $('.to_pass_user').on('click', function() {
+      $('.pass_user').data('uid', $(this).data(uid));
+    });
+    $('.pass_user').on('click', function() {
+      pass_user($(this).data('uid'));
+    });
+    $('.reject_user').on('click', function() {
+      alert('reject_user');
+      reject_user($(this).data('uid'));
+    });
+  });
+</script>
 {%- endblock -%}

@@ -328,19 +328,38 @@
 /*
  * Apply Management
  */
-
-.apply-box img {
-  box-shadow: 0 1px 1px #999;
+.apply-box .thumbnail {
+  padding: 0 !important;
 }
 
-.apply-box h3 {
+.apply-box h2 {
   margin-top: 5px;
+  text-shadow: 0 1px 1px #777;
+}
+
+.apply-box .apply-face {
+  height: 32px;
+  vertical-align: top;
+  box-shadow: 0 1px 1px #999;
 }
 
 .apply-box p {
   margin-bottom: 2px;
+  text-shadow: 0 0 1px #aaa;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.apply-box p .fa {
+  margin-right: 5px;
 }
 
 .apply-box .apply-reason {
   font-weight: 500;
+  font-style: italic;
+  margin-top: 5px;
+  word-wrap: break-word;
+  word-break: break-all;
+  background-color: #eee;
+  padding: 4px;
 }
+
