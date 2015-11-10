@@ -16,7 +16,7 @@ def load_poster_config():
 def save_poster_config(brand_info):
     fp = open(BRAND_CONFIG_DEST, 'w')
     for key in brand_info:
-        line = "{0} {1}\n".format(key, brand_info[key])
+        line = "{0} {1}".format(key, brand_info[key])
         fp.write(line)
     fp.close()
 
