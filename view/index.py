@@ -34,7 +34,7 @@ def login():
             login_user(user, remember=login_form.remember_me.data)
             return redirect(request.args.get('next') or url_for('main.index'))
     else:
-        flash(u'用户不存在!')
+        pass
     return render_template('index/login.html',
                            title = u'登录',
                            login_form = login_form)
