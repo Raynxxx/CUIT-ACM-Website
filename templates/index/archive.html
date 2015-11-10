@@ -9,13 +9,14 @@
 
 {% block content %}
 <div class="row">
+  {% if not archives %}
+    <div class="col-sm-offset-1 col-sm-10 text-center">
+      <h1>无数据</h1>
+    </div>
+  {% endif %}
   <div class="col-sm-12">
-  <div class="archive-list">
-    {% if not archives %}
-      <div class="alert alert-info">
-        <span>无数据</span>
-      </div>
-    {% else %}
+    {% if archives %}
+    <div class="archive-list">
       {% for year in archives %}
         <div class="archive">
           <p class="archive-year">{{ year }}</p>
@@ -30,8 +31,8 @@
           </ul>
         </div>
       {% endfor %}
+    </div>
     {% endif %}
-  </div>
   </div>
 </div>
 {% endblock %}

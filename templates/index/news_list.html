@@ -11,6 +11,7 @@
         <h1>无新闻</h1>
       </div>
     {% endif %}
+    {% if news %}
     <div class="col-sm-offset-1 col-sm-7">
       <div class="box box-primary news-box">
         <div class="box-header with-border">
@@ -50,12 +51,12 @@
             </nav>
           {% endif %}
         </div>
-
       </div>
-
     </div>
+    {% endif %}
+
     <div class="col-sm-3">
-      {% if recent_news != [] %}
+      {% if recent_news %}
         <div class="box box-default">
           <div class="box-header with-border">
             <h3 class="box-title">近期新闻</h3>
@@ -68,15 +69,13 @@
                 </a></li>
               {% endfor %}
             </ul>
-
           </div>
         </div>
       {% endif %}
-      {% if tags != [] %}
+      {% if tags %}
         <div class="box box-default">
           <div class="box-header with-border">
             <h3 class="box-title"> 标签云</h3>
-
             <div class="box-tools pull-right">
               <a class="btn btn-link btn-sm" href="{{ url_for('main.news_archive') }}">新闻存档 >></a>
             </div>

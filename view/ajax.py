@@ -20,6 +20,7 @@ from server.account_server import AccountUpdatingException, AccountExistExceptio
 ajax = blueprints.Blueprint('ajax', __name__)
 
 
+
 @ajax.route("/ajax/contest.json", methods=['GET'])
 def recent_contests():
     import json
@@ -72,6 +73,7 @@ def get_user_list():
     return jsonify(user_list=[get_user_list_item(user) for user in users],
                    sum=sum, offset=int(offset), limit=len(users))
 
+
 #
 # @brief: add user
 # @route: /ajax/create_user
@@ -101,6 +103,14 @@ def create_user():
         #print reg_form.errors
         return u"添加用户失败: 表单填写有误"
 
+
+#
+# @brief: add many users
+# @route: /ajax/create_users
+# @accepted methods: [post]
+# @allowed user: admin and coach
+# @ajax return: 用户添加成功的数量
+#
 @ajax.route('/ajax/create_users', methods=["POST"])
 @login_required
 def create_users():
@@ -109,7 +119,7 @@ def create_users():
     reg_form = form.MultiRegisterForm()
     if reg_form.validate_on_submit():
         try:
-            ret = user_server.create_mul_users(reg_form, current_user)
+            ret = user_server.create_many_users(reg_form, current_user)
             return ret
         except Exception, e:
             return u"添加用户失败: " + e.message
@@ -146,6 +156,7 @@ def edit_user():
         #print user_modify_form.errors
         return u"修改用户失败: 表单填写有误"
 
+
 #
 # @brief: edit user for self
 # @route: /ajax/edit_user_self
@@ -167,6 +178,7 @@ def edit_user_self():
     else:
         #print user_modify_form.errors
         return u"修改用户失败: 表单填写有误"
+
 
 #
 # @brief: modify password
@@ -205,6 +217,7 @@ def delete_user():
     except Exception, e:
         return u"删除用户失败: " + e.message
 
+
 #
 # @brief: ajax html for one user item
 # @allowed user: administrator
@@ -212,6 +225,7 @@ def delete_user():
 @login_required
 def get_news_list_item(news):
     return render_template('ajax/news_list_item.html', news=news)
+
 
 #
 # @brief: ajax news list

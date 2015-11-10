@@ -106,6 +106,7 @@ def manage_resource():
                            upload_form = file_upload_form)
 
 
+#not used
 @profile.route("/profile/manage_article", methods = ['GET'])
 @login_required
 def manage_article():
@@ -113,6 +114,7 @@ def manage_article():
                            title=u'题解管理',
                            user = current_user,
                            limit = config.ARTICLE_MANAGE_PER_PAGE)
+
 
 @profile.route('/profile/post_article', methods=['GET'])
 @login_required

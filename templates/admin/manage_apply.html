@@ -1,0 +1,54 @@
+{% extends "admin/base.html" %}
+{% block head %}
+{% endblock %}
+
+{% block content_header -%}
+{%- endblock %}
+
+{% block content %}
+  <div class="row apply-wall">
+    {% for user in apply_users %}
+    <div class="apply-box col-xs-12 col-sm-4 col-md-3">
+      <div class="thumbnail">
+        <!--<img src="{{ user.gravatar(256) }}">-->
+        <div class="caption">
+          <h3>{{ user.name }}</h3>
+          <p><i class="fa fa-angle-right"></i> {{ '男' if user.gender else '女' }}</p>
+          <p><i class="fa fa-angle-right"></i> {{ SCHOOL_MAP.get(user.school, '') }}</p>
+          <p><i class="fa fa-angle-right"></i> {{ COLLEGE_MAP.get(toInt(user.college), '未知') }} {{ user.grade }} 级</p>
+          <p class="apply-reason"> {{ user.apply_reason }}</p>
+
+        </div>
+        <div class="btn-group btn-group-justified">
+            <a class="btn btn-danger btn-flat"><i class="fa fa-check"></i></a>
+            <a class="btn btn-default btn-flat"><i class="fa fa-times"></i></a>
+          </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="modal fade" id="myModal" style="margin-top: 50px;">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">提示</h4>
+        </div>
+        <div class="modal-body">
+          <p style="font-size: 1.4em;">是否确定通过当前用户的申请！</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-flat delete_user">确定</button>
+          <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{%- block script -%}
+  <script>
+
+  </script>
+{%- endblock -%}

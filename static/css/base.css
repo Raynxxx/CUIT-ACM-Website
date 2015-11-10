@@ -324,3 +324,23 @@
   text-align: center !important;
   vertical-align: middle !important;
 }
+
+/*
+ * Apply Management
+ */
+
+.apply-box img {
+  box-shadow: 0 1px 1px #999;
+}
+
+.apply-box h3 {
+  margin-top: 5px;
+}
+
+.apply-box p {
+  margin-bottom: 2px;
+}
+
+.apply-box .apply-reason {
+  font-weight: 500;
+}

@@ -6,7 +6,7 @@ from wtforms import BooleanField, SubmitField, RadioField, IntegerField, \
 from wtforms import SelectField
 from wtforms import Field, widgets
 import wtforms.validators as validators
-from config import OJ_MAP, SCHOOL_MAP ,HONOR_LEVEL_MAP
+from config import OJ_MAP, SCHOOL_MAP ,HONOR_LEVEL_MAP ,SCHOOL_COLLEGE_MAP
 
 
 class LoginForm(Form):
@@ -29,9 +29,18 @@ class RegisterForm(Form):
     school = SelectField('school', validators=[validators.DataRequired()],
                          choices=[(school, SCHOOL_MAP[school]) for school in SCHOOL_MAP],
                          default='cuit')
+    college = SelectField('college', validators=[validators.Optional()],
+                          choices=[(str(college), SCHOOL_COLLEGE_MAP[college]) for college in SCHOOL_COLLEGE_MAP],
+                          default=0)
+    import datetime
+    now_year = datetime.datetime.now().year
+    grade = SelectField('grade', validators=[validators.Optional()], choices=[(str(y), y) for y in range(now_year, now_year - 5, -1)],
+                        default=now_year)
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
     email = StringField('Email', validators=[validators.Optional(), validators.Length(min=1, max=64), validators.Email()])
-    submit = SubmitField(u'注册')
+    apply_reason = TextAreaField(u'申请理由', validators=[validators.Optional()])
+    submit = SubmitField(u'提交申请')
+
 
 class MultiRegisterForm(Form):
     user_info = TextAreaField(u'用户信息', validators=[validators.DataRequired()])
