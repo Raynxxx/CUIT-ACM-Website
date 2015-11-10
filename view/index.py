@@ -28,12 +28,40 @@ def login():
             flash(u'用户不存在!')
         elif not user.verify_password(login_form.password.data):
             flash(u'密码错误!')
+        elif user.is_apply:
+            flash(u'用户未通过审核')
         else:
             login_user(user, remember=login_form.remember_me.data)
             return redirect(request.args.get('next') or url_for('main.index'))
+    else:
+        flash(u'用户不存在!')
     return render_template('index/login.html',
+                           title = u'登录',
                            login_form = login_form)
 
+#
+# @brief: join us page
+# @route: /join_us
+# @accepted methods: [get, post]
+# @allowed user: all
+#
+@main.route('/join_us', methods=["GET", "POST"])
+def join_us():
+    join_form = form.RegisterForm()
+    if join_form.validate_on_submit():
+        try:
+            ret = user_server.create_user(join_form, 8)
+            if ret == 'OK':
+                flash(u"提交申请成功")
+            else:
+                flash(u"提交申请失败: " + ret)
+        except Exception, e:
+            flash(u"提交申请失败: " + e.message)
+    else:
+        pass
+    return render_template('index/register.html',
+                           title = u'加入我们',
+                           join_form = join_form)
 
 #
 # @brief: logout action, to redirect login page
@@ -58,10 +86,9 @@ def logout():
 @main.route('/')
 @main.route('/index')
 def index():
-    title = 'CUIT ACM Team'
     recent_news = news_server.get_recent(sortTop=True)
     return render_template('index/index.html',
-                           title = title,
+                           title = 'CUIT ACM Team',
                            poster = poster.items(),
                            recent_news = recent_news,
                            recommend_site = config.RECOMMEND_SITE,
@@ -168,7 +195,7 @@ def ranklist():
 @login_required
 def status():
     return render_template('index/status.html',
-                           title = u'提交')
+                           title = u'最近提交')
 
 
 #
@@ -236,7 +263,9 @@ def article():
         pid = request.args['p']
         one = article_server.get_by_id(pid)
         recent_articles = article_server.get_recent()
-        return render_template('index/article.html', one=one,
+        return render_template('index/article.html',
+                               title = one.title,
+                               one = one,
                                recent_articles = recent_articles)
     except:
         return redirect(url_for('main.article_list'))
@@ -300,7 +329,7 @@ def honor(honor_id=None):
         return redirect(url_for('main.honor_wall'))
     honor = honor_server.get_by_id(honor_id)
     return render_template('index/honor.html',
-                           title = u'荣誉墙',
+                           title = u'荣誉',
                            honor = honor,
                            HONOR_LEVEL_MAP = HONOR_LEVEL_MAP)
 

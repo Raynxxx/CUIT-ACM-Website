@@ -13,13 +13,16 @@ def create_user(user_form, user_rights):
                 school = user_form.school.data,
                 gender = True if user_form.gender.data == '1' else False,
                 email = user_form.email.data)
+    new_user.college = user_form.college.data
+    new_user.grade = user_form.grade.data
+    new_user.apply_reason = user_form.apply_reason.data
     new_user.rights = user_rights
     new_user.stu_id = user_form.stu_id.data
     new_user.phone = user_form.phone.data
     new_user.save()
     return 'OK'
 
-def create_mul_users(user_form, current_user):
+def create_many_users(user_form, current_user):
     success_count = 0
     try:
         for info in user_form.user_info.data.split(';'):
@@ -86,20 +89,36 @@ def get_user_choice():
     users = db.session.query(User.username, User.name).all()
     return [(user[0], user[1]) for user in users]
 
-def get_list(offset=0, limit=20, school=None):
-    if not school:
-        users = User.query.offset(offset).limit(limit).all()
+def get_list(offset=0, limit=20, school=None, isApply=False):
+    if not isApply:
+        if not school:
+            users = User.query.filter(User.rights < 8)
+        else:
+            users = User.query.filter(User.school==school, User.rights < 4)
     else:
-        users = User.query.filter(User.school==school, User.rights < 4).offset(offset).limit(limit).all()
+        if not school:
+            users = User.query.filter(User.rights >= 8)
+        else:
+            users = User.query.filter(User.school==school, 8 <= User.rights < 12)
+    if offset == 0 and limit == -1:
+        users = users.all()
+    else:
+        users = users.offset(offset).limit(limit).all()
     return users
 
 
-def get_count(school=None):
-    if not school:
-        count = User.query.count()
+def get_count(school=None, isApply=False):
+    if not isApply:
+        if not school:
+            users = User.query.filter(User.rights < 8)
+        else:
+            users = User.query.filter(User.school==school, User.rights < 4)
     else:
-        count = User.query.filter(User.school==school, User.rights < 4).count()
-    return count
+        if not school:
+            users = User.query.filter(User.rights >= 8)
+        else:
+            users = User.query.filter(User.school==school, 8 <= User.rights < 12)
+    return users.count()
 
 
 def modify_password(pwd_modify_form, current_user):

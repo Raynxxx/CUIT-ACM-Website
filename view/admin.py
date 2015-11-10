@@ -39,7 +39,9 @@ def sys_info():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     sys = general.get_sys_info()
-    return render_template('sys_info.html', sys=sys)
+    return render_template('sys_info.html',
+                           title = u'系统信息',
+                           sys=sys)
 
 
 #
@@ -57,6 +59,28 @@ def manage_user():
                            title = u'用户管理',
                            limit = config.USER_MANAGE_PER_PAGE)
 
+#
+# @brief: the page for administrator to manage users
+# @route: /admin/manage_user
+# @accepted methods: [get]
+# @allowed user: administrator
+#
+@admin.route('/admin/manage_apply', methods=["get"])
+@login_required
+def manage_apply():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    apply_users = list()
+    if current_user.is_admin:
+        apply_users = user_server.get_list(limit=-1, isApply=True)
+    elif current_user.is_coach:
+        apply_users = user_server.get_list(limit=-1, school=current_user.school, isApply=True)
+    return render_template('manage_apply.html',
+                           title = u'新生申请验证',
+                           apply_users = apply_users,
+                           SCHOOL_MAP = config.SCHOOL_MAP,
+                           COLLEGE_MAP = config.SCHOOL_COLLEGE_MAP,
+                           toInt = int)
 
 #
 # @brief: the page for administrator to manage user

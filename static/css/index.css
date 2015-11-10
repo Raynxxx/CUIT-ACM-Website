@@ -57,6 +57,30 @@ body>.container {
   text-decoration: none;
 }
 
+.index-button {
+  margin-bottom: 15px;
+  padding: 0;
+  border: 2px solid #367fa9;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: background-color 1s, color 1s;
+}
+
+.index-button .btn {
+  background-color: transparent;
+  font-size: 2em;
+  font-weight: 800;
+}
+
+.index-button:hover {
+  color: #fff;
+  background-color: #367fa9;
+}
+
+.index-button:hover .btn {
+  color: #fff;
+}
+
 .index-block {
   border-top: 4px solid #367fa9;
 }
@@ -78,4 +102,21 @@ body>.container {
   padding: 5px 10px;
   font-size: 1.2em;
   font-weight: 900;
+}
+
+.carousel-inner .item.active {
+  border: 2px solid #eee;
+}
+.carousel-inner .item.active img {
+  width: 100%;
+  box-shadow: 1px 2px 2px #e5e5e5;
+}
+#recent_contest_table {
+  table-layout: fixed;
+}
+#recent_contest_table td:nth-of-type(2) {
+  word-break:keep-all;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

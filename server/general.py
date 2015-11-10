@@ -12,7 +12,9 @@ from sqlalchemy import or_
 def get_rank_list(limit=1024):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc', 'vj']
     info_list = []
-    users = User.query.filter(User.active==1).order_by(User.score.desc()).limit(limit)
+    users = User.query.filter(User.active==1, User.rights < 8)\
+                .order_by(User.score.desc())\
+                .limit(limit)
     rank = 1
     for user in users:
         cur = {
@@ -43,16 +45,26 @@ def get_weekly_info(last_week, limit=100):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc']
     info_list = []
     if last_week:
-        users = User.query.filter(User.active==1).order_by(User.last_week_solved.desc(), User.score.desc()).limit(limit)
+        users = User.query.filter(User.active==1, User.rights < 8)\
+                    .order_by(User.last_week_solved.desc(), User.score.desc())\
+                    .limit(limit)
         for user in users:
-            cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.last_week_solved,
-                   'submitted': user.last_week_submit, 'score': user.score}
+            cur = {
+                'sno': user.stu_id, 'name': user.name, 'username': user.username,
+                'solved': user.last_week_solved, 'submitted': user.last_week_submit,
+                'score': user.score
+            }
             info_list.append(cur)
     else:
-        users = User.query.filter(User.active==1).order_by(User.current_week_solved.desc(), User.score.desc()).limit(limit)
+        users = User.query.filter(User.active==1, User.rights < 8)\
+                    .order_by(User.current_week_solved.desc(), User.score.desc())\
+                    .limit(limit)
         for user in users:
-            cur = {'sno': user.stu_id, 'name': user.name, 'username': user.username, 'solved': user.current_week_solved,
-                   'submitted': user.current_week_submit, 'score': user.score}
+            cur = {
+                'sno': user.stu_id, 'name': user.name, 'username': user.username,
+                'solved': user.current_week_solved, 'submitted': user.current_week_submit,
+                'score': user.score
+            }
             info_list.append(cur)
     rank = 1
     for info in info_list:
@@ -74,7 +86,8 @@ def check_update_status(user):
 
 def update_all_account_status(user):
     if user.account:
-        accounts = user.account.filter(Account.update_status==AccountStatus.NORMAL).with_lockmode('update').all()
+        accounts = user.account.filter(Account.update_status==AccountStatus.NORMAL)\
+                        .with_lockmode('update').all()
         for account in accounts:
             account.update_status = AccountStatus.WAIT_FOR_UPDATE
             account.save()
@@ -105,7 +118,9 @@ def related_article_count(submit):
 def get_sys_info():
     sys_info = dict()
     sys_info['time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    sys_info['user_count'] = User.query.count()
+    import user_server
+    sys_info['user_count'] = user_server.get_count()
+    sys_info['apply_count'] = user_server.get_count(isApply=True)
     today = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     sys_info['daily_submit'] = Submit.query.filter(Submit.submit_time > today).count()
     sys_info['total_submit'] = Submit.query.count()

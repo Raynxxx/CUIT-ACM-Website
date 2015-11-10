@@ -95,9 +95,13 @@
       <div id="index-poster" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-          <li data-target="#index-poster" data-slide-to="0" class="active"></li>
-          <li data-target="#index-poster" data-slide-to="1"></li>
-          <li data-target="#index-poster" data-slide-to="2"></li>
+          {% for key, value in poster %}
+            {% if loop.index0 == 0 %}
+              <li data-target="#index-poster" data-slide-to="{{ loop.index0 }}" class="active"></li>
+            {% else %}
+              <li data-target="#index-poster" data-slide-to="{{ loop.index0 }}"></li>
+            {% endif %}
+          {% endfor %}
         </ol>
 
         <!-- Wrapper for slides -->
@@ -106,14 +110,12 @@
             {% if loop.index0 == 0 %}
               <div class="item active">
                 <a href="{{ value }}"><img src="{{ key }}" alt="..."></a>
-
                 <div class="carousel-caption">
                 </div>
               </div>
             {% else %}
               <div class="item">
                 <a href="{{ value }}"><img src="{{ key }}" alt="..."></a>
-
                 <div class="carousel-caption">
                 </div>
               </div>
@@ -133,6 +135,9 @@
       </div>
     </div>
     <div class="col-sm-4">
+      <div class="index-button">
+        <a class="btn btn-lg btn-block text-center" href="{{ url_for('main.join_us') }}"> <i class="fa fa-users"></i> 加入我们</a>
+      </div>
       <div class="index-block">
         <div class="block-header">
           <span class="block-title" style="font-weight: bold">近期新闻</span>

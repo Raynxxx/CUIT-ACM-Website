@@ -27,24 +27,24 @@
         </table>
       </div>
     </div>
-      <div class="box box-default">
-        <div class="box-header">
-          <h3 class="box-title">相关题解</h3>
-            <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
-        </div>
-        <div class="box-body no-padding">
-          <ul class="recent_articles">
-          </ul>
-            <div class="pull-right">
-            <div class="btn-group">
-              <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
-              <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
-            </div>
+    <div class="box box-default">
+      <div class="box-header">
+        <h3 class="box-title">相关题解</h3>
+          <div class="box-tools pull-right">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body no-padding">
+        <ul class="recent_articles">
+        </ul>
+        <div class="pull-right">
+          <div class="btn-group">
+            <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+            <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
           </div>
         </div>
       </div>
+    </div>
   </div>
   <div class="col-md-7">
     <div id="codeBlock" class="box box-default">
@@ -63,8 +63,7 @@
 {% block script %}
 <script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
 <script type="text/javascript">
-
-    function get_related_article_list(offset, limit) {
+  function get_related_article_list(offset, limit) {
     var data = {submit_id: {{ submit.id }},offset: offset, limit: limit };
     $.post("{{ url_for('ajax.get_related_article') }}", data).success(function(ret) {
       var article_count = ret.sum;
@@ -95,13 +94,13 @@
         next.val(start + length);
       }
     }).error(function() {
-        var $list_table = $('.list-table-body').first();
-        $list_table.empty();
-        $list_table.append('<li><h2>加载失败</h2></li>');
-        $('.prev-page').hide();
-        $('.next-page').hide();
-      });
-    }
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
+      $list_table.append('<li><h2>加载失败</h2></li>');
+      $('.prev-page').hide();
+      $('.next-page').hide();
+    });
+  }
 
   $(document).ready(function() {
     $('pre code').each(function(i, block) {
@@ -110,16 +109,16 @@
       });
       hljs.highlightBlock(block);
     });
-        var limit = 10;
-        get_related_article_list(0, limit);
-        $('.prev-page').click(function() {
-          var offset = parseInt($(this).val());
-          get_related_article_list(offset, limit);
-        });
-        $('.next-page').click(function() {
-          var offset = parseInt($(this).val());
-          get_related_article_list(offset, limit);
-        });
+    var limit = 10;
+    get_related_article_list(0, limit);
+    $('.prev-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_related_article_list(offset, limit);
+    });
+    $('.next-page').click(function() {
+      var offset = parseInt($(this).val());
+      get_related_article_list(offset, limit);
+    });
   });
 
 </script>

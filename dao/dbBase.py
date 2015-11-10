@@ -1,5 +1,4 @@
 from __init__ import *
-from __init__ import *
 from flask.ext.login import UserMixin
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
@@ -21,6 +20,8 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(15))
     remark = db.Column(db.String(50))
     school = db.Column(db.String(20), nullable=False)
+    college = db.Column(db.String(64))
+    grade = db.Column(db.String(32))
     situation = db.Column(db.String(50))
     score = db.Column(db.Integer, default=0)
     current_week_submit = db.Column(db.Integer, default=0)
@@ -30,6 +31,7 @@ class User(UserMixin, db.Model):
     create_time = db.Column(db.DateTime)
     rights = db.Column(db.Integer)
     active = db.Column(db.Integer, default=1)
+    apply_reason = db.Column(db.Text)
 
     def __init__(self, username,name, password, school, gender, email):
         self.username = username
@@ -47,6 +49,10 @@ class User(UserMixin, db.Model):
     @property
     def serialize(self):
         return { c.name: getattr(self, c.name) for c in self.__table__.columns }
+
+    @property
+    def is_apply(self):
+        return self.rights & 8 == 8
 
     @property
     def is_admin(self):

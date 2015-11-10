@@ -219,6 +219,10 @@
 .honor-one .tacker p {
   margin-bottom: 0;
 }
+.honor-one .tacker .label {
+  display: inline-block;
+  margin-right: 2px;
+}
 .honor-one .poster {
   border-bottom: 1px solid #ddd;
 }
