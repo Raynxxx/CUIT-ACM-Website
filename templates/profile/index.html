@@ -10,7 +10,7 @@
       <div class="user-profile-box">
         <div class="user-profile-header">
           <div class="user-face">
-            <img src="{{ user.gravatar(256) }}">
+            <img src="{{ user.gravatar(160) }}">
           </div>
           <div class="user-meta">
             <h2 class="user-name">{{ user.name }}</h2>
@@ -45,6 +45,8 @@
                     <td>{{ user.phone if user.phone else '' }}</td></tr>
                   <tr><td><i class="fa fa-university"></i></td><td> 学校</td>
                     <td>{{ school_mapper[user.school] if user.school else '' }}</td></tr>
+                  <tr><td><i class="fa fa-university"></i></td><td> 院系</td>
+                    <td>{{ college_mapper[toInt(user.college)] if user.college else ' ' }} {{ user.grade + ' 级' if user.grade else '' }}</td></tr>
                   <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
                     <td>{{ user.remark if user.remark else '' }}</td></tr>
                   <tr><td><i class="fa fa-calendar"></i></td><td> 创建时间</td>
@@ -87,6 +89,12 @@
                     </tr>
                     <tr><td><i class="fa fa-university"></i></td><td> 学校</td>
                       <td>{{ user_modify_form.school(class='form-control required', id="inputSchool", placeholder="学校") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-university"></i></td><td> 院系</td>
+                      <td>{{ user_modify_form.college(class='form-control required', id="inputCollege", placeholder="学院") }}</td>
+                    </tr>
+                    <tr><td><i class="fa fa-university"></i></td><td> 年级</td>
+                      <td>{{ user_modify_form.grade(class='form-control required', id="inputGrade", placeholder="年级") }}</td>
                     </tr>
                     <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
                       <td>{{ user_modify_form.motto(class='form-control', id="inputMotto", placeholder="签名") }}</td>

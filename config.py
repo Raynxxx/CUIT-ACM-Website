@@ -93,3 +93,37 @@ RECOMMEND_SITE = {
     u'CUIT学校主页': 'http://www.cuit.edu.cn'
 }
 
+
+#mail config
+MAIL_SERVER = 'mail.cuit.edu.cn'
+MAIL_PORT = 25
+MAIL_USE_TLS = True
+MAIL_USE_SSL = False
+MAIL_USERNAME = "acmicpc@cuit.edu.cn"
+MAIL_PASSWORD = "xbnahn"
+MAIL_DEFAULT_SENDER = "acmicpc@cuit.edu.cn"
+MAIL_DEBUG = False
+
+
+#mail template
+APPLY_ACCEPT_MAIL = {
+    'title' : u"{name}，非常高兴你积极的报名。我们非常欢迎你的参与",
+    'body' : u'''先做几件事：
+
+1、加新生群34117625，记得改下名字哦，格式“学院-年级-姓名”；
+
+2、上acm.bnu.edu.cn（或219.224.30.70），把Problem前100题都做了（就是1000到1099），其中可能会遇到比较难的题，可以适当的放弃；
+
+3、简单说一下训练安排：因为临近考试周，训练部分暂停，寒假或者下学期开学后会统一组织训练，这个会在群里通知的。当然，如果时间充足，bnuoj上的新手题也做完了，请及时跟我们联系。遇到不懂的问题可以多在群里吼吼，有各种强的师兄师姐热心解答哦；
+
+4、近期各大OJ上比赛比较多，如果有空的话可以关注各大OJ近期比赛汇总（http://acmicpc.info/archives/224），多参加下新生赛，练练手；
+
+                                              CUIT ACM/ICPC Team
+'''
+}
+
+APPLY_REJECT_MAIL = {
+    'title' : u"{name} reject!",
+    'body' : u"reject!"
+}
+

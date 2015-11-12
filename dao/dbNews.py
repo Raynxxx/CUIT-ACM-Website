@@ -13,7 +13,7 @@ new_stags = db.Table('news_tags',
 class News(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    url = db.Column(db.String(100), nullable=False, unique=True)
+    url = db.Column(db.String(100), nullable=True)
     shortcut = db.Column(db.Text)
     content = db.Column(db.Text)
     last_update_time = db.Column(db.DateTime)

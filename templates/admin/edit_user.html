@@ -16,18 +16,22 @@
             {{ user_modify_form.id(style='display:none;') }}
             <div class="col-sm-5">
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputName">
-                  <span class="required-star">* </span>真实姓名
+                <label class="control-label col-sm-3" for="inputName">真实姓名
                 </label>
                 <div class="col-sm-9">
                   {{ user_modify_form.name(class='form-control required', id="inputName",  placeholder="真实姓名") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputEmail">
-                  邮箱</label>
+                <label class="control-label col-sm-3" for="inputEmail">邮箱</label>
                 <div class="col-sm-9">
                   {{ user_modify_form.email(class='form-control', id="inputEmail", placeholder="邮箱") }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputPhone">电话</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.phone(class='form-control', id="inputPhone", placeholder="电话") }}
                 </div>
               </div>
               <div class="form-group">
@@ -37,7 +41,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3"><span class="required-star">* </span>性别</label>
+                <label class="control-label col-sm-3">性别</label>
                 <div class="col-sm-9">
                   {%- for sub in user_modify_form.gender %}
                     <label class="radio-inline">
@@ -48,7 +52,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3"><span class="required-star">* </span>状态</label>
+                <label class="control-label col-sm-3">状态</label>
                 <div class="col-sm-9">
                   {%- for sub in user_modify_form.active %}
                     <label class="radio-inline">
@@ -61,18 +65,24 @@
             </div>
             <div class="col-sm-7">
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputSchool"><span
-                        class="required-star">* </span>学校</label>
+                <label class="control-label col-sm-3" for="inputSchool">学校</label>
                 <div class="col-sm-8">
                   {{ user_modify_form.school(class='form-control required', id="inputSchool", placeholder="学校") }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputPhone">电话</label>
+                <label class="control-label col-sm-3" for="inputSchool">院系</label>
                 <div class="col-sm-8">
-                  {{ user_modify_form.phone(class='form-control', id="inputPhone", placeholder="电话") }}
+                  {{ user_modify_form.college(class='form-control required', id="inputCollege", placeholder="学院") }}
                 </div>
               </div>
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="inputSchool">年级</label>
+                <div class="col-sm-8">
+                  {{ user_modify_form.grade(class='form-control required', id="inputGrade", placeholder="年级") }}
+                </div>
+              </div>
+
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputMotto">签名</label>
                 <div class="col-sm-8">
@@ -88,7 +98,7 @@
               </div>
 
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputRights"><span class="required-star">* </span>权限</label>
+                <label class="control-label col-sm-3" for="inputRights">权限</label>
                 <div class="col-sm-9">
                 {% if current_user.is_admin %}
                   <label class="checkbox-inline">
@@ -160,13 +170,13 @@
             return false;
           }
           $.post("{{ url_for('ajax.edit_user') }}", $('#userEditForm').serialize()).success(
-                  function (data) {
-                    $("#add-info-text").html(data);
-                    $("#add-info").fadeIn(200);
-                    setTimeout(function () {
-                      window.location.href = "{{ url_for('admin.manage_user') }}";
-                    }, 800);
-                  }
+            function (data) {
+              $("#add-info-text").html(data);
+              $("#add-info").fadeIn(200);
+              setTimeout(function () {
+                window.location.href = "{{ url_for('admin.manage_user') }}";
+              }, 800);
+            }
           );
         }
         return false;

@@ -9,6 +9,10 @@ from view.admin import admin
 from view.profile import profile
 from view.ajax import ajax
 from view.index import main
+from view import mail
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -21,6 +25,7 @@ def load_user(uid):
 def init():
     app.config.from_pyfile('config.py')
     db.init_app(app)
+    mail.init_app(app)
     import logging
     from logging import FileHandler
     from logging import Formatter

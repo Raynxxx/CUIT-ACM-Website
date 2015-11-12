@@ -67,6 +67,10 @@ class User(UserMixin, db.Model):
         return self.rights & 1 == 1
 
     @property
+    def is_training(self):
+        return self.active == 1
+
+    @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
 

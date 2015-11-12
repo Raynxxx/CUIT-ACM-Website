@@ -56,6 +56,13 @@ class UserModifyForm(Form):
     school = SelectField('school', validators=[validators.DataRequired()],
                          choices=[(school, SCHOOL_MAP[school]) for school in SCHOOL_MAP],
                          default='cuit')
+    college = SelectField('college', validators=[validators.Optional()],
+                          choices=[(str(college), SCHOOL_COLLEGE_MAP[college]) for college in SCHOOL_COLLEGE_MAP],
+                          default=0)
+    import datetime
+    now_year = datetime.datetime.now().year
+    grade = SelectField('grade', validators=[validators.Optional()], choices=[(str(y), y) for y in range(now_year, now_year - 5, -1)],
+                        default=now_year)
     motto = StringField('Motto', validators=[validators.Optional()])
     situation = StringField('Situation', validators=[validators.Optional()])
     active = RadioField('Active', choices=[('1', u'训练 ing'), ('0', u'退役狗')], coerce=str, default=1)
