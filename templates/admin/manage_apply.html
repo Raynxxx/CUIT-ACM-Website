@@ -15,7 +15,7 @@
           <p><i class="fa fa-transgender"></i> {{ '男' if user.gender else '女' }}</p>
           <p><i class="fa fa-asterisk"></i> {{ SCHOOL_MAP[user.school] if user.school else '' }}</p>
           <p><i class="fa fa-bars"></i>
-            {{ COLLEGE_MAP[toInt(user.college)] if user.college else ' ' }} {{ user.grade + ' 级' if user.grade else '' }} 级
+            {{ COLLEGE_MAP[user.college] if user.college else ' ' }} {{ user.grade + ' 级' if user.grade else '' }} 级
           </p>
           <p><i class="fa fa-envelope-o"></i> {{ user.email }}</p>
           <div class="apply-reason"> {{ user.apply_reason }}</div>

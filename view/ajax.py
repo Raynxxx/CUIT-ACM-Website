@@ -836,7 +836,7 @@ def members():
         #if not user.is_training:
         users.append({
             'name': user.name,
-            'college': SCHOOL_COLLEGE_MAP[int(user.college)],
+            'college': SCHOOL_COLLEGE_MAP[user.college] if user.college else '',
             'grade': user.grade + u'级',
             'situation': user.situation
         })

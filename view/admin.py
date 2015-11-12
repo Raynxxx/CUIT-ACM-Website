@@ -79,8 +79,7 @@ def manage_apply():
                            title = u'新生申请验证',
                            apply_users = apply_users,
                            SCHOOL_MAP = config.SCHOOL_MAP,
-                           COLLEGE_MAP = config.SCHOOL_COLLEGE_MAP,
-                           toInt = int)
+                           COLLEGE_MAP = config.SCHOOL_COLLEGE_MAP)
 
 #
 # @brief: the page for administrator to manage user

@@ -46,7 +46,7 @@
                   <tr><td><i class="fa fa-university"></i></td><td> 学校</td>
                     <td>{{ school_mapper[user.school] if user.school else '' }}</td></tr>
                   <tr><td><i class="fa fa-university"></i></td><td> 院系</td>
-                    <td>{{ college_mapper[toInt(user.college)] if user.college else ' ' }} {{ user.grade + ' 级' if user.grade else '' }}</td></tr>
+                    <td>{{ college_mapper[user.college] if user.college else ' ' }} {{ user.grade + ' 级' if user.grade else '' }}</td></tr>
                   <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
                     <td>{{ user.remark if user.remark else '' }}</td></tr>
                   <tr><td><i class="fa fa-calendar"></i></td><td> 创建时间</td>

@@ -47,9 +47,7 @@ def index():
                            pwd_modify_form = pwd_modify_form,
                            statistic = statistic,
                            school_mapper = SCHOOL_MAP,
-                           college_mapper = SCHOOL_COLLEGE_MAP,
-                           toInt = int)
-
+                           college_mapper = SCHOOL_COLLEGE_MAP)
 
 #
 # @brief: the OJ account management page
