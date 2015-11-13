@@ -39,6 +39,8 @@ def login():
                            title = u'登录',
                            login_form = login_form)
 
+
+
 #
 # @brief: join us page
 # @route: /join_us
@@ -52,6 +54,7 @@ def join_us():
         try:
             ret = user_server.create_user(join_form, 8)
             if ret == 'OK':
+                #send_register_success(join_form.email.data, _app_ctx_stack.top, join_form)
                 flash(u"提交申请成功")
             else:
                 flash(u"提交申请失败: " + ret)
@@ -332,6 +335,10 @@ def honor(honor_id=None):
                            title = u'荣誉',
                            honor = honor,
                            HONOR_LEVEL_MAP = HONOR_LEVEL_MAP)
+
+@main.route("/members", methods=['GET'])
+def members():
+    return render_template('index/members.html')
 
 
 @main.route('/aboutus')

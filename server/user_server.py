@@ -6,7 +6,7 @@ from config import OJ_MAP, SCHOOL_MAP
 def create_user(user_form, user_rights):
     has_user = User.query.filter_by(username=user_form.username.data).first()
     if has_user:
-        return "该用户名已经存在"
+        return u"该用户名已经存在"
     new_user = User(username = user_form.username.data,
                 name = user_form.name.data,
                 password = user_form.password.data,
@@ -45,6 +45,21 @@ def create_many_users(user_form, current_user):
     except Exception, e:
         return 'failed'
 
+def update_apply(user_id, opt):
+    has_user = User.query.filter_by(id = user_id).with_lockmode('update').first()
+    if not has_user:
+        db.session.commit()
+        return u"该用户不存在"
+    if opt == "accept":
+        has_user.rights = 1
+        has_user.save()
+        return "OK"
+    elif opt == "reject":
+        has_user.delete()
+        return "OK"
+    else :
+        return u"该操作不支持"
+
 
 def update_user(user_form, user_rights = 0, for_self = False):
     has_user = User.query.filter_by(id = user_form.id.data).with_lockmode('update').first()
@@ -55,6 +70,8 @@ def update_user(user_form, user_rights = 0, for_self = False):
         user_rights = user_rights | 4
     has_user.name = user_form.name.data
     has_user.school = user_form.school.data
+    has_user.college = user_form.college.data
+    has_user.grade = user_form.grade.data
     has_user.gender = True if user_form.gender.data == '1' else False
     has_user.email = user_form.email.data
     if not for_self:

@@ -8,15 +8,17 @@
 {% block content %}
   <div class="row apply-wall">
     {% for user in apply_users %}
-    <div class="apply-box col-xs-12 col-sm-4 col-md-3">
+    <div class="apply-box col-xs-12 col-sm-4 col-md-3" id="apply{{ user.id }}">
       <div class="thumbnail">
         <div class="caption">
           <h2><img src="{{ user.gravatar(36) }}" class="apply-face img-circle"> {{ user.name }}</h2>
           <p><i class="fa fa-transgender"></i> {{ '男' if user.gender else '女' }}</p>
-          <p><i class="fa fa-asterisk"></i> {{ SCHOOL_MAP.get(user.school, '') }}</p>
-          <p><i class="fa fa-bars"></i> {{ COLLEGE_MAP.get(toInt(user.college), '未知') }} {{ user.grade }} 级</p>
+          <p><i class="fa fa-asterisk"></i> {{ SCHOOL_MAP[user.school] if user.school else '' }}</p>
+          <p><i class="fa fa-bars"></i>
+            {{ COLLEGE_MAP[user.college] if user.college else ' ' }} {{ user.grade + ' 级' if user.grade else '' }} 级
+          </p>
           <p><i class="fa fa-envelope-o"></i> {{ user.email }}</p>
-          <div class="apply-reason"> {{ user.apply_reason * 15 }}</div>
+          <div class="apply-reason"> {{ user.apply_reason }}</div>
         </div>
         <div class="btn-group btn-group-justified">
             <a class="btn btn-danger btn-flat to_pass_user" data-uid="{{ user.id }}"
@@ -57,23 +59,31 @@
       isAnimated: true
     });
   }
-  function pass_user(uid) {
-    // TODO
-  }
-  function reject_user(uid) {
-    // TODO
+  function check_apply(uid, opt) {
+    var data = {
+      'uid': uid, 'opt': opt
+    };
+    $.post("{{ url_for('ajax.check_apply') }}", data).success(function(ret) {
+      if (opt == 'accept') {
+        $('.closeModal').click();
+      }
+      if (ret == "OK") {
+        $('#apply' + uid).fadeOut().remove();
+        make_masonry();
+      }
+    });
   }
   $(document).ready(function () {
     make_masonry();
     $('.to_pass_user').on('click', function() {
-      $('.pass_user').data('uid', $(this).data(uid));
+      $('.pass_user').data('uid', $(this).data('uid'));
     });
     $('.pass_user').on('click', function() {
-      pass_user($(this).data('uid'));
+      check_apply($(this).data('uid'), 'accept');
     });
     $('.reject_user').on('click', function() {
-      alert('reject_user');
-      reject_user($(this).data('uid'));
+      //alert('reject_user');
+      check_apply($(this).data('uid'), 'reject');
     });
   });
 </script>

@@ -7,10 +7,11 @@ from server import honor_server
 from server.poster import poster
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
-from werkzeug.utils import secure_filename
+from flask.globals import _app_ctx_stack
 from flask import request, jsonify
 from sqlalchemy.exc import IntegrityError
 from server.account_server import AccountUpdatingException, AccountExistException
+from util import function
 
 #
 # @blueprint: ajax
@@ -18,7 +19,6 @@ from server.account_server import AccountUpdatingException, AccountExistExceptio
 # @author: Z2Y
 #
 ajax = blueprints.Blueprint('ajax', __name__)
-
 
 
 @ajax.route("/ajax/contest.json", methods=['GET'])
@@ -104,23 +104,6 @@ def create_user():
         return u"添加用户失败: 表单填写有误"
 
 
-
-#
-# @brief: pass user apply
-# @route: /ajax/pass_user
-# @accepted methods: [post]
-# @allowed user: admin and coach
-# @ajax return: 用户是否通过成功
-#
-@ajax.route('/ajax/pass_user', methods=["POST"])
-@login_required
-def pass_user():
-    if not current_user.is_admin and not current_user.is_coach:
-        print u"你没有权限访问该模块"
-        return redirect(url_for('main.index'))
-    # TODO
-
-
 #
 # @brief: add many users
 # @route: /ajax/create_users
@@ -143,6 +126,30 @@ def create_users():
     else:
         #print reg_form.errors
         return u"添加用户失败: 表单填写有误"
+
+
+#
+# @brief: check apply user
+# @route: /ajax/check_apply
+# @accepted methods: [post]
+# @allowed user: admin and coach
+# @ajax return: 操作结果
+#
+@ajax.route("/ajax/check_apply", methods= ['POST'])
+@login_required
+def check_apply():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    try:
+        apply_id = request.form.get('uid')
+        user = user_server.get_by_id(apply_id)
+        opt = request.form.get('opt')
+        ret = user_server.update_apply(apply_id, opt)
+        if ret == 'OK':
+            function.reply_of_apply(mail, user.serialize, _app_ctx_stack.top, opt)
+        return ret
+    except Exception:
+        return u'操作失败'
 
 
 #
@@ -815,4 +822,22 @@ def manage_poster():
         return u'操作失败'
 
 
-
+#
+# @brief: ajax to get member situation list
+# @route: /ajax/members
+# @accepted methods: [get]
+# @allowed user: public
+#
+@ajax.route("/ajax/members", methods=['GET'])
+def members():
+    all_users = user_server.get_list(limit=-1)
+    users = []
+    for user in all_users:
+        if user.is_student:
+            users.append({
+                'name': user.name,
+                'college': SCHOOL_COLLEGE_MAP[user.college] if user.college else '',
+                'grade': user.grade + u'级' if user.grade else '',
+                'situation': user.situation
+            })
+    return json.dumps({ 'data': users })

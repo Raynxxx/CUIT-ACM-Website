@@ -1,7 +1,7 @@
 # coding=utf-8
 from __init__ import *
 from server import user_server, general, article_server, form
-from config import OJ_MAP
+from config import OJ_MAP, SCHOOL_COLLEGE_MAP
 import util, config
 #
 # @blueprint: profile
@@ -34,6 +34,8 @@ def index():
     user_modify_form.motto.data = profile_user.remark
     user_modify_form.situation.data = profile_user.situation
     user_modify_form.school.data = profile_user.school
+    user_modify_form.college.data = profile_user.college
+    user_modify_form.grade.data = profile_user.grade
     user_modify_form.gender.data = '1' if profile_user.gender else '0'
     user_modify_form.active.data = '1' if profile_user.active else '0'
     pwd_modify_form = form.PasswordModifyForm()
@@ -44,8 +46,8 @@ def index():
                            user_modify_form = user_modify_form,
                            pwd_modify_form = pwd_modify_form,
                            statistic = statistic,
-                           school_mapper = SCHOOL_MAP)
-
+                           school_mapper = SCHOOL_MAP,
+                           college_mapper = SCHOOL_COLLEGE_MAP)
 
 #
 # @brief: the OJ account management page
