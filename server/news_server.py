@@ -21,6 +21,8 @@ def post(form, user, is_draft):
     has_news = News.query.filter(News.id == form.sid.data).with_lockmode('update').first()
     tags = generate_tags(form.tags.data)
     content_list = form.content.data.split('<-more->')
+    if form.url.data == '':
+        form.url.data = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
     list_len = len(content_list)
     if list_len > 2:
         raise Exception(u'more标签的使用超过限制')

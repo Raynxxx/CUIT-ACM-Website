@@ -823,21 +823,21 @@ def manage_poster():
 
 
 #
-# @brief: ajax to manage poster
-# @route: /ajax/manage_poster
-# @accepted methods: [post]
-# @allowed user: admin
+# @brief: ajax to get member situation list
+# @route: /ajax/members
+# @accepted methods: [get]
+# @allowed user: public
 #
 @ajax.route("/ajax/members", methods=['GET'])
 def members():
-    all_users = user_server.get_list()
+    all_users = user_server.get_list(limit=-1)
     users = []
     for user in all_users:
-        #if not user.is_training:
-        users.append({
-            'name': user.name,
-            'college': SCHOOL_COLLEGE_MAP[user.college] if user.college else '',
-            'grade': user.grade + u'级',
-            'situation': user.situation
-        })
+        if user.is_student:
+            users.append({
+                'name': user.name,
+                'college': SCHOOL_COLLEGE_MAP[user.college] if user.college else '',
+                'grade': user.grade + u'级' if user.grade else '',
+                'situation': user.situation
+            })
     return json.dumps({ 'data': users })

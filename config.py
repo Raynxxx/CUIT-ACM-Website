@@ -102,7 +102,7 @@ MAIL_USE_SSL = False
 MAIL_USERNAME = "acmicpc@cuit.edu.cn"
 MAIL_PASSWORD = "xbnahn"
 MAIL_DEFAULT_SENDER = "acmicpc@cuit.edu.cn"
-MAIL_DEBUG = False
+MAIL_DEBUG = True
 
 
 #mail template

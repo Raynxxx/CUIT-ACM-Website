@@ -31,7 +31,7 @@ def init():
     from logging import Formatter
 
     file_handler = FileHandler(app.root_path + "/log/web_errors.log")
-    file_handler.setLevel(logging.ERROR)
+    file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(Formatter(
         '%(asctime)s %(levelname)s: %(message)s '
         '[in %(pathname)s:%(lineno)d]'))

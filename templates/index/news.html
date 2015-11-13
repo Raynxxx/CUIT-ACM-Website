@@ -13,7 +13,7 @@
         <h3 class="article-title">{{ one.title }}</h3>
         <div class="article-meta">
           <span>发表于 {{ one.last_update_time.strftime('%Y-%m-%d') }}</span>
-          {% if current_user.is_admin %}
+          {% if one.user.is_admin %}
             <span> | <a href="{{ url_for('profile.index',username=one.user.username) }}">管理员</a></span>
           {% else %}
             <span> | <a href="{{ url_for('profile.index',username=one.user.username) }}">{{ one.user.name }}</a></span>

@@ -61,7 +61,7 @@ class UserModifyForm(Form):
                           default=0)
     import datetime
     now_year = datetime.datetime.now().year
-    grade = SelectField('grade', validators=[validators.Optional()], choices=[(str(y), y) for y in range(now_year, now_year - 5, -1)],
+    grade = SelectField('grade', validators=[validators.Optional()], choices=[(str(y), y) for y in range(now_year, now_year - 10, -1)],
                         default=now_year)
     motto = StringField('Motto', validators=[validators.Optional()])
     situation = StringField('Situation', validators=[validators.Optional()])

@@ -16,8 +16,8 @@ def search(text, regex):
 VALID_TAGS = {'h1':{}, 'h2':{}, 'h3':{}, 'h4':{}, 'h5':{}, 'h6':{},'sup':{},
               'strong':{}, 'em':{}, 'pre':{},'code':{}, 'i':{'class':''},
               'table':{},'th':{},'tr':{},'td':{},'blockquote':{},'kbd':{},'dl':{},'dt':{},'dd':{},
-              'p':{}, 'ul':{}, 'li':{}, 'br':{}, 'a':{'href':'^(/|https?|ftp|#)', 'title':'.*', 'class':''},
-              'img':{'src':'^(https?|ftp|#)', 'alt':'.*'}}
+              'p':{},'ol':{}, 'ul':{}, 'li':{}, 'br':{}, 'a':{'href':'^(/|http?|ftp|#)', 'title':'.*', 'class':''},
+              'img':{'src':'^(/|http?|ftp|#)', 'alt':'.*'}}
 
 VALID_ATTR = {'id':''}
 
