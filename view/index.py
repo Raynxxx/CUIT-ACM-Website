@@ -336,11 +336,20 @@ def honor(honor_id=None):
                            honor = honor,
                            HONOR_LEVEL_MAP = HONOR_LEVEL_MAP)
 
+
+#
+# @brief: page for members situation
+# @route: /honor/honor_id
+# @accepted methods: [get]
+# @allowed user: all
+#
 @main.route("/members", methods=['GET'])
 def members():
-    return render_template('index/members.html')
+    return render_template('index/members.html',
+                           SITUATION_PER_PAGE = config.SITUATION_PER_PAGE)
 
 
+# not used
 @main.route('/aboutus')
 def about():
     return redirect(url_for('main.ranklist'))

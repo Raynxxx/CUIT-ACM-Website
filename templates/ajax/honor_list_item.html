@@ -3,7 +3,7 @@
     <label><input type="radio" name="honor" value="{{ honor.id }}"></label>
   </td>
   <td class="list-item-contest-name">
-      {{ honor.contest_name }}
+      <a href="{{ url_for('main.honor', honor_id=honor.id) }}">{{ honor.contest_name }}</a>
   </td>
   <td class="list-item-level">
       {{ level_mapper[honor.contest_level] }}

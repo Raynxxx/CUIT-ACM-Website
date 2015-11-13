@@ -77,10 +77,10 @@ def update_user(user_form, user_rights = 0, for_self = False):
     if not for_self:
         has_user.rights = user_rights
         has_user.active = int(user_form.active.data)
+        has_user.situation = user_form.situation.data
     has_user.stu_id = user_form.stu_id.data
     has_user.phone = user_form.phone.data
     has_user.remark = user_form.motto.data
-    has_user.situation = user_form.situation.data
     has_user.save()
     return 'OK'
 

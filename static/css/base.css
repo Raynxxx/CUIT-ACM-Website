@@ -235,6 +235,8 @@
   width: 30%;
   font-size: larger;
   font-weight: 600;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .list-item-level {
   width: 15%;

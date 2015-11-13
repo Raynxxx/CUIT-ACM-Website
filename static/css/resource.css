@@ -182,6 +182,8 @@
 }
 .honor-one .contest-name {
   font-size: 1.2em;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .thumbnail > .contest-name {
   margin-bottom: 0 !important;
