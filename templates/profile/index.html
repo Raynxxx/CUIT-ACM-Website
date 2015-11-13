@@ -60,7 +60,7 @@
                       {% endif %}
                     </td>
                   </tr>
-                  <tr><td><i class="fa fa-link"></i> </td><td>现状</td>
+                  <tr><td><i class="fa fa-link"></i> </td><td>经历与去向</td>
                     <td>{{ user.situation if user.situation else '' }}</td></tr>
               </table>
               {% if user == current_user %}
@@ -78,13 +78,13 @@
                             {{ sub.label(style='margin-left:10px;') }}
                           </label>
                         {%- endfor %}</td></tr>
-                    <tr><td><i class="fa fa-user"></i></td><td>学号</td>
+                    <tr><td><i class="fa fa-user"></i></td><td> 学号</td>
                       <td>{{ user_modify_form.stu_id(class='form-control', id="inputSno", placeholder="学号") }}</td>
                     </tr>
                     <tr><td><i class="fa fa-envelope-o"></i> </td><td>邮箱</td>
                       <td>{{ user_modify_form.email(class='form-control required', id="inputEmail", placeholder="邮箱") }}</td>
                     </tr>
-                    <tr><td><i class="fa fa-phone-square"></i></td><td> 电话</td>
+                    <tr><td><i class="fa fa-phone-square"></i></td><td>电话</td>
                       <td>{{ user_modify_form.phone(class='form-control', id="inputPhone", placeholder="电话") }}</td>
                     </tr>
                     <tr><td><i class="fa fa-university"></i></td><td> 学校</td>
@@ -98,9 +98,6 @@
                     </tr>
                     <tr><td><i class="fa fa-flag"></i></td><td> 签名</td>
                       <td>{{ user_modify_form.motto(class='form-control', id="inputMotto", placeholder="签名") }}</td>
-                    </tr>
-                    <tr><td><i class="fa fa-link"></i> </td><td>现状</td>
-                      <td>{{ user_modify_form.situation(class='form-control', id="inputSituation", placeholder="现状") }}</td>
                     </tr>
                   </table>
                   <div class="alert alert-danger col-sm-12" id="edit-info"

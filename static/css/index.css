@@ -23,12 +23,12 @@ body>.container {
 }
 @media (min-width: 960px) {
   .container {
-    max-width: 840px;
+    max-width: 900px;
   }
 }
 @media (min-width: 1280px) {
   .container {
-    max-width: 1000px;
+    max-width: 1080px;
   }
 }
 @media (min-width: 1600px) {
@@ -45,9 +45,14 @@ body>.container {
 
 .recent_news li {
   margin: 7px 0;
+  word-break: keep-all;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .recent_news a {
   color: #222;
+
 }
 
 .recent_news a:hover,

@@ -26,7 +26,7 @@
 <div id="fakeLoader"></div>
 <header class="main-header">
   <nav class="navbar navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                 data-target="#bs-example-navbar-collapse-2">
@@ -48,8 +48,9 @@
             <!--<li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>-->
           {% endif %}
           <li><a href="{{ url_for('main.honor_wall') }}">荣誉墙</a></li>
-          <li><a href="http://oj.duxy.me">训练平台</a></li>
           <li><a href="{{ url_for('main.members') }}">队员去向</a></li>
+          <li><a href="http://oj.duxy.me" target="_blank">训练平台</a></li>
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {%- if current_user.is_authenticated() -%}
@@ -93,7 +94,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-8">
-      <div id="index-poster" class="carousel slide" data-ride="carousel">
+      <div id="index-poster" class="carousel slide col-sm-12" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
           {% for key, value in poster %}
@@ -134,49 +135,50 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="index-button">
-        <a class="btn btn-lg btn-block text-center" href="{{ url_for('main.join_us') }}"> <i class="fa fa-users"></i> 加入我们</a>
-      </div>
-      <div class="index-block">
-        <div class="block-header">
-          <span class="block-title" style="font-weight: bold">近期新闻</span>
-          <span class="pull-right"><a href="{{ url_for('main.news_list') }}">更多>></a></span>
+      <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="index-block">
+          <div class="block-header">
+            <span class="block-title" style="font-weight: bold">近期比赛</span>
+          </div>
+          <table id="recent_contest_table"
+                 class="table table-hover table-bordered table-responsive"
+                 width="100%">
+            <thead>
+            <tr>
+              <th>OJ</th>
+              <th>Name</th>
+              <th>Start Time</th>
+              <th>Week</th>
+              <th>Access</th>
+            </tr>
+            </thead>
+          </table>
         </div>
-        {% if recent_news != [] %}
-          <ul class="recent_news">
-            {% for news in recent_news %}
-              <li><i class="fa fa-angle-right"></i> <a href="{{ url_for('main.news', p=news.id) }}">{{ news.title }}</a>
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-  <div class="row" style="margin-top: 10px">
-    <div class="col-sm-8">
-      <div class="index-block">
-        <div class="block-header">
-          <span class="block-title" style="font-weight: bold">近期比赛</span>
-        </div>
-        <table id="recent_contest_table"
-               class="table table-hover table-bordered table-responsive"
-               width="100%">
-          <thead>
-          <tr>
-            <th>OJ</th>
-            <th>Name</th>
-            <th>Start Time</th>
-            <th>Week</th>
-            <th>Access</th>
-          </tr>
-          </thead>
-        </table>
       </div>
     </div>
     <div class="col-sm-4">
+      <div class="col-sm-12">
+        <div class="index-button">
+          <a class="btn btn-lg btn-block text-center" href="{{ url_for('main.join_us') }}"> <i class="fa fa-users"></i> 加入我们</a>
+        </div>
+        <div class="index-block" style="min-height: 150px;">
+          <div class="block-header">
+            <span class="block-title" style="font-weight: bold">近期新闻</span>
+            <span class="pull-right"><a href="{{ url_for('main.news_list') }}">更多>></a></span>
+          </div>
+          {% if recent_news != [] %}
+            <ul class="recent_news">
+              {% for news in recent_news %}
+                <li><i class="fa fa-angle-right"></i>
+                  <a href="{{ url_for('main.news', p=news.id) }}" title="{{ news.title }}">{{ news.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-sm-12">
       <div class="index-block">
         <div class="block-header">
           <span class="block-title" style="font-weight: bold">推荐网站</span>
@@ -187,6 +189,7 @@
           {% endfor %}
         </ul>
       </div>
+    </div>
     </div>
   </div>
 

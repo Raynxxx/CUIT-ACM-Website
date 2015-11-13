@@ -64,7 +64,7 @@ class UserModifyForm(Form):
     grade = SelectField('grade', validators=[validators.Optional()], choices=[(str(y), y) for y in range(now_year, now_year - 10, -1)],
                         default=now_year)
     motto = StringField('Motto', validators=[validators.Optional()])
-    situation = StringField('Situation', validators=[validators.Optional()])
+    situation = TextAreaField('Situation', validators=[validators.Optional()])
     active = RadioField('Active', choices=[('1', u'训练 ing'), ('0', u'退役狗')], coerce=str, default=1)
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
     submit = SubmitField(u'提交')

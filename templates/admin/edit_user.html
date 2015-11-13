@@ -30,7 +30,7 @@
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputPhone">电话</label>
-                <div class="col-sm-8">
+                <div class="col-sm-9">
                   {{ user_modify_form.phone(class='form-control', id="inputPhone", placeholder="电话") }}
                 </div>
               </div>
@@ -41,25 +41,10 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3">性别</label>
+                <label class="control-label col-sm-3" for="inputSituation">经历与去向</label>
                 <div class="col-sm-9">
-                  {%- for sub in user_modify_form.gender %}
-                    <label class="radio-inline">
-                      {{ sub }}
-                      {{ sub.label(style='margin-left:10px;') }}
-                    </label>
-                  {%- endfor %}
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="control-label col-sm-3">状态</label>
-                <div class="col-sm-9">
-                  {%- for sub in user_modify_form.active %}
-                    <label class="radio-inline">
-                      {{ sub }}
-                      {{ sub.label(style='margin-left:10px;') }}
-                    </label>
-                  {%- endfor %}
+                  {{ user_modify_form.situation(class='form-control', id="inputSituation", placeholder="经历与去向",
+                    rows="6", style="resize:none;") }}
                 </div>
               </div>
             </div>
@@ -82,7 +67,6 @@
                   {{ user_modify_form.grade(class='form-control required', id="inputGrade", placeholder="年级") }}
                 </div>
               </div>
-
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputMotto">签名</label>
                 <div class="col-sm-8">
@@ -90,16 +74,30 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-3" for="inputSituation">现状</label>
-
+                <label class="control-label col-sm-3">性别</label>
                 <div class="col-sm-8">
-                  {{ user_modify_form.situation(class='form-control', id="inputSituation", placeholder="现状") }}
+                  {%- for sub in user_modify_form.gender %}
+                    <label class="radio-inline">
+                      {{ sub }}
+                      {{ sub.label(style='margin-left:10px;') }}
+                    </label>
+                  {%- endfor %}
                 </div>
               </div>
-
+              <div class="form-group">
+                <label class="control-label col-sm-3">状态</label>
+                <div class="col-sm-8">
+                  {%- for sub in user_modify_form.active %}
+                    <label class="radio-inline">
+                      {{ sub }}
+                      {{ sub.label(style='margin-left:10px;') }}
+                    </label>
+                  {%- endfor %}
+                </div>
+              </div>
               <div class="form-group">
                 <label class="control-label col-sm-3" for="inputRights">权限</label>
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                 {% if current_user.is_admin %}
                   <label class="checkbox-inline">
                     {% if user.is_admin %}

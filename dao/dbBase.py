@@ -22,7 +22,6 @@ class User(UserMixin, db.Model):
     school = db.Column(db.String(20), nullable=False)
     college = db.Column(db.String(64))
     grade = db.Column(db.String(32))
-    situation = db.Column(db.String(50))
     score = db.Column(db.Integer, default=0)
     current_week_submit = db.Column(db.Integer, default=0)
     current_week_solved = db.Column(db.Integer, default=0)
@@ -31,6 +30,7 @@ class User(UserMixin, db.Model):
     create_time = db.Column(db.DateTime)
     rights = db.Column(db.Integer)
     active = db.Column(db.Integer, default=1)
+    situation = db.Column(db.Text)
     apply_reason = db.Column(db.Text)
 
     def __init__(self, username,name, password, school, gender, email):

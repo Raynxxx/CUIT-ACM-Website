@@ -126,6 +126,8 @@ def edit_user():
         user_modify_form.motto.data = has_one.remark
         user_modify_form.situation.data = has_one.situation
         user_modify_form.school.data = has_one.school
+        user_modify_form.college.data = has_one.college
+        user_modify_form.grade.data = has_one.grade
         user_modify_form.gender.data = '1' if has_one.gender else '0'
         user_modify_form.active.data = '1' if has_one.active else '0'
     return render_template('edit_user.html',
