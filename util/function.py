@@ -54,9 +54,9 @@ def reply_of_apply(sender, user, app, opt):
         template_mail = config.APPLY_ACCEPT_MAIL
     else:
         template_mail = config.APPLY_REJECT_MAIL
-    title = template_mail['title'].format(name=user['name'])
-    content = template_mail['body']
+    subject = template_mail['subject']
+    body = template_mail['body'].format(name=user['name'])
     recipient = user['email']
     with app:
-        msg = Message(title, recipients=[recipient], body=content)
+        msg = Message(subject, recipients=[recipient], body=body)
         send_mail(sender, msg)

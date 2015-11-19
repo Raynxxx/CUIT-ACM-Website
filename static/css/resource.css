@@ -14,13 +14,16 @@
   overflow: auto;
   margin: auto 0 !important;
 }
+
+.res-item,
 .img-item {
   padding: 5px !important;
-  border: solid 1px #fff;
+  border: solid 1px transparent;
   border-radius: 5px;
+  background-color: transparent;
+  float: left;
 }
-.res-item .thumbnail {
-}
+
 .res-item .thumbnail:before {
   content: "\2714";
   display: block;
@@ -65,7 +68,7 @@
 .img-responsive {
   height: 0;
   max-width: 100%;
-  padding-bottom: 50%;
+  padding-bottom: 60%;
   background-color: #fff;
   overflow: hidden;
 }
@@ -173,6 +176,10 @@
   -webkit-box-shadow: 0 0 2px 2px #3a87ad;
   box-shadow:0 0 2px 2px #3a87ad;
   cursor: pointer;
+}
+
+.honor-box {
+  float: left;
 }
 
 .honor-one .thumbnail {

@@ -21,36 +21,16 @@
             <button class="btn btn-default btn-sm to_delete_resource" data-toggle="modal" data-target="#myModal">
               <i class="fa fa-trash-o"></i> 删除
             </button>
-            <button class="btn btn-default btn-sm to_edit_resource" data-toggle="modal" data-target="#myModal3"><i
-                    class="fa fa-pencil-square-o"></i> 修改
+            <button class="btn btn-default btn-sm to_edit_resource" data-toggle="modal" data-target="#myModal3">
+              <i class="fa fa-pencil-square-o"></i> 修改
             </button>
-            <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2"><i class="fa fa-cloud-upload"></i>
-              上传</a>
-            <button class="btn btn-default btn-sm download_resource"><i
-                    class="fa fa-cloud-download"></i> 下载
+            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2">
+              <i class="fa fa-cloud-upload"></i>上传</button>
+            <button class="btn btn-default btn-sm download_resource">
+              <i class="fa fa-cloud-download"></i> 下载
             </button>
-            <div class="pull-right">
-              <div class="btn-group">
-                <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
-                <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="img-choose-box row"></div>
-        </div>
-        <div class="box-footer no-padding">
-          <div class="list-box-controls">
-            <button class="btn btn-default btn-sm to_delete_resource" data-toggle="modal" data-target="#myModal">
-              <i class="fa fa-trash-o"></i> 删除
-            </button>
-            <button class="btn btn-default btn-sm to_edit_resource" data-toggle="modal" data-target="#myModal3"><i
-                    class="fa fa-pencil-square-o"></i> 修改
-            </button>
-            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2"><i
-                    class="fa fa-cloud-upload"></i> 上传
-            </button>
-            <button class="btn btn-default btn-sm download_resource" ><i
-                    class="fa fa-cloud-download"></i> 下载
+            <button class="btn btn-default btn-sm get_res_url" data-toggle="modal" data-target="#myModal4">
+              <i class="fa fa-info"></i> 资源地址
             </button>
             <div class="pull-right">
               <div class="btn-group">
@@ -59,12 +39,14 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="overlay" id="news-overlay">
-          <i class="fa fa-refresh fa-spin"></i>
         </div>
       </div>
     </div>
+  </div>
+  <div class="row">
+  <div class="col-sm-12">
+    <div class="res-wall"></div>
+  </div>
   </div>
   <div class="modal fade" id="myModal" style="margin-top: 50px;">
     <div class="modal-dialog modal-sm">
@@ -152,168 +134,207 @@
   </div>
   <div class="modal fade" id="myModal3" style="margin-top: 50px;">
   </div>
+  <div class="modal fade" id="myModal4" style="margin-top: 50px;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">资源地址</h4>
+        </div>
+        <div class="modal-body url-modal">
+          <p style="font-size: 1.4em;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {%- block script -%}
-  <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='bootstrap-fileinput/js/fileinput.min.js') }}"></script>
-  <script>
-    function make_iCheck() {
-      $('input[type="checkbox"], input[type="radio"]').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue'
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+<script src="{{ url_for('static', filename='masonry/imagesloaded.pkgd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='masonry/masonry.pkgd.min.js') }}"></script>
+<script>
+  function make_masonry() {
+    var $container = $('.res-wall');
+    $container.imagesLoaded(function() {
+      $container.masonry({
+        itemSelector: '.res-item',
+        isAnimated: true
       });
-    }
-    function gao_selected() {
-      $(document).on('click', '.img-item', function() {
-        $('.img-item').each(function() {
+    });
+  }
+
+  function make_iCheck() {
+    $('input[type="checkbox"], input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue'
+    });
+  }
+  function gao_selected() {
+      $(document).on('click', '.res-item', function() {
+        $('.res-item').each(function() {
           $(this).removeClass('selected');
         });
         $(this).addClass('selected');
       });
     }
-    function get_resource_list(offset, limit) {
-      $('.list-box > div.overlay').fadeIn(300);
-      var data = {offset: offset, limit: limit};
-      $.post("{{ url_for('ajax.get_resource_list') }}", data).success(function (ret) {
-        var news_count = ret.sum;
-        var start = ret.offset;
-        var length = ret.limit;
-        var news_list = ret.news_list;
-        var $list_table = $('.img-choose-box').first();
-        $list_table.empty();
-        if (length == 0) {
-          $list_table.append('<div class="nothing"><h1>无资源</h1></div>');
-        } else {
-          for (var i = 0; i < length; ++i) {
-            $list_table.append(news_list[i]);
-          }
+  function get_resource_list(offset, limit) {
+    var data = { offset: offset, limit: limit };
+    $.post("{{ url_for('ajax.get_resource_list') }}", data).success(function (ret) {
+      var news_count = ret.sum;
+      var start = ret.offset;
+      var length = ret.limit;
+      var news_list = ret.news_list;
+      var $container = $('.res-wall');
+      $container.empty();
+      if (length == 0) {
+        $container.append('<div class="nothing"><h1>无资源</h1></div>');
+      } else {
+        $container.masonry();
+        for (var i = 0; i < length; ++i) {
+          var $item = $(news_list[i]);
+          $container.append($item).masonry('appended', $item, true);
         }
-        $('.list-box > div.overlay').fadeOut(300);
-        var prev = $('.prev-page');
-        var next = $('.next-page');
-        if (start == 0) {
-          prev.hide();
-        } else {
-          prev.show();
-          prev.val(start - limit);
-        }
-        if (news_count == start + length) {
-          next.hide();
-        } else {
-          next.show();
-          next.val(start + length);
-        }
-      }).error(function () {
-        var $list_table = $('.list-table-body').first();
-        $list_table.empty();
-        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr><div class="nothing"><h1>加载失败</h1></div>');
-        $('.list-box > div.overlay').fadeOut(300);
-        $('.prev-page').hide();
-        $('.next-page').hide();
-      });
-    }
-    function make_pager(limit) {
-      $('button.to_refresh').click(function () {
-        get_resource_list(0, limit);
-      });
-      $('.prev-page').click(function () {
-        var offset = parseInt($(this).val());
-        get_resource_list(offset, limit);
-      });
-      $('.next-page').click(function () {
-        var offset = parseInt($(this).val());
-        get_resource_list(offset, limit);
-      });
-    }
-    $(document).ready(function() {
-      var limit = {{ limit }};
-      get_resource_list(0, limit);
-      make_pager(limit);
-      gao_selected();
+        $container.masonry('reloadItems');
+        $container.masonry('layout');
+      }
+      var prev = $('.prev-page');
+      var next = $('.next-page');
+      if (start == 0) {
+        prev.hide();
+      } else {
+        prev.show();
+        prev.val(start - limit);
+      }
+      if (news_count == start + length) {
+        next.hide();
+      } else {
+        next.show();
+        next.val(start + length);
+      }
+    }).error(function () {
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
+      $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr><div class="nothing"><h1>加载失败</h1></div>');
+      $('.list-box > div.overlay').fadeOut(300);
+      $('.prev-page').hide();
+      $('.next-page').hide();
     });
-  </script>
-  <script>
-    function delete_resource(checked) {
-      var data = {'resource_id': checked};
-      $.post("{{ url_for('ajax.delete_resource') }}", data).success(function (ret) {
-        $('.closeModal').click();
-        get_resource_list(0, {{ limit }});
-      });
-    }
-    $(function () {
-      var limit = {{ limit }};
-      make_iCheck();
-      $("#inputFile").fileinput({
-        'showUpload': false,
-        'maxFileCount': 1,
-        'maxFileSize': 8192
-      });
-      $('.to_delete_resource').click(function () {
-        var $selected = $('.img-choose-box .selected');
-        if ($selected.length <= 0) {
-          return false;
-        }
-      });
-      $('.delete_resource').click(function () {
-        var $selected = $('.img-choose-box .selected').data('target');
-        delete_resource($selected);
-      });
-      $('.download_resource').click(function() {
-        var $selected = $('.img-choose-box .selected');
-        if ($selected.length <= 0) {
-          return false;
-        }
-        var name = $selected.data('filename');
-        window.open("/upload/resource/"+name);
-      });
-      $('.to_edit_resource').click(function () {
-        var $selected = $('.img-choose-box .selected');
-        if ($selected.length <= 0) {
-          return false;
-        } else {
-          var data = {'resource_id': $selected.data('target')};
-          $.post("{{ url_for('ajax.get_resource_info') }}", data).success(function (ret) {
-              $("#myModal3").html(ret);
-              make_iCheck();
-          });
-        }
-      });
-      $("#myModal3").on("click", "#edit_submit", function() {
-          var data = $('#editForm').serialize();
-          $.post("{{ url_for("ajax.edit_resource") }}", data).success(function (ret) {
-              if (ret!='ok') {
-                $("#edit-info-text").html(ret);
-                $("#edit-info").hide().fadeIn(200);
-              } else {
-                  $('.closeModal').click();
-                  get_resource_list(0, limit);
-              }
-          });
-      });
-      $('#postForm').submit(function () {
-        var data = new FormData($('#postForm')[0]);
-        var file = $("#inputFile")[0];
-        data.append(file.name, file.files[0]);
-        $.ajax({
-          url: "{{ url_for('ajax.upload') }}",
-          type: "POST",
-          data: data,
-          processData: false,  // 告诉jQuery不要去处理发送的数据
-          contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-          success: function (msg) {
-            if (msg == 'ok') {
+  }
+  function make_pager(limit) {
+    $('button.to_refresh').click(function () {
+      get_resource_list(0, limit);
+    });
+    $('.prev-page').click(function () {
+      var offset = parseInt($(this).val());
+      get_resource_list(offset, limit);
+    });
+    $('.next-page').click(function () {
+      var offset = parseInt($(this).val());
+      get_resource_list(offset, limit);
+    });
+  }
+  function delete_resource(checked) {
+    var data = { 'resource_id': checked };
+    $.post("{{ url_for('ajax.delete_resource') }}", data).success(function (ret) {
+      $('.closeModal').click();
+      get_resource_list(0, {{ limit }});
+    });
+  }
+  $(document).ready(function() {
+    var limit = {{ limit }};
+    make_masonry();
+    get_resource_list(0, limit);
+    make_pager(limit);
+    gao_selected();
+  });
+
+  $(function () {
+    var limit = {{ limit }};
+    make_iCheck();
+    $("#inputFile").fileinput({
+      'showUpload': false,
+      'maxFileCount': 1,
+      'maxFileSize': 8192
+    });
+    $('.to_delete_resource').click(function () {
+      var $selected = $('.res-wall .selected');
+      if ($selected.length <= 0) {
+        return false;
+      }
+    });
+    $('.delete_resource').click(function () {
+      var $selected = $('.res-wall .selected').data('target');
+      delete_resource($selected);
+    });
+    $('.download_resource').click(function() {
+      var $selected = $('.res-wall .selected');
+      if ($selected.length <= 0) {
+        return false;
+      }
+      var name = $selected.data('filename');
+      window.open("/upload/resource/" + name);
+    });
+    $('.to_edit_resource').click(function () {
+      var $selected = $('.res-wall .selected');
+      if ($selected.length <= 0) {
+        return false;
+      } else {
+        var data = { 'resource_id': $selected.data('target') };
+        $.post("{{ url_for('ajax.get_resource_info') }}", data).success(function (ret) {
+            $("#myModal3").html(ret);
+            make_iCheck();
+        });
+      }
+    });
+    $('.get_res_url').click(function () {
+      var $selected = $('.res-wall .selected');
+      if ($selected.length <= 0) {
+        return false;
+      } else {
+        var data = $selected.data('url');
+        $(".url-modal>p").html(data);
+      }
+    });
+    $("#myModal3").on("click", "#edit_submit", function() {
+        var data = $('#editForm').serialize();
+        $.post("{{ url_for("ajax.edit_resource") }}", data).success(function (ret) {
+            if (ret != 'ok') {
+              $("#edit-info-text").html(ret);
+              $("#edit-info").hide().fadeIn(200);
+            } else {
+              $("#edit-info").html('').hide();
               $('.closeModal').click();
               get_resource_list(0, limit);
-              $('#postForm').get(0).reset();
-            } else {
-              $("#post-info-text").html(msg);
-              $("#post-info").hide().fadeIn(200);
             }
-          }
         });
-        return false;
-      });
     });
-  </script>
+    $('#postForm').submit(function () {
+      var data = new FormData($('#postForm')[0]);
+      var file = $("#inputFile")[0];
+      data.append(file.name, file.files[0]);
+      $.ajax({
+        url: "{{ url_for('ajax.upload') }}",
+        type: "POST",
+        data: data,
+        processData: false,  // 告诉jQuery不要去处理发送的数据
+        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+        success: function (msg) {
+          if (msg == 'ok') {
+            $("#post-info").html('').hide();
+            $('.closeModal').click();
+            get_resource_list(0, {{ limit }});
+            $('#postForm').get(0).reset();
+          } else {
+            $("#post-info-text").html(msg);
+            $("#post-info").hide().fadeIn(200);
+          }
+        }
+      });
+      return false;
+    });
+  });
+</script>
 {%- endblock -%}

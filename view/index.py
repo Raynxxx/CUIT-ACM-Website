@@ -339,13 +339,14 @@ def honor(honor_id=None):
 
 #
 # @brief: page for members situation
-# @route: /honor/honor_id
+# @route: /members
 # @accepted methods: [get]
 # @allowed user: all
 #
 @main.route("/members", methods=['GET'])
 def members():
     return render_template('index/members.html',
+                           title = u'队员去向',
                            SITUATION_PER_PAGE = config.SITUATION_PER_PAGE)
 
 

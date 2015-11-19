@@ -1,5 +1,6 @@
 <div class="col-sm-4 col-md-3 img-item res-item" id="{{ resource.id }}"
-     data-target="{{ resource.id }}" data-filename="{{ resource.filename }}">
+     data-target="{{ resource.id }}" data-filename="{{ resource.filename }}"
+     data-url="{{ file_url(resource) }}">
   <div class="thumbnail">
     {% if resource.type == 0 %}
     <div class="file-icon"><i class="fa fa-file-text-o"></i></div>
@@ -8,8 +9,8 @@
     {% elif resource.type == 2 %}
     <div class="file-icon"><i class="fa fa-file-code-o"></i></div>
     {% elif resource.type == 3 %}
-    <!--<div class="img-responsive"><img src="{{ file_url(resource) }}"></div>-->
-    <div class="file-icon"><i class="fa fa-file-image-o"></i></div>
+    <div class="img-responsive"><img src="{{ file_url(resource) }}"></div>
+    <!--<div class="file-icon"><i class="fa fa-file-image-o"></i></div>-->
     {% elif resource.type == 4 %}
     <div class="file-icon"><i class="fa fa-file-archive-o"></i></div>
     {% else %}
