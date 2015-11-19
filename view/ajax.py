@@ -33,7 +33,6 @@ def recent_contests():
             'oj': contest['oj'],
             'name': '<a href="' + link + '" class="contest-name" title="' + name + '">' + name + '</a>',
             'start_time': contest['start_time'],
-            'week': contest['week'],
             'access': contest['access'],
         }
         contests.append(new_contest)
