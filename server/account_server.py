@@ -30,7 +30,7 @@ def delete_account_by_id(user, account_id):
         account_user = User.query.filter(User.id==account_user_id).with_lockmode('update').first()
         account_user.update_score()
         account_user.save()
-    else :
+    else:
         db.session.commit()
 
 
@@ -46,8 +46,9 @@ def delete_account(user, oj_name):
         account_user = User.query.filter(User.id==account_user_id).with_lockmode('update').first()
         account_user.update_score()
         account_user.save()
-    else :
+    else:
         db.session.commit()
+
 
 def update_account_by_id(account_id):
     account = Account.query.filter(Account.id == account_id, Account.update_status==AccountStatus.NORMAL)\
@@ -66,6 +67,7 @@ def modify_account(origin, param):
     account = Account(param.oj_name.data, param.nickname.data, param.password.data, origin.user)
     origin.delete()
     account.save()
+
 
 def get_account_info_list(user):
     accounts = user.account

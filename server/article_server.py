@@ -30,7 +30,7 @@ def post(form, user, is_draft):
         has = SolutionArticle(form.title.data,user)
     else:
         has.title = form.title.data
-        has.last_update_time = datetime.datetime.now()
+        has.last_update_time = datetime.now()
     if list_len == 1 :
         has.md_shortcut = content_list[0]
         has.md_content = ""

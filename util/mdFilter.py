@@ -21,7 +21,7 @@ VALID_TAGS = {'h1':{}, 'h2':{}, 'h3':{}, 'h4':{}, 'h5':{}, 'h6':{},'sup':{},
 
 VALID_ATTR = {'id':''}
 
-def parsehtml(html):
+def parse_html(html):
     soup = BeautifulSoup(html)
     for tag in soup.findAll(True):
         if tag.name not in VALID_TAGS:
@@ -40,4 +40,4 @@ def parsehtml(html):
 def markdown(md):
     data = render.markdown(md, extensions=['markdown.extensions.extra','markdown.extensions.toc'])
     #return data
-    return parsehtml(data).decode('utf-8')
+    return parse_html(data).decode('utf-8')

@@ -91,7 +91,7 @@
       var start = ret.offset;
       var length = ret.limit;
       var honor_list = ret.honor_list;
-      var $list_table = $('.list-table-body').first();
+      var $list_table = $('.list-table-body');
       $list_table.empty();
       if (length == 0) {
         $list_table.append('<tr><td colspan="5"><h2>无荣誉</h2></tr>');
@@ -100,6 +100,7 @@
           $list_table.append(honor_list[i]);
         }
       }
+      $list_table.data('offset', start);
       $('.list-box > div.overlay').fadeOut(300, make_iCheck());
       var prev = $('.prev-page');
       var next = $('.next-page');
@@ -124,11 +125,16 @@
       $('.next-page').hide();
     });
   }
+  function get_cur_offset() {
+    return $('.list-table-body').data('offset');
+  }
   function delete_honor(checked) {
     var data = { 'honor_id': checked };
     $.post("{{ url_for('ajax.delete_honor') }}", data).success(function(ret) {
       $('.closeModal').click();
-      get_honor_list(0, {{ limit }});
+      if (ret == 'OK') {
+        $('#honor' + checked).fadeOut(1200, function(){ $(this).remove(); });
+      }
     });
   }
   $(function () {

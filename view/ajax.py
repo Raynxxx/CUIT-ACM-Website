@@ -236,9 +236,10 @@ def delete_user():
     try:
         id = request.form.get('user_id')
         user_server.delete_by_id(id)
-        return u"删除用户成功"
+        return u"OK"
     except Exception, e:
-        return u"删除用户失败: " + e.message
+        print e.message
+        return u"FAIL"
 
 
 #
@@ -290,10 +291,10 @@ def delete_news():
     try:
         news_id = request.form.get('news_id')
         news_server.delete_by_id(news_id)
-        return u'删除成功'
+        return u'OK'
     except Exception, e:
         print e.message
-        return u'删除失败'
+        return u'FAIL'
 
 #
 # @brief: post news
@@ -435,7 +436,7 @@ def delete_account():
     try:
         account_id = request.form.get('account_id')
         account_server.delete_account_by_id(profile_user, account_id)
-        return u"ok"
+        return u"OK"
     except AccountUpdatingException, e:
         return 'ERROR: ' + e.message
     except:
@@ -725,12 +726,14 @@ def delete_honor():
         msg = honor_server.delete_honor(honor_id)
         return msg
     except:
-        return u'删除失败'
+        return u'FAIL'
 
 
 @login_required
 def get_article_list_item(article):
     return render_template('ajax/article_list_item.html', article = article)
+
+
 #
 # @brief: ajax article list
 # @route: /ajax/article_list
@@ -752,6 +755,7 @@ def get_article_list():
 def get_related_submits_item(submit):
     return render_template('ajax/related_submits_item.html', submit=submit)
 
+
 @ajax.route("/ajax/related_submits", methods = ['POST'])
 @login_required
 def get_related_submits():
@@ -768,6 +772,7 @@ def get_related_submits():
 @login_required
 def get_related_article_item(article):
     return render_template('ajax/related_article_item.html', article=article)
+
 
 @ajax.route("/ajax/related_article", methods = ['POST'])
 @login_required

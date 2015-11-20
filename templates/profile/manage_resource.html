@@ -44,10 +44,11 @@
     </div>
   </div>
   <div class="row">
-  <div class="col-sm-12">
-    <div class="res-wall"></div>
+    <div class="col-sm-12">
+      <div class="res-wall"></div>
+    </div>
   </div>
-  </div>
+
   <div class="modal fade" id="myModal" style="margin-top: 50px;">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
@@ -173,13 +174,14 @@
     });
   }
   function gao_selected() {
-      $(document).on('click', '.res-item', function() {
-        $('.res-item').each(function() {
-          $(this).removeClass('selected');
-        });
-        $(this).addClass('selected');
+    $(document).on('click', '.res-item', function() {
+      $('.res-item').each(function() {
+        $(this).removeClass('selected');
       });
-    }
+      $(this).addClass('selected');
+    });
+  }
+
   function get_resource_list(offset, limit) {
     var data = { offset: offset, limit: limit };
     $.post("{{ url_for('ajax.get_resource_list') }}", data).success(function (ret) {
@@ -200,6 +202,7 @@
         $container.masonry('reloadItems');
         $container.masonry('layout');
       }
+      $container.data('offset', start);
       var prev = $('.prev-page');
       var next = $('.next-page');
       if (start == 0) {
@@ -223,6 +226,9 @@
       $('.next-page').hide();
     });
   }
+  function get_cur_offset() {
+    return $('.res-wall').data('offset');
+  }
   function make_pager(limit) {
     $('button.to_refresh').click(function () {
       get_resource_list(0, limit);
@@ -240,13 +246,16 @@
     var data = { 'resource_id': checked };
     $.post("{{ url_for('ajax.delete_resource') }}", data).success(function (ret) {
       $('.closeModal').click();
-      get_resource_list(0, {{ limit }});
+      if (ret == 'OK') {
+        var $items = $('#resource' + checked);
+        $('.res-wall').masonry().masonry('remove', $items).masonry('layout');
+      }
     });
   }
   $(document).ready(function() {
     var limit = {{ limit }};
-    make_masonry();
     get_resource_list(0, limit);
+    make_masonry();
     make_pager(limit);
     gao_selected();
   });
@@ -254,21 +263,25 @@
   $(function () {
     var limit = {{ limit }};
     make_iCheck();
+
     $("#inputFile").fileinput({
       'showUpload': false,
       'maxFileCount': 1,
       'maxFileSize': 8192
     });
+
     $('.to_delete_resource').click(function () {
       var $selected = $('.res-wall .selected');
       if ($selected.length <= 0) {
         return false;
       }
     });
+
     $('.delete_resource').click(function () {
       var $selected = $('.res-wall .selected').data('target');
       delete_resource($selected);
     });
+
     $('.download_resource').click(function() {
       var $selected = $('.res-wall .selected');
       if ($selected.length <= 0) {
@@ -277,6 +290,7 @@
       var name = $selected.data('filename');
       window.open("/upload/resource/" + name);
     });
+
     $('.to_edit_resource').click(function () {
       var $selected = $('.res-wall .selected');
       if ($selected.length <= 0) {
@@ -289,6 +303,7 @@
         });
       }
     });
+
     $('.get_res_url').click(function () {
       var $selected = $('.res-wall .selected');
       if ($selected.length <= 0) {
@@ -298,6 +313,7 @@
         $(".url-modal>p").html(data);
       }
     });
+
     $("#myModal3").on("click", "#edit_submit", function() {
         var data = $('#editForm').serialize();
         $.post("{{ url_for("ajax.edit_resource") }}", data).success(function (ret) {
@@ -307,7 +323,7 @@
             } else {
               $("#edit-info").html('').hide();
               $('.closeModal').click();
-              get_resource_list(0, limit);
+              get_resource_list(get_cur_offset(), limit);
             }
         });
     });
@@ -322,7 +338,7 @@
         processData: false,  // 告诉jQuery不要去处理发送的数据
         contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
         success: function (msg) {
-          if (msg == 'ok') {
+          if (msg == 'OK') {
             $("#post-info").html('').hide();
             $('.closeModal').click();
             get_resource_list(0, {{ limit }});

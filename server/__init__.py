@@ -6,6 +6,5 @@ from dao.dbSUBMIT import Submit
 from dao.dbNews import News
 from dao.dbHonor import Honor
 from sqlalchemy import func
-import datetime
-
+from datetime import datetime
 

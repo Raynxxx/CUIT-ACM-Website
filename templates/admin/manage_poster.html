@@ -6,6 +6,11 @@
 
 {% block content %}
 <div class="row poster-wall">
+  <div class="col-sm-4 col-md-3 col-lg-2" data-toggle="modal" data-target="#addPoster">
+    <div class="index-poster" style="padding: 30px 0;cursor: pointer;">
+      <i class="fa fa-plus"></i>
+    </div>
+  </div>
   {% for key, value in poster %}
     <div class="col-sm-4 col-md-3 col-lg-2">
       <div class="index-poster">
@@ -22,11 +27,6 @@
       </div>
     </div>
   {% endfor %}
-  <div class="col-sm-4 col-md-3 col-lg-2" data-toggle="modal" data-target="#addPoster">
-    <div class="index-poster" style="padding: 30px 0;cursor: pointer;">
-      <i class="fa fa-plus"></i>
-    </div>
-  </div>
 </div>
 
 <div class="modal fade" id="addPoster" style="margin-top: 50px;">

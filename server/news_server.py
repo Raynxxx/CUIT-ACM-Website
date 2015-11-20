@@ -22,7 +22,7 @@ def post(form, user, is_draft):
     tags = generate_tags(form.tags.data)
     content_list = form.content.data.split('<-more->')
     if form.url.data == '':
-        form.url.data = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+        form.url.data = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
     list_len = len(content_list)
     if list_len > 2:
         raise Exception(u'more标签的使用超过限制')
@@ -35,7 +35,7 @@ def post(form, user, is_draft):
         has_news.title = form.title.data
         has_news.url = form.url.data
         has_news.is_top = form.is_top.data
-        has_news.last_update_time = datetime.datetime.now()
+        has_news.last_update_time = datetime.now()
     if list_len == 1 :
         has_news.md_shortcut = content_list[0]
         has_news.md_content = ""
@@ -49,6 +49,7 @@ def post(form, user, is_draft):
     has_news.tags = tags
     has_news.save()
 
+
 def get_count(show_draft=False, coach=None):
     if show_draft and not coach:
         return News.query.count()
@@ -56,6 +57,7 @@ def get_count(show_draft=False, coach=None):
         return News.query.filter(News.user==coach).count()
     else:
         return News.query.filter(News.is_draft==0).count()
+
 
 def get_list(offset=0, limit=10, show_draft=False, coach=None):
     if show_draft and not coach:
@@ -70,6 +72,7 @@ def get_list(offset=0, limit=10, show_draft=False, coach=None):
         return News.query.filter(News.is_draft == 0)\
             .order_by(News.is_top.desc(), News.last_update_time.desc())\
             .offset(offset).limit(limit).all()
+
 
 def get_recent(limit=5, sortTop = False):
     query = News.query.filter(News.is_draft==0)

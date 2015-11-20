@@ -6,6 +6,8 @@
 {% block content %}
 <div class="row filter-row">
   <div class="col-sm-offset-1 col-sm-11 col-xs-offset-1 col-xs-11">
+    <a class="btn btn-primary pull-left refresh"
+       href="{{ url_for('main.honor_wall') }}">全部</a>
     <fieldset class="form-inline pull-left">
       <select class="form-control select-type" name="type">
         <option value="user">队员名</option>

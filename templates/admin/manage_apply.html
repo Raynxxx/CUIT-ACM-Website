@@ -59,6 +59,7 @@
       isAnimated: true
     });
   }
+
   function check_apply(uid, opt) {
     var data = {
       'uid': uid, 'opt': opt
@@ -68,8 +69,8 @@
         $('.closeModal').click();
       }
       if (ret == "OK") {
-        $('#apply' + uid).fadeOut().remove();
-        make_masonry();
+        var $items = $('#apply' + uid);
+        $('.apply-wall').masonry().masonry('remove', $items).masonry('layout');
       }
     });
   }

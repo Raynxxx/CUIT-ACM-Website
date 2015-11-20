@@ -117,11 +117,11 @@ def related_article_count(submit):
 
 def get_sys_info():
     sys_info = dict()
-    sys_info['time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    sys_info['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     import user_server
     sys_info['user_count'] = user_server.get_count()
     sys_info['apply_count'] = user_server.get_count(isApply=True)
-    today = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     sys_info['daily_submit'] = Submit.query.filter(Submit.submit_time > today).count()
     sys_info['total_submit'] = Submit.query.count()
     sys_info['news_count'] = News.query.count()

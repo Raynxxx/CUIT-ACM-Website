@@ -68,7 +68,7 @@
 .img-responsive {
   height: 0;
   max-width: 100%;
-  padding-bottom: 60%;
+  padding-bottom: 50%;
   background-color: #fff;
   overflow: hidden;
 }
@@ -153,8 +153,9 @@
 .filter-row h2 {
   margin-top: 0;
 }
-.filter-row .form-inline {
+.filter-row .refresh {
   margin-left: 20px;
+  margin-right: 10px;
 }
 .filter-row .btn-primary:hover {
   border-color: #367fa9;
@@ -231,6 +232,7 @@
 .honor-one .tacker .label {
   display: inline-block;
   margin-right: 2px;
+  margin-bottom: 2px;
 }
 .honor-one .poster {
   border-bottom: 1px solid #ddd;

@@ -118,9 +118,9 @@ def get_list(offset=0, limit=20, school=None, isApply=False):
         else:
             users = User.query.filter(User.school==school, 8 <= User.rights < 12)
     if offset == 0 and limit == -1:
-        users = users.all()
+        users = users.order_by(User.rights.desc()).all()
     else:
-        users = users.offset(offset).limit(limit).all()
+        users = users.order_by(User.rights.desc()).offset(offset).limit(limit).all()
     return users
 
 
@@ -154,8 +154,9 @@ def modify_password(pwd_modify_form, current_user):
 def get_statistic(user):
     statistic = dict()
     statistic['total_submit'] = user.submit.count()
-    now = datetime.datetime.now()
-    permit_date = now - datetime.timedelta(days=now.weekday())
+    now = datetime.now()
+    from datetime import timedelta
+    permit_date = now - timedelta(days=now.weekday())
     permit_date = permit_date.replace(hour=0, minute=0, second=0)
     statistic['weekly_submit'] = user.submit.filter(Submit.submit_time > permit_date).count()
     return statistic
