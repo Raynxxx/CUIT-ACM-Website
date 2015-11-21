@@ -1,0 +1,356 @@
+{% extends "admin/base.html" %}
+{%- block head -%}
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-fileinput/css/fileinput.min.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resource.css') }}"/>
+{%- endblock -%}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="box box-primary list-box">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="fa fa-list"></i> 资源列表</h3>
+
+          <div class="box-tools">
+            <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+          </div>
+        </div>
+        <div class="box-body no-padding">
+          <div class="list-box-controls">
+            <button class="btn btn-default btn-sm to_delete_resource" data-toggle="modal" data-target="#myModal">
+              <i class="fa fa-trash-o"></i> 删除
+            </button>
+            <button class="btn btn-default btn-sm to_edit_resource" data-toggle="modal" data-target="#myModal3">
+              <i class="fa fa-pencil-square-o"></i> 修改
+            </button>
+            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2">
+              <i class="fa fa-cloud-upload"></i>上传</button>
+            <button class="btn btn-default btn-sm download_resource">
+              <i class="fa fa-cloud-download"></i> 下载
+            </button>
+            <button class="btn btn-default btn-sm get_res_url" data-toggle="modal" data-target="#myModal4">
+              <i class="fa fa-info"></i> 资源地址
+            </button>
+            <div class="pull-right">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
+                <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="res-wall"></div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="myModal" style="margin-top: 50px;">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">提示</h4>
+        </div>
+        <div class="modal-body">
+          <p style="font-size: 1.4em;">是否确定删除当前选定资源！</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-flat delete_resource">确定删除</button>
+          <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal2" style="margin-top: 50px;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">上传资源</h4>
+        </div>
+        <form id="postForm" method="post" class="form-horizontal">
+          <div class="modal-body">
+            {{ upload_form.hidden_tag() }}
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="inputName"><span class="required-star">* </span>名称</label>
+              <div class="col-sm-9">
+                {{ upload_form.name(class="form-control required",id="inputName", placeholder="名称") }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="inputShortcut">简介</label>
+              <div class="col-sm-9">
+                {{ upload_form.description(class='form-control required',id="inputdescription", rows="6", style="resize:none;" , placeholder="简介") }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="inputShortcut"><span class="required-star">* </span>选择文件</label>
+              <div class="col-sm-9">
+                {{ upload_form.upload(id="inputFile") }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2"><span class="required-star">* </span>权限</label>
+              <div class="col-sm-9">
+                {%- for sub in upload_form.level %}
+                  <label class="radio-inline">
+                    {{ sub }}
+                    {{ sub.label(style='margin-left:10px;') }}
+                  </label>
+                {%- endfor %}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2"><span class="required-star">* </span>用途</label>
+              <div class="col-sm-9">
+                {%- for sub in upload_form.usage %}
+                  <label class="radio-inline">
+                    {{ sub }}
+                    {{ sub.label(style='margin-left:10px;') }}
+                  </label>
+                {%- endfor %}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="alert alert-danger col-sm-offset-2 col-sm-9" id="post-info" style="display: none;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <span id="post-info-text">xxxx</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            {{ upload_form.submit(class='btn btn-primary', value='上传') }}
+            <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal3" style="margin-top: 50px;">
+  </div>
+  <div class="modal fade" id="myModal4" style="margin-top: 50px;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">资源地址</h4>
+        </div>
+        <div class="modal-body url-modal">
+          <p style="font-size: 1.4em;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{%- block script -%}
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+<script src="{{ url_for('static', filename='masonry/imagesloaded.pkgd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='masonry/masonry.pkgd.min.js') }}"></script>
+<script>
+  function make_masonry() {
+    var $container = $('.res-wall');
+    $container.imagesLoaded(function() {
+      $container.masonry({
+        itemSelector: '.res-item',
+        isAnimated: true
+      });
+    });
+  }
+
+  function make_iCheck() {
+    $('input[type="checkbox"], input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue'
+    });
+  }
+  function gao_selected() {
+    $(document).on('click', '.res-item', function() {
+      $('.res-item').each(function() {
+        $(this).removeClass('selected');
+      });
+      $(this).addClass('selected');
+    });
+  }
+
+  function get_resource_list(offset, limit) {
+    var data = { offset: offset, limit: limit };
+    $.post("{{ url_for('ajax.get_resource_list') }}", data).success(function (ret) {
+      var news_count = ret.sum;
+      var start = ret.offset;
+      var length = ret.limit;
+      var news_list = ret.news_list;
+      var $container = $('.res-wall');
+      $container.empty();
+      if (length == 0) {
+        $container.append('<div class="nothing"><h1>无资源</h1></div>');
+      } else {
+        $container.masonry();
+        for (var i = 0; i < length; ++i) {
+          var $item = $(news_list[i]);
+          $container.append($item).masonry('appended', $item, true);
+        }
+        $container.masonry('reloadItems');
+        $container.masonry('layout');
+      }
+      $container.data('offset', start);
+      var prev = $('.prev-page');
+      var next = $('.next-page');
+      if (start == 0) {
+        prev.hide();
+      } else {
+        prev.show();
+        prev.val(start - limit);
+      }
+      if (news_count == start + length) {
+        next.hide();
+      } else {
+        next.show();
+        next.val(start + length);
+      }
+    }).error(function () {
+      var $list_table = $('.list-table-body').first();
+      $list_table.empty();
+      $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr><div class="nothing"><h1>加载失败</h1></div>');
+      $('.list-box > div.overlay').fadeOut(300);
+      $('.prev-page').hide();
+      $('.next-page').hide();
+    });
+  }
+  function get_cur_offset() {
+    return $('.res-wall').data('offset');
+  }
+  function make_pager(limit) {
+    $('button.to_refresh').click(function () {
+      get_resource_list(0, limit);
+    });
+    $('.prev-page').click(function () {
+      var offset = parseInt($(this).val());
+      get_resource_list(offset, limit);
+    });
+    $('.next-page').click(function () {
+      var offset = parseInt($(this).val());
+      get_resource_list(offset, limit);
+    });
+  }
+  function delete_resource(checked) {
+    var data = { 'resource_id': checked };
+    $.post("{{ url_for('ajax.delete_resource') }}", data).success(function (ret) {
+      $('.closeModal').click();
+      if (ret == 'OK') {
+        var $items = $('#resource' + checked);
+        $('.res-wall').masonry().masonry('remove', $items).masonry('layout');
+      }
+    });
+  }
+  $(document).ready(function() {
+    var limit = {{ limit }};
+    get_resource_list(0, limit);
+    make_masonry();
+    make_pager(limit);
+    gao_selected();
+  });
+
+  $(function () {
+    var limit = {{ limit }};
+    make_iCheck();
+
+    $("#inputFile").fileinput({
+      'showUpload': false,
+      'maxFileCount': 1,
+      'maxFileSize': 8192
+    });
+
+    $('.to_delete_resource').click(function () {
+      var $selected = $('.res-wall .selected');
+      if ($selected.length <= 0) {
+        return false;
+      }
+    });
+
+    $('.delete_resource').click(function () {
+      var $selected = $('.res-wall .selected').data('target');
+      delete_resource($selected);
+    });
+
+    $('.download_resource').click(function() {
+      var $selected = $('.res-wall .selected');
+      if ($selected.length <= 0) {
+        return false;
+      }
+      var name = $selected.data('filename');
+      window.open("/upload/resource/" + name);
+    });
+
+    $('.to_edit_resource').click(function () {
+      var $selected = $('.res-wall .selected');
+      if ($selected.length <= 0) {
+        return false;
+      } else {
+        var data = { 'resource_id': $selected.data('target') };
+        $.post("{{ url_for('ajax.get_resource_info') }}", data).success(function (ret) {
+            $("#myModal3").html(ret);
+            make_iCheck();
+        });
+      }
+    });
+
+    $('.get_res_url').click(function () {
+      var $selected = $('.res-wall .selected');
+      if ($selected.length <= 0) {
+        return false;
+      } else {
+        var data = $selected.data('url');
+        $(".url-modal>p").html(data);
+      }
+    });
+
+    $("#myModal3").on("click", "#edit_submit", function() {
+        var data = $('#editForm').serialize();
+        $.post("{{ url_for("ajax.edit_resource") }}", data).success(function (ret) {
+            if (ret != 'ok') {
+              $("#edit-info-text").html(ret);
+              $("#edit-info").hide().fadeIn(200);
+            } else {
+              $("#edit-info").html('').hide();
+              $('.closeModal').click();
+              get_resource_list(get_cur_offset(), limit);
+            }
+        });
+    });
+    $('#postForm').submit(function () {
+      var data = new FormData($('#postForm')[0]);
+      var file = $("#inputFile")[0];
+      data.append(file.name, file.files[0]);
+      $.ajax({
+        url: "{{ url_for('ajax.upload') }}",
+        type: "POST",
+        data: data,
+        processData: false,  // 告诉jQuery不要去处理发送的数据
+        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+        success: function (msg) {
+          if (msg == 'OK') {
+            $("#post-info").html('').hide();
+            $('.closeModal').click();
+            get_resource_list(0, {{ limit }});
+            $('#postForm').get(0).reset();
+          } else {
+            $("#post-info-text").html(msg);
+            $("#post-info").hide().fadeIn(200);
+          }
+        }
+      });
+      return false;
+    });
+  });
+</script>
+{%- endblock -%}

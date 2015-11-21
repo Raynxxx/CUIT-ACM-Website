@@ -56,13 +56,13 @@
           {%- if current_user.is_authenticated() -%}
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <img src="{{ current_user.gravatar(size=256) }}" class="user-image" alt="User Image">
+                <img src="{{ current_user.gravatar(size=30) }}" class="user-image" alt="User Image">
                 <span class="hidden-xs">{{ current_user.name }}</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
+                  <img src="{{ current_user.gravatar(size=100) }}" class="img-circle" alt="User Image">
                   <p>
                     {{ current_user.name }}
                     <small>注册于 {{ current_user.create_time }}</small>
@@ -111,13 +111,13 @@
           {% for key, value in poster %}
             {% if loop.index0 == 0 %}
               <div class="item active">
-                <a href="{{ value }}"><img src="{{ key }}" alt="..."></a>
+                <a href="{{ value }}" target="_blank"><img src="{{ key }}" alt="..."></a>
                 <div class="carousel-caption">
                 </div>
               </div>
             {% else %}
               <div class="item">
-                <a href="{{ value }}"><img src="{{ key }}" alt="..."></a>
+                <a href="{{ value }}" target="_blank"><img src="{{ key }}" alt="..."></a>
                 <div class="carousel-caption">
                 </div>
               </div>
@@ -160,7 +160,7 @@
         <div class="index-button">
           <a class="btn btn-lg btn-block text-center" href="{{ url_for('main.join_us') }}"> <i class="fa fa-users"></i> 加入我们</a>
         </div>
-        <div class="index-block" style="min-height: 150px;">
+        <div class="index-block" style="min-height: 210px;">
           <div class="block-header">
             <span class="block-title" style="font-weight: bold">近期新闻</span>
             <span class="pull-right"><a href="{{ url_for('main.news_list') }}">更多>></a></span>

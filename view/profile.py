@@ -108,6 +108,8 @@ def manage_resource():
                            upload_form = file_upload_form)
 
 
+
+
 #not used
 @profile.route("/profile/manage_article", methods = ['GET'])
 @login_required

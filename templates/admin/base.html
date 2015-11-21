@@ -44,13 +44,13 @@
           <li><a href="{{ url_for('main.index') }}"><span>回到首页</span></a></li>
           <li class="dropdown user user-menu">
             <a href="none" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <img src="{{ current_user.gravatar(size=256) }}" class="user-image" alt="User Image">
+              <img src="{{ current_user.gravatar(size=30) }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{ current_user.name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
+                <img src="{{ current_user.gravatar(size=100) }}" class="img-circle" alt="User Image">
 
                 <p>
                   {{ current_user.name }}
@@ -101,9 +101,10 @@
         <li><a href="{{ url_for('admin.sys_info') }}"><i class="fa fa-plug"></i> <span>系统信息</span></a></li>
         <li><a href="{{ url_for('admin.manage_user') }}"><i class="fa fa-users"></i> <span>用户管理</span></a></li>
         <li><a href="{{ url_for('admin.manage_apply') }}"><i class="fa fa-male"></i> <span>新生申请验证</span></a></li>
-        <li><a href="{{ url_for('admin.manage_poster') }}"><i class="fa fa-file-image-o"></i> <span>首页图片</span></a> </li>
         <li><a href="{{ url_for('admin.manage_news') }}"><i class="fa fa-rss"></i> <span>新闻管理</span></a></li>
         <li><a href="{{ url_for('admin.manage_honor') }}"><i class="fa fa-flag"></i> <span>荣誉管理</span></a></li>
+        <li><a href="{{ url_for('admin.manage_resource') }}"><i class="fa fa-file"></i> <span>资源管理</span></a></li>
+        <li><a href="{{ url_for('admin.manage_poster') }}"><i class="fa fa-file-image-o"></i> <span>首页图片</span></a> </li>
         <!--
         <li><a href="{{ url_for('admin.add_book') }}" id="user-add"><i class="fa fa-book"> </i> <span>添加书籍</span></a>
         </li>-->

@@ -65,7 +65,7 @@
             <ul class="recent_articles">
               {% for news in recent_news %}
                 <li><i class="fa fa-angle-right"></i>
-                  <a href="{{ url_for('main.news', p=news.id) }}">{{ news.title }}
+                  <a href="{{ url_for('main.news', p=news.id) }}" title="{{ news.title }}">{{ news.title }}
                 </a></li>
               {% endfor %}
             </ul>

@@ -46,13 +46,13 @@
           <li><a href="{{ url_for('main.index') }}"><span>回到首页</span></a></li>
           <li class="dropdown user user-menu">
             <a href="none" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <img src="{{ current_user.gravatar(size=256) }}" class="user-image" alt="User Image">
+              <img src="{{ current_user.gravatar(size=30) }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{ current_user.name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
+                <img src="{{ current_user.gravatar(size=100) }}" class="img-circle" alt="User Image">
                 <p>
                   {{ current_user.name }}
                   <small>注册于 {{ current_user.create_time }}</small>
@@ -106,7 +106,7 @@
             <span>OJ 账号</span></a></li>
         {% endif %}
         {% if user == current_user %}
-          <li><a href="{{ url_for('profile.manage_resource') }}"><i class="fa fa-file"></i> <span>资源</span></a></li>
+          <li><a href="{{ url_for('profile.manage_resource') }}"><i class="fa fa-file"></i> <span>资源管理</span></a></li>
           <!--<li><a href="{{ url_for('profile.manage_article') }}"><i class="fa fa-book"> </i> <span>题解</span></a></li>-->
         {% endif %}
       </ul>
