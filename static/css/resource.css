@@ -136,10 +136,8 @@
 }
 
 .res-name {
-  overflow: hidden !important;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space:nowrap;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 

@@ -48,6 +48,8 @@
   color: #333;
   font-weight: 400;
 }
+.article-body p {
+}
 .article-body img {
   max-width: 80%;
   border: solid 1px #999;

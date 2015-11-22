@@ -21,6 +21,11 @@ from util import function
 ajax = blueprints.Blueprint('ajax', __name__)
 
 
+#
+# @brief: json for recent contest
+# @route: /ajax/contest.json
+# @allowed user: public
+#
 @ajax.route("/ajax/contest.json", methods=['GET'])
 def recent_contests():
     import json
@@ -36,8 +41,20 @@ def recent_contests():
             'access': contest['access'],
         }
         contests.append(new_contest)
-    ret = { 'data': contests }
-    return json.JSONEncoder().encode(ret)
+    return json.dumps({ 'data': contests })
+
+
+#
+# @brief: ajax rank list
+# @route: /ajax/rank_list
+# @allowed user: student and coach
+#
+@ajax.route('/ajax/main_rank_table')
+def main_rank_table():
+    main_rank_list = general.get_rank_list()
+    return json.dumps({ 'data': main_rank_list })
+
+
 
 #
 # @brief: ajax html for one user item
