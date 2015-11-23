@@ -18,11 +18,11 @@ class LoginForm(Form):
 
 class RegisterForm(Form):
     username = StringField('Username', validators=[validators.DataRequired(), validators.Length(min=1, max=24),
-                    validators.Regexp('^[A-Za-z][A-Za-z0-9_.]*$', flags=0,
-                    message='Username must have only letters, numbers, dots or underscores')])
+                    validators.Regexp('^[A-Za-z][A-Za-z0-9_]*$', flags=0, message=u'用户名只能含有字母，数字，下划线')])
     name = StringField('Name',validators=[validators.DataRequired()])
-    password = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=6, max=24),
-                    validators.EqualTo('password2', message='Passwords must match.')])
+    password = PasswordField('Password', validators=[validators.DataRequired(),
+                        validators.Length(min=6, max=24, message=u'密码长度必须大于6位，小于24位'),
+                        validators.EqualTo('password2', message='验证密码不匹配')])
     password2 = PasswordField('Confirm password', validators=[validators.DataRequired()])
     stu_id = StringField('stu_id', validators=[validators.Optional(), validators.Length(min=1, max=20)])
     phone = StringField('stu_id', validators=[validators.Optional(), validators.Length(min=1, max=15)])
@@ -34,10 +34,12 @@ class RegisterForm(Form):
                           default=0)
     import datetime
     now_year = datetime.datetime.now().year
-    grade = SelectField('grade', validators=[validators.Optional()], choices=[(str(y), y) for y in range(now_year, now_year - 5, -1)],
+    grade = SelectField('grade', validators=[validators.Optional()],
+                        choices=[(str(y), y) for y in range(now_year, now_year - 5, -1)],
                         default=now_year)
     gender = RadioField('Gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default=1)
-    email = StringField('Email', validators=[validators.Optional(), validators.Length(min=1, max=64), validators.Email()])
+    email = StringField('Email', validators=[validators.Optional(), validators.Length(min=1, max=64),
+                                             validators.Email(message=u'邮件格式有误')])
     apply_reason = TextAreaField(u'申请理由', validators=[validators.Optional()])
     submit = SubmitField(u'提交申请')
 
@@ -171,6 +173,7 @@ class HonorForm(Form):
     introduce = TextAreaField(u'introduce', validators=[validators.Optional()])
     users = SelectMultipleField(u'users', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
+
 
 class PosterForm(Form):
     img_url = StringField(u'image url', validators=[validators.DataRequired(), validators.Length(min=1, max=128)])

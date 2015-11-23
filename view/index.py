@@ -61,7 +61,9 @@ def join_us():
         except Exception, e:
             flash(u"提交申请失败: " + e.message)
     else:
-        pass
+        for errors in join_form.errors.values():
+            for error in  errors:
+                flash(error)
     return render_template('index/register.html',
                            title = u'加入我们',
                            join_form = join_form)
