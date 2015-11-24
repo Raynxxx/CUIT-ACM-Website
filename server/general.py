@@ -2,43 +2,46 @@ from __init__ import *
 import sys
 from dao.dbACCOUNT import AccountStatus
 from dao.dbArticle import SolutionArticle
-import time
 from sqlalchemy import or_
-
+from flask import url_for
+import time
 
 #
 # default limit set to 1024 ....
 #
 def get_rank_list(limit=1024):
     oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc', 'vj']
-    info_list = []
-    users = User.query.filter(User.active==1, User.rights < 8)\
+    rank_list = []
+    users = User.query.filter(User.active == 1, User.rights < 8)\
                 .order_by(User.score.desc())\
-                .limit(limit)
-    rank = 1
-    for user in users:
+                .limit(limit).all()
+    for rank, user in enumerate(users):
         cur = {
-            'user': user,
-            'sno': user.stu_id,
-            'name': user.name,
-            'username': user.username,
-            'score': user.score,
-            'rank': rank
+            'rank': rank + 1,
+            'user': '<a href="' + url_for('profile.index', username=user.username) +
+                       '" target="_blank">' + user.name + '</a>',
         }
         for oj_name in oj:
             if oj_name in ['cf', 'bc']:
-                cur[oj_name] = {'rating': 0, 'max_rating': 0}
+                cur[oj_name] = '0 (max 0)'
             else:
-                cur[oj_name] = {'solved': 0, 'submitted': 0}
+                cur[oj_name] = '0 / 0'
         if user.account:
             accounts = user.account.all()
             for account in accounts:
-                cur[account.oj_name] = account.get_problem_count()
-                if account.oj_name in ['cf', 'bc']:
-                    cur[account.oj_name + '_username'] = account.nickname
-        info_list.append(cur)
-        rank += 1
-    return info_list
+                problem_count = account.get_problem_count()
+                if account.oj_name == 'cf':
+                    cur[account.oj_name] = '<a href="http://codeforces.com/profile/' + account.nickname \
+                                           + '"target="_blank">' + str(problem_count['rating']) + ' (max ' \
+                                           + str(problem_count['max_rating']) + ')</a>'
+                elif account.oj_name == 'bc':
+                    cur[account.oj_name] = '<a href="http://bestcoder.hdu.edu.cn/rating.php?user=' + account.nickname \
+                                           + '"target="_blank">' + str(problem_count['rating']) + ' (max ' \
+                                           + str(problem_count['max_rating']) + ')</a>'
+                else:
+                    cur[account.oj_name] = str(problem_count['solved']) + ' / ' + str(problem_count['submitted'])
+        rank_list.append(cur)
+    return rank_list
 
 
 def get_weekly_info(last_week, limit=100):
@@ -102,11 +105,13 @@ def get_submit_by_id(sid):
     submit = Submit.query.filter(Submit.id==sid).first()
     return submit
 
+
 def related_article(submit, offset=0, limit=10):
     query = SolutionArticle.query.filter(SolutionArticle.problem_oj_name==submit.oj_name,
                                          SolutionArticle.problem_pid==submit.pro_id)
         #filter(or_(Submit.result == 'OK', Submit.result == 'Accepted')).all()
     return query.offset(offset).limit(limit).all()
+
 
 def related_article_count(submit):
     query = SolutionArticle.query.filter(SolutionArticle.problem_oj_name==submit.oj_name,
@@ -117,15 +122,13 @@ def related_article_count(submit):
 
 def get_sys_info():
     sys_info = dict()
-    sys_info['time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    sys_info['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     import user_server
     sys_info['user_count'] = user_server.get_count()
     sys_info['apply_count'] = user_server.get_count(isApply=True)
-    today = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     sys_info['daily_submit'] = Submit.query.filter(Submit.submit_time > today).count()
     sys_info['total_submit'] = Submit.query.count()
     sys_info['news_count'] = News.query.count()
     sys_info['honor_count'] = Honor.query.count()
     return sys_info
-
-

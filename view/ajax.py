@@ -21,6 +21,11 @@ from util import function
 ajax = blueprints.Blueprint('ajax', __name__)
 
 
+#
+# @brief: json for recent contest
+# @route: /ajax/contest.json
+# @allowed user: public
+#
 @ajax.route("/ajax/contest.json", methods=['GET'])
 def recent_contests():
     import json
@@ -36,8 +41,20 @@ def recent_contests():
             'access': contest['access'],
         }
         contests.append(new_contest)
-    ret = { 'data': contests }
-    return json.JSONEncoder().encode(ret)
+    return json.dumps({ 'data': contests })
+
+
+#
+# @brief: ajax rank list
+# @route: /ajax/rank_list
+# @allowed user: student and coach
+#
+@ajax.route('/ajax/main_rank_table')
+def main_rank_table():
+    main_rank_list = general.get_rank_list()
+    return json.dumps({ 'data': main_rank_list })
+
+
 
 #
 # @brief: ajax html for one user item
@@ -236,9 +253,10 @@ def delete_user():
     try:
         id = request.form.get('user_id')
         user_server.delete_by_id(id)
-        return u"删除用户成功"
+        return u"OK"
     except Exception, e:
-        return u"删除用户失败: " + e.message
+        print e.message
+        return u"FAIL"
 
 
 #
@@ -290,10 +308,10 @@ def delete_news():
     try:
         news_id = request.form.get('news_id')
         news_server.delete_by_id(news_id)
-        return u'删除成功'
+        return u'OK'
     except Exception, e:
         print e.message
-        return u'删除失败'
+        return u'FAIL'
 
 #
 # @brief: post news
@@ -435,7 +453,7 @@ def delete_account():
     try:
         account_id = request.form.get('account_id')
         account_server.delete_account_by_id(profile_user, account_id)
-        return u"ok"
+        return u"OK"
     except AccountUpdatingException, e:
         return 'ERROR: ' + e.message
     except:
@@ -549,6 +567,7 @@ def get_resource_list():
     sum = resource_server.get_count(current_user)
     return jsonify(news_list=[get_resource_list_item(resource) for resource in resource_list],
                    sum=sum, offset=int(offset), limit=len(resource_list))
+
 
 #
 # @brief: ajax to upload resource
@@ -725,12 +744,15 @@ def delete_honor():
         msg = honor_server.delete_honor(honor_id)
         return msg
     except:
-        return u'删除失败'
+        return u'FAIL'
 
 
+# not used
 @login_required
 def get_article_list_item(article):
     return render_template('ajax/article_list_item.html', article = article)
+
+
 #
 # @brief: ajax article list
 # @route: /ajax/article_list
@@ -748,10 +770,13 @@ def get_article_list():
                    sum=sum, offset=int(offset), limit=len(article_list))
 
 
+# not used
 @login_required
 def get_related_submits_item(submit):
     return render_template('ajax/related_submits_item.html', submit=submit)
 
+
+# not used
 @ajax.route("/ajax/related_submits", methods = ['POST'])
 @login_required
 def get_related_submits():
@@ -765,10 +790,13 @@ def get_related_submits():
                    sum=sum, offset=int(offset), limit=len(related_submits))
 
 
+# not used
 @login_required
 def get_related_article_item(article):
     return render_template('ajax/related_article_item.html', article=article)
 
+
+# not used
 @ajax.route("/ajax/related_article", methods = ['POST'])
 @login_required
 def get_related_article():
@@ -817,7 +845,8 @@ def manage_poster():
         getattr(poster, opt)(url_key, url_value)
         poster.save_config()
         return u'Success'
-    except Exception:
+    except Exception, e:
+        print e.message
         return u'操作失败'
 
 

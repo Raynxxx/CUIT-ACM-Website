@@ -311,7 +311,39 @@ def add_book():
 
 
 #
-# @brief: the page for admin to manage psoter
+# @brief: The Resource management page
+# @route: /admin/manage_resource
+# @accepted methods: [get]
+# @allowed user: self, admin and coach
+#
+@admin.route("/admin/manage_resource", methods=['GET'])
+@login_required
+def manage_resource():
+    file_upload_form = form.FileUploadForm()
+    if not current_user.is_admin and not current_user.is_coach:
+        file_upload_form.usage.choices = [('3',u'题解资源'), ('4',u'其他资源')]
+    return render_template('manage_resource.html',
+                           title = u'资源管理',
+                           user = current_user,
+                           limit = config.RESOURCE_MANAGE_PER_PAGE,
+                           upload_form = file_upload_form)
+
+
+#
+# @brief: The image cropper page
+# @route: /profile/manage_resource
+# @accepted methods: [get]
+# @allowed user: self, admin and coach
+#
+@admin.route("/admin/cropper", methods=['GET'])
+def cropper():
+    pass
+    return render_template('cropper.html',
+                           title = u'图片裁剪')
+
+
+#
+# @brief: the page for admin to manage poster
 # @route: /admin/manage_poster
 # @accepted methods: [get]
 # @allowed user: admin and coach

@@ -61,7 +61,9 @@ def join_us():
         except Exception, e:
             flash(u"提交申请失败: " + e.message)
     else:
-        pass
+        for errors in join_form.errors.values():
+            for error in  errors:
+                flash(error)
     return render_template('index/register.html',
                            title = u'加入我们',
                            join_form = join_form)
@@ -174,18 +176,16 @@ def news_archive(tag=None):
 # @accepted methods: [get]
 # @allowed user: all
 #
-@main.route('/ranklist', methods = ['GET'])
+@main.route('/rank_list', methods = ['GET'])
 @login_required
-def ranklist():
+def rank_list():
     weekly_rank_list = general.get_weekly_info(False)[0:10]
     last_week_rank = general.get_weekly_info(True)[0:10]
-    info_list = general.get_rank_list()
-    return render_template('index/ranklist.html',
+    return render_template('index/rank_list.html',
                            title = u'查水表',
                            weekly_rank = weekly_rank_list,
                            last_week_rank = last_week_rank,
-                           info_list = info_list,
-                           function = function)
+                           RANK_TABLE_PER_PAGE = config.RANK_TABLE_PER_PAGE)
 
 
 #

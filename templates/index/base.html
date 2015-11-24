@@ -43,7 +43,7 @@
             <li><a href="{{ url_for('main.index') }}">首页</a></li>
             <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>
             {% if current_user.is_authenticated() %}
-              <li><a href="{{ url_for('main.ranklist') }}">查水表</a></li>
+              <li><a href="{{ url_for('main.rank_list') }}">查水表</a></li>
               <li><a href="{{ url_for('main.status') }}">最近提交</a></li>
               <!--<li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>-->
             {% endif %}
@@ -59,13 +59,13 @@
             {%- if current_user.is_authenticated() -%}
               <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <img src="{{ current_user.gravatar(size=256) }}" class="user-image" alt="User Image">
+              <img src="{{ current_user.gravatar(size=30) }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{ current_user.name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{ current_user.gravatar(size=256) }}" class="img-circle" alt="User Image">
+                <img src="{{ current_user.gravatar(size=100) }}" class="img-circle" alt="User Image">
                 <p>
                   {{ current_user.name }}
                   <small>注册于 {{ current_user.create_time }}</small>

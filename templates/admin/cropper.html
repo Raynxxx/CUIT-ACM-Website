@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='cropper/cropper.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='cropper/setting.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12" style="max-height: 500px;margin-bottom: 10px;">
+      <img id="image" src="{{ url_for('static', filename='image/icpc.jpg') }}">
+    </div>
+    <div class="col-md-12 docs-buttons text-center">
+        <div class="btn-group">
+          <label class="btn btn-primary btn-upload btn-flat" for="inputImage">
+            <input type="file" class="sr-only" id="inputImage" name="file" accept="image/*">
+            <span class="fa fa-upload"></span> 选择你的图片
+          </label>
+        </div>
+
+        <div class="btn-group btn-group-crop">
+          <button type="button" class="btn btn-danger btn-flat margin" data-method="getCroppedCanvas">
+            完成裁剪
+          </button>
+        </div>
+      <!-- Show the cropped image in modal -->
+      <div class="modal fade docs-cropped" id="getCroppedCanvasModal" aria-hidden="true"
+           aria-labelledby="getCroppedCanvasTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="getCroppedCanvasTitle">Cropped</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <a class="btn btn-primary" id="download" download="cropped.jpg" href="javascript:void(0);">下载</a>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.modal -->
+    </div>
+  </div>
+
+
+{% endblock %}
+
+{%- block script -%}
+  <script src="{{ url_for('static', filename='cropper/cropper.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='cropper/setting.js') }}"></script>
+
+{%- endblock -%}

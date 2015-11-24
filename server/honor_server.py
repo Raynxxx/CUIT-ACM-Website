@@ -46,9 +46,9 @@ def delete_honor(honor_id):
     try:
         Honor.query.filter(Honor.id==honor_id).delete()
         db.session.commit()
-        return u'删除成功'
+        return u'OK'
     except:
-        return u'删除失败'
+        return u'FAIL'
 
 
 def modify_honor(honor_attr):
@@ -70,34 +70,36 @@ def modify_honor(honor_attr):
 
 
 def get_honor_list(offset=0, limit=10):
-        return Honor.query.offset(offset).limit(limit).all()
+    return Honor.query.order_by(Honor.acquire_time.desc())\
+                        .offset(offset).limit(limit).all()
 
 
 def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
     if query_type == 'user' and keyword != '':
         user = User.query.filter(User.name==keyword).first()
         return user.honors.order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
-            .offset(offset).limit(limit).all() if user else []
+                        .offset(offset).limit(limit).all() if user else []
     elif query_type == 'time' and keyword != '':
         try:
             year = int(keyword)
-            year_start = datetime.datetime(year, 1, 1)
-            year_end = datetime.datetime(year, 12, 31)
+            year_start = datetime(year, 1, 1)
+            year_end = datetime(year, 12, 31)
         except:
-            year_start = year_end = datetime.date.min
+            from datetime import date
+            year_start = year_end = date.min
         return Honor.query\
-            .filter(Honor.acquire_time.between(year_start, year_end)).\
-            order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
+            .filter(Honor.acquire_time.between(year_start, year_end))\
+            .order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
             .offset(offset).limit(limit).all()
     elif query_type == 'level' and keyword != '':
         return Honor.query\
-            .filter(Honor.contest_level==keyword).\
-            order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
+            .filter(Honor.contest_level==keyword)\
+            .order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
             .offset(offset).limit(limit).all()
     elif query_type == 'contest_name' and keyword != '':
         return Honor.query\
-            .filter(Honor.contest_name.like('%' + keyword + '%')).\
-            order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
+            .filter(Honor.contest_name.like('%' + keyword + '%'))\
+            .order_by(Honor.acquire_time.desc(),Honor.contest_level.asc())\
             .offset(offset).limit(limit).all()
     elif query_type == 'team_name' and keyword != '':
         return Honor.query\
@@ -130,10 +132,11 @@ def get_honor_count(query_type=None, keyword=''):
     elif query_type == 'time' and keyword != '':
         try:
             year = int(keyword)
-            year_start = datetime.datetime(year, 1, 1)
-            year_end = datetime.datetime(year, 12, 31)
+            year_start = datetime(year, 1, 1)
+            year_end = datetime(year, 12, 31)
         except:
-            year_start = year_end = datetime.date.min
+            from datetime import date
+            year_start = year_end = date.min
         return Honor.query\
             .filter(Honor.acquire_time.between(year_start, year_end))\
             .count()

@@ -45,7 +45,7 @@
         <ul class="recent_articles">
           {% for news in recent_news %}
             <li><i class="fa fa-angle-right"></i>
-              <a href="{{ url_for('main.news', p=news.id) }}">{{ news.title }}</a>
+              <a href="{{ url_for('main.news', p=news.id) }}" title="{{ news.title }}">{{ news.title }}</a>
             </li>
           {% endfor %}
         </ul>
@@ -104,7 +104,7 @@
       //$tag.css('opacity', opacity);
     });
   }
-  function make_lightbox() {
+  function make_lightBox() {
     $('.article-body img').each(function() {
       var $fa = $(this).closest('.article-body');
       var href = $(this).attr('src');
@@ -117,7 +117,7 @@
   }
   $(document).ready(function(){
     gaoTags();
-    make_lightbox();
+    make_lightBox();
     make_highlight();
   });
 </script>

@@ -1,6 +1,6 @@
 from __init__ import *
 from util import security
-import datetime
+from datetime import datetime
 from dao.db import db
 
 class AccountStatus():
@@ -30,7 +30,7 @@ class Account(db.Model):
         self.nickname = nickname
         self.password = password_or_oj_id
         self.user = user
-        self.last_update_time = datetime.datetime.min
+        self.last_update_time = datetime.min
 
     @property
     def password(self):

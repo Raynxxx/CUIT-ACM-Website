@@ -39,7 +39,7 @@
   line-height: 1em;
   text-shadow: 0 1px #fff;
   font-weight: bold;
-  font-size: 8px;
+  font-size: 0.8em;
 }
 .article-body {
   padding: 0.2em 0.8em 0.8em;
@@ -47,6 +47,8 @@
   text-overflow: ellipsis;
   color: #333;
   font-weight: 400;
+}
+.article-body p {
 }
 .article-body img {
   max-width: 80%;
@@ -269,7 +271,7 @@
 }
 
 .news-list .news-item {
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin: 10px;
   clear: both;
   border-bottom: 2px dashed #c5c5c5;
@@ -294,6 +296,10 @@
   font-family: "Consolas", sans-serif;
   vertical-align: middle;
   padding-top: 0.1em;
+}
+
+.news-box .box-footer {
+  padding: 3px 10px;
 }
 
 .news-box .pager {

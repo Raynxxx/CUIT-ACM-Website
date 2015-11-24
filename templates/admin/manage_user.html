@@ -103,7 +103,7 @@
         var start = ret.offset;
         var length = ret.limit;
         var users = ret.user_list;
-        var $list_table = $('.list-table-body').first();
+        var $list_table = $('.list-table-body');
         $list_table.empty();
         if (length == 0) {
           $list_table.append('<tr><td colspan="6"><h2>无用户</h2></tr>');
@@ -112,6 +112,7 @@
             $list_table.append(users[i]);
           }
         }
+        $list_table.data('offset', start);
         $('.list-box > div.overlay').fadeOut(300, make_iCheck());
         var prev = $('.prev-page');
         var next = $('.next-page');
@@ -136,38 +137,49 @@
         $('.next-page').hide();
       });
     }
+    function get_cur_offset() {
+      return $('.list-table-body').data('offset');
+    }
     function delete_users(checked) {
       var data = {'user_id': checked};
       $.post("{{ url_for('ajax.delete_user') }}", data).success(function (ret) {
         $('.closeModal').click();
-        get_user_list(0, {{ limit }});
+        if (ret == 'OK') {
+          $('#user' + checked).fadeOut(1200, function(){ $(this).remove(); });
+        }
       });
     }
-    $(function () {
+    $(document).ready(function () {
       make_iCheck();
       var limit = {{ limit }};
       get_user_list(0, limit);
+
       $('button.to_refresh').click(function() {
         get_user_list(0, limit);
       });
+
       $('.prev-page').click(function () {
         var offset = parseInt($(this).val());
         get_user_list(offset, limit);
       });
+
       $('.next-page').click(function () {
         var offset = parseInt($(this).val());
         get_user_list(offset, limit);
       });
+
       $('.to_delete_user').click(function () {
         var $check = $('input[name="user"]:checked');
         if ($check.length <= 0) {
           return false;
         }
       });
+
       $('.delete_user').click(function () {
         var check = $('input[name="user"]:checked').val();
         delete_users(check);
       });
+
       $('.edit_user').click(function () {
         var $check = $('input[name="user"]:checked');
         if ($check.length <= 0) {

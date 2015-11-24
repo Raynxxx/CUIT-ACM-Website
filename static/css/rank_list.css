@@ -8,24 +8,23 @@ td {
   color: #444;
 }
 
+#main_rank_table {
+  margin-top: 0 !important;
+}
+
+#main_rank_table tbody td:first-child,
 .stu-rank {
   font-size: 18px;
   font-weight: 500;
 }
+
+#main_rank_table tbody td:nth-child(2),
 .stu-grid {
   padding: 0 !important;
 }
 
-.stu-meta {
-  margin: 10px 0;
-  list-style: none;
-  padding: 0;
-  overflow: hidden;
-}
-.stu-meta li {
-  margin-bottom: 5px;
-}
-.stu-name a {
+#main_rank_table tbody td:nth-child(2) a,
+.stu-grid a {
   color: #337ab7;
   padding: 3px;
   font-size: 16px;
@@ -33,7 +32,8 @@ td {
   font-family: "Lucida Grande", Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei,
     Verdana, Aril, sans-serif;
 }
-.stu-name a:hover {
+#main_rank_table tbody td:nth-child(2) a:hover,
+.stu-grid a:hover {
   color: #fff;
   background-color: #337ab7;
 }

@@ -151,17 +151,15 @@
         'account_id': checked,
         'user_id': {{ user.id }}
       };
-      $.post("{{ url_for('ajax.delete_account') }}", data)
-            .success(function(ret){
-                if (ret == 'ok') {
-                  $('.closeModal').click();
-                  loadAccountInfo();
-                } else {
-                  $("#del-info-text").html(ret);
-                  $("#del-info").hide().fadeIn(200);
-                }
-            }
-      );
+      $.post("{{ url_for('ajax.delete_account') }}", data).success(function(ret){
+        if (ret == 'OK') {
+          $('.closeModal').click();
+          $('#account' + checked).fadeOut(1200, function(){ $(this).remove(); });
+        } else {
+          $("#del-info-text").html(ret);
+          $("#del-info").hide().fadeIn(200);
+        }
+      });
     }
     $(document).ready(function () {
       make_iCheck();
@@ -202,19 +200,16 @@
         var pwd_field = $('#iPassword');
         if (requiredCheck(name_field, '用户名') &&
                 requiredCheck(pwd_field, '密码')) {
-          $.post("{{ url_for('ajax.account_manager', username=user.username) }}", $('#accountForm').serialize()).success(
-              function (data) {
-                if (data != 'ok')   {
-                  $("#add-info-text").html(data);
-                  $("#add-info").hide().fadeIn(200);
-                }
-                else {
-                    $('.closeModal').click();
-                    loadAccountInfo();
-                }
-
-              }
-          );
+          $.post("{{ url_for('ajax.account_manager', username=user.username) }}",
+                  $('#accountForm').serialize()).success(function (data) {
+                    if (data != 'ok')   {
+                      $("#add-info-text").html(data);
+                      $("#add-info").hide().fadeIn(200);
+                    } else {
+                      $('.closeModal').click();
+                      loadAccountInfo();
+                    }
+                  });
         }
         return false;
       });

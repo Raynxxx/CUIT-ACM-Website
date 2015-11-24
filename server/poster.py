@@ -1,9 +1,10 @@
+# coding=utf-8
 from __init__ import *
-import collections
+import collections, codecs
 from config import BRAND_CONFIG_DEST
 
 def load_poster_config():
-    fp = open(BRAND_CONFIG_DEST, 'r')
+    fp = codecs.open(BRAND_CONFIG_DEST, 'r', 'utf-8')
     brand_info = collections.OrderedDict()
     for line in fp.readlines():
         tmp = line.split(' ')
@@ -14,7 +15,7 @@ def load_poster_config():
     return brand_info
 
 def save_poster_config(brand_info):
-    fp = open(BRAND_CONFIG_DEST, 'w')
+    fp = codecs.open(BRAND_CONFIG_DEST, 'w', 'utf-8')
     for key in brand_info:
         line = "{0} {1}\n".format(key, brand_info[key])
         fp.write(line)
