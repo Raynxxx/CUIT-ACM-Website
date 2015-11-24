@@ -28,17 +28,13 @@
   <nav class="navbar navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-2">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">{{ title }}</a>
-      </div>
+          <a href="{{ url_for('main.index') }}" class="navbar-brand">CUIT <b>ACM</b> Team</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
 
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+      <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a onclick="return false;">首页 <span class="sr-only">(current)</span></a></li>
           <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>

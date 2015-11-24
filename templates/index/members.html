@@ -2,6 +2,15 @@
 {% block head %}
   <link rel="stylesheet"
         href="{{ url_for('static', filename='AdminLTE2/plugins/datatables/dataTables.bootstrap.css') }}"/>
+  <style>
+  #members_table td {
+    vertical-align: middle;
+  }
+  #members_table th:first-child,
+  #members_table td:first-child {
+    text-align: center;
+  }
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -13,7 +22,8 @@
     </div>
     <div class="box-body no-padding">
       <table id="members_table" class="table table-bordered table-hover" width="100%"
-             style="font-weight: 500;margin-top: 0!important;font-size: larger">
+             style="font-weight: 500;margin-top: 0!important;
+             font-size: larger;">
         <thead>
         <tr><th width="10%">姓名</th><th width="15%">院系</th><th width="10%">年级</th><th>经历与去向</th></tr>
         </thead>
