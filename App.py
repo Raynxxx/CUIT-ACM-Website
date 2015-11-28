@@ -12,7 +12,7 @@ from view.index import main
 from view import mail
 import sys
 reload(sys)
-#sys.setdefaultencoding( "utf-8" )
+sys.setdefaultencoding( "utf-8" )
 
 app = Flask(__name__)
 login_manager = LoginManager()
