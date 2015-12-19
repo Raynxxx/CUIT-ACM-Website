@@ -19,7 +19,7 @@ main = blueprints.Blueprint('main', __name__)
 #
 @main.route('/login', methods=["GET", "POST"])
 def login():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return redirect(url_for('main.news_list'))
     login_form = form.LoginForm()
     if login_form.validate_on_submit():

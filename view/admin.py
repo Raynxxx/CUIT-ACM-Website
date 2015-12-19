@@ -1,6 +1,6 @@
 # coding=utf-8
 from __init__ import *
-from server import general, user_server, form, news_server, honor_server
+from server import general, user_server, form, news_server, honor_server, resource_server
 from server.poster import poster
 import util, config
 
@@ -255,8 +255,7 @@ def add_honor():
     return render_template('add_honor.html',
                            title = u'添加荣誉',
                            honor_form = honor_form,
-                           upload_form = upload_form,
-                           show_upload = True)
+                           upload_form = upload_form)
 
 
 #
@@ -270,22 +269,19 @@ def add_honor():
 def modify_honor():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    honor_form = form.HonorForm()
-    honor_form.users.choices = user_server.get_user_choice()
     try:
         honor = honor_server.get_by_id(request.args['p'])
     except:
         return redirect(url_for('admin.manage_honor'))
+
+    honor_form = form.HonorForm()
+    honor_form.users.choices = user_server.get_user_choice()
     honor_form.id.data = honor.id
-    honor_form.introduce.data = honor.introduce
     honor_form.acquire_time.data = honor.acquire_time
     honor_form.contest_name.data = honor.contest_name
     honor_form.team_name.data = honor.team_name
     honor_form.contest_level.data = str(honor.contest_level)
-    users = []
-    for user in honor.users:
-        users.append(user.username)
-    honor_form.users.data = users
+    honor_form.users.data = [user.username for user in honor.users]
     upload_form = form.FileUploadForm()
     from dao.dbResource import ResourceLevel, ResourceUsage
     upload_form.level.data = str(ResourceLevel.PUBLIC)
@@ -294,7 +290,8 @@ def modify_honor():
                            title = u'修改荣誉',
                            honor_form = honor_form,
                            upload_form = upload_form,
-                           show_upload = False)
+                           exist_res = honor.resources,
+                           file_url = resource_server.file_url)
 
 
 

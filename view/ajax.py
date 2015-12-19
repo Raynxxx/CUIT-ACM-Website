@@ -582,7 +582,7 @@ def upload():
         try:
             if file_form.upload.data:
                 file = request.files[file_form.upload.name]
-                msg = resource_server.save_file(file_form, file, current_user)
+                msg = resource_server.save_file(file_form, file, current_user, 'other')
                 return msg
             else:
                 return u'上传数据失败'
@@ -697,7 +697,8 @@ def add_honor():
                 file_form.level.data = ResourceLevel.PUBLIC
                 file_form.name.data = unicode(file.filename).split('.')[0]
                 file_form.usage.data = ResourceUsage.HONOR_RES
-                resource_server.save_file(file_form, file, current_user)
+                sub_folder = 'honor/' + honor_form.contest_name.data
+                resource_server.save_file(file_form, file, current_user, sub_folder)
                 resource = resource_server.get_by_name(file_form.name.data)
                 resource_list.append(resource)
             msg = honor_server.add_honor(honor_form, resource_list)
@@ -719,12 +720,28 @@ def add_honor():
 @login_required
 def modify_honor():
     honor_form = form.HonorForm()
+    file_form = form.FileUploadForm()
     honor_form.users.choices = user_server.get_user_choice()
     if honor_form.validate_on_submit():
         try:
-            msg = honor_server.modify_honor(honor_form)
+            honor = honor_server.get_by_id(honor_form.id.data)
+            from dao.dbResource import ResourceLevel, ResourceUsage
+            resource_list = []
+            for name, file in request.files.items(multi=True):
+                if file.filename == '':
+                    continue
+                file_form.level.data = ResourceLevel.PUBLIC
+                file_form.name.data = unicode(file.filename).split('.')[0]
+                file_form.usage.data = ResourceUsage.HONOR_RES
+                sub_folder = 'honor/' + honor.contest_name
+                resource_server.save_file(file_form, file, current_user, sub_folder)
+                resource = resource_server.get_by_name(file_form.name.data)
+                resource_list.append(resource)
+            msg = honor_server.modify_honor(honor, honor_form, resource_list)
             return msg
         except:
+            import traceback
+            print traceback.format_exc()
             return 'failed'
     return u'数据填写有误'
 

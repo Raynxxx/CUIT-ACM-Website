@@ -2,7 +2,7 @@
 from flask import Flask
 from flask.ext.login import LoginManager
 from flask.ext.uploads import configure_uploads, patch_request_class
-from server.resource_server import resource
+from server.resource_server import resource_uploader
 from dao.db import db
 from dao.dbBase import  User
 from view.admin import admin
@@ -43,7 +43,7 @@ def init():
     app.register_blueprint(profile)
     app.register_blueprint(ajax)
     patch_request_class(app, size=16*1024*1024)
-    configure_uploads(app, resource)
+    configure_uploads(app, resource_uploader)
 
 
 if __name__ == '__main__':

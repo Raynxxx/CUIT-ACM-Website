@@ -6,12 +6,12 @@ SQLALCHEMY_DATABASE_URI = 'mysql://root:63005610@localhost/cuit_acm'
 
 #A dictionary that maps bind keys to SQLAlchemy connection URIs.
 SQLALCHEMY_BINDS = {}
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 ADMIN = ['Rayn', 'dreameracm']
 
 SCHOOL_MAP = {
-    'cuit': u'成都信息工程大学',
-    'scu': u'四川大学'
+    'cuit': u'成都信息工程大学'
 }
 
 SCHOOL_COLLEGE_MAP = {
@@ -54,7 +54,6 @@ OJ_MAP = {
     'cf': 'Codeforces',
     'bc': 'BestCoder',
     'poj': 'POJ',
-    'uva': 'UVA',
     'zoj': 'ZOJ',
     'bnu': 'BNU',
     'vj': 'Virtual Judge',
@@ -65,7 +64,7 @@ OJ_MAP = {
 CSRF_ENABLED = True
 import os.path
 BRAND_CONFIG_DEST = os.path.split(os.path.realpath(__file__))[0] + '/brand.ini'
-UPLOADED_RESOURCE_DEST = os.path.split(os.path.realpath(__file__))[0] + '/static/resource/'
+UPLOADED_RESOURCE_DEST = os.path.split(os.path.realpath(__file__))[0] + '/upload/'
 UPLOADED_RESOURCE_URL = '/upload/resource/'
 IMAGE_FILE_PATH = 'static/image/bookimg/'
 SECRET_KEY = 'a very hard string'

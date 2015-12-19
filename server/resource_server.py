@@ -5,7 +5,7 @@ from sqlalchemy import or_, and_
 from sqlalchemy.exc import IntegrityError
 import os
 
-resource = UploadSet('resource', DEFAULTS + ARCHIVES, default_dest=lambda app: app.instance_root)
+resource_uploader = UploadSet('resource', DEFAULTS + ARCHIVES, default_dest=lambda app: app.instance_root)
 
 
 def get_type(file_type):
@@ -29,10 +29,12 @@ def get_type(file_type):
 # @arg2: file_data (file)
 # return 'ok' if ok else the error msg
 #
-def save_file(file_attr, file_data, user):
+def save_file(file_attr, file_data, user, sub_folder):
     filename = ''
     try:
-        filename = resource.save(file_data, name=file_attr.name.data + '.')
+        filename = resource_uploader.save(file_data, folder=sub_folder,
+                                          name=file_attr.name.data + '.')
+        print filename
         rc = Resource()
         rc.filename = filename
         rc.name = file_attr.name.data
@@ -47,7 +49,7 @@ def save_file(file_attr, file_data, user):
     except UploadNotAllowed:
         return 'your upload is not allowed'
     except IntegrityError:
-        os.remove(resource.path(filename))
+        os.remove(resource_uploader.path(filename))
         db.session.rollback()
         return 'file name exist'
     except Exception, e:
@@ -79,7 +81,7 @@ def delete_file(resource_id, user):
         rc = Resource.query.filter(Resource.id==resource_id).first_or_404()
         if rc.user != user and not user.is_admin and not user.is_coach_of(rc.user):
             return 'FAIL: No permission'
-        path = resource.path(rc.filename)
+        path = resource_uploader.path(rc.filename)
         os.remove(path)
         rc.delete()
         return 'OK'
@@ -145,11 +147,11 @@ def get_by_id(resource_id):
 
 
 def file_url(file):
-    return resource.url(file.filename)
+    return resource_uploader.url(file.filename)
 
 
 def file_size(file):
     try:
-        return round(os.path.getsize(resource.path(file.filename)) / 1024.0, 2)
+        return round(os.path.getsize(resource_uploader.path(file.filename)) / 1024.0, 2)
     except:
         return 0

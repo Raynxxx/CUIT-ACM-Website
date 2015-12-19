@@ -116,7 +116,7 @@ def get_list(offset=0, limit=20, school=None, isApply=False):
         if not school:
             users = User.query.filter(User.rights >= 8)
         else:
-            users = User.query.filter(User.school==school, 8 <= User.rights < 12)
+            users = User.query.filter(User.school==school, User.rights >= 8, User.rights < 12)
     if offset == 0 and limit == -1:
         users = users.order_by(User.rights.desc()).all()
     else:
@@ -134,7 +134,7 @@ def get_count(school=None, isApply=False):
         if not school:
             users = User.query.filter(User.rights >= 8)
         else:
-            users = User.query.filter(User.school==school, 8 <= User.rights < 12)
+            users = User.query.filter(User.school==school, User.rights >= 8, User.rights < 12)
     return users.count()
 
 

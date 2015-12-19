@@ -10,7 +10,7 @@ import time
 # default limit set to 1024 ....
 #
 def get_rank_list(limit=1024):
-    oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc', 'vj']
+    oj = ['bnu', 'hdu', 'poj', 'cf', 'bc', 'vj']
     rank_list = []
     users = User.query.filter(User.active == 1, User.rights < 8)\
                 .order_by(User.score.desc())\
@@ -45,7 +45,6 @@ def get_rank_list(limit=1024):
 
 
 def get_weekly_info(last_week, limit=100):
-    oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc']
     info_list = []
     if last_week:
         users = User.query.filter(User.active==1, User.rights < 8)\

@@ -170,7 +170,6 @@ class HonorForm(Form):
                          default='0')
     acquire_time = DateField('acquire_time', format='%Y/%m/%d')
     team_name = StringField(u'team', validators=[validators.Optional(), validators.Length(min=1, max=48)])
-    introduce = TextAreaField(u'introduce', validators=[validators.Optional()])
     users = SelectMultipleField(u'users', validators=[validators.DataRequired()])
     submit = SubmitField(u'提交')
 
