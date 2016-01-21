@@ -1,0 +1,59 @@
+.antLayoutAside {
+  position: relative;
+  min-height: 100%;
+}
+
+.antLayoutSider {
+  width: 224px;
+  background: #404040;
+  position: absolute;
+  overflow: auto;
+  padding-bottom: 24px;
+  height: 100%;
+
+  .ant-menu {
+    margin-bottom: 20px;
+  }
+}
+
+.antLayoutLogo {
+  width: 150px;
+  height: 32px;
+  background: #333;
+  border-radius: 6px;
+  margin: 16px 24px 16px 28px;
+}
+
+.antLayoutMain {
+  margin-left: 224px;
+}
+
+.antLayoutHeader {
+  background: #fff;
+  height: 64px;
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.antLayoutBreadcrumb {
+    margin: 7px 0 -17px 24px;
+}
+
+.antLayoutContainer {
+    margin: 24px 16px;
+}
+
+.antLayoutContent {
+    background: #fff;
+    padding: 24px;
+}
+
+.antLayoutFooter {
+    height: 64px;
+    line-height: 64px;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    background: #fff;
+    border-top: 1px solid #e9e9e9;
+    width: 100%;
+}
