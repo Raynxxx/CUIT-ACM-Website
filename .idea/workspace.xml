@@ -2,685 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ddb0acd-c9b2-411a-a9a4-dccef1508a62" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/ACM-Site.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/build/admin.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/build/admin.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/build/antd.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/build/common.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/pages/admin/index.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/pages/admin/index.jsx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/node_modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/server.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/webpack.config.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\App.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\README.md" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\brand.ini" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\config.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\db.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\dbACCOUNT.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\dbArticle.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\dbBase.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\dbHonor.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\dbNews.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\dbResource.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\dbSUBMIT.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\dao\dbTag.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\initDB.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\requirement.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\account_server.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\article_server.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\form.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\general.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\honor_server.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\news_server.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\poster.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\resource_server.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\status_server.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\server\user_server.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\bootstrap\css\bootstrap.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\bootstrap\fonts\glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\bootstrap\fonts\glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\bootstrap\fonts\glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\bootstrap\fonts\glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\bootstrap\fonts\glyphicons-halflings-regular.woff2" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\bootstrap\js\bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\bootstrap\js\npm.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\AdminLTE.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\_all-skins.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-black-light.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-black.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-blue-light.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-blue.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-green-light.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-green.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-purple-light.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-purple.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-red-light.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-red.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-yellow-light.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\css\skins\skin-yellow.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\avatar.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\avatar04.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\avatar2.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\avatar3.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\avatar5.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\boxed-bg.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\boxed-bg.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\credit\american-express.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\credit\cirrus.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\credit\mastercard.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\credit\mestro.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\credit\paypal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\credit\paypal2.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\credit\visa.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\default-50x50.gif" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\icons.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\photo1.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\photo2.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\user1-128x128.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\user2-160x160.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\user3-128x128.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\user4-128x128.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\user5-128x128.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\user6-128x128.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\user7-128x128.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\img\user8-128x128.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\js\app.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\dist\js\demo.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\bootstrap-slider\bootstrap-slider.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\bootstrap-slider\slider.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\bootstrap-switch\bootstrap-switch.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\bootstrap-switch\bootstrap-switch.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\chartjs\Chart.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\dataTables.bootstrap.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\dataTables.bootstrap.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\dataTables.bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\Readme.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\examples\columns.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\examples\complete-callback.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\examples\fill-both.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\examples\fill-horizontal.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\examples\scrolling.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\examples\simple.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\examples\step-callback.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\images\filler.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\License.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\Readme.md" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\alt_insert.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\col_filter.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\colvis.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\fixedcolumns.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\fixedheader.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\jqueryui.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\new_init.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\predefined.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\realtime.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\reset.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\scrolling.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\server_side.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\simple.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\examples\state_save.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\images\insert.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\License.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\Readme.md" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\css\dataTables.colVis.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\css\dataTables.colVis.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\css\dataTables.colvis.jqueryui.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\button_order.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\exclude_columns.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\group_columns.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\jqueryui.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\mouseover.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\new_init.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\restore.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\simple.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\text.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\title_callback.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\two_tables.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\examples\two_tables_identical.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\js\dataTables.colVis.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\ColVis\js\dataTables.colVis.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\License.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\Readme.md" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\bootstrap.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\col_filter.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\colvis.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\css_size.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\index_column.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\left_right_columns.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\right_column.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\rowspan.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\server-side-processing.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\simple.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\size_fixed.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\size_fluid.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\examples\two_columns.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\Readme.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\examples\header_footer.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\examples\simple.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\examples\top_left_right.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\examples\two_tables.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\examples\zIndexes.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\Readme.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\examples\events.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\examples\html.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\examples\scrolling.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\examples\simple.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\License.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\Readme.md" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\css\dataTables.responsive.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\css\dataTables.responsive.scss" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\child-rows\column-control.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\child-rows\custom-renderer.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\child-rows\disable-child-rows.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\child-rows\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\child-rows\right-column.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\child-rows\whole-row-control.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\display-control\auto.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\display-control\classes.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\display-control\complexHeader.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\display-control\fixedHeader.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\display-control\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\display-control\init-classes.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\initialisation\ajax.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\initialisation\className.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\initialisation\default.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\initialisation\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\initialisation\new.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\initialisation\option.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\styling\bootstrap.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\styling\compact.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\styling\foundation.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\styling\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\examples\styling\scrolling.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\js\dataTables.responsive.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Responsive\js\dataTables.responsive.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\Readme.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\css\dataTables.scroller.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\css\dataTables.scroller.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\examples\api_scrolling.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\examples\data\2500.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\examples\data\ssp.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\examples\large_js_source.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\examples\server-side_processing.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\examples\simple.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\examples\state_saving.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\images\loading-background.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\js\dataTables.scroller.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\Scroller\js\dataTables.scroller.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\Readme.md" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\ajax.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\alter_buttons.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\bootstrap.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\button_text.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\collection.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\defaults.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\jqueryui.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\multi_instance.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\multiple_tables.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\new_init.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\pdf_message.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\plug-in.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\select_column.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\select_multi.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\select_os.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\select_single.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\simple.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\examples\swf_path.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\collection.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\collection_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\copy.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\copy_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\csv.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\csv_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\pdf.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\pdf_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\print.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\print_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\psd\collection.psd" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\psd\copy document.psd" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\psd\file_types.psd" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\psd\printer.psd" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\xls.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\images\xls_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\swf\copy_csv_xls.swf" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\extensions\TableTools\swf\copy_csv_xls_pdf.swf" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\images\sort_asc.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\images\sort_asc_disabled.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\images\sort_both.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\images\sort_desc.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\images\sort_desc_disabled.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\jquery.dataTables.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\jquery.dataTables.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\jquery.dataTables.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\jquery.dataTables.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\datatables\jquery.dataTables_themeroller.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\daterangepicker\daterangepicker-bs3.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\daterangepicker\daterangepicker.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\daterangepicker\moment.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\daterangepicker\moment.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\fastclick\fastclick.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\fastclick\fastclick.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\excanvas.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\excanvas.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.colorhelpers.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.colorhelpers.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.canvas.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.canvas.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.categories.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.categories.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.crosshair.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.crosshair.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.errorbars.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.errorbars.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.fillbetween.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.fillbetween.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.image.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.image.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.navigate.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.navigate.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.pie.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.pie.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.resize.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.resize.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.selection.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.selection.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.stack.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.stack.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.symbol.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.symbol.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.threshold.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.threshold.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.time.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\flot\jquery.flot.time.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\fullcalendar\fullcalendar.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\fullcalendar\fullcalendar.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\fullcalendar\fullcalendar.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\fullcalendar\fullcalendar.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\fullcalendar\fullcalendar.print.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\all.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\_all.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\aero.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\aero.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\aero@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\blue.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\blue.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\blue@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\flat.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\flat.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\flat@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\green.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\green.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\green@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\grey.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\grey.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\grey@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\orange.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\orange.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\orange@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\pink.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\pink.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\pink@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\purple.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\purple.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\purple@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\red.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\red.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\red@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\yellow.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\yellow.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\flat\yellow@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\futurico\futurico.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\futurico\futurico.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\futurico\futurico@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\icheck.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\icheck.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\_all.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\aero.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\blue.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\green.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\grey.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\line.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\line.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\line@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\orange.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\pink.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\purple.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\red.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\line\yellow.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\_all.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\aero.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\aero.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\aero@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\blue.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\blue.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\blue@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\green.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\green.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\green@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\grey.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\grey.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\grey@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\minimal.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\minimal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\minimal@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\orange.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\orange.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\orange@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\pink.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\pink.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\pink@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\purple.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\purple.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\purple@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\red.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\red.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\red@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\yellow.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\yellow.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\minimal\yellow@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\polaris\polaris.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\polaris\polaris.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\polaris\polaris@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\_all.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\aero.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\aero.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\aero@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\blue.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\blue.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\blue@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\green.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\green.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\green@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\grey.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\grey.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\grey@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\orange.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\orange.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\orange@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\pink.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\pink.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\pink@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\purple.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\purple.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\purple@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\red.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\red.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\red@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\square.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\square.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\square@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\yellow.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\yellow.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\iCheck\square\yellow@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\jquery.inputmask.date.extensions.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\jquery.inputmask.extensions.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\jquery.inputmask.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\jquery.inputmask.numeric.extensions.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\jquery.inputmask.phone.extensions.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\jquery.inputmask.regex.extensions.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\phone-codes\phone-be.json" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\phone-codes\phone-codes.json" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\input-mask\phone-codes\readme.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\ionicons\css\ionicons.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\ionicons\fonts\ionicons.eot" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\ionicons\fonts\ionicons.svg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\ionicons\fonts\ionicons.ttf" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\ionicons\fonts\ionicons.woff" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\jQuery\jQuery-2.1.4.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\az.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\bg.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\ca.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\cs.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\da.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\de.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\en.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\es.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\et.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\eu.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\fa.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\fi.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\fr.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\gl.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\he.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\hi.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\hr.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\hu.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\id.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\is.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\it.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\ko.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\lt.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\lv.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\mk.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\nb.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\nl.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\pl.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\pt-BR.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\pt.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\ro.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\ru.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\sk.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\sr.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\sv.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\th.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\tr.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\uk.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\vi.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\zh-CN.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\i18n\zh-TW.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\select2.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\select2.full.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\select2.full.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\select2.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\select2.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\select2\select2.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\slimScroll\jquery.slimscroll.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\slimScroll\jquery.slimscroll.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\timepicker\bootstrap-timepicker.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\timepicker\bootstrap-timepicker.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\timepicker\bootstrap-timepicker.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\AdminLTE2\plugins\timepicker\bootstrap-timepicker.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-datetimepicker\bootstrap-datetimepicker.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-datetimepicker\bootstrap-datetimepicker.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-datetimepicker\moment.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\css\fileinput.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\css\fileinput.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\img\loading-sm.gif" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\img\loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_LANG.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_bg.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_cz.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_de.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_el.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_es.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_fa.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_fr.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_hu.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_it.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_nl.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_pl.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_pt-BR.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_pt.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_ro.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_ru.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_sk.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_sr.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_th.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_tr.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_uk.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-fileinput\js\fileinput_locale_zh.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-tagsinput\bootstrap-tagsinput-angular.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-tagsinput\bootstrap-tagsinput-angular.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-tagsinput\bootstrap-tagsinput.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-tagsinput\bootstrap-tagsinput.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-tagsinput\bootstrap-tagsinput.less" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-tagsinput\bootstrap-tagsinput.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\bootstrap-tagsinput\bootstrap-tagsinput.min.js.map" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\cropper\cropper.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\cropper\cropper.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\cropper\setting.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\cropper\setting.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\css\article.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\css\base.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\css\book.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\css\index.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\css\profile.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\css\rank_list.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\css\resource.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\fakeLoader\fakeLoader.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\fakeLoader\fakeLoader.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\highlight\github.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\highlight\highlight.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\highlight\monokai_sublime.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\image\back-to-top.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\image\defaultBook.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\image\icpc.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\lightbox\css\lightbox.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\lightbox\images\close.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\lightbox\images\loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\lightbox\images\next.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\lightbox\images\prev.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\lightbox\js\lightbox.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\lightbox\js\lightbox.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\lightbox\js\lightbox.min.map" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\markdown\css\bootstrap-markdown.min.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\markdown\js\bootstrap-markdown.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\markdown\js\bootstrap-markdown.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\markdown\js\markdown.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\masonry\imagesloaded.pkgd.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\masonry\masonry.pkgd.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\jquery.nivo.slider.pack.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\nivo-slider.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\bar\arrows.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\bar\bar.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\bar\bullets.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\bar\loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\dark\arrows.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\dark\bullets.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\dark\dark.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\dark\loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\default\arrows.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\default\bullets.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\default\default.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\default\loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\light\arrows.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\light\bullets.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\light\light.css" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\nivo-slider\themes\light\loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\scripts\jquery.tagcanvas.min.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\static\scripts\tools.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\add_book.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\add_honor.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\add_user.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\base.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\cropper.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\edit_honor.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\edit_user.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\manage_apply.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\manage_honor.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\manage_news.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\manage_poster.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\manage_resource.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\manage_user.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\post_news.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\admin\sys_info.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\account_info_item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\article_list_item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\honor_list_item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\img-choose-item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\news_list_item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\related_article_item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\related_submits_item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\resource_list_item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\resource_modify_modal.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\ajax\user_list_item.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\about.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\archive.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\article.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\article_list.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\base.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\book_list.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\honor.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\honor_wall.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\login.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\members.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\news.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\news_list.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\rank_list.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\register.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\status.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\index\viewcode.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\profile\base.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\profile\index.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\profile\manage_account.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\profile\manage_article.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\profile\manage_resource.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\templates\profile\post_article.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\util\ThreadingPool.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\util\__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\util\function.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\util\mdFilter.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\util\security.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\view\__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\view\admin.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\view\ajax.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\view\index.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\view\profile.py" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\.name" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\ACM-Site.iml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\codeStyleSettings.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\jsLibraryMappings.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\libraries\node_modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Code\PyCharm\CUIT-ACM-Website 2.0\.idea\watcherTasks.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ACM-Site.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -701,7 +34,28 @@
     <favorites_list name="ACM-Site" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.08292683">
+              <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -725,11 +79,12 @@
         <option value="$PROJECT_DIR$/ACM-Site.py" />
         <option value="$PROJECT_DIR$/client/webpack.config.js" />
         <option value="$PROJECT_DIR$/client/.gitignore" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/client/src/pages/index.jsx" />
         <option value="$PROJECT_DIR$/server/__init__.py" />
-        <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/config.py" />
+        <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -787,10 +142,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="CUIT-ACM-Website 2.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1049,7 +400,7 @@
     <frame x="507" y="0" width="862" height="728" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27171215" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27171215" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1057,7 +408,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.7114094" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6090604" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1100,17 +451,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/webpack.config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.32749563">
           <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38636363">
+          <caret line="4" column="46" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08292683">
+          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
