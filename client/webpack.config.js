@@ -2,19 +2,15 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var pagesPath = './src/pages';
 
 module.exports = {
   entry: {
-    admin: [
-      'webpack-dev-server/client?http://localhost:3000',
-      'webpack/hot/only-dev-server',
-      pagesPath + '/admin'],
+    admin: './src/admin/index.jsx',
     common: ['react', 'react-dom', 'antd']
   },
 
   output: {
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "../app/static/bundle"),
     filename: '[name].js'
   },
 
@@ -43,8 +39,6 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin('[name].css'),
     new webpack.optimize.CommonsChunkPlugin("common", "common.js")
   ]
