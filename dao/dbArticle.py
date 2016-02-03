@@ -26,12 +26,16 @@ class SolutionArticle(db.Model):
     last_update_time = db.Column(db.DateTime)
     is_top = db.Column(db.SmallInteger, default=0)
     is_draft = db.Column(db.SmallInteger, default=0)
-    #rank = db.Column(db.Integer, default=0)
+
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"), nullable=True)
-    user = db.relationship('User', backref=db.backref('solution', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"),
+                        nullable=True)
+    user = db.relationship('User', backref=db.backref('solution', cascade="save-update, merge",
+                                                      lazy='dynamic'))
+
     # connect to Tag
-    tags = db.relationship('Tag', secondary=solution_tags,backref=db.backref('solutions', lazy='dynamic'))
+    tags = db.relationship('Tag', secondary=solution_tags,
+                           backref=db.backref('solutions', lazy='dynamic'))
 
 
     @property

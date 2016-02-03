@@ -10,7 +10,8 @@ import util, config
 # @created: 2015/06/22
 # @author: Z2Y
 #
-admin = blueprints.Blueprint('admin', __name__, template_folder='../templates/admin')
+admin = blueprints.Blueprint('admin', __name__,
+                             template_folder='../templates/admin')
 
 
 #
@@ -317,8 +318,6 @@ def add_book():
 @login_required
 def manage_resource():
     file_upload_form = form.FileUploadForm()
-    if not current_user.is_admin and not current_user.is_coach:
-        file_upload_form.usage.choices = [('3',u'题解资源'), ('4',u'其他资源')]
     return render_template('manage_resource.html',
                            title = u'资源管理',
                            user = current_user,

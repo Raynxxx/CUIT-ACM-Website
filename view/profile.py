@@ -8,7 +8,8 @@ import util, config
 # @created: 2015/06/22
 # @author: Z2Y
 #
-profile = blueprints.Blueprint('profile', __name__, template_folder='../templates/profile')
+profile = blueprints.Blueprint('profile', __name__,
+                               template_folder='../templates/profile')
 
 #
 # @brief: the profile page
@@ -43,7 +44,7 @@ def index():
     return render_template('index.html',
                            title = title,
                            user = profile_user,
-                           user_modify_form = user_modify_form,
+                           user_modify_form=user_modify_form,
                            pwd_modify_form = pwd_modify_form,
                            statistic = statistic,
                            school_mapper = SCHOOL_MAP,
@@ -97,11 +98,10 @@ def update_account():
 #
 @profile.route("/profile/manage_resource", methods=['GET'])
 @login_required
-def manage_resource():
+def resources():
     file_upload_form = form.FileUploadForm()
-    if not current_user.is_admin and not current_user.is_coach:
-        file_upload_form.usage.choices = [('3',u'题解资源'), ('4',u'其他资源')]
-    return render_template('manage_resource.html',
+    file_upload_form.usage.choices = [('3',u'题解资源'), ('4',u'其他资源')]
+    return render_template('resources.html',
                            title = u'资源管理',
                            user = current_user,
                            limit = config.RESOURCE_MANAGE_PER_PAGE,

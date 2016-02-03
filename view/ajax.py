@@ -1,6 +1,8 @@
 # coding=utf-8
 import os
 from __init__ import *
+import traceback
+from flask import current_app
 from server import user_server, article_server, status_server, form, account_server, news_server, resource_server
 from server import general
 from server import honor_server
@@ -280,16 +282,10 @@ def get_news_list():
         print "你没有权限访问该模块"
         return redirect(url_for('main.index'))
 
-    news_list = list()
-    sum = 0
     offset = request.form.get('offset')
     limit = request.form.get('limit')
-    if current_user.is_admin:
-        news_list = news_server.get_list(offset, limit, show_draft=True)
-        sum = news_server.get_count(show_draft=True)
-    elif current_user.is_coach:
-        news_list = news_server.get_list(offset, limit, show_draft=True, coach=current_user)
-        sum = news_server.get_count(show_draft=True, coach=current_user)
+    news_list = news_server.get_list(offset, limit, show_draft=True)
+    sum = news_server.get_count(show_draft=True)
     return jsonify(news_list=[get_news_list_item(news) for news in news_list],
                    sum=sum, offset=int(offset), limit=len(news_list))
 
@@ -653,6 +649,7 @@ def delete_resource():
 #
 @login_required
 def get_honor_list_item(honor):
+    print honor.serialize
     from config import HONOR_LEVEL_MAP
     return render_template('ajax/honor_list_item.html',
                            honor = honor,
@@ -697,8 +694,7 @@ def add_honor():
                 file_form.level.data = ResourceLevel.PUBLIC
                 file_form.name.data = unicode(file.filename).split('.')[0]
                 file_form.usage.data = ResourceUsage.HONOR_RES
-                sub_folder = 'honor/' + honor_form.contest_name.data
-                resource_server.save_file(file_form, file, current_user, sub_folder)
+                resource_server.save_file(file_form, file, current_user, 'honor')
                 resource = resource_server.get_by_name(file_form.name.data)
                 resource_list.append(resource)
             msg = honor_server.add_honor(honor_form, resource_list)
@@ -733,15 +729,14 @@ def modify_honor():
                 file_form.level.data = ResourceLevel.PUBLIC
                 file_form.name.data = unicode(file.filename).split('.')[0]
                 file_form.usage.data = ResourceUsage.HONOR_RES
-                sub_folder = 'honor/' + honor.contest_name
-                resource_server.save_file(file_form, file, current_user, sub_folder)
-                resource = resource_server.get_by_name(file_form.name.data)
-                resource_list.append(resource)
+                ret = resource_server.save_file(file_form, file, current_user, 'honor')
+                if ret == 'OK':
+                    resource = resource_server.get_by_name(file_form.name.data)
+                    resource_list.append(resource)
             msg = honor_server.modify_honor(honor, honor_form, resource_list)
             return msg
         except:
-            import traceback
-            print traceback.format_exc()
+            current_app.logger.error(traceback.format_exc())
             return 'failed'
     return u'数据填写有误'
 

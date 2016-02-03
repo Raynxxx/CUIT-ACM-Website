@@ -10,9 +10,7 @@ from view.profile import profile
 from view.ajax import ajax
 from view.index import main
 from view import mail
-import sys
-reload(sys)
-#sys.setdefaultencoding( "utf-8" )
+
 
 app = Flask(__name__)
 login_manager = LoginManager()

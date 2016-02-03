@@ -22,7 +22,7 @@ VALID_TAGS = {'h1':{}, 'h2':{}, 'h3':{}, 'h4':{}, 'h5':{}, 'h6':{},'sup':{},
 VALID_ATTR = {'id':''}
 
 def parse_html(html):
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, 'lxml')
     for tag in soup.findAll(True):
         if tag.name not in VALID_TAGS:
             tag.hidden = True

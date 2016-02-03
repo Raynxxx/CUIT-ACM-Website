@@ -1,9 +1,11 @@
+# coding=utf-8
 from __init__ import *
+from flask import current_app
 from flask.ext.uploads import UploadSet, DEFAULTS, ARCHIVES, DOCUMENTS, TEXT, DATA, IMAGES, UploadNotAllowed
 from dao.dbResource import Resource, ResourceLevel, ResourceUsage, ResourceType
 from sqlalchemy import or_, and_
 from sqlalchemy.exc import IntegrityError
-import os
+import os, traceback
 
 resource_uploader = UploadSet('resource', DEFAULTS + ARCHIVES, default_dest=lambda app: app.instance_root)
 
@@ -47,13 +49,16 @@ def save_file(file_attr, file_data, user, sub_folder):
         rc.save()
         return 'OK'
     except UploadNotAllowed:
+        current_app.logger.error(traceback.format_exc())
         return 'your upload is not allowed'
     except IntegrityError:
         os.remove(resource_uploader.path(filename))
         db.session.rollback()
+        current_app.logger.error(traceback.format_exc())
         return 'file name exist'
-    except Exception, e:
-        return 'filed to save you upload'
+    except Exception:
+        current_app.logger.error(traceback.format_exc())
+        return 'filed to save your upload'
 
 
 def modify_file(file_attr, user):
@@ -68,6 +73,7 @@ def modify_file(file_attr, user):
         rc.save()
         return 'ok'
     except Exception:
+        current_app.logger.error(traceback.format_exc())
         return 'failed'
 
 
@@ -86,6 +92,7 @@ def delete_file(resource_id, user):
         rc.delete()
         return 'OK'
     except Exception:
+        current_app.logger.error(traceback.format_exc())
         return 'FAIL'
 
 
@@ -99,7 +106,7 @@ def get_list(offset=0, limit=10, user=None, usage=None, type=None):
             .filter(or_(Resource.level<=ResourceLevel.SHARED, and_(User.school==user.school, User.rights < 4)))
     else:
         query = Resource.query.filter(or_(Resource.level<=ResourceLevel.SHARED, Resource.user==user),
-                                      or_(Resource.usage==ResourceUsage.SOLUTION_RES,Resource.usage==ResourceUsage.OTHER_RES))
+                                      or_(Resource.usage==ResourceUsage.BLOG_RES,Resource.usage==ResourceUsage.OTHER_RES))
     if usage:
         query = query.filter(Resource.usage==usage)
     if type:

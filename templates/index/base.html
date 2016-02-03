@@ -58,39 +58,42 @@
           <ul class="nav navbar-nav navbar-right">
             {%- if current_user.is_authenticated -%}
               <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <img src="{{ current_user.gravatar(size=30) }}" class="user-image" alt="User Image">
-              <span class="hidden-xs">{{ current_user.name }}</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="{{ current_user.gravatar(size=100) }}" class="img-circle" alt="User Image">
-                <p>
-                  {{ current_user.name }}
-                  <small>注册于 {{ current_user.create_time }}</small>
-                </p>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                  <img src="{{ current_user.gravatar(size=30) }}" class="user-image" alt="User Image">
+                  <span class="hidden-xs">{{ current_user.name }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <img src="{{ current_user.gravatar(size=100) }}" class="img-circle" alt="User Image">
+
+                    <p>
+                      {{ current_user.name }}
+                      <small>注册于 {{ current_user.create_time }}</small>
+                    </p>
+                  </li>
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="{{ url_for('profile.index') }}" class="btn btn-default btn-flat">个人主页</a>
+                      {%- if current_user.is_admin or current_user.is_coach -%}
+                        <a href="{{ url_for('admin.index') }}" class="btn btn-default btn-flat">管理员功能</a>
+                      {%- endif -%}
+                    </div>
+                    <div class="pull-right">
+                      <a href="{{ url_for('main.logout') }}" class="btn btn-default btn-flat">注销</a>
+                    </div>
+                  </li>
+                </ul>
               </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="{{ url_for('profile.index') }}" class="btn btn-default btn-flat">个人主页</a>
-                  {%- if current_user.is_admin or current_user.is_coach -%}
-                    <a href="{{ url_for('admin.index') }}" class="btn btn-default btn-flat">管理员功能</a>
-                  {%- endif -%}
-                </div>
-                <div class="pull-right">
-                  <a href="{{ url_for('main.logout') }}" class="btn btn-default btn-flat">注销</a>
-                </div>
-              </li>
-            </ul>
-          </li>
             {%- else -%}
               <li id="login-button"><a id="login" href="{{ url_for('main.login') }}">登录</a></li>
             {%- endif -%}
           </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
     </nav>
   </header>
 
@@ -103,7 +106,8 @@
     </div>
   </div>
   <footer class="main-footer">
-    The MIT License (MIT) | <a href="https://github.com/Raynxxx/CUIT-ACM-Website"><b>Project Homepage</b></a> | Copyright &copy;
+    The MIT License (MIT) | <a href="https://github.com/Raynxxx/CUIT-ACM-Website"><b>Project Homepage</b></a> |
+    Copyright &copy;
     2015.
     <p class="pull-right hidden-xs">若发现Bug请发送邮件至 <a href="mailto:raynxxx@outlook.com">Rayn</a> 或者
       <a href="mailto:277507631@qq.com">zzy</a></p>
@@ -132,6 +136,7 @@
 <script src="{{ url_for('static', filename='lightbox/js/lightbox.min.js') }}"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+
 </script>
 <script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 {%- block script -%}{%- endblock -%}

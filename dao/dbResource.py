@@ -10,7 +10,7 @@ class ResourceUsage():
     BOOK_RES = 0
     HONOR_RES = 1
     NEWS_RES = 2
-    SOLUTION_RES = 3
+    BLOG_RES = 3
     OTHER_RES = 4
 
 
@@ -34,8 +34,10 @@ class Resource(db.Model):
     upload_time = db.Column(db.DateTime)
 
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"), nullable=True)
-    user = db.relationship('User', backref=db.backref('resource', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"),
+                        nullable=True)
+    user = db.relationship('User', backref=db.backref('resource', cascade="save-update, merge",
+                                                      lazy='dynamic'))
 
     def __repr__(self):
         return '<Resource>@' + self.name.encode('utf-8')

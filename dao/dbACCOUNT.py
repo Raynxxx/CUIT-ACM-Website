@@ -21,7 +21,8 @@ class Account(db.Model):
     oj_name = db.Column(db.String(20), nullable=False)
     last_update_time = db.Column(db.DateTime)
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"),
+                        nullable=False)
     user = db.relationship('User', backref=db.backref('account', cascade="all, delete-orphan",
                                                       passive_deletes=True, lazy='dynamic'))
 

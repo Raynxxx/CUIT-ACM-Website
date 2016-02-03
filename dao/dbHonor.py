@@ -15,14 +15,15 @@ honor_resources = db.Table('honor_resources',
 
 class Honor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    contest_name = db.Column(db.String(64), nullable=False)
+    contest_name = db.Column(db.String(512), nullable=False)
     contest_level = db.Column(db.Integer, nullable=False, default=0)
     acquire_time = db.Column(db.DateTime, nullable=False)
     team_name = db.Column(db.String(64))
     introduce = db.Column(db.Text)
 
     # connect to Resource
-    resources = db.relationship('Resource', secondary=honor_resources ,backref=db.backref('honors', lazy='dynamic'))
+    resources = db.relationship('Resource', secondary=honor_resources,
+                                backref=db.backref('honors', lazy='dynamic'))
 
     # connect to User
     users = db.relationship('User', secondary=honor_users,backref=db.backref('honors', lazy='dynamic'))
@@ -44,7 +45,8 @@ class Honor(db.Model):
 
     @property
     def serialize(self):
-        return { c.name: getattr(self, c.name) for c in self.__table__.columns }
+        return self.__dict__
+        #return { c.name: getattr(self, c.name) for c in self.__table__.columns }
 
     def save(self):
         db.session.add(self)

@@ -5,7 +5,7 @@ import datetime
 from dao.db import db
 
 # Table of Article
-new_stags = db.Table('news_tags',
+news_tags = db.Table('news_tags',
     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id', ondelete="CASCADE")),
     db.Column('news_id', db.Integer, db.ForeignKey('news.id', ondelete="CASCADE"))
 )
@@ -20,11 +20,14 @@ class News(db.Model):
     is_top = db.Column(db.SmallInteger, default=0)
     is_draft = db.Column(db.SmallInteger, default=0)
     #rank = db.Column(db.Integer, default=0)
+
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id',  ondelete="SET NULL"))
-    user = db.relationship('User', backref=db.backref('news', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"),
+                        nullable=True)
+    user = db.relationship('User', backref=db.backref('news', cascade="save-update, merge",
+                                                      lazy='dynamic'))
     # connect to Tag
-    tags = db.relationship('Tag', secondary=new_stags,backref=db.backref('news', lazy='dynamic'))
+    tags = db.relationship('Tag', secondary=news_tags, backref=db.backref('news', lazy='dynamic'))
 
 
     @property

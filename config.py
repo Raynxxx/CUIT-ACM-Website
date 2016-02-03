@@ -56,6 +56,7 @@ OJ_MAP = {
     'poj': 'POJ',
     'zoj': 'ZOJ',
     'bnu': 'BNU',
+    'uva': 'UVA',
     'vj': 'Virtual Judge',
 }
 
@@ -78,7 +79,7 @@ USER_MANAGE_PER_PAGE = 8
 NEWS_MANAGE_PER_PAGE = 8
 ARTICLE_MANAGE_PER_PAGE = 8
 HONOR_MANAGE_PER_PAGE = 8
-RESOURCE_MANAGE_PER_PAGE = 10
+RESOURCE_MANAGE_PER_PAGE = 12
 SITUATION_PER_PAGE = 25
 RANK_TABLE_PER_PAGE = 15
 

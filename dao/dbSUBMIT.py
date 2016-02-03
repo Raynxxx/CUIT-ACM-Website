@@ -16,8 +16,9 @@ class Submit(db.Model):
     user_name = db.Column(db.String(25),nullable=True)
     # connect to Account
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id',  ondelete="CASCADE"))
-    user = db.relationship('User', backref=db.backref('submit', cascade="all, delete-orphan",  passive_deletes=True, lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id',  ondelete="SET NULL"))
+    user = db.relationship('User', backref=db.backref('submit', cascade="save-update, merge",
+                                                      lazy='dynamic'))
 
     def __init__(self, pro_id, account):
         self.pro_id = pro_id
@@ -30,7 +31,7 @@ class Submit(db.Model):
     def serialize(self):
         return { c.name: getattr(self, c.name) for c in self.__table__.columns }
 
-    def update_info(self,run_id,submit_time, run_time, memory,lang,code,result):
+    def update_info(self, run_id, submit_time, run_time, memory, lang, code, result):
         self.code = code
         self.run_id = run_id
         self.submit_time = submit_time
