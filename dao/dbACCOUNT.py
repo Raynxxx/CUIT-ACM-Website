@@ -9,6 +9,7 @@ class AccountStatus():
     WAIT_FOR_UPDATE = 2
     UPDATING = 3
     UPDATE_ERROR = 4
+    ACCOUNT_ERROR = 5
 
 # Table of Account
 class Account(db.Model):

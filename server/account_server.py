@@ -2,6 +2,7 @@
 from __init__ import *
 from config import OJ_MAP
 from dao.dbACCOUNT import AccountStatus
+from sqlalchemy import or_
 
 
 class AccountUpdatingException(BaseException):
@@ -51,7 +52,8 @@ def delete_account(user, oj_name):
 
 
 def update_account_by_id(account_id):
-    account = Account.query.filter(Account.id == account_id, Account.update_status==AccountStatus.NORMAL)\
+    account = Account.query.filter(Account.id == account_id, or_(Account.update_status==AccountStatus.NORMAL,
+                                                                 Account.update_status==AccountStatus.ACCOUNT_ERROR))\
         .with_lockmode('update').first()
     if not account:
         db.session.commit()
@@ -76,7 +78,8 @@ def get_account_info_list(user):
         AccountStatus.NOT_INIT:         u'未初始化',
         AccountStatus.WAIT_FOR_UPDATE:  u'等待更新',
         AccountStatus.UPDATING:         u'正在更新',
-        AccountStatus.UPDATE_ERROR:     u'更新失败'
+        AccountStatus.UPDATE_ERROR:     u'更新失败',
+        AccountStatus.ACCOUNT_ERROR:    u'账号无法登陆'
     }
     data = []
     for account in accounts:
