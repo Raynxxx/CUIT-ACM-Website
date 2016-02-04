@@ -55,4 +55,11 @@ class Account(db.Model):
         self.password_hash = security.encrypt(password.encode('utf-8'))
 
 
+def find_one(account_id):
+    return Account.query.get_or_404(account_id)
+
+
+def find_all():
+    return Account.query.all()
+
 

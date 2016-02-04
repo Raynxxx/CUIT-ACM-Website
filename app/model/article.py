@@ -48,3 +48,11 @@ class SolutionArticle(db.Model):
         dict_ = self.__dict__
         dict_.pop('_sa_instance_state', None)
         return dict_
+
+
+def find_one(article_id):
+    return SolutionArticle.query.get(article_id)
+
+
+def find_all():
+    return SolutionArticle.query.all()

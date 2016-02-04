@@ -28,12 +28,12 @@ class Config:
 
 class DevConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:63005610@localhost/cuit_acm?useUnicode=true&characterEncoding=utf-8'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:63005610@localhost/cuit_acm'
 
 
 class DeployConfig(Config):
     SECRET_KEY = 'gefdger3fs'
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:ogre@localhost/cuit_acm?useUnicode=true&characterEncoding=utf-8'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:ogre@localhost/cuit_acm'
 
 
 config = {

@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 # Table of Article
-new_stags = db.Table('news_tags',
+news_tags = db.Table('news_tags',
     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id', ondelete="CASCADE")),
     db.Column('news_id', db.Integer, db.ForeignKey('news.id', ondelete="CASCADE"))
 )
@@ -24,7 +24,7 @@ class News(db.Model):
     user = db.relationship('User', backref=db.backref('news', lazy='dynamic'))
 
     # connect to Tag
-    tags = db.relationship('Tag', secondary=new_stags,
+    tags = db.relationship('Tag', secondary=news_tags,
                            backref=db.backref('news', lazy='dynamic'))
 
 
@@ -42,9 +42,6 @@ class News(db.Model):
         dict_.pop('_sa_instance_state', None)
         return dict_
 
-
-
-
     def save(self):
         db.session.add(self)
         db.session.commit()
@@ -52,3 +49,11 @@ class News(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+
+def find_one(news_id):
+    return News.query.get(news_id)
+
+
+def find_all():
+    return News.query.all()

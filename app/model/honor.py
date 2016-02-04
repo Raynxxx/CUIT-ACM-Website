@@ -42,3 +42,10 @@ class Honor(db.Model):
         dict_.pop('_sa_instance_state', None)
         return dict_
 
+
+def find_one(honor_id):
+    return Honor.query.get(honor_id)
+
+
+def find_all():
+    return Honor.query.all()

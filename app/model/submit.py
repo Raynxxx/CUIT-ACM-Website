@@ -36,3 +36,11 @@ class Submit(db.Model):
         dict_ = self.__dict__
         dict_.pop('_sa_instance_state', None)
         return dict_
+
+
+def find_one(submit_id):
+    return Submit.query.get(submit_id)
+
+
+def find_all():
+    return Submit.query.all()

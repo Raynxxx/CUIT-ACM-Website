@@ -6,6 +6,12 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
 
+class Permission:
+    Student = 0x01
+    Coach = 0x02
+    Admin = 0x04
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), unique=True, index=True, nullable=False)
@@ -57,7 +63,6 @@ class User(UserMixin, db.Model):
 
 
 class AnonymousUser(AnonymousUserMixin):
-
     def is_admin(self):
         return False
 
@@ -66,7 +71,11 @@ login_manager.anonymous_user = AnonymousUser
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+def find_one(user_id):
+    return User.query.get_or_404(user_id)
+
+
+def find_all():
+    return User.query.all()
 
 

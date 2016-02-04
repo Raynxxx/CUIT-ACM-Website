@@ -18,3 +18,11 @@ class Tag(db.Model):
         dict_ = self.__dict__
         dict_.pop('_sa_instance_state', None)
         return dict_
+
+
+def find_one(tag_id):
+    return Tag.query.get(tag_id)
+
+
+def find_all():
+    return Tag.query.all()

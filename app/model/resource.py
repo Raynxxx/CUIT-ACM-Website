@@ -56,3 +56,11 @@ class Resource(db.Model):
     @property
     def file_type(self):
         return unicode(self.filename).split('.')[-1]
+
+
+def find_one(res_id):
+    return Resource.query.get_or_404(res_id)
+
+
+def find_all():
+    return Resource.query.all()
