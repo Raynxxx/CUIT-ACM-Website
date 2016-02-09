@@ -15,12 +15,12 @@
           <div class="box-tools">
 
             <div class="input-group input-group-sm" style="width: 200px;">
-                <input type="text" id="InputSearch" class="form-control pull-right"
-                       placeholder="搜索">
-                <div class="input-group-btn">
-                  <button type="submit" class="btn btn-default link-search"><i class="fa fa-search"></i></button>
-                </div>
+              <input type="text" id="InputSearch" class="form-control pull-right"
+                     placeholder="搜索用户姓名">
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default link-search"><i class="fa fa-search"></i></button>
               </div>
+            </div>
           </div>
         </div>
         <div class="box-body no-padding">
@@ -56,8 +56,7 @@
         <div class="box-footer no-padding">
           <div class="list-box-controls">
             <div class="pull-right page-box">
-              <div class="btn-group page-group">
-              </div>
+              <div class="btn-group page-group"></div>
             </div>
             <div class="clearfix"></div>
           </div>
@@ -138,6 +137,7 @@
         pages.push(li);
       }
       pages.push(next);
+      $('.page-info').html("");
       $page_group.each(function() {
         $(this).html(pages.join('\n'));
         make_page_click();

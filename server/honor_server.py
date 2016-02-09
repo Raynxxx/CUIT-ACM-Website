@@ -78,6 +78,14 @@ def get_honor_list(offset=0, limit=10):
                         .offset(offset).limit(limit).all()
 
 
+def get_list_pageable(page, per_page, search=None):
+    query = Honor.query
+    if search:
+        query = query.filter(Honor.contest_name.like('%' + search + '%'))
+    return query.order_by(Honor.acquire_time.desc())\
+                .paginate(page, per_page)
+
+
 def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
     if query_type == 'user' and keyword != '':
         user = User.query.filter(User.name==keyword).first()

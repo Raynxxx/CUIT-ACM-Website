@@ -124,7 +124,7 @@ def get_sys_info():
     sys_info['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     import user_server
     sys_info['user_count'] = user_server.get_count()
-    sys_info['apply_count'] = user_server.get_count(isApply=True)
+    sys_info['apply_count'] = user_server.get_count(is_apply=True)
     today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     sys_info['daily_submit'] = Submit.query.filter(Submit.submit_time > today).count()
     sys_info['total_submit'] = Submit.query.count()

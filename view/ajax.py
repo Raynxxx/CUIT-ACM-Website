@@ -279,19 +279,22 @@ def get_news_list_item(news):
 # @route: /ajax/news_list
 # @allowed user: administrator
 #
-@ajax.route('/ajax/news_list', methods=['POST'])
+@ajax.route('/ajax/news_list', methods=['GET', 'POST'])
 @login_required
 def get_news_list():
     if not current_user.is_admin and not current_user.is_coach:
-        print "你没有权限访问该模块"
         return redirect(url_for('main.index'))
-
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    news_list = news_server.get_list(offset, limit, show_draft=True)
-    sum = news_server.get_count(show_draft=True)
-    return jsonify(news_list=[get_news_list_item(news) for news in news_list],
-                   sum=sum, offset=int(offset), limit=len(news_list))
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = NEWS_MANAGE_PER_PAGE
+    pagination = news_server.get_list_pageable(page, per_page, show_draft=True, search=search)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_news_list_item(news) for news in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
 
 
 #
@@ -653,7 +656,6 @@ def delete_resource():
 #
 @login_required
 def get_honor_list_item(honor):
-    print honor.serialize
     from config import HONOR_LEVEL_MAP
     return render_template('ajax/honor_list_item.html',
                            honor = honor,
@@ -666,16 +668,22 @@ def get_honor_list_item(honor):
 # @accepted methods: [post]
 # @allowed user: self, admin, coach
 #
-@ajax.route('/ajax/honor_list', methods=['POST'])
+@ajax.route('/ajax/honor_list', methods=['GET', 'POST'])
 @login_required
 def get_honor_list():
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    honor_list = honor_server.get_honor_list(offset, limit)
-    sum = honor_server.get_honor_count()
-    return jsonify(honor_list=[get_honor_list_item(honor) for honor in honor_list],
-                   sum=sum, offset=int(offset), limit=len(honor_list))
-
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = HONOR_MANAGE_PER_PAGE
+    pagination = honor_server.get_list_pageable(page, per_page, search)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_honor_list_item(honor) for honor in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
 
 
 #

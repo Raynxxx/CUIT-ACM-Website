@@ -114,6 +114,12 @@
 ** List Box CSS
 */
 
+.page-info {
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
 .list-box td, .list-box th {
   vertical-align: middle !important;
   text-align: center;
@@ -137,7 +143,7 @@
 }
 .list-item-title {
   width: 36%;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   word-wrap: break-word;
   word-break: break-all;
