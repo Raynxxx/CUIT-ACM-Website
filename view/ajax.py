@@ -73,23 +73,27 @@ def get_user_list_item(user):
 # @route: /ajax/user_list
 # @allowed user: admin and coach
 #
-@ajax.route('/ajax/user_list', methods=["POST"])
+@ajax.route('/ajax/user_list', methods=["GET", "POST"])
 @login_required
-def get_user_list():
+def get_users():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('index'))
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    users = list()
-    sum = 0
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = USER_MANAGE_PER_PAGE
+    pagination = None
     if current_user.is_admin:
-        users = user_server.get_list(offset, limit)
-        sum = user_server.get_count()
+        pagination = user_server.get_list_pageable(page, per_page, search=search)
     elif current_user.is_coach:
-        users = user_server.get_list(offset, limit, school=current_user.school)
-        sum = user_server.get_count(school=current_user.school)
-    return jsonify(user_list=[get_user_list_item(user) for user in users],
-                   sum=sum, offset=int(offset), limit=len(users))
+        pagination = user_server.get_list_pageable(page, per_page, search=search,
+                                                   school=current_user.school)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_user_list_item(user) for user in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
 
 
 #

@@ -13,7 +13,14 @@
         <div class="box-header with-border">
           <h3 class="box-title"><i class="fa fa-list"></i> 用户列表</h3>
           <div class="box-tools">
-            <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+
+            <div class="input-group input-group-sm" style="width: 200px;">
+                <input type="text" id="InputSearch" class="form-control pull-right"
+                       placeholder="搜索">
+                <div class="input-group-btn">
+                  <button type="submit" class="btn btn-default link-search"><i class="fa fa-search"></i></button>
+                </div>
+              </div>
           </div>
         </div>
         <div class="box-body no-padding">
@@ -21,16 +28,19 @@
             <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
               <i class="fa fa-trash-o"></i> 删除
             </button>
-            <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
+            <button class="btn btn-default btn-sm edit_user">
+              <i class="fa fa-pencil-square-o"></i> 修改
+            </button>
+            <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}">
+              <i class="fa fa-user-plus"></i>添加
+            </a>
+            <button class="btn btn-default btn-sm to_refresh">
+              <i class="fa fa-refresh"></i> &nbsp; 刷新列表
+            </button>
 
-            <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i>
-              添加</a>
-            <div class="pull-right">
-              <div class="btn-group">
-                <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
-                <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+            <div class="pull-right page-box">
+              <div class="btn-group page-group">
               </div>
-              <!-- /.btn-group -->
             </div>
           </div>
           <table class="table table-bordered table-hover table-striped list-table">
@@ -45,19 +55,11 @@
         </div>
         <div class="box-footer no-padding">
           <div class="list-box-controls">
-            <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
-              <i class="fa fa-trash-o"></i> 删除
-            </button>
-            <button class="btn btn-default btn-sm edit_user"><i class="fa fa-pencil-square-o"></i> 修改</button>
-            <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}"><i class="fa fa-user-plus"></i>
-              添加</a>
-
-            <div class="pull-right">
-              <div class="btn-group">
-                <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
-                <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
+            <div class="pull-right page-box">
+              <div class="btn-group page-group">
               </div>
             </div>
+            <div class="clearfix"></div>
           </div>
         </div>
         <div class="overlay">
@@ -89,56 +91,84 @@
 {%- block script -%}
   <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
   <script>
+    var $page_group = $('.page-group');
+    var search = '';
     function make_iCheck() {
       $('.list-box input[type="checkbox"], .list-box input[type="radio"]').iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
       });
     }
-    function get_user_list(offset, limit) {
-      $('.list-box > div.overlay').fadeIn(300, make_iCheck());
-      var data = {offset: offset, limit: limit};
-      $.post("{{ url_for('ajax.get_user_list') }}", data).success(function (ret) {
-        var user_count = ret.sum;
-        var start = ret.offset;
-        var length = ret.limit;
-        var users = ret.user_list;
+    function get_cur_page() {
+      return $page_group.data('cur');
+    }
+    function get_total_page() {
+      return $page_group.data('all');
+    }
+    function make_page_click() {
+      $('.link-page').click(function() {
+        var page = $(this).data('page');
+        if (page === get_cur_page() || page === undefined ||
+                page == 0 || page > get_total_page()) {
+          return false;
+        }
+        console.log(page);
+        get_user_list(page, search);
+      });
+    }
+    function generate_pagination(cur_page, prev_num, next_num, page_list) {
+      var pages = [];
+      var btn_class = 'btn btn-default btn-sm link-page';
+      var prev = "<button class='" + btn_class + "' data-page='" + prev_num + "'>" +
+              "<i class='fa fa-chevron-left'></i></button>";
+      var next = "<button class='" + btn_class + "' data-page='" + next_num + "'>" +
+              "<i class='fa fa-chevron-right'></i></button>";
+
+      pages.push(prev);
+      for (var i = 0, li; i < page_list.length; ++i) {
+        if (page_list[i] === null) {
+          li = "<button class='" + btn_class + "'>...</button>";
+        } else if (page_list[i] === cur_page) {
+          li = "<button class='" + btn_class + " active'>";
+          li += page_list[i] + "</button>";
+        } else {
+          li = "<button class='" + btn_class + "' data-page='" + page_list[i] + "'>";
+          li += page_list[i] + "</button>";
+        }
+        pages.push(li);
+      }
+      pages.push(next);
+      $page_group.each(function() {
+        $(this).html(pages.join('\n'));
+        make_page_click();
+      });
+    }
+    function get_user_list(page, search) {
+      $('.list-box > div.overlay').fadeIn(300, make_iCheck);
+      var data = { page: page, search: search };
+      $.get("{{ url_for('ajax.get_users') }}", data).success(function (response) {
+        var item_list = response.items;
+        var length = item_list.length;
         var $list_table = $('.list-table-body');
         $list_table.empty();
         if (length == 0) {
           $list_table.append('<tr><td colspan="6"><h2>无用户</h2></tr>');
         } else {
           for (var i = 0; i < length; ++i) {
-            $list_table.append(users[i]);
+            $list_table.append(item_list[i]);
           }
         }
-        $list_table.data('offset', start);
-        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
-        var prev = $('.prev-page');
-        var next = $('.next-page');
-        if (start == 0) {
-          prev.hide();
-        } else {
-          prev.show();
-          prev.val(start - limit);
-        }
-        if (user_count == start + length) {
-          next.hide();
-        } else {
-          next.show();
-          next.val(start + length);
-        }
+        $page_group.data('cur', response.page).data('all', response.pages);
+        $('.list-box > div.overlay').fadeOut(300, make_iCheck);
+        generate_pagination(response.page, response.prev_num,
+                            response.next_num, response.page_list);
       }).error(function() {
         var $list_table = $('.list-table-body').first();
         $list_table.empty();
         $list_table.append('<tr><td colspan="6"><h2>加载失败</h2></tr>');
-        $('.list-box > div.overlay').fadeOut(300, make_iCheck());
-        $('.prev-page').hide();
-        $('.next-page').hide();
+        $('.list-box > div.overlay').fadeOut(300, make_iCheck);
+        $page_group.empty();
       });
-    }
-    function get_cur_offset() {
-      return $('.list-table-body').data('offset');
     }
     function delete_users(checked) {
       var data = {'user_id': checked};
@@ -149,23 +179,21 @@
         }
       });
     }
+
     $(document).ready(function () {
       make_iCheck();
-      var limit = {{ limit }};
-      get_user_list(0, limit);
+      get_user_list(1);
 
       $('button.to_refresh').click(function() {
-        get_user_list(0, limit);
+        get_user_list(1, search);
       });
 
-      $('.prev-page').click(function () {
-        var offset = parseInt($(this).val());
-        get_user_list(offset, limit);
-      });
-
-      $('.next-page').click(function () {
-        var offset = parseInt($(this).val());
-        get_user_list(offset, limit);
+      $('button.link-search').click(function() {
+        search = $('#InputSearch').val();
+        if (search === undefined) {
+          return false;
+        }
+        get_user_list(1, search);
       });
 
       $('.to_delete_user').click(function () {

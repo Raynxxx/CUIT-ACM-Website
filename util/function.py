@@ -60,3 +60,4 @@ def reply_of_apply(sender, user, app, opt):
     with app:
         msg = Message(subject, recipients=[recipient], body=body)
         send_mail(sender, msg)
+
