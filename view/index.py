@@ -274,15 +274,17 @@ def article():
         return redirect(url_for('main.article_list'))
 
 
-
 #
 # @brief: route to fitch resource
 # @route: /upload/resource/<path:name>
 # @accepted methods: [all]
 # @allowed user: all
 #
-@main.route('/upload/resource/<path:name>')
+@main.route('/upload/resource/<path:name>', methods=['GET'])
 def resource(name):
+    if name.startswith('cache/'):
+        return send_from_directory(config.UPLOADED_RESOURCE_DEST, name, as_attachment=True,
+                                   attachment_filename=name.encode('utf-8'))
     rs = resource_server.get_by_filename(name)
     if rs.level ==  ResourceLevel.PUBLIC:
         return send_from_directory(config.UPLOADED_RESOURCE_DEST, rs.filename, as_attachment=True,
@@ -302,7 +304,6 @@ def resource(name):
             abort(403)
 
 
-
 #
 # @brief: page for honor wall
 # @route: /honor_wall
@@ -317,7 +318,8 @@ def honor_wall():
     return render_template('index/honor_wall.html',
                            title = u'荣誉墙',
                            honor_wall = honor_wall,
-                           HONOR_LEVEL_MAP = HONOR_LEVEL_MAP)
+                           HONOR_LEVEL_MAP = HONOR_LEVEL_MAP,
+                           file_url = resource_server.file_url)
 
 #
 # @brief: page for honor

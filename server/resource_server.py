@@ -115,8 +115,24 @@ def get_list(offset=0, limit=10, user=None, usage=None, type=None):
     return query.order_by(Resource.upload_time.desc()).offset(offset).limit(limit).all()
 
 
-def get_list_pageable(page, per_page, user=None, usage=None, type=None):
-    pass
+def get_list_pageable(page, per_page, user=None, search=None):
+    query = Resource.query
+    if not user:
+        query = query.filter(Resource.level == ResourceLevel.PUBLIC)
+    elif user.is_admin:
+        query = query
+    elif user.is_coach:
+        query = query.join(Resource.user).filter(or_(Resource.level <= ResourceLevel.SHARED,
+                                                     and_(User.school == user.school, User.rights < 4)))
+    elif user.is_student:
+        query = query.filter(or_(Resource.level <= ResourceLevel.SHARED, Resource.user == user),
+                             Resource.usage.in_([ResourceUsage.BLOG_RES, ResourceUsage.OTHER_RES]))
+    if search:
+        query = query.filter(or_(Resource.filename.like('%' + search + '%'),
+                                 Resource.name.like('%' + search + '%')))
+
+    return query.order_by(Resource.upload_time.desc())\
+                .paginate(page, per_page)
 
 
 def get_count(user=None, usage=None, type=None):
@@ -134,6 +150,7 @@ def get_count(user=None, usage=None, type=None):
     if type:
         query = query.filter(Resource.type==type)
     return query.count()
+
 
 def get_image_list(offset=0, limit=10, usage=ResourceUsage.NEWS_RES):
     query = Resource.query.filter(Resource.level==ResourceLevel.PUBLIC,

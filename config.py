@@ -67,6 +67,8 @@ import os.path
 BRAND_CONFIG_DEST = os.path.split(os.path.realpath(__file__))[0] + '/brand.ini'
 UPLOADED_RESOURCE_DEST = os.path.split(os.path.realpath(__file__))[0] + '/upload/'
 UPLOADED_RESOURCE_URL = '/upload/resource/'
+RESIZE_URL = UPLOADED_RESOURCE_URL
+RESIZE_ROOT = UPLOADED_RESOURCE_DEST
 IMAGE_FILE_PATH = 'static/image/bookimg/'
 SECRET_KEY = 'a very hard string'
 from datetime import timedelta

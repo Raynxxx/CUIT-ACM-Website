@@ -5,9 +5,10 @@ from sqlalchemy import or_
 
 
 def create_user(user_form, user_rights):
-    has_user = User.query.filter_by(username=user_form.username.data).first()
+    has_user = User.query.filter(or_(User.username == user_form.username.data,
+                                     User.stu_id == user_form.stu_id.data)).first()
     if has_user:
-        return u"该用户名已经存在"
+        return u"该用户名或者学号已经存在"
     new_user = User(username = user_form.username.data,
                 name = user_form.name.data,
                 password = user_form.password.data,

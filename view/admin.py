@@ -321,7 +321,6 @@ def manage_resource():
     return render_template('manage_resource.html',
                            title = u'资源管理',
                            user = current_user,
-                           limit = config.RESOURCE_MANAGE_PER_PAGE,
                            upload_form = file_upload_form)
 
 

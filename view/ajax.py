@@ -554,22 +554,28 @@ def get_resource_list_item(resource):
                            file_url = resource_server.file_url)
 
 
-
 #
 # @brief: ajax resource list
 # @route: /ajax/resource_list
 # @accepted methods: [post]
 # @allowed user: self, admin, coach
 #
-@ajax.route('/ajax/resource_list', methods=['POST'])
+@ajax.route('/ajax/resource_list', methods=['GET', 'POST'])
 @login_required
 def get_resource_list():
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    resource_list = resource_server.get_list(offset, limit, current_user)
-    sum = resource_server.get_count(current_user)
-    return jsonify(news_list=[get_resource_list_item(resource) for resource in resource_list],
-                   sum=sum, offset=int(offset), limit=len(resource_list))
+    #if not current_user.is_admin and not current_user.is_coach:
+    #    return redirect(url_for('index'))
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = RESOURCE_MANAGE_PER_PAGE
+    pagination = resource_server.get_list_pageable(page, per_page, current_user, search)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_resource_list_item(resource) for resource in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
 
 
 #
@@ -647,7 +653,6 @@ def delete_resource():
         return msg
     except:
         return u'删除失败'
-
 
 
 #

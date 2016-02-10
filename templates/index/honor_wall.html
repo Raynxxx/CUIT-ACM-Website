@@ -47,7 +47,7 @@
           <div class="honor-one" data-honor="{{ honor.id }}">
             <div class="thumbnail">
               {% if honor.resources %}
-              <img src="{{ url_for('main.resource', name=honor.resources[0].filename) }}" class="poster">
+              <img src="{{ file_url(honor.resources[0]) | resize('200', format='png') }}" class="poster">
               {% endif %}
               <p class="contest-name">{{ honor.contest_name }}</p>
             </div>
