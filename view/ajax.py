@@ -1,8 +1,9 @@
 # coding=utf-8
 import os
 from __init__ import *
-import traceback
+import traceback, cStringIO, re
 from flask import current_app
+from werkzeug.datastructures import FileStorage
 from server import user_server, article_server, status_server, form, account_server, news_server, resource_server
 from server import general
 from server import honor_server
@@ -597,6 +598,35 @@ def upload():
                 return u'上传数据失败'
         except Exception, e:
             return u'错误: ' + e.message
+    return u'数据填写有误'
+
+
+#
+# @brief: ajax to upload poster
+# @route: /ajax/upload
+# @accepted methods: [post]
+#
+@ajax.route('/ajax/upload/poster', methods=['POST'])
+@login_required
+def upload_poster():
+    from dao.dbResource import ResourceLevel, ResourceUsage
+    file_form = form.FileUploadForm()
+    file_form.level.data = str(ResourceLevel.PUBLIC)
+    file_form.usage.data = str(ResourceUsage.POSTER_RES)
+    if file_form.validate_on_submit():
+        try:
+            file_canvas = request.form.get('croppedImage')
+            if file_canvas:
+                file_string = re.sub('^data:image/.+;base64,', '', file_canvas).decode('base64')
+                file_binary = cStringIO.StringIO(file_string)
+                file = FileStorage(file_binary, file_form.name.data + '.jpg')
+                msg = resource_server.save_file(file_form, file, current_user, 'poster')
+                return msg
+            else:
+                return u'上传数据失败'
+        except Exception, e:
+            return u'错误: ' + e.message
+    current_app.logger.error(file_form.errors)
     return u'数据填写有误'
 
 

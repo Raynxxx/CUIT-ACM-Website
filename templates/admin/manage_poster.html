@@ -1,46 +1,33 @@
 {% extends "admin/base.html" %}
 
 {% block head %}
+{% endblock %}
 
+{% block content_header %}
+  <h1>
+    首页图片管理
+    <small>首页幻灯片</small>
+  </h1>
 {% endblock %}
 
 {% block content %}
-<div class="row">
-<div class="col-sm-12">
-    <div class="box box-primary">
-      <div class="box-header with-border">
-        <h3 class="box-title">帮助</h3>
-      </div>
-      <div class="box-body">
-        <ol>
-          <li>通过 <a class="btn btn-primary btn-xs btn-flat"
-                  href="{{ url_for('admin.cropper') }}" target="_blank">图片裁剪</a> 得到合适大小的图片, 下载并重命名. </li>
-          <li>将上一步得到的图片上传到 <a class="btn btn-primary btn-xs btn-flat"
-                             href="{{ url_for('admin.manage_resource') }}"
-                             target="_blank"> 资源管理 </a>, 取得资源地址.
-          </li>
-          <li>现在就可以添加一张新的首页图片了.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="row poster-wall">
 
-  <div class="col-sm-4 col-md-3 col-lg-2" data-toggle="modal" data-target="#addPoster">
+  <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" onclick="window.location.href='{{ url_for('admin.cropper') }}'">
     <div class="index-poster" style="padding: 30px 0;cursor: pointer;">
       <i class="fa fa-plus"></i>
     </div>
   </div>
-  {% for key, value in poster %}
-    <div class="col-sm-4 col-md-3 col-lg-2">
+
+  {% for poster in posters %}
+    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
       <div class="index-poster">
-        <a href="{{ value }}" ><img src="{{ key }}"></a>
+        <div><img src="{{ file_url(poster) | resize('200', format='png') }}"></div>
         <div class="opt-btn">
-          <a class="label label-primary to-edit-poster" data-poster="{{ key }}"
-                  data-value="{{ value }}"><i class="fa fa-edit"></i>
+          <a class="label label-primary to-edit-poster" data-poster="{{ poster.id }}">
+            <i class="fa fa-edit"></i>
           </a>
-          <a class="label label-danger to-del-poster" data-poster="{{ key }}"
+          <a class="label label-danger to-del-poster" data-poster="{{ poster.id }}"
                   data-toggle="modal" data-target="#delPoster">
             <i class="fa fa-times"></i>
           </a>
@@ -48,41 +35,7 @@
       </div>
     </div>
   {% endfor %}
-</div>
 
-<div class="modal fade" id="addPoster" style="margin-top: 50px;">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">添加/修改首页图片</h4>
-      </div>
-      <form id="postPoster" method="post" class="form-horizontal">
-        <div class="modal-body">
-          {{ pform.hidden_tag() }}
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="imageUrl"><span class="required-star">* </span>图片链接</label>
-
-            <div class="col-sm-9">
-              {{ pform.img_url(class="form-control required", id="imageUrl", placeholder="图片链接") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="newsUrl"><span class="required-star">* </span>新闻链接</label>
-
-            <div class="col-sm-9">
-              {{ pform.link_url(class='form-control required',id="newsUrl" , placeholder="新闻链接") }}
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          {{ pform.submit(class='btn btn-primary', value='提交') }}
-          <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
-        </div>
-      </form>
-    </div>
-  </div>
 </div>
 <div class="modal fade" id="delPoster" style="margin-top: 50px;">
   <div class="modal-dialog modal-sm">
@@ -154,28 +107,6 @@
       return false;
     });
 
-    $('#postPoster').submit(function () {
-      var data = new FormData($('#postPoster')[0]);
-      data.append('opt', 'set');
-      $.ajax({
-        url: "{{ url_for('ajax.manage_poster') }}",
-        type: "POST",
-        data: data,
-        processData: false,  // 告诉jQuery不要去处理发送的数据
-        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-        success: function (msg) {
-          if (msg == 'Success') {
-            window.location.reload();
-          } else {
-            $('.closeModal').click();
-            alert(msg);
-          }
-        }
-      });
-      $('#imageUrl').val('');
-      $('#newsUrl').val('');
-      return false;
-    });
 
   });
 </script>

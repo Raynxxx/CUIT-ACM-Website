@@ -27,7 +27,10 @@
       <div class="form-group">
         <label class="control-label col-sm-2" for="inputUrl">固定链接</label>
         <div class="col-sm-9">
-          {{ news_form.url(class="form-control",id="inputUrl", placeholder="固定链接URL") }}
+          <div class="input-group">
+            <span class="input-group-addon" style="font-size: larger">http://acm.cuit.edu.cn/news/</span>
+            {{ news_form.url(class="form-control",id="inputUrl", placeholder="固定链接URL") }}
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -66,9 +69,10 @@
             <li class="pull-right"><a href="#" data-dismiss="modal"><i class="fa fa-times"></i></a></li>
           </ul>
           <div class="tab-content">
+
             <div class="tab-pane active no-padding" id="tab_1">
               <div class="img-choose-box row"></div>
-              <div class="overlay row" style="display: none">
+              <div class="overlay row">
                 <i class="fa fa-refresh fa-spin"></i>
               </div>
               <nav>
@@ -82,6 +86,7 @@
                 <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
               </div>
             </div>
+
             <div class="tab-pane" id="tab_2">
               <form id="postImg" method="post" class="form-horizontal">
                 {{ upload_form.hidden_tag() }}
@@ -221,6 +226,7 @@
     get_img_choose_list(0, limit);
     make_pager(limit);
     gao_selected();
+
     $('#inputContent').markdown({
       iconlibrary: 'fa'
     });

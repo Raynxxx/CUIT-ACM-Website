@@ -319,9 +319,9 @@ def add_book():
 def manage_resource():
     file_upload_form = form.FileUploadForm()
     return render_template('manage_resource.html',
-                           title = u'资源管理',
-                           user = current_user,
-                           upload_form = file_upload_form)
+                           title=u'资源管理',
+                           user=current_user,
+                           upload_form=file_upload_form)
 
 
 #
@@ -332,9 +332,10 @@ def manage_resource():
 #
 @admin.route("/admin/cropper", methods=['GET'])
 def cropper():
-    pass
+    file_upload_form = form.FileUploadForm()
     return render_template('cropper.html',
-                           title = u'图片裁剪')
+                           title=u'图片裁剪',
+                           upload_form=file_upload_form)
 
 
 #
@@ -348,8 +349,9 @@ def cropper():
 def manage_poster():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    poster_form = form.PosterForm()
+    from dao.dbResource import Resource, ResourceUsage
+    posters = Resource.query.filter(Resource.usage == ResourceUsage.POSTER_RES).all()
     return render_template('manage_poster.html',
-                           title = u'首页图片管理',
-                           poster = poster.items(),
-                           pform = poster_form)
+                           title=u'首页图片管理',
+                           posters=posters,
+                           file_url=resource_server.file_url)

@@ -7,6 +7,7 @@ from sqlalchemy import or_, and_
 from sqlalchemy.exc import IntegrityError
 import os, traceback
 
+
 resource_uploader = UploadSet('resource', DEFAULTS + ARCHIVES, default_dest=lambda app: app.instance_root)
 
 
@@ -36,14 +37,15 @@ def save_file(file_attr, file_data, user, sub_folder):
     try:
         filename = resource_uploader.save(file_data, folder=sub_folder,
                                           name=file_attr.name.data + '.')
-        print filename
+        current_app.logger.info('Upload File: ' + filename)
         rc = Resource()
         rc.filename = filename
         rc.name = file_attr.name.data
+        rc.link = file_attr.link.data
         rc.description = file_attr.description.data
         rc.user = user
         rc.level = file_attr.level.data if int(file_attr.level.data) in xrange(0, 3) else ResourceLevel.PRIVATE
-        rc.usage = file_attr.usage.data if int(file_attr.usage.data) in xrange(0, 5) else ResourceUsage.OTHER_RES
+        rc.usage = file_attr.usage.data if int(file_attr.usage.data) in xrange(0, 6) else ResourceUsage.OTHER_RES
         rc.upload_time = datetime.now()
         rc.type = get_type(rc.file_type)
         rc.save()
@@ -118,12 +120,14 @@ def get_list(offset=0, limit=10, user=None, usage=None, type=None):
 def get_list_pageable(page, per_page, user=None, search=None):
     query = Resource.query
     if not user:
-        query = query.filter(Resource.level == ResourceLevel.PUBLIC)
+        query = query.filter(Resource.level == ResourceLevel.PUBLIC)\
+                     .filter(Resource.usage != ResourceUsage.POSTER_RES)
     elif user.is_admin:
-        query = query
+        query = query.filter(Resource.usage != ResourceUsage.POSTER_RES)
     elif user.is_coach:
-        query = query.join(Resource.user).filter(or_(Resource.level <= ResourceLevel.SHARED,
-                                                     and_(User.school == user.school, User.rights < 4)))
+        query = query.join(Resource.user)\
+                     .filter(or_(Resource.level <= ResourceLevel.SHARED, and_(User.school == user.school, User.rights < 4)))\
+                     .filter(Resource.usage != ResourceUsage.POSTER_RES)
     elif user.is_student:
         query = query.filter(or_(Resource.level <= ResourceLevel.SHARED, Resource.user == user),
                              Resource.usage.in_([ResourceUsage.BLOG_RES, ResourceUsage.OTHER_RES]))
@@ -165,11 +169,14 @@ def get_image_count(usage=ResourceUsage.NEWS_RES):
                                   Resource.usage==usage)
     return query.count()
 
+
 def get_by_filename(filename):
     return Resource.query.filter(Resource.filename==filename).first_or_404()
 
+
 def get_by_name(name):
     return Resource.query.filter(Resource.name==name).first_or_404()
+
 
 def get_by_id(resource_id):
     return Resource.query.filter(Resource.id==resource_id).first_or_404()

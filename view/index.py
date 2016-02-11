@@ -92,12 +92,15 @@ def logout():
 @main.route('/index')
 def index():
     recent_news = news_server.get_recent(sortTop=True)
+    from dao.dbResource import Resource, ResourceUsage
+    posters = Resource.query.filter(Resource.usage == ResourceUsage.POSTER_RES).all()
     return render_template('index/index.html',
                            title = 'CUIT ACM Team',
-                           poster = poster.items(),
+                           posters = posters,
                            recent_news = recent_news,
                            recommend_site = config.RECOMMEND_SITE,
-                           RECENT_CONTEST_JSON = RECENT_CONTEST_JSON)
+                           RECENT_CONTEST_JSON = RECENT_CONTEST_JSON,
+                           file_url = resource_server.file_url)
 
 
 #
@@ -141,13 +144,13 @@ def news(url=None):
             one_news = news_server.get_by_id(sid)
         recent_news = news_server.get_recent()
         tags = news_server.get_all_tags()
-        return render_template('index/news.html',
-                               title = one_news.title,
-                               one = one_news,
-                               recent_news = recent_news,
-                               tags = tags)
     except Exception, e:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.news_list'))
+    return render_template('index/news.html',
+                           title=one_news.title,
+                           one=one_news,
+                           recent_news=recent_news,
+                           tags=tags)
 
 
 #

@@ -3,7 +3,7 @@ $(function () {
   'use strict';
 
   var console = window.console || { log: function () {} };
-  var $image = $('#image');
+  var $image = $('#image-cropper');
   var $download = $('#download');
   var $dataX = $('#dataX');
   var $dataY = $('#dataY');
@@ -72,9 +72,11 @@ $(function () {
 
 
   // Download
+  /*
   if (typeof $download[0].download === 'undefined') {
     $download.addClass('disabled');
   }
+  */
 
 
   // Options
@@ -144,13 +146,12 @@ $(function () {
           if (result) {
 
             // Bootstrap's Modal
-            $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
+            $('#getCroppedCanvasModal').modal().find('.cropped-body').html(result);
 
             if (!$download.hasClass('disabled')) {
               $download.attr('href', result.toDataURL("image/jpeg"));
             }
           }
-
           break;
       }
 
@@ -163,6 +164,34 @@ $(function () {
       }
 
     }
+  });
+
+  $('#upload-cropped').on('click', function() {
+    var $this = $(this);
+    var result = $image.cropper('getCroppedCanvas');
+    var imageData = result.toDataURL('image/jpeg');
+
+    var formData = new FormData($('#posterForm')[0]);
+    formData.append('croppedImage', imageData);
+    $.ajax("/ajax/upload/poster", {
+      method: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (msg) {
+        if (msg == 'OK') {
+          window.location.href = '/admin/manage_poster';
+        } else {
+          $("#alert-text").html(msg);
+          $("#upload-alert").hide().fadeIn(200);
+        }
+      },
+      error: function (meg) {
+        console.log('Upload error');
+        $("#alert-text").html(msg);
+        $("#upload-alert").hide().fadeIn(200);
+      }
+    });
   });
 
 

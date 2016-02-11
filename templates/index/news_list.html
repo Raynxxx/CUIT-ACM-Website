@@ -22,7 +22,8 @@
             {% for one in news %}
               <li class="news-item">
                 <i class="fa fa-angle-right"></i>
-                <a href="{{ url_for('main.news', p=one.id) }}" class="news-title">
+                <a href="{{ url_for('main.news', url=one.url) if one.url else url_for('main.news', p=one.id) }}"
+                   class="news-title">
                   {% if one.is_top %}
                     <span class="text-red text-bold">[置顶]</span>
                   {% endif %}
@@ -65,8 +66,9 @@
             <ul class="recent_articles">
               {% for news in recent_news %}
                 <li><i class="fa fa-angle-right"></i>
-                  <a href="{{ url_for('main.news', p=news.id) }}" title="{{ news.title }}">{{ news.title }}
-                </a></li>
+                  <a href="{{ url_for('main.news', url=news.url) if news.url else url_for('main.news', p=news.id) }}"
+                     title="{{ news.title }}">{{ news.title }}</a>
+                </li>
               {% endfor %}
             </ul>
           </div>

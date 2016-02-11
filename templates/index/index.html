@@ -93,7 +93,7 @@
       <div id="index-poster" class="carousel slide col-sm-12" data-ride="carousel" >
         <!-- Indicators -->
         <ol class="carousel-indicators">
-          {% for key, value in poster %}
+          {% for poster in posters %}
             {% if loop.index0 == 0 %}
               <li data-target="#index-poster" data-slide-to="{{ loop.index0 }}" class="active"></li>
             {% else %}
@@ -104,16 +104,16 @@
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-          {% for key, value in poster %}
+          {% for poster in posters %}
             {% if loop.index0 == 0 %}
               <div class="item active">
-                <a href="{{ value }}" target="_blank"><img src="{{ key }}" alt="..."></a>
+                <a href="{{ poster.link }}" target="_blank"><img src="{{ file_url(poster) }}" alt="..."></a>
                 <div class="carousel-caption">
                 </div>
               </div>
             {% else %}
               <div class="item">
-                <a href="{{ value }}" target="_blank"><img src="{{ key }}" alt="..."></a>
+                <a href="{{ poster.link }}" target="_blank"><img src="{{ file_url(poster) }}" alt="..."></a>
                 <div class="carousel-caption">
                 </div>
               </div>

@@ -14,6 +14,7 @@ def load_poster_config():
     fp.close()
     return brand_info
 
+
 def save_poster_config(brand_info):
     fp = codecs.open(BRAND_CONFIG_DEST, 'w', 'utf-8')
     for key in brand_info:

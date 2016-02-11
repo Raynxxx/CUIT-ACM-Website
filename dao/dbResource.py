@@ -11,7 +11,8 @@ class ResourceUsage():
     HONOR_RES = 1
     NEWS_RES = 2
     BLOG_RES = 3
-    OTHER_RES = 4
+    POSTER_RES = 4
+    OTHER_RES = 5
 
 
 class ResourceType:
@@ -27,6 +28,7 @@ class Resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(50), nullable=False, unique=True, default='UNTITLED')
+    link = db.Column(db.String(1024))
     description = db.Column(db.Text)
     type = db.Column(db.Integer, nullable=False)
     level = db.Column(db.Integer, nullable=False, default=ResourceLevel.PRIVATE)

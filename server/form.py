@@ -144,6 +144,7 @@ class BookForm(Form):
 
 class FileUploadForm(Form):
     name = StringField(u'name', validators=[validators.DataRequired(), validators.Length(min=1, max=48)])
+    link = StringField(u'link', validators=[validators.Optional()])
     description = TextAreaField(u'description', validators=[validators.Optional()])
     level = RadioField('level', choices=[('0', u'公开'), ('1', u'共享'), ('2', u'私有')], coerce=str, default=2)
     usage = RadioField('usage',choices=[('1', u'荣誉资源'), ('2', u'新闻资源'),

@@ -34,6 +34,8 @@
           <label class="label label-danger">新闻</label>
         {% elif resource.usage == 3 %}
             <label class="label label-warning">题解</label>
+        {% elif resource.usage == 4 %}
+            <label class="label label-info">首页</label>
         {% else %}
             <label class="label label-default bg-purple">其他</label>
         {% endif %}

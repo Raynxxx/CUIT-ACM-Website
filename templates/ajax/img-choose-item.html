@@ -1,7 +1,7 @@
 <div class="col-sm-4 col-md-3 img-item" data-target="{{ file_url(img_item) }}">
   <div class="thumbnail">
     <div class="img-responsive">
-      <img src="{{ file_url(img_item) }}">
+      <img src="{{ file_url(img_item) | resize('200', format='png') }}">
     </div>
     <div class="caption">
       <p>{{ img_item.name }}</p>
