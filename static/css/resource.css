@@ -184,9 +184,10 @@
 }
 
 .honor-one .thumbnail {
-  /*border: 1px solid #bbb;*/
+  border: 1px solid #bbb;
   border-bottom: none;
   padding: 0;
+  margin-bottom: 0;
 }
 .honor-one .contest-name {
   font-size: 1.2em;

@@ -50,9 +50,12 @@ body>.container {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.recent_news li .news-angle {
+  margin-right: 10px;
+}
+
 .recent_news a {
   color: #222;
-
 }
 
 .recent_news a:hover,

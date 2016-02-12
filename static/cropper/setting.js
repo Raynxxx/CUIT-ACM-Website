@@ -13,7 +13,7 @@ $(function () {
   var $dataScaleX = $('#dataScaleX');
   var $dataScaleY = $('#dataScaleY');
   var options = {
-    aspectRatio: 16 / 9,
+    aspectRatio: 16 / 7,
     viewMode: 1,
     autoCropArea: 1,
     background: false,

@@ -4,10 +4,10 @@ from __init__ import *
 import traceback, cStringIO, re
 from flask import current_app
 from werkzeug.datastructures import FileStorage
-from server import user_server, article_server, status_server, form, account_server, news_server, resource_server
+from server import user_server, article_server, status_server, form, \
+    account_server, news_server, resource_server
 from server import general
 from server import honor_server
-from server.poster import poster
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
 from flask.globals import _app_ctx_stack
@@ -67,7 +67,8 @@ def main_rank_table():
 def get_user_list_item(user):
     return render_template('ajax/user_list_item.html',
                            user = user,
-                           school_mapper = SCHOOL_MAP)
+                           school_mapper = SCHOOL_MAP,
+                           college_mapper = SCHOOL_COLLEGE_MAP)
 
 #
 # @brief: ajax user list
@@ -654,7 +655,6 @@ def get_resource_info():
                            file_edit_form = file_edit_form)
 
 
-
 #
 # @brief: ajax to edit resource
 # @route: /ajax/resource_info
@@ -884,29 +884,6 @@ def delete_article():
         return u'删除成功'
     except Exception, e:
         return u'删除失败'
-
-
-#
-# @brief: ajax to manage poster
-# @route: /ajax/manage_poster
-# @accepted methods: [post]
-# @allowed user: admin
-#
-@ajax.route("/ajax/manage_poster", methods= ['POST'])
-@login_required
-def manage_poster():
-    try:
-        url_key = request.form.get('img_url')
-        url_value = request.form.get('link_url')
-        opt = request.form.get('opt')
-        if not hasattr(poster, opt):
-            return u'操作不支持'
-        getattr(poster, opt)(url_key, url_value)
-        poster.save_config()
-        return u'Success'
-    except Exception, e:
-        print e.message
-        return u'操作失败'
 
 
 #

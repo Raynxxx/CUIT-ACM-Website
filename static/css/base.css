@@ -150,21 +150,33 @@
 }
 .list-item-name {
   width: 10%;
+  font-size: 16px;
 }
+
+.list-item-name .label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+}
+
 .list-item-type {
-  width: 25%;
+  width: 20%;
 }
+
 .list-item-type .label {
   display: inline-block;
   margin: 0 2px;
   font-weight: 200 !important;
 }
+
 .list-item-email {
-  width: 24%;
+  width: 15%;
 }
+
 .list-item-school {
   width: 20%;
 }
+
 .list-item-time {
   width: 20%;
   font-size: 16px;

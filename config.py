@@ -64,7 +64,6 @@ OJ_MAP = {
 
 CSRF_ENABLED = True
 import os.path
-BRAND_CONFIG_DEST = os.path.split(os.path.realpath(__file__))[0] + '/brand.ini'
 UPLOADED_RESOURCE_DEST = os.path.split(os.path.realpath(__file__))[0] + '/upload/'
 UPLOADED_RESOURCE_URL = '/upload/resource/'
 RESIZE_URL = UPLOADED_RESOURCE_URL

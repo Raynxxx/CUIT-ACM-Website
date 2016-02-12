@@ -65,13 +65,14 @@ def save_file(file_attr, file_data, user, sub_folder):
 
 def modify_file(file_attr, user):
     try:
-        rc = Resource.query.filter(Resource.id==file_attr.id.data).first_or_404()
+        rc = Resource.query.filter(Resource.id == file_attr.id.data).first_or_404()
         if rc.user != user and not user.is_admin and not user.is_coach_of(rc.user):
             return 'failed, no permission'
         rc.name = file_attr.name.data
+        rc.link = file_attr.link.data
         rc.description = file_attr.description.data
         rc.level = file_attr.level.data if int(file_attr.level.data) in xrange(0, 3) else ResourceLevel.PRIVATE
-        rc.usage = file_attr.usage.data if int(file_attr.usage.data) in xrange(0, 5) else ResourceUsage.OTHER_RES
+        rc.usage = file_attr.usage.data if int(file_attr.usage.data) in xrange(0, 6) else ResourceUsage.OTHER_RES
         rc.save()
         return 'ok'
     except Exception:

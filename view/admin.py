@@ -1,7 +1,7 @@
 # coding=utf-8
 from __init__ import *
-from server import general, user_server, form, news_server, honor_server, resource_server
-from server.poster import poster
+from server import general, user_server, form, news_server, \
+    honor_server, resource_server
 import util, config
 
 
@@ -295,8 +295,6 @@ def modify_honor():
                            file_url = resource_server.file_url)
 
 
-
-
 # not used
 @admin.route("/admin/add_book", methods = ['GET'])
 @login_required
@@ -305,7 +303,6 @@ def add_book():
         return redirect(url_for('main.index'))
     book_form = form.BookForm()
     return render_template('add_book.html', book_form=book_form)
-
 
 
 #
@@ -325,6 +322,27 @@ def manage_resource():
 
 
 #
+# @brief: the page for admin to manage poster
+# @route: /admin/manage_poster
+# @accepted methods: [get]
+# @allowed user: admin and coach
+#
+@admin.route("/admin/manage_poster", methods = ['GET'])
+@login_required
+def manage_poster():
+    file_upload_form = form.FileUploadForm()
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    from dao.dbResource import Resource, ResourceUsage
+    posters = Resource.query.filter(Resource.usage == ResourceUsage.POSTER_RES).all()
+    return render_template('manage_poster.html',
+                           title=u'首页图片管理',
+                           posters=posters,
+                           file_url=resource_server.file_url,
+                           upload_form=file_upload_form)
+
+
+#
 # @brief: The image cropper page
 # @route: /profile/manage_resource
 # @accepted methods: [get]
@@ -338,20 +356,4 @@ def cropper():
                            upload_form=file_upload_form)
 
 
-#
-# @brief: the page for admin to manage poster
-# @route: /admin/manage_poster
-# @accepted methods: [get]
-# @allowed user: admin and coach
-#
-@admin.route("/admin/manage_poster", methods = ['GET'])
-@login_required
-def manage_poster():
-    if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('main.index'))
-    from dao.dbResource import Resource, ResourceUsage
-    posters = Resource.query.filter(Resource.usage == ResourceUsage.POSTER_RES).all()
-    return render_template('manage_poster.html',
-                           title=u'首页图片管理',
-                           posters=posters,
-                           file_url=resource_server.file_url)
+

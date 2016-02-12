@@ -5,11 +5,11 @@ from server import user_server, general, article_server, form, news_server, reso
 from dao.dbBase import User
 from dao.dbResource import ResourceLevel
 from util import function
-from server.poster import poster
-import config
+import config, json
 
 
 main = blueprints.Blueprint('main', __name__)
+
 
 #
 # @brief: login page
@@ -40,7 +40,6 @@ def login():
                            login_form = login_form)
 
 
-
 #
 # @brief: join us page
 # @route: /join_us
@@ -68,6 +67,7 @@ def join_us():
                            title = u'加入我们',
                            join_form = join_form)
 
+
 #
 # @brief: logout action, to redirect login page
 # @route: /login
@@ -94,12 +94,15 @@ def index():
     recent_news = news_server.get_recent(sortTop=True)
     from dao.dbResource import Resource, ResourceUsage
     posters = Resource.query.filter(Resource.usage == ResourceUsage.POSTER_RES).all()
+    json_file = open(RECENT_CONTEST_JSON, 'r').read()
+    json_contests = json.loads(json_file)
+    recent_contests = [[contest['name'], contest['link']] for contest in json_contests]
     return render_template('index/index.html',
                            title = 'CUIT ACM Team',
                            posters = posters,
                            recent_news = recent_news,
+                           recent_contests = recent_contests[:5],
                            recommend_site = config.RECOMMEND_SITE,
-                           RECENT_CONTEST_JSON = RECENT_CONTEST_JSON,
                            file_url = resource_server.file_url)
 
 

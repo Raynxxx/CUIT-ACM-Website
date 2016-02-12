@@ -13,14 +13,15 @@
 {% block content %}
 <div class="row poster-wall">
 
-  <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" onclick="window.location.href='{{ url_for('admin.cropper') }}'">
+  <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"
+       onclick="window.location.href='{{ url_for('admin.cropper') }}'">
     <div class="index-poster" style="padding: 30px 0;cursor: pointer;">
       <i class="fa fa-plus"></i>
     </div>
   </div>
 
   {% for poster in posters %}
-    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" id="poster{{ poster.id }}">
       <div class="index-poster">
         <div><img src="{{ file_url(poster) | resize('200', format='png') }}"></div>
         <div class="opt-btn">
@@ -35,8 +36,10 @@
       </div>
     </div>
   {% endfor %}
-
 </div>
+
+
+
 <div class="modal fade" id="delPoster" style="margin-top: 50px;">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -61,8 +64,9 @@
 <script src="{{ url_for('static', filename='masonry/imagesloaded.pkgd.min.js') }}"></script>
 <script src="{{ url_for('static', filename='masonry/masonry.pkgd.min.js') }}"></script>
 <script>
+  var $container = $('.poster-wall');
+
   function make_masonry() {
-    var $container = $('.poster-wall');
     $container.imagesLoaded(function(){
       $container.masonry({
         itemSelector : '.col-md-3',
@@ -72,6 +76,7 @@
   }
   $(document).ready(function () {
     make_masonry();
+
     $('.to-del-poster').on('click', function () {
       console.log($(this).data('poster'));
       $('.del-poster').data('poster', $(this).data('poster'));
@@ -86,24 +91,19 @@
     });
 
     $('.del-poster').on('click', function () {
-      var data = new FormData();
-      data.append('img_url', $(this).data('poster'));
-      data.append('opt', 'delete');
-      $.ajax({
-        url: "{{ url_for('ajax.manage_poster') }}",
-        type: "POST",
-        data: data,
-        processData: false,
-        contentType: false,
-        success: function (msg) {
-          if (msg == 'Success') {
-            window.location.reload();
-          } else {
+      var $this = $(this);
+      var resource_id = $this.data('poster');
+      var data = {
+        resource_id: $this.data('poster')
+      };
+      $.post("{{ url_for('ajax.delete_resource') }}", data)
+          .success(function(response) {
             $('.closeModal').click();
-            alert(msg);
-          }
-        }
-      });
+            if (response == 'OK') {
+              var $items = $('#poster' + resource_id);
+              $container.masonry().masonry('remove', $items).masonry('layout');
+            }
+          });
       return false;
     });
 
