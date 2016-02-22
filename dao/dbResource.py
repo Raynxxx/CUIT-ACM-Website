@@ -10,8 +10,9 @@ class ResourceUsage():
     BOOK_RES = 0
     HONOR_RES = 1
     NEWS_RES = 2
-    SOLUTION_RES = 3
-    OTHER_RES = 4
+    BLOG_RES = 3
+    POSTER_RES = 4
+    OTHER_RES = 5
 
 
 class ResourceType:
@@ -27,6 +28,7 @@ class Resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(50), nullable=False, unique=True, default='UNTITLED')
+    link = db.Column(db.String(1024))
     description = db.Column(db.Text)
     type = db.Column(db.Integer, nullable=False)
     level = db.Column(db.Integer, nullable=False, default=ResourceLevel.PRIVATE)
@@ -34,8 +36,10 @@ class Resource(db.Model):
     upload_time = db.Column(db.DateTime)
 
     # connect to User
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"), nullable=True)
-    user = db.relationship('User', backref=db.backref('resource', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="SET NULL"),
+                        nullable=True)
+    user = db.relationship('User', backref=db.backref('resource', cascade="save-update, merge",
+                                                      lazy='dynamic'))
 
     def __repr__(self):
         return '<Resource>@' + self.name.encode('utf-8')

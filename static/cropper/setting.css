@@ -318,3 +318,9 @@ body {
   background-color: #fff;
   content: "♥";
 }
+
+.cropped-body canvas {
+  width: 100%;
+  box-shadow: 1px 1px 1px #999;
+  border: 1px solid #999;
+}

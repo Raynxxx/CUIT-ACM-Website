@@ -1,27 +1,38 @@
 {% extends "admin/base.html" %}
+
 {% block head %}
   <link rel="stylesheet" href="{{ url_for('static', filename='cropper/cropper.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='cropper/setting.css') }}">
 {% endblock %}
 
+{% block content_header %}
+  <h1>
+    上传首页图片
+    <small>裁剪</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('admin.manage_poster') }}"><i class="fa fa-dashboard"></i>首页图片</a></li>
+    <li><a href="#">上传</a></li>
+  </ol>
+{% endblock %}
+
 {% block content %}
   <div class="row">
     <div class="col-md-12" style="max-height: 500px;margin-bottom: 10px;">
-      <img id="image" src="{{ url_for('static', filename='image/icpc.jpg') }}">
+      <img id="image-cropper" src="{{ url_for('static', filename='image/icpc.jpg') }}">
     </div>
     <div class="col-md-12 docs-buttons text-center">
-        <div class="btn-group">
-          <label class="btn btn-primary btn-upload btn-flat" for="inputImage">
-            <input type="file" class="sr-only" id="inputImage" name="file" accept="image/*">
-            <span class="fa fa-upload"></span> 选择你的图片
-          </label>
-        </div>
-
-        <div class="btn-group btn-group-crop">
-          <button type="button" class="btn btn-danger btn-flat margin" data-method="getCroppedCanvas">
-            完成裁剪
-          </button>
-        </div>
+      <div class="btn-group">
+        <label class="btn btn-primary btn-upload btn-flat" for="inputImage">
+          <input type="file" class="sr-only" id="inputImage" name="file" accept="image/*">
+          <span class="fa fa-upload"></span> 选择你的图片
+        </label>
+      </div>
+      <div class="btn-group btn-group-crop">
+        <button type="button" class="btn btn-danger btn-flat margin" data-method="getCroppedCanvas">
+          完成裁剪
+        </button>
+      </div>
       <!-- Show the cropped image in modal -->
       <div class="modal fade docs-cropped" id="getCroppedCanvasModal" aria-hidden="true"
            aria-labelledby="getCroppedCanvasTitle" role="dialog" tabindex="-1">
@@ -29,24 +40,50 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title" id="getCroppedCanvasTitle">Cropped</h4>
+              <h4 class="modal-title" id="getCroppedCanvasTitle">上传</h4>
             </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-              <a class="btn btn-primary" id="download" download="cropped.jpg" href="javascript:void(0);">下载</a>
-            </div>
+            <form class="form-horizontal" id="posterForm" method="post">
+              <div class="modal-body">
+                {{ upload_form.hidden_tag() }}
+                <div class="form-group">
+                  <label for="inputTitle" class="col-sm-2 control-label">标题</label>
+                  <div class="col-sm-9">
+                    {{ upload_form.name(class="form-control required", id="inputName", placeholder="标题") }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputLink" class="col-sm-2 control-label">新闻链接</label>
+                  <div class="col-sm-9">
+                    {{ upload_form.link(class="form-control required", id="inputLink", placeholder="新闻链接") }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputURL" class="col-sm-2 control-label">图片</label>
+                  <div class="col-sm-9">
+                    <div class="cropped-body"></div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="alert alert-danger col-sm-offset-2 col-sm-9" id="upload-alert" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span id="alert-text">xxxx</span>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <a class="btn btn-primary" id="upload-cropped">上传</a>
+              </div>
+            </form>
           </div>
         </div>
-      </div><!-- /.modal -->
+      </div>
+      <!-- /.modal -->
     </div>
   </div>
-
-
 {% endblock %}
 
 {%- block script -%}
   <script src="{{ url_for('static', filename='cropper/cropper.min.js') }}"></script>
   <script src="{{ url_for('static', filename='cropper/setting.js') }}"></script>
-
 {%- endblock -%}

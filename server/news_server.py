@@ -59,19 +59,25 @@ def get_count(show_draft=False, coach=None):
         return News.query.filter(News.is_draft==0).count()
 
 
-def get_list(offset=0, limit=10, show_draft=False, coach=None):
-    if show_draft and not coach:
+def get_list(offset=0, limit=10, show_draft=False):
+    if show_draft:
         return News.query\
-            .order_by(News.is_top.desc(), News.last_update_time.desc())\
-            .offset(offset).limit(limit).all()
-    elif show_draft and coach:
-        return News.query.filter(News.user == coach)\
             .order_by(News.is_top.desc(), News.last_update_time.desc())\
             .offset(offset).limit(limit).all()
     else:
         return News.query.filter(News.is_draft == 0)\
             .order_by(News.is_top.desc(), News.last_update_time.desc())\
             .offset(offset).limit(limit).all()
+
+
+def get_list_pageable(page, per_page, show_draft=False, search=None):
+    query = News.query
+    if not show_draft:
+        query = query.filter(News.is_draft == 0)
+    if search:
+        query = query.filter(News.title.like('%' + search + '%'))
+    return query.order_by(News.is_top.desc(), News.last_update_time.desc())\
+                .paginate(page, per_page)
 
 
 def get_recent(limit=5, sortTop = False):

@@ -5,11 +5,11 @@ from server import user_server, general, article_server, form, news_server, reso
 from dao.dbBase import User
 from dao.dbResource import ResourceLevel
 from util import function
-from server.poster import poster
-import config
+import config, json
 
 
 main = blueprints.Blueprint('main', __name__)
+
 
 #
 # @brief: login page
@@ -19,7 +19,7 @@ main = blueprints.Blueprint('main', __name__)
 #
 @main.route('/login', methods=["GET", "POST"])
 def login():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return redirect(url_for('main.news_list'))
     login_form = form.LoginForm()
     if login_form.validate_on_submit():
@@ -38,7 +38,6 @@ def login():
     return render_template('index/login.html',
                            title = u'登录',
                            login_form = login_form)
-
 
 
 #
@@ -68,6 +67,7 @@ def join_us():
                            title = u'加入我们',
                            join_form = join_form)
 
+
 #
 # @brief: logout action, to redirect login page
 # @route: /login
@@ -92,12 +92,18 @@ def logout():
 @main.route('/index')
 def index():
     recent_news = news_server.get_recent(sortTop=True)
+    from dao.dbResource import Resource, ResourceUsage
+    posters = Resource.query.filter(Resource.usage == ResourceUsage.POSTER_RES).all()
+    json_file = open(RECENT_CONTEST_JSON, 'r').read()
+    json_contests = json.loads(json_file)
+    recent_contests = [[contest['name'], contest['link']] for contest in json_contests]
     return render_template('index/index.html',
                            title = 'CUIT ACM Team',
-                           poster = poster.items(),
+                           posters = posters,
                            recent_news = recent_news,
+                           recent_contests = recent_contests[:5],
                            recommend_site = config.RECOMMEND_SITE,
-                           RECENT_CONTEST_JSON = RECENT_CONTEST_JSON)
+                           file_url = resource_server.file_url)
 
 
 #
@@ -141,13 +147,13 @@ def news(url=None):
             one_news = news_server.get_by_id(sid)
         recent_news = news_server.get_recent()
         tags = news_server.get_all_tags()
-        return render_template('index/news.html',
-                               title = one_news.title,
-                               one = one_news,
-                               recent_news = recent_news,
-                               tags = tags)
     except Exception, e:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.news_list'))
+    return render_template('index/news.html',
+                           title=one_news.title,
+                           one=one_news,
+                           recent_news=recent_news,
+                           tags=tags)
 
 
 #
@@ -274,15 +280,17 @@ def article():
         return redirect(url_for('main.article_list'))
 
 
-
 #
 # @brief: route to fitch resource
 # @route: /upload/resource/<path:name>
 # @accepted methods: [all]
 # @allowed user: all
 #
-@main.route('/upload/resource/<path:name>')
+@main.route('/upload/resource/<path:name>', methods=['GET'])
 def resource(name):
+    if name.startswith('cache/'):
+        return send_from_directory(config.UPLOADED_RESOURCE_DEST, name, as_attachment=True,
+                                   attachment_filename=name.encode('utf-8'))
     rs = resource_server.get_by_filename(name)
     if rs.level ==  ResourceLevel.PUBLIC:
         return send_from_directory(config.UPLOADED_RESOURCE_DEST, rs.filename, as_attachment=True,
@@ -302,7 +310,6 @@ def resource(name):
             abort(403)
 
 
-
 #
 # @brief: page for honor wall
 # @route: /honor_wall
@@ -317,7 +324,8 @@ def honor_wall():
     return render_template('index/honor_wall.html',
                            title = u'荣誉墙',
                            honor_wall = honor_wall,
-                           HONOR_LEVEL_MAP = HONOR_LEVEL_MAP)
+                           HONOR_LEVEL_MAP = HONOR_LEVEL_MAP,
+                           file_url = resource_server.file_url)
 
 #
 # @brief: page for honor

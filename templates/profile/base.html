@@ -95,8 +95,7 @@
           {% endif %}
         </div>
       </div>
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
+
       <ul class="sidebar-menu">
         <li class="header">导航</li>
         <li><a href="{{ url_for('profile.index', username=user.username) }}"><i class="fa fa-user"> </i>
@@ -106,8 +105,10 @@
             <span>OJ 账号</span></a></li>
         {% endif %}
         {% if user == current_user %}
-          <li><a href="{{ url_for('profile.manage_resource') }}"><i class="fa fa-file"></i> <span>资源管理</span></a></li>
-          <!--<li><a href="{{ url_for('profile.manage_article') }}"><i class="fa fa-book"> </i> <span>题解</span></a></li>-->
+          <!--<li><a href="{{ url_for('profile.resources') }}"><i class="fa fa-file"></i>
+            <span>资源管理</span></a></li>-->
+          <!--<li><a href="{{ url_for('profile.manage_article') }}"><i class="fa fa-book"> </i>
+            <span>题解</span></a></li>-->
         {% endif %}
       </ul>
     </section>

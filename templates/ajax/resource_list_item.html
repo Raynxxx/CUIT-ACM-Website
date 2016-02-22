@@ -9,7 +9,7 @@
     {% elif resource.type == 2 %}
     <div class="file-icon"><i class="fa fa-file-code-o"></i></div>
     {% elif resource.type == 3 %}
-      <div class="img-responsive"><img src="{{ file_url(resource) }}"></div>
+      <div class="img-responsive"><img src="{{ file_url(resource) | resize('200', format='png') }}"></div>
     {% elif resource.type == 4 %}
     <div class="file-icon"><i class="fa fa-file-archive-o"></i></div>
     {% else %}
@@ -34,6 +34,8 @@
           <label class="label label-danger">新闻</label>
         {% elif resource.usage == 3 %}
             <label class="label label-warning">题解</label>
+        {% elif resource.usage == 4 %}
+            <label class="label label-info">首页</label>
         {% else %}
             <label class="label label-default bg-purple">其他</label>
         {% endif %}

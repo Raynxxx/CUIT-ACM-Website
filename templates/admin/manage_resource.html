@@ -11,9 +11,13 @@
       <div class="box box-primary list-box">
         <div class="box-header with-border">
           <h3 class="box-title"><i class="fa fa-list"></i> 资源列表</h3>
-
           <div class="box-tools">
-            <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+            <div class="input-group input-group-sm" style="width: 200px;">
+              <input type="text" id="InputSearch" class="form-control pull-right" placeholder="搜索资源">
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default link-search"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="box-body no-padding">
@@ -25,18 +29,18 @@
               <i class="fa fa-pencil-square-o"></i> 修改
             </button>
             <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2">
-              <i class="fa fa-cloud-upload"></i>上传</button>
+              <i class="fa fa-cloud-upload"></i>上传
+            </button>
             <button class="btn btn-default btn-sm download_resource">
               <i class="fa fa-cloud-download"></i> 下载
             </button>
             <button class="btn btn-default btn-sm get_res_url" data-toggle="modal" data-target="#myModal4">
               <i class="fa fa-info"></i> 资源地址
             </button>
-            <div class="pull-right">
-              <div class="btn-group">
-                <button class="btn btn-default btn-sm prev-page"><i class="fa fa-chevron-left"></i></button>
-                <button class="btn btn-default btn-sm next-page"><i class="fa fa-chevron-right"></i></button>
-              </div>
+            <button class="btn btn-default btn-sm to_refresh"><i class="fa fa-refresh"></i> &nbsp; 刷新列表</button>
+
+            <div class="pull-right page-box">
+              <div class="btn-group page-group"></div>
             </div>
           </div>
         </div>
@@ -157,6 +161,9 @@
 <script src="{{ url_for('static', filename='masonry/imagesloaded.pkgd.min.js') }}"></script>
 <script src="{{ url_for('static', filename='masonry/masonry.pkgd.min.js') }}"></script>
 <script>
+  var $page_group = $('.page-group');
+  var search = '';
+
   function make_masonry() {
     var $container = $('.res-wall');
     $container.imagesLoaded(function() {
@@ -166,6 +173,7 @@
       });
     });
   }
+
 
   function make_iCheck() {
     $('input[type="checkbox"], input[type="radio"]').iCheck({
@@ -182,13 +190,55 @@
     });
   }
 
-  function get_resource_list(offset, limit) {
-    var data = { offset: offset, limit: limit };
-    $.post("{{ url_for('ajax.get_resource_list') }}", data).success(function (ret) {
-      var news_count = ret.sum;
-      var start = ret.offset;
-      var length = ret.limit;
-      var news_list = ret.news_list;
+  function get_cur_page() {
+    return $page_group.data('cur');
+  }
+  function get_total_page() {
+    return $page_group.data('all');
+  }
+  function make_page_click() {
+    $('.link-page').click(function() {
+      var page = $(this).data('page');
+      if (page === get_cur_page() || page === undefined ||
+              page == 0 || page > get_total_page()) {
+        return false;
+      }
+      console.log(page);
+      get_resource_list(page, search);
+    });
+  }
+  function generate_pagination(cur_page, prev_num, next_num, page_list) {
+    var pages = [];
+    var btn_class = 'btn btn-default btn-sm link-page';
+    var prev = "<button class='" + btn_class + "' data-page='" + prev_num + "'>" +
+            "<i class='fa fa-chevron-left'></i></button>";
+    var next = "<button class='" + btn_class + "' data-page='" + next_num + "'>" +
+            "<i class='fa fa-chevron-right'></i></button>";
+    pages.push(prev);
+    for (var i = 0, li; i < page_list.length; ++i) {
+      if (page_list[i] === null) {
+        li = "<button class='" + btn_class + "'>...</button>";
+      } else if (page_list[i] === cur_page) {
+        li = "<button class='" + btn_class + " active'>";
+        li += page_list[i] + "</button>";
+      } else {
+        li = "<button class='" + btn_class + "' data-page='" + page_list[i] + "'>";
+        li += page_list[i] + "</button>";
+      }
+      pages.push(li);
+    }
+    pages.push(next);
+    $page_group.each(function() {
+      $(this).html(pages.join('\n'));
+      make_page_click();
+    });
+  }
+
+  function get_resource_list(page, search) {
+    var data = { page: page, search: search };
+    $.get("{{ url_for('ajax.get_resource_list') }}", data).success(function (response) {
+      var item_list = response.items;
+      var length = item_list.length;
       var $container = $('.res-wall');
       $container.empty();
       if (length == 0) {
@@ -196,52 +246,23 @@
       } else {
         $container.masonry();
         for (var i = 0; i < length; ++i) {
-          var $item = $(news_list[i]);
+          var $item = $(item_list[i]);
           $container.append($item).masonry('appended', $item, true);
         }
         $container.masonry('reloadItems');
         $container.masonry('layout');
       }
-      $container.data('offset', start);
-      var prev = $('.prev-page');
-      var next = $('.next-page');
-      if (start == 0) {
-        prev.hide();
-      } else {
-        prev.show();
-        prev.val(start - limit);
-      }
-      if (news_count == start + length) {
-        next.hide();
-      } else {
-        next.show();
-        next.val(start + length);
-      }
+      $page_group.data('cur', response.page).data('all', response.pages);
+      generate_pagination(response.page, response.prev_num,
+                          response.next_num, response.page_list);
     }).error(function () {
-      var $list_table = $('.list-table-body').first();
-      $list_table.empty();
-      $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr><div class="nothing"><h1>加载失败</h1></div>');
-      $('.list-box > div.overlay').fadeOut(300);
-      $('.prev-page').hide();
-      $('.next-page').hide();
+      var $container = $('.res-wall');
+      $container.empty();
+      $container.append('<div class="nothing"><h1>加载失败</h1></div>');
+      $page_group.empty();
     });
   }
-  function get_cur_offset() {
-    return $('.res-wall').data('offset');
-  }
-  function make_pager(limit) {
-    $('button.to_refresh').click(function () {
-      get_resource_list(0, limit);
-    });
-    $('.prev-page').click(function () {
-      var offset = parseInt($(this).val());
-      get_resource_list(offset, limit);
-    });
-    $('.next-page').click(function () {
-      var offset = parseInt($(this).val());
-      get_resource_list(offset, limit);
-    });
-  }
+
   function delete_resource(checked) {
     var data = { 'resource_id': checked };
     $.post("{{ url_for('ajax.delete_resource') }}", data).success(function (ret) {
@@ -253,15 +274,25 @@
     });
   }
   $(document).ready(function() {
-    var limit = {{ limit }};
-    get_resource_list(0, limit);
+    get_resource_list(1);
+
+    $('button.to_refresh').click(function () {
+      get_resource_list(1, search);
+    });
+
+    $('button.link-search').click(function() {
+      search = $('#InputSearch').val();
+      if (search === undefined) {
+        return false;
+      }
+      get_resource_list(1, search);
+    });
+
     make_masonry();
-    make_pager(limit);
     gao_selected();
   });
 
   $(function () {
-    var limit = {{ limit }};
     make_iCheck();
 
     $("#inputFile").fileinput({
@@ -323,7 +354,7 @@
             } else {
               $("#edit-info").html('').hide();
               $('.closeModal').click();
-              get_resource_list(get_cur_offset(), limit);
+              get_resource_list(get_cur_page(), search);
             }
         });
     });
@@ -341,7 +372,7 @@
           if (msg == 'OK') {
             $("#post-info").html('').hide();
             $('.closeModal').click();
-            get_resource_list(0, {{ limit }});
+            get_resource_list(1, search);
             $('#postForm').get(0).reset();
           } else {
             $("#post-info-text").html(msg);

@@ -6,12 +6,12 @@ SQLALCHEMY_DATABASE_URI = 'mysql://root:63005610@localhost/cuit_acm'
 
 #A dictionary that maps bind keys to SQLAlchemy connection URIs.
 SQLALCHEMY_BINDS = {}
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 ADMIN = ['Rayn', 'dreameracm']
 
 SCHOOL_MAP = {
-    'cuit': u'成都信息工程大学',
-    'scu': u'四川大学'
+    'cuit': u'成都信息工程大学'
 }
 
 SCHOOL_COLLEGE_MAP = {
@@ -54,9 +54,9 @@ OJ_MAP = {
     'cf': 'Codeforces',
     'bc': 'BestCoder',
     'poj': 'POJ',
-    'uva': 'UVA',
     'zoj': 'ZOJ',
     'bnu': 'BNU',
+    'uva': 'UVA',
     'vj': 'Virtual Judge',
 }
 
@@ -64,9 +64,10 @@ OJ_MAP = {
 
 CSRF_ENABLED = True
 import os.path
-BRAND_CONFIG_DEST = os.path.split(os.path.realpath(__file__))[0] + '/brand.ini'
-UPLOADED_RESOURCE_DEST = os.path.split(os.path.realpath(__file__))[0] + '/static/resource/'
+UPLOADED_RESOURCE_DEST = os.path.split(os.path.realpath(__file__))[0] + '/upload/'
 UPLOADED_RESOURCE_URL = '/upload/resource/'
+RESIZE_URL = UPLOADED_RESOURCE_URL
+RESIZE_ROOT = UPLOADED_RESOURCE_DEST
 IMAGE_FILE_PATH = 'static/image/bookimg/'
 SECRET_KEY = 'a very hard string'
 from datetime import timedelta
@@ -79,7 +80,7 @@ USER_MANAGE_PER_PAGE = 8
 NEWS_MANAGE_PER_PAGE = 8
 ARTICLE_MANAGE_PER_PAGE = 8
 HONOR_MANAGE_PER_PAGE = 8
-RESOURCE_MANAGE_PER_PAGE = 10
+RESOURCE_MANAGE_PER_PAGE = 12
 SITUATION_PER_PAGE = 25
 RANK_TABLE_PER_PAGE = 15
 

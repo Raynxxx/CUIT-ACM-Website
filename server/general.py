@@ -45,7 +45,6 @@ def get_rank_list(limit=1024):
 
 
 def get_weekly_info(last_week, limit=100):
-    oj = ['bnu', 'hdu', 'poj', 'zoj', 'uva', 'cf', 'bc']
     info_list = []
     if last_week:
         users = User.query.filter(User.active==1, User.rights < 8)\
@@ -125,7 +124,7 @@ def get_sys_info():
     sys_info['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     import user_server
     sys_info['user_count'] = user_server.get_count()
-    sys_info['apply_count'] = user_server.get_count(isApply=True)
+    sys_info['apply_count'] = user_server.get_count(is_apply=True)
     today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     sys_info['daily_submit'] = Submit.query.filter(Submit.submit_time > today).count()
     sys_info['total_submit'] = Submit.query.count()

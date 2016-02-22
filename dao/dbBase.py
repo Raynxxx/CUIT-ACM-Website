@@ -48,6 +48,7 @@ class User(UserMixin, db.Model):
 
     @property
     def serialize(self):
+        #print self.__dict__
         return { c.name: getattr(self, c.name) for c in self.__table__.columns }
 
     @property

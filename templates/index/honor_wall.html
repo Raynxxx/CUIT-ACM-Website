@@ -46,7 +46,9 @@
         <div class="col-xs-6 col-sm-4 col-md-3 honor-box">
           <div class="honor-one" data-honor="{{ honor.id }}">
             <div class="thumbnail">
-              <img src="{{ url_for('main.resource', name=honor.resources[0].filename) }}" class="poster">
+              {% if honor.resources %}
+              <img src="{{ file_url(honor.resources[0]) | resize('200', format='png') }}" class="poster">
+              {% endif %}
               <p class="contest-name">{{ honor.contest_name }}</p>
             </div>
             <div class="tacker">

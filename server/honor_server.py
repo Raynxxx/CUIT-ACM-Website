@@ -31,7 +31,7 @@ def add_honor(honor_attr, honor_resource):
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
         honor.team_name = honor_attr.team_name.data
-        honor.md_introduce = honor_attr.introduce.data
+
         honor.resources = honor_resource
         honor.users = user_list
         honor.save()
@@ -51,7 +51,7 @@ def delete_honor(honor_id):
         return u'FAIL'
 
 
-def modify_honor(honor_attr):
+def modify_honor(honor, honor_attr, honor_resource):
     try:
         honor = Honor.query.filter(Honor.id==honor_attr.id.data).first_or_404()
         user_list = get_users(honor_attr.users.data)
@@ -59,7 +59,7 @@ def modify_honor(honor_attr):
         honor.contest_level = honor_attr.contest_level.data
         honor.acquire_time = honor_attr.acquire_time.data
         honor.team_name = honor_attr.team_name.data
-        honor.md_introduce = honor_attr.introduce.data
+        honor.resources = honor.resources + honor_resource
         honor.users = user_list
         honor.save()
         return u'修改成功'
@@ -69,9 +69,21 @@ def modify_honor(honor_attr):
         return u'修改失败'
 
 
+def get_by_id(id):
+    return Honor.query.filter(Honor.id == id).first_or_404()
+
+
 def get_honor_list(offset=0, limit=10):
     return Honor.query.order_by(Honor.acquire_time.desc())\
                         .offset(offset).limit(limit).all()
+
+
+def get_list_pageable(page, per_page, search=None):
+    query = Honor.query
+    if search:
+        query = query.filter(Honor.contest_name.like('%' + search + '%'))
+    return query.order_by(Honor.acquire_time.desc())\
+                .paginate(page, per_page)
 
 
 def get_honor_wall(offset=0, limit=10, query_type=None, keyword=''):
@@ -154,7 +166,3 @@ def get_honor_count(query_type=None, keyword=''):
             .count()
     else:
         return Honor.query.count()
-
-
-def get_by_id(sid):
-    return Honor.query.filter(Honor.id == sid).first_or_404()

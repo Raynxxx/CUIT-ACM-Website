@@ -38,7 +38,7 @@
         <ul class="nav navbar-nav">
           <li class="active"><a onclick="return false;">首页 <span class="sr-only">(current)</span></a></li>
           <li><a href="{{ url_for('main.news_list') }}">新闻</a></li>
-          {% if current_user.is_authenticated() %}
+          {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('main.rank_list') }}">查水表</a></li>
             <li><a href="{{ url_for('main.status') }}">最近提交</a></li>
             <!--<li><a href="{{ url_for('main.article_list') }}">解题报告</a></li>-->
@@ -49,7 +49,7 @@
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          {%- if current_user.is_authenticated() -%}
+          {%- if current_user.is_authenticated -%}
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <img src="{{ current_user.gravatar(size=30) }}" class="user-image" alt="User Image">
@@ -93,7 +93,7 @@
       <div id="index-poster" class="carousel slide col-sm-12" data-ride="carousel" >
         <!-- Indicators -->
         <ol class="carousel-indicators">
-          {% for key, value in poster %}
+          {% for poster in posters %}
             {% if loop.index0 == 0 %}
               <li data-target="#index-poster" data-slide-to="{{ loop.index0 }}" class="active"></li>
             {% else %}
@@ -104,16 +104,16 @@
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-          {% for key, value in poster %}
+          {% for poster in posters %}
             {% if loop.index0 == 0 %}
               <div class="item active">
-                <a href="{{ value }}" target="_blank"><img src="{{ key }}" alt="..."></a>
+                <a href="{{ poster.link }}" target="_blank"><img src="{{ file_url(poster) }}" alt="..."></a>
                 <div class="carousel-caption">
                 </div>
               </div>
             {% else %}
               <div class="item">
-                <a href="{{ value }}" target="_blank"><img src="{{ key }}" alt="..."></a>
+                <a href="{{ poster.link }}" target="_blank"><img src="{{ file_url(poster) }}" alt="..."></a>
                 <div class="carousel-caption">
                 </div>
               </div>
@@ -134,23 +134,24 @@
       <div class="col-sm-12" style="margin-top: 10px;">
         <div class="index-block">
           <div class="block-header">
-            <span class="block-title" style="font-weight: bold">近期比赛</span>
+            <span class="block-title" style="font-weight: bold">近期新闻</span>
+            <span class="pull-right"><a href="{{ url_for('main.news_list') }}">更多>></a></span>
           </div>
-          <table id="recent_contest_table"
-                 class="table table-hover table-bordered table-responsive"
-                 width="100%">
-            <thead>
-            <tr>
-              <th>OJ</th>
-              <th>Name</th>
-              <th width="30%">Start Time</th>
-              <th>Access</th>
-            </tr>
-            </thead>
-          </table>
+          {% if recent_news != [] %}
+            <ul class="recent_news">
+              {% for news in recent_news %}
+                <li><i class="fa fa-angle-right news-angle"></i>
+                  <a href="{{ url_for('main.news', p=news.id) }}" title="{{ news.title }}">{{ news.title }}
+                  </a>
+                  <span class="pull-right">[{{ news.last_update_time.strftime('%Y-%m-%d') }}]</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
       </div>
     </div>
+
     <div class="col-sm-4">
       <div class="col-sm-12">
         <div class="index-button">
@@ -158,14 +159,13 @@
         </div>
         <div class="index-block" style="min-height: 210px;">
           <div class="block-header">
-            <span class="block-title" style="font-weight: bold">近期新闻</span>
-            <span class="pull-right"><a href="{{ url_for('main.news_list') }}">更多>></a></span>
+            <span class="block-title" style="font-weight: bold">近期比赛</span>
           </div>
-          {% if recent_news != [] %}
+          {% if recent_contests != [] %}
             <ul class="recent_news">
-              {% for news in recent_news %}
+              {% for name, link in recent_contests %}
                 <li><i class="fa fa-angle-right"></i>
-                  <a href="{{ url_for('main.news', p=news.id) }}" title="{{ news.title }}">{{ news.title }}
+                  <a href="{{ link }}" title="{{ name }}">{{ name }}
                   </a>
                 </li>
               {% endfor %}
@@ -180,7 +180,7 @@
         </div>
         <ul class="recent_news">
           {% for name, url in recommend_site.items() %}
-            <li><i class="fa fa-star"></i> <a href="{{ url }}">{{ name }}</a></li>
+            <li><i class="fa fa-angle-right"></i> <a href="{{ url }}">{{ name }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -201,34 +201,12 @@
 <script src="{{ url_for('static', filename='AdminLTE2/dist/js/app.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/fastclick/fastclick.min.js') }}"></script>
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ url_for('static', filename='AdminLTE2/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ url_for('static', filename='AdminLTE2/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
 <script>
   $(document).ready(function () {
     $("#fakeLoader").fakeLoader({
       timeToHide: 600,
       spinner: "spinner1",
       bgColor: "#3c8dbc"
-    });
-  });
-  $(document).ready(function () {
-    var json_url = "{{ url_for('ajax.recent_contests') }}";
-    $('#recent_contest_table').DataTable({
-      "dom": "<'row'>t<'row'<'col-md-5'i><'col-md-7'p>>",
-      "ajax": json_url,
-      "searching": false,
-      "lengthChange": false,
-      "pageLength": 5,
-      "columns": [
-        {"data": "oj"},
-        {"data": "name"},
-        {"data": "start_time"},
-        {"data": "access"}
-      ],
-      "columnDefs": [
-        {"orderable": false, "targets": [0, 1, 3]}
-      ],
-      "order": [[2, 'asc']]
     });
   });
 </script>

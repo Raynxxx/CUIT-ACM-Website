@@ -1,10 +1,13 @@
 # coding=utf-8
 import os
 from __init__ import *
-from server import user_server, article_server, status_server, form, account_server, news_server, resource_server
+import traceback, cStringIO, re
+from flask import current_app
+from werkzeug.datastructures import FileStorage
+from server import user_server, article_server, status_server, form, \
+    account_server, news_server, resource_server
 from server import general
 from server import honor_server
-from server.poster import poster
 from dao.dbACCOUNT import Account
 from util import json, CJsonEncoder
 from flask.globals import _app_ctx_stack
@@ -64,30 +67,35 @@ def main_rank_table():
 def get_user_list_item(user):
     return render_template('ajax/user_list_item.html',
                            user = user,
-                           school_mapper = SCHOOL_MAP)
+                           school_mapper = SCHOOL_MAP,
+                           college_mapper = SCHOOL_COLLEGE_MAP)
 
 #
 # @brief: ajax user list
 # @route: /ajax/user_list
 # @allowed user: admin and coach
 #
-@ajax.route('/ajax/user_list', methods=["POST"])
+@ajax.route('/ajax/user_list', methods=["GET", "POST"])
 @login_required
-def get_user_list():
+def get_users():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('index'))
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    users = list()
-    sum = 0
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = USER_MANAGE_PER_PAGE
+    pagination = None
     if current_user.is_admin:
-        users = user_server.get_list(offset, limit)
-        sum = user_server.get_count()
+        pagination = user_server.get_list_pageable(page, per_page, search=search)
     elif current_user.is_coach:
-        users = user_server.get_list(offset, limit, school=current_user.school)
-        sum = user_server.get_count(school=current_user.school)
-    return jsonify(user_list=[get_user_list_item(user) for user in users],
-                   sum=sum, offset=int(offset), limit=len(users))
+        pagination = user_server.get_list_pageable(page, per_page, search=search,
+                                                   school=current_user.school)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_user_list_item(user) for user in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
 
 
 #
@@ -273,25 +281,22 @@ def get_news_list_item(news):
 # @route: /ajax/news_list
 # @allowed user: administrator
 #
-@ajax.route('/ajax/news_list', methods=['POST'])
+@ajax.route('/ajax/news_list', methods=['GET', 'POST'])
 @login_required
 def get_news_list():
     if not current_user.is_admin and not current_user.is_coach:
-        print "你没有权限访问该模块"
         return redirect(url_for('main.index'))
-
-    news_list = list()
-    sum = 0
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    if current_user.is_admin:
-        news_list = news_server.get_list(offset, limit, show_draft=True)
-        sum = news_server.get_count(show_draft=True)
-    elif current_user.is_coach:
-        news_list = news_server.get_list(offset, limit, show_draft=True, coach=current_user)
-        sum = news_server.get_count(show_draft=True, coach=current_user)
-    return jsonify(news_list=[get_news_list_item(news) for news in news_list],
-                   sum=sum, offset=int(offset), limit=len(news_list))
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = NEWS_MANAGE_PER_PAGE
+    pagination = news_server.get_list_pageable(page, per_page, show_draft=True, search=search)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_news_list_item(news) for news in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
 
 
 #
@@ -551,22 +556,28 @@ def get_resource_list_item(resource):
                            file_url = resource_server.file_url)
 
 
-
 #
 # @brief: ajax resource list
 # @route: /ajax/resource_list
 # @accepted methods: [post]
 # @allowed user: self, admin, coach
 #
-@ajax.route('/ajax/resource_list', methods=['POST'])
+@ajax.route('/ajax/resource_list', methods=['GET', 'POST'])
 @login_required
 def get_resource_list():
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    resource_list = resource_server.get_list(offset, limit, current_user)
-    sum = resource_server.get_count(current_user)
-    return jsonify(news_list=[get_resource_list_item(resource) for resource in resource_list],
-                   sum=sum, offset=int(offset), limit=len(resource_list))
+    #if not current_user.is_admin and not current_user.is_coach:
+    #    return redirect(url_for('index'))
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = RESOURCE_MANAGE_PER_PAGE
+    pagination = resource_server.get_list_pageable(page, per_page, current_user, search)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_resource_list_item(resource) for resource in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
 
 
 #
@@ -582,12 +593,41 @@ def upload():
         try:
             if file_form.upload.data:
                 file = request.files[file_form.upload.name]
-                msg = resource_server.save_file(file_form, file, current_user)
+                msg = resource_server.save_file(file_form, file, current_user, 'other')
                 return msg
             else:
                 return u'上传数据失败'
         except Exception, e:
             return u'错误: ' + e.message
+    return u'数据填写有误'
+
+
+#
+# @brief: ajax to upload poster
+# @route: /ajax/upload
+# @accepted methods: [post]
+#
+@ajax.route('/ajax/upload/poster', methods=['POST'])
+@login_required
+def upload_poster():
+    from dao.dbResource import ResourceLevel, ResourceUsage
+    file_form = form.FileUploadForm()
+    file_form.level.data = str(ResourceLevel.PUBLIC)
+    file_form.usage.data = str(ResourceUsage.POSTER_RES)
+    if file_form.validate_on_submit():
+        try:
+            file_canvas = request.form.get('croppedImage')
+            if file_canvas:
+                file_string = re.sub('^data:image/.+;base64,', '', file_canvas).decode('base64')
+                file_binary = cStringIO.StringIO(file_string)
+                file = FileStorage(file_binary, file_form.name.data + '.jpg')
+                msg = resource_server.save_file(file_form, file, current_user, 'poster')
+                return msg
+            else:
+                return u'上传数据失败'
+        except Exception, e:
+            return u'错误: ' + e.message
+    current_app.logger.error(file_form.errors)
     return u'数据填写有误'
 
 
@@ -613,7 +653,6 @@ def get_resource_info():
     file_edit_form.usage.data = str(rs.usage)
     return render_template('ajax/resource_modify_modal.html',
                            file_edit_form = file_edit_form)
-
 
 
 #
@@ -646,7 +685,6 @@ def delete_resource():
         return u'删除失败'
 
 
-
 #
 # @brief: ajax html for one honor item
 # @allowed user: self, admin and coach
@@ -665,16 +703,22 @@ def get_honor_list_item(honor):
 # @accepted methods: [post]
 # @allowed user: self, admin, coach
 #
-@ajax.route('/ajax/honor_list', methods=['POST'])
+@ajax.route('/ajax/honor_list', methods=['GET', 'POST'])
 @login_required
 def get_honor_list():
-    offset = request.form.get('offset')
-    limit = request.form.get('limit')
-    honor_list = honor_server.get_honor_list(offset, limit)
-    sum = honor_server.get_honor_count()
-    return jsonify(honor_list=[get_honor_list_item(honor) for honor in honor_list],
-                   sum=sum, offset=int(offset), limit=len(honor_list))
-
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = HONOR_MANAGE_PER_PAGE
+    pagination = honor_server.get_list_pageable(page, per_page, search)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_honor_list_item(honor) for honor in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
 
 
 #
@@ -697,7 +741,7 @@ def add_honor():
                 file_form.level.data = ResourceLevel.PUBLIC
                 file_form.name.data = unicode(file.filename).split('.')[0]
                 file_form.usage.data = ResourceUsage.HONOR_RES
-                resource_server.save_file(file_form, file, current_user)
+                resource_server.save_file(file_form, file, current_user, 'honor')
                 resource = resource_server.get_by_name(file_form.name.data)
                 resource_list.append(resource)
             msg = honor_server.add_honor(honor_form, resource_list)
@@ -719,12 +763,27 @@ def add_honor():
 @login_required
 def modify_honor():
     honor_form = form.HonorForm()
+    file_form = form.FileUploadForm()
     honor_form.users.choices = user_server.get_user_choice()
     if honor_form.validate_on_submit():
         try:
-            msg = honor_server.modify_honor(honor_form)
+            honor = honor_server.get_by_id(honor_form.id.data)
+            from dao.dbResource import ResourceLevel, ResourceUsage
+            resource_list = []
+            for name, file in request.files.items(multi=True):
+                if file.filename == '':
+                    continue
+                file_form.level.data = ResourceLevel.PUBLIC
+                file_form.name.data = unicode(file.filename).split('.')[0]
+                file_form.usage.data = ResourceUsage.HONOR_RES
+                ret = resource_server.save_file(file_form, file, current_user, 'honor')
+                if ret == 'OK':
+                    resource = resource_server.get_by_name(file_form.name.data)
+                    resource_list.append(resource)
+            msg = honor_server.modify_honor(honor, honor_form, resource_list)
             return msg
         except:
+            current_app.logger.error(traceback.format_exc())
             return 'failed'
     return u'数据填写有误'
 
@@ -825,29 +884,6 @@ def delete_article():
         return u'删除成功'
     except Exception, e:
         return u'删除失败'
-
-
-#
-# @brief: ajax to manage poster
-# @route: /ajax/manage_poster
-# @accepted methods: [post]
-# @allowed user: admin
-#
-@ajax.route("/ajax/manage_poster", methods= ['POST'])
-@login_required
-def manage_poster():
-    try:
-        url_key = request.form.get('img_url')
-        url_value = request.form.get('link_url')
-        opt = request.form.get('opt')
-        if not hasattr(poster, opt):
-            return u'操作不支持'
-        getattr(poster, opt)(url_key, url_value)
-        poster.save_config()
-        return u'Success'
-    except Exception, e:
-        print e.message
-        return u'操作失败'
 
 
 #

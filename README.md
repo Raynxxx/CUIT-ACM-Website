@@ -5,6 +5,8 @@ The New CUIT ACM Website Project.
 配合后端爬虫使用 [CUIT-ACM-Spider](https://github.com/Raynxxx/CUIT-ACM-Spider)
 
 ## 版本发布
+* `0.6` 修正bug, 管理功能加入分页和搜索, 首页图片改进, 加入图片缩小显示, 节省网络资源
+* `0.5` 修正bug, 资源上传改进
 * `0.4 release` 修正0.3 bug，加入队员去向，资源管理前端升级。
 * `0.3 release` 修正 0.2 beta bug, 新版首页, 新闻，正式上线使用
 * `0.1 beta` 用户管理模块, 新闻模块, 做题的提交信息.
@@ -24,15 +26,34 @@ The New CUIT ACM Website Project.
 ## 项目依赖
 |组件|版本|
 |----|----|
+|Werkzeug|0.11.2|
+|MarkupSafe|0.23|
+|itsdangerous|0.24|
+|WTForms|2.0.2|
+|Jinja2|2.8|
 |Flask|0.10.1|
-|Flask-Login|0.2.11|
-|Flask-SQLAlchemy|2.0|
-|Flask-WTF|0.11|
-|Flask-Uploads|0.1.3|
+|Flask-Login|0.3.2|
+|SQLAlchemy|1.0.9|
+|Flask-SQLAlchemy|2.1|
+|Flask-WTF|0.12|
+|Flask-Uploads|0.2.0|
+|Flask-Resize|0.6.0|
 |MySQL-python|1.2.5|
-|beautifulsoup4|4.3.2|
-|lxml|3.4.3|
-|Markdown|2.6.2|
+|lxml|3.4.2|
+|beautifulsoup4|4.4.1|
+|Markdown|2.6.5|
 |pyDes|2.0.1|
 |Flask-Cache|0.13.1|
 |Flask-Mail|0.9.1|
+
+
+
+
+
+
+
+
+
+
+
+

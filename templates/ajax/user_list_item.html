@@ -7,19 +7,29 @@
   </td>
   <td class="list-item-name">
     <a href="{{ url_for('profile.index',username=user.username) }}" target="_blank">
-      <b>{{ user.name }}</b></a>
+      <b>{{ user.name }}</b></a><br>
+    <label class="label label-primary">{{ user.username }}</label>
   </td>
   <td class="list-item-type">
     {% if user.is_admin %}
       <label class="label label-danger" >管理员</label>
     {% endif %}
     {% if user.is_coach %}
-      <label class="label label-success">教练</label>
+      <label class="label label-success bg-maroon">教练</label>
     {% endif %}
     {% if user.is_student %}
       <label class="label label-primary">学生</label>
     {% endif %}
+
+    {% if user.active == 1 %}
+      <label class="label bg-green">训练 ing</label>
+    {% else %}
+      <label class="label bg-orange">退役狗</label>
+    {% endif %}
   </td>
-  <td class="list-item-email text-muted">{{ user.email }}</td>
-  <td class="list-item-school text-muted">{{ school_mapper[user.school] }}</td>
+  <td class="list-item-school text-muted">
+    {{ school_mapper[user.school] }}<br>
+    {{ college_mapper[user.college] }}
+  </td>
+  <td class="list-item-time text-muted">{{ user.create_time }}</td>
 </tr>

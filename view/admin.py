@@ -1,7 +1,7 @@
 # coding=utf-8
 from __init__ import *
-from server import general, user_server, form, news_server, honor_server
-from server.poster import poster
+from server import general, user_server, form, news_server, \
+    honor_server, resource_server
 import util, config
 
 
@@ -10,7 +10,8 @@ import util, config
 # @created: 2015/06/22
 # @author: Z2Y
 #
-admin = blueprints.Blueprint('admin', __name__, template_folder='../templates/admin')
+admin = blueprints.Blueprint('admin', __name__,
+                             template_folder='../templates/admin')
 
 
 #
@@ -255,8 +256,7 @@ def add_honor():
     return render_template('add_honor.html',
                            title = u'添加荣誉',
                            honor_form = honor_form,
-                           upload_form = upload_form,
-                           show_upload = True)
+                           upload_form = upload_form)
 
 
 #
@@ -270,22 +270,19 @@ def add_honor():
 def modify_honor():
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    honor_form = form.HonorForm()
-    honor_form.users.choices = user_server.get_user_choice()
     try:
         honor = honor_server.get_by_id(request.args['p'])
     except:
         return redirect(url_for('admin.manage_honor'))
+
+    honor_form = form.HonorForm()
+    honor_form.users.choices = user_server.get_user_choice()
     honor_form.id.data = honor.id
-    honor_form.introduce.data = honor.introduce
     honor_form.acquire_time.data = honor.acquire_time
     honor_form.contest_name.data = honor.contest_name
     honor_form.team_name.data = honor.team_name
     honor_form.contest_level.data = str(honor.contest_level)
-    users = []
-    for user in honor.users:
-        users.append(user.username)
-    honor_form.users.data = users
+    honor_form.users.data = [user.username for user in honor.users]
     upload_form = form.FileUploadForm()
     from dao.dbResource import ResourceLevel, ResourceUsage
     upload_form.level.data = str(ResourceLevel.PUBLIC)
@@ -294,9 +291,8 @@ def modify_honor():
                            title = u'修改荣誉',
                            honor_form = honor_form,
                            upload_form = upload_form,
-                           show_upload = False)
-
-
+                           exist_res = honor.resources,
+                           file_url = resource_server.file_url)
 
 
 # not used
@@ -309,7 +305,6 @@ def add_book():
     return render_template('add_book.html', book_form=book_form)
 
 
-
 #
 # @brief: The Resource management page
 # @route: /admin/manage_resource
@@ -320,26 +315,10 @@ def add_book():
 @login_required
 def manage_resource():
     file_upload_form = form.FileUploadForm()
-    if not current_user.is_admin and not current_user.is_coach:
-        file_upload_form.usage.choices = [('3',u'题解资源'), ('4',u'其他资源')]
     return render_template('manage_resource.html',
-                           title = u'资源管理',
-                           user = current_user,
-                           limit = config.RESOURCE_MANAGE_PER_PAGE,
-                           upload_form = file_upload_form)
-
-
-#
-# @brief: The image cropper page
-# @route: /profile/manage_resource
-# @accepted methods: [get]
-# @allowed user: self, admin and coach
-#
-@admin.route("/admin/cropper", methods=['GET'])
-def cropper():
-    pass
-    return render_template('cropper.html',
-                           title = u'图片裁剪')
+                           title=u'资源管理',
+                           user=current_user,
+                           upload_form=file_upload_form)
 
 
 #
@@ -351,10 +330,30 @@ def cropper():
 @admin.route("/admin/manage_poster", methods = ['GET'])
 @login_required
 def manage_poster():
+    file_upload_form = form.FileUploadForm()
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
-    poster_form = form.PosterForm()
+    from dao.dbResource import Resource, ResourceUsage
+    posters = Resource.query.filter(Resource.usage == ResourceUsage.POSTER_RES).all()
     return render_template('manage_poster.html',
-                           title = u'首页图片管理',
-                           poster = poster.items(),
-                           pform = poster_form)
+                           title=u'首页图片管理',
+                           posters=posters,
+                           file_url=resource_server.file_url,
+                           upload_form=file_upload_form)
+
+
+#
+# @brief: The image cropper page
+# @route: /profile/manage_resource
+# @accepted methods: [get]
+# @allowed user: self, admin and coach
+#
+@admin.route("/admin/cropper", methods=['GET'])
+def cropper():
+    file_upload_form = form.FileUploadForm()
+    return render_template('cropper.html',
+                           title=u'图片裁剪',
+                           upload_form=file_upload_form)
+
+
+
