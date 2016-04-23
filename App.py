@@ -18,6 +18,7 @@ login_manager = LoginManager()
 flask_resize = Resize()
 
 
+
 @login_manager.user_loader
 def load_user(uid):
     return User.query.get(int(uid))

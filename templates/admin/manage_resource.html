@@ -5,6 +5,13 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/resource.css') }}"/>
 {%- endblock -%}
 
+{% block content_header %}
+  <h1>
+    媒体资源管理
+    <small>官网媒体资源管理</small>
+  </h1>
+{% endblock %}
+
 {% block content %}
   <div class="row">
     <div class="col-sm-12">
@@ -29,7 +36,7 @@
               <i class="fa fa-pencil-square-o"></i> 修改
             </button>
             <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal2">
-              <i class="fa fa-cloud-upload"></i>上传
+              <i class="fa fa-cloud-upload"></i> 上传
             </button>
             <button class="btn btn-default btn-sm download_resource">
               <i class="fa fa-cloud-download"></i> 下载
@@ -75,8 +82,8 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                  aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">上传资源</h4>
         </div>
         <form id="postForm" method="post" class="form-horizontal">
@@ -136,8 +143,6 @@
         </form>
       </div>
     </div>
-  </div>
-  <div class="modal fade" id="myModal3" style="margin-top: 50px;">
   </div>
   <div class="modal fade" id="myModal4" style="margin-top: 50px;">
     <div class="modal-dialog">

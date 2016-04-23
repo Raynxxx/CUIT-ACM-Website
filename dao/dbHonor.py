@@ -26,7 +26,8 @@ class Honor(db.Model):
                                 backref=db.backref('honors', lazy='dynamic'))
 
     # connect to User
-    users = db.relationship('User', secondary=honor_users,backref=db.backref('honors', lazy='dynamic'))
+    users = db.relationship('User', secondary=honor_users,
+                            backref=db.backref('honors', lazy='dynamic'))
 
     def __init__(self):
         pass
@@ -45,8 +46,7 @@ class Honor(db.Model):
 
     @property
     def serialize(self):
-        return self.__dict__
-        #return { c.name: getattr(self, c.name) for c in self.__table__.columns }
+        return { c.name: getattr(self, c.name) for c in self.__table__.columns }
 
     def save(self):
         db.session.add(self)

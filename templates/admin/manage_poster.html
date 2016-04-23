@@ -23,7 +23,7 @@
   {% for poster in posters %}
     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" id="poster{{ poster.id }}">
       <div class="index-poster">
-        <div><img src="{{ file_url(poster) | resize('200', format='png') }}"></div>
+        <div><img src="{{ file_url(poster) }}"></div>
         <div class="opt-btn">
           <a class="label label-primary to-edit-poster" data-poster="{{ poster.id }}">
             <i class="fa fa-edit"></i>

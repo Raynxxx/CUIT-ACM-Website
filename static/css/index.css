@@ -16,27 +16,17 @@ body>.container {
 
 
 /* Customize container */
+
 @media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 960px) {
-  .container {
-    max-width: 900px;
+  body>.container {
+    width: 1000px;
   }
 }
 @media (min-width: 1280px) {
-  .container {
-    max-width: 1080px;
+  body> .container {
+    max-width: 1000px;
   }
 }
-@media (min-width: 1600px) {
-  .container {
-    max-width: 1600px;
-  }
-}
-
 
 .recent_news {
   list-style: none;

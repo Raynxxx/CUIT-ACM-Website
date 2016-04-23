@@ -24,9 +24,9 @@
 
 <body class="skin-blue layout-top-nav fixed">
 <div id="fakeLoader"></div>
-<header class="main-header">
+<header class="main-header" >
   <nav class="navbar navbar-fixed-top">
-    <div class="container-fluid">
+    <div class="container">
       <div class="navbar-header">
           <a href="{{ url_for('main.index') }}" class="navbar-brand">CUIT <b>ACM</b> Team</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
@@ -155,9 +155,10 @@
     <div class="col-sm-4">
       <div class="col-sm-12">
         <div class="index-button">
-          <a class="btn btn-lg btn-block text-center" href="{{ url_for('main.join_us') }}"> <i class="fa fa-users"></i> 加入我们</a>
+          <a class="btn btn-lg btn-block text-center" href="{{ url_for('main.competition_join', year=cur_year) }}">
+            <i class="fa fa-flag"></i> 校赛报名入口</a>
         </div>
-        <div class="index-block" style="min-height: 210px;">
+        <div class="index-block" style="min-height: 190px;">
           <div class="block-header">
             <span class="block-title" style="font-weight: bold">近期比赛</span>
           </div>

@@ -1,13 +1,19 @@
 {% extends "admin/base.html" %}
+
 {% block head %}
   <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
 {% endblock %}
 
 {% block content_header %}
   <h1>
-    用户管理
-    <small>系统用户信息管理</small>
+    {{ competition.title }}
+    <small>已报名学生信息管理</small>
   </h1>
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('admin.manage_competition') }}"><i class="fa fa-dashboard"></i> 校赛列表</a></li>
+    <li>{{ competition.title }}</li>
+    <li class="active">报名学生列表</li>
+  </ol>
 {% endblock %}
 
 {% block content %}
@@ -15,12 +21,12 @@
     <div class="col-sm-12">
       <div class="box box-primary list-box">
         <div class="box-header with-border">
-          <h3 class="box-title"><i class="fa fa-list"></i> 用户列表</h3>
+          <h3 class="box-title"><i class="fa fa-list"></i> 报名学生列表</h3>
           <div class="box-tools">
 
             <div class="input-group input-group-sm" style="width: 200px;">
               <input type="text" id="InputSearch" class="form-control pull-right"
-                     placeholder="搜索用户姓名">
+                     placeholder="搜索">
               <div class="input-group-btn">
                 <button type="submit" class="btn btn-default link-search"><i class="fa fa-search"></i></button>
               </div>
@@ -29,14 +35,14 @@
         </div>
         <div class="box-body no-padding">
           <div class="list-box-controls">
-            <button class="btn btn-default btn-sm to_delete_user" data-toggle="modal" data-target="#myModal">
+            <button class="btn btn-default btn-sm to_delete_competition" data-toggle="modal" data-target="#myModal">
               <i class="fa fa-trash-o"></i> 删除
             </button>
-            <button class="btn btn-default btn-sm edit_user">
+            <button class="btn btn-default btn-sm edit_competition">
               <i class="fa fa-pencil-square-o"></i> 修改
             </button>
             <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}">
-              <i class="fa fa-user-plus"></i> 添加
+              <i class="fa fa-plus"></i> 添加
             </a>
             <button class="btn btn-default btn-sm to_refresh">
               <i class="fa fa-refresh"></i> &nbsp; 刷新列表
@@ -49,13 +55,13 @@
           </div>
           <table class="table table-bordered table-hover table-striped list-table">
             <thead>
-            <tr><th>选择</th><th>头像</th><th>姓名</th><th>状态</th>
-              <th>学院</th><th>注册时间</th></tr>
+            <tr><th>选择</th><th>姓名</th><th>学号</th><th>性别</th><th>衣服大小</th>
+              <th>联系方式</th><th>院系班级</th></tr>
             </thead>
             <tbody class="list-table-body"></tbody>
             <tfoot>
-            <tr><th>选择</th><th>头像</th><th>姓名</th><th>状态</th>
-              <th>学院</th><th>注册时间</th></tr>
+            <tr><th>选择</th><th>姓名</th><th>学号</th><th>性别</th><th>衣服大小</th>
+              <th>联系方式</th><th>院系班级</th></tr>
             </tfoot>
           </table>
         </div>
@@ -82,10 +88,10 @@
           <h4 class="modal-title">提示</h4>
         </div>
         <div class="modal-body">
-          <p style="font-size: 1.4em;">是否确定删除当前选定用户！</p>
+          <p style="font-size: 1.4em;">是否确定删除当前选定校赛项目！</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger btn-flat delete_user">确定删除</button>
+          <button type="button" class="btn btn-danger btn-flat delete_competition">确定删除</button>
           <button type="button" class="closeModal btn btn-default btn-flat" data-dismiss="modal">取消</button>
         </div>
       </div>
@@ -93,7 +99,7 @@
   </div>
 {% endblock %}
 
-{%- block script -%}
+{% block script %}
   <script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
   <script>
     var $page_group = $('.page-group');
@@ -118,7 +124,7 @@
           return false;
         }
         console.log(page);
-        get_user_list(page, search);
+        get_competition_list(page, search);
       });
     }
     function generate_pagination(cur_page, prev_num, next_num, page_list) {
@@ -149,16 +155,16 @@
         make_page_click();
       });
     }
-    function get_user_list(page, search) {
+    function get_player_list(page, search) {
       $('.list-box > div.overlay').fadeIn(300, make_iCheck);
-      var data = { page: page, search: search };
-      $.get("{{ url_for('ajax.get_users') }}", data).success(function (response) {
+      var data = { page: page, search: search, competition: {{ competition.id }} };
+      $.get("{{ url_for('ajax.get_players') }}", data).success(function (response) {
         var item_list = response.items;
         var length = item_list.length;
         var $list_table = $('.list-table-body');
         $list_table.empty();
         if (length == 0) {
-          $list_table.append('<tr><td colspan="6"><h2>无用户</h2></tr>');
+          $list_table.append('<tr><td colspan="7"><h2>无报名学生</h2></tr>');
         } else {
           for (var i = 0; i < length; ++i) {
             $list_table.append(item_list[i]);
@@ -171,27 +177,27 @@
       }).error(function() {
         var $list_table = $('.list-table-body').first();
         $list_table.empty();
-        $list_table.append('<tr><td colspan="6"><h2>加载失败</h2></tr>');
+        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr>');
         $('.list-box > div.overlay').fadeOut(300, make_iCheck);
         $page_group.empty();
       });
     }
     function delete_users(checked) {
-      var data = {'user_id': checked};
+      var data = {'competition_id': checked};
       $.post("{{ url_for('ajax.delete_user') }}", data).success(function (ret) {
         $('.closeModal').click();
         if (ret == 'OK') {
-          $('#user' + checked).fadeOut(1200, function(){ $(this).remove(); });
+          $('#competition' + checked).fadeOut(1200, function(){ $(this).remove(); });
         }
       });
     }
 
     $(document).ready(function () {
       make_iCheck();
-      get_user_list(1);
+      get_player_list(1);
 
       $('button.to_refresh').click(function() {
-        get_user_list(1, search);
+        get_player_list(1, search);
       });
 
       $('button.link-search').click(function() {
@@ -199,30 +205,30 @@
         if (search === undefined) {
           return false;
         }
-        get_user_list(1, search);
+        get_player_list(1, search);
       });
 
       $('.to_delete_user').click(function () {
-        var $check = $('input[name="user"]:checked');
+        var $check = $('input[name="competition"]:checked');
         if ($check.length <= 0) {
           return false;
         }
       });
 
       $('.delete_user').click(function () {
-        var check = $('input[name="user"]:checked').val();
+        var check = $('input[name="competition"]:checked').val();
         delete_users(check);
       });
 
       $('.edit_user').click(function () {
-        var $check = $('input[name="user"]:checked');
+        var $check = $('input[name="competition"]:checked');
         if ($check.length <= 0) {
           return false;
         }
         var url = "{{ url_for('admin.edit_user', p='') }}";
-        var news_id = $check.val();
-        window.location.href = url + news_id;
+        var id = $check.val();
+        window.location.href = url + id;
       });
     });
   </script>
-{%- endblock -%}
+{% endblock %}

@@ -2,10 +2,16 @@
 #The database URI that should be used for the connection.
 #fomate: dialect+driver://username:password@host:port/database
 #mysql format : mysql://scott:tiger@localhost/database_name
-SQLALCHEMY_DATABASE_URI = 'mysql://root:63005610@localhost/cuit_acm'
+
+SQL_USERNAME = 'root'
+SQL_PASSWORD = '63005610'
+
+SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@localhost/cuit_acm' % (SQL_USERNAME, SQL_PASSWORD)
 
 #A dictionary that maps bind keys to SQLAlchemy connection URIs.
-SQLALCHEMY_BINDS = {}
+SQLALCHEMY_BINDS = {
+    'competitions' : 'mysql://%s:%s@localhost/competitions' % (SQL_USERNAME, SQL_PASSWORD)
+}
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 ADMIN = ['Rayn', 'dreameracm']
@@ -31,7 +37,7 @@ SCHOOL_COLLEGE_MAP = {
    '13':u"文化艺术学院",
    '14':u"统计学院",
    '15':u"商学院",
-   '16':u"物流学院" ,
+   '16':u"物流学院",
 }
 
 HONOR_LEVEL_MAP = {
@@ -83,6 +89,7 @@ HONOR_MANAGE_PER_PAGE = 8
 RESOURCE_MANAGE_PER_PAGE = 12
 SITUATION_PER_PAGE = 25
 RANK_TABLE_PER_PAGE = 15
+COMPETITION_MANAGE_PER_PAGE = 5
 
 
 #index information

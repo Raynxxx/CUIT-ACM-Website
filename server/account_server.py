@@ -24,8 +24,8 @@ def delete_account_by_id(user, account_id):
     if account:
         if account.update_status == AccountStatus.UPDATING:
             raise AccountUpdatingException(u'Account is updating')
-        Submit.query.filter(Submit.user == user, Submit.oj_name == account.oj_name).delete()
-        db.session.commit()
+        #Submit.query.filter(Submit.user == user, Submit.oj_name == account.oj_name).delete()
+        #db.session.commit()
         account_user_id = account.user.id
         account.delete()
         account_user = User.query.filter(User.id==account_user_id).with_lockmode('update').first()

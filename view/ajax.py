@@ -6,9 +6,9 @@ from flask import current_app
 from werkzeug.datastructures import FileStorage
 from server import user_server, article_server, status_server, form, \
     account_server, news_server, resource_server
-from server import general
-from server import honor_server
+from server import general, honor_server
 from dao.dbACCOUNT import Account
+from dao import dbCompetition, dbPlayer
 from util import json, CJsonEncoder
 from flask.globals import _app_ctx_stack
 from flask import request, jsonify
@@ -79,7 +79,7 @@ def get_user_list_item(user):
 @login_required
 def get_users():
     if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
     search = request.args.get('search', None)
     per_page = USER_MANAGE_PER_PAGE
@@ -256,7 +256,6 @@ def modify_password():
 @login_required
 def delete_user():
     if not current_user.is_admin and not current_user.is_coach:
-        print u"你没有权限访问该模块"
         return redirect(url_for('main.index'))
     try:
         id = request.form.get('user_id')
@@ -528,7 +527,7 @@ def get_img_choose_item(img_item):
 @login_required
 def get_img_choose_list():
     if not current_user.is_admin and not current_user.is_coach:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     offset = request.form.get('offset')
     limit = request.form.get('limit')
     type = request.form.get('type')
@@ -565,8 +564,8 @@ def get_resource_list_item(resource):
 @ajax.route('/ajax/resource_list', methods=['GET', 'POST'])
 @login_required
 def get_resource_list():
-    #if not current_user.is_admin and not current_user.is_coach:
-    #    return redirect(url_for('index'))
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
     search = request.args.get('search', None)
     per_page = RESOURCE_MANAGE_PER_PAGE
@@ -905,3 +904,83 @@ def members():
                 'situation': user.situation
             })
     return json.dumps({ 'data': users })
+
+
+#
+# @brief: ajax html for one competition item
+# @allowed user: admin and coach
+#
+@login_required
+def get_competition_list_item(competition):
+    from datetime import datetime
+    diff = (competition.event_date - datetime.today()).days
+    if diff > 30:
+        process = 0
+    elif diff > -1:
+        process = 1
+    else:
+        process = 2
+    return render_template('ajax/competition_list_item.html',
+                           competition = competition,
+                           len = len, process = process)
+
+
+#
+# @brief: ajax competition list
+# @route: /ajax/competition_list
+# @allowed user: admin and coach
+#
+@ajax.route('/ajax/competition_list', methods=["GET", "POST"])
+@login_required
+def get_competitions():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    per_page = COMPETITION_MANAGE_PER_PAGE
+    pagination = dbCompetition.get_list_pageable(page, per_page, search=search)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_competition_list_item(c) for c in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)
+
+
+#
+# @brief: ajax html for one player item
+# @allowed user: admin and coach
+#
+@login_required
+def get_player_list_item(player):
+    return render_template('ajax/player_list_item.html',
+                           player = player,
+                           college_mapper = SCHOOL_COLLEGE_MAP)
+
+
+#
+# @brief: ajax player list
+# @route: /ajax/player_list
+# @allowed user: admin and coach
+#
+@ajax.route('/ajax/player_list', methods=["GET", "POST"])
+@login_required
+def get_players():
+    if not current_user.is_admin and not current_user.is_coach:
+        return redirect(url_for('main.index'))
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', None)
+    competition_id = request.args.get('competition', 1, type=int)
+    per_page = COMPETITION_MANAGE_PER_PAGE
+
+    competition = dbCompetition.get_by_id(competition_id)
+    pagination = dbCompetition.get_players_pageable(competition, page,
+                                                    per_page, search=search)
+    page_list = list(pagination.iter_pages(left_current=1, right_current=2))
+    return jsonify(items=[get_player_list_item(p) for p in pagination.items],
+                   prev_num=pagination.prev_num,
+                   next_num=pagination.next_num,
+                   page_list=page_list,
+                   page=pagination.page,
+                   pages=pagination.pages)

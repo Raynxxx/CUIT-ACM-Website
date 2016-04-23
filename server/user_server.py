@@ -24,6 +24,7 @@ def create_user(user_form, user_rights):
     new_user.save()
     return 'OK'
 
+
 def create_many_users(user_form, current_user):
     success_count = 0
     try:
@@ -46,6 +47,7 @@ def create_many_users(user_form, current_user):
         return '{0} user added'.format(success_count)
     except Exception, e:
         return 'failed'
+
 
 def update_apply(user_id, opt):
     has_user = User.query.filter_by(id = user_id).with_lockmode('update').first()

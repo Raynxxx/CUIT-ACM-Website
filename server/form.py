@@ -7,6 +7,7 @@ from wtforms import SelectField
 from wtforms import Field, widgets
 import wtforms.validators as validators
 from config import OJ_MAP, SCHOOL_MAP ,HONOR_LEVEL_MAP ,SCHOOL_COLLEGE_MAP
+from dao.dbPlayer import SHIRT_SIZE
 
 
 class LoginForm(Form):
@@ -63,7 +64,8 @@ class UserModifyForm(Form):
                           default=0)
     import datetime
     now_year = datetime.datetime.now().year
-    grade = SelectField('grade', validators=[validators.Optional()], choices=[(str(y), y) for y in range(now_year, now_year - 10, -1)],
+    grade = SelectField('grade', validators=[validators.Optional()],
+                        choices=[(str(y), y) for y in range(now_year, now_year - 10, -1)],
                         default=now_year)
     motto = StringField('Motto', validators=[validators.Optional()])
     situation = TextAreaField('Situation', validators=[validators.Optional()])
@@ -179,3 +181,34 @@ class PosterForm(Form):
     img_url = StringField(u'image url', validators=[validators.DataRequired(), validators.Length(min=1, max=128)])
     link_url = StringField(u'link url', validators=[validators.DataRequired(), validators.Length(min=1, max=128)])
     submit = SubmitField(u'提交')
+
+
+## for CUIT ACM Competition
+
+class CompetitionForm(Form):
+    title = StringField('title', validators=[validators.DataRequired()])
+    from datetime import date
+    now_year = date.today().year
+    year = SelectField('year', validators=[validators.DataRequired()],
+                       choices=[(str(y), y) for y in range(now_year, now_year - 5, -1)],
+                       default=now_year)
+    event_date = DateField('event_date', format='%Y/%m/%d')
+
+
+class PlayerForm(Form):
+    stu_id = StringField(u'学号', validators=[validators.DataRequired(), validators.Length(min=10, max=10)])
+    name = StringField(u'姓名', validators=[validators.DataRequired()])
+    gender = RadioField(u'gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default='1')
+    phone = StringField(u'手机', validators=[validators.DataRequired(), validators.Length(min=7, max=15)])
+    email = StringField(u'邮箱', validators=[validators.Optional(), validators.Length(min=1, max=512),
+                                             validators.Email(message=u'邮件格式有误')])
+
+    college = SelectField(u'学院', validators=[validators.DataRequired()],
+                          choices=[(str(college), SCHOOL_COLLEGE_MAP[college]) for college in SCHOOL_COLLEGE_MAP],
+                          default='0')
+    major = StringField(u'专业', validators=[validators.DataRequired()])
+    grade = StringField(u'班级', validators=[validators.DataRequired()])
+    shirt_size = SelectField(u'衣服尺码', validators=[validators.DataRequired()],
+                             choices=[(size, size) for size in SHIRT_SIZE], default='S')
+    submit = SubmitField(u'提交')
+

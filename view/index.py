@@ -4,6 +4,7 @@ from werkzeug.exceptions import NotFound
 from server import user_server, general, article_server, form, news_server, resource_server, honor_server
 from dao.dbBase import User
 from dao.dbResource import ResourceLevel
+from dao import dbCompetition, dbPlayer
 from util import function
 import config, json
 
@@ -97,13 +98,16 @@ def index():
     json_file = open(RECENT_CONTEST_JSON, 'r').read()
     json_contests = json.loads(json_file)
     recent_contests = [[contest['name'], contest['link']] for contest in json_contests]
+    from datetime import date
+    cur_year = date.today().year
     return render_template('index/index.html',
                            title = 'CUIT ACM Team',
                            posters = posters,
                            recent_news = recent_news,
                            recent_contests = recent_contests[:5],
                            recommend_site = config.RECOMMEND_SITE,
-                           file_url = resource_server.file_url)
+                           file_url = resource_server.file_url,
+                           cur_year = cur_year)
 
 
 #
@@ -358,13 +362,35 @@ def members():
                            SITUATION_PER_PAGE = config.SITUATION_PER_PAGE)
 
 
-# not used
-@main.route('/aboutus')
-def about():
-    return redirect(url_for('main.ranklist'))
-    #return render_template('index/about.html')
-
-
-
-
-
+#
+# @brief: page for join competition
+# @route: /competition/join/<year>
+# @accepted methods: [get, post]
+# @allowed user: all
+#
+@main.route('/competition/join/<year>', methods=['GET', 'POST'])
+def competition_join(year):
+    competition_of_year = dbCompetition.get_by_year(year)
+    player_form = form.PlayerForm()
+    if request.method == 'POST' and player_form.validate_on_submit():
+        has = dbPlayer.get_by_stu_and_name(player_form.stu_id.data,
+                                           player_form.name.data)
+        if not has:
+            feedback = dbPlayer.create_player(player_form)
+            if feedback[0] != 'OK':
+                flash(feedback[0])
+            else:
+                dbCompetition.create_join(competition_of_year, feedback[1])
+                flash(u'报名成功') if feedback == 'OK' else flash(feedback)
+        else:
+            feedback = dbCompetition.create_join(competition_of_year, has)
+            flash(u'报名成功') if feedback == 'OK' else flash(feedback)
+    else:
+        for errors in player_form.errors.values():
+            for error in  errors:
+                flash(error)
+    return render_template('index/competition_join.html',
+                           title = u'校赛报名',
+                           cur_year = year,
+                           competition_of_year = competition_of_year,
+                           player_form = player_form)

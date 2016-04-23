@@ -1,0 +1,14 @@
+<tr id="player{{ player.id }}">
+  <td class="list-item-check">
+    <label><input type="radio" name="player" value="{{ player.id }}"></label>
+  </td>
+  <td class="list-item-name">
+    <b> {{ player.name }}</b>
+  </td>
+  <td><b>{{ player.stu_id }}</b></td>
+  <td>{{ '男' if player.gender else '女' }}</td>
+  <td>{{ player.shirt_size }}</td>
+  <td>{{ player.phone }}<br>{{ player.email }}</td>
+  <td>{{ college_mapper.get(player.college, '') }}<br>{{ player.major }} {{ player.grade }}</td>
+
+</tr>

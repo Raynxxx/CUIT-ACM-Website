@@ -2,6 +2,7 @@
 from __init__ import *
 from server import general, user_server, form, news_server, \
     honor_server, resource_server
+from dao import dbCompetition, dbPlayer
 import util, config
 
 
@@ -354,6 +355,20 @@ def cropper():
     return render_template('cropper.html',
                            title=u'图片裁剪',
                            upload_form=file_upload_form)
+
+
+### about competition
+
+@admin.route("/admin/manage_competition", methods=['GET'])
+def manage_competition():
+    return render_template('manage_competition.html')
+
+
+@admin.route('/admin/competition/<cid>/players', methods=['GET'])
+def manage_player(cid):
+    competition = dbCompetition.get_by_id(cid)
+    return render_template('manage_player.html',
+                           competition = competition)
 
 
 

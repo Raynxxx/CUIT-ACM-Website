@@ -10,6 +10,13 @@
 {% endblock %}
 
 {% block content %}
+  {% if not apply_users %}
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h2>暂无最新的新生申请</h2>
+      </div>
+    </div>
+  {% endif %}
   <div class="row apply-wall">
     {% for user in apply_users %}
     <div class="apply-box col-xs-12 col-sm-4 col-md-3" id="apply{{ user.id }}">

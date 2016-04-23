@@ -1,0 +1,21 @@
+<tr id="competition{{ competition.id }}">
+  <td class="list-item-check">
+    <label><input type="radio" name="competition" value="{{ competition.id }}"></label>
+  </td>
+  <td width="50%" style="font-size: larger;">
+    <b> {{ competition.title }}</b><br>
+    {% if process == 0 %}
+    <label class="label label-danger">未开始</label>
+    {% elif process == 1 %}
+    <label class="label label-success">正在进行</label>
+    {% else %}
+    <label class="label label-default">已完成</label>
+    {% endif %}
+  </td>
+  <td style="font-size: larger;"><b>{{ competition.year }}</b></td>
+  <td>{{ competition.event_date.strftime('%Y-%m-%d') }}</td>
+  <td>
+    <label class="label bg-blue">{{ competition.players.count() }}</label>
+    <a class="btn btn-xs btn-link" href="{{ url_for('admin.manage_player', cid=competition.id) }}">详细列表</a>
+  </td>
+</tr>

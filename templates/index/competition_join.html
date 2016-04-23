@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+  {% if title -%}
+    <title>{{ title }} - CUIT ACM Team</title>
+  {%- else -%}
+    <title>CUIT ACM Team</title>
+  {%- endif %}
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/bootstrap/css/bootstrap.min.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/dist/css/AdminLTE.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/square/blue.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='fakeLoader/fakeLoader.css') }}"/>
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  {%- block head -%}{%- endblock -%}
+  <style>
+    @media (max-width: 720px) {
+      .login-box {
+        width: 90% !important;
+      }
+    }
+    .login-box a {
+      margin-bottom: 5px;
+      display: block;
+    }
+    .login-box a,
+    .login-box h1 {
+      color: #eee;
+    }
+  </style>
+</head>
+<body class="login-page" style="background-color: #333;">
+<div id="fakeLoader"></div>
+{% if not competition_of_year %}
+  <div class="login-box">
+    <div style="color: #eee;">
+      <h1>{{ cur_year }} 年校赛未开通</h1>
+      <a href="{{ url_for('main.index') }}">
+        <i class="fa fa-home"></i> 回到主页
+      </a>
+      <a href="{{ url_for('main.join_us') }}">
+        <i class="fa fa-key"></i> 加入校队
+      </a>
+    </div>
+  </div>
+{% else %}
+<div class="login-box" style="width: 360px">
+  <div class="login-logo" style="font-size: 45px;color: #eee;">
+    <a href="{{ url_for('main.index') }}">CUIT <b>ACM</b> Team</a>
+    <h1>第5届校赛报名</h1>
+  </div>
+  <div class="login-box-body">
+    <form id="playerForm" method="post">
+      {{ player_form.hidden_tag() }}
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">姓名</span>
+              {{ player_form.name(class='form-control required', id="inputName") }}
+              <span class="fa fa-user form-control-feedback"></span>
+            </div>
+          </div>
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">学号</span>
+              {{ player_form.stu_id(class='form-control required', id="inputStuid") }}
+              <span class="fa fa-heart form-control-feedback"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">性别</span>
+              <div class="form-control">
+                {%- for sub in player_form.gender %}
+                  <label class="radio-inline">
+                    {{ sub }}
+                    {{ sub.label(style='margin-left:10px;') }}
+                  </label>
+                {%- endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">手机</span>
+              {{ player_form.phone(class='form-control', id="inputPhone") }}
+              <span class="fa fa-phone form-control-feedback"></span>
+            </div>
+          </div>
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">邮箱</span>
+              {{ player_form.email(class='form-control', id="inputEmail") }}
+              <span class="fa fa-envelope-o form-control-feedback"></span>
+            </div>
+          </div>
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">院系</span>
+              {{ player_form.college(class='form-control required', id="inputCollege") }}
+            </div>
+
+          </div>
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">专业</span>
+              {{ player_form.major(class='form-control required', id="inputMajor") }}
+              <span class="fa fa-graduation-cap form-control-feedback"></span>
+            </div>
+          </div>
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">班级</span>
+              {{ player_form.grade(class='form-control required', id="inputGrade") }}
+              <span class="fa fa-group form-control-feedback"></span>
+            </div>
+          </div>
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">衣服尺码</span>
+              {{ player_form.shirt_size(class='form-control required', id="inputShirtSize") }}
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          {%- with messages = get_flashed_messages() -%}
+        {%- if messages -%}
+          <div class="alert alert-danger" style="margin: 5px auto 10px auto">
+            <button type="button" class="close">&times;</button>
+            <ul class="list-unstyled">
+              {%- for message in messages -%}
+                <li style="font-size: 1.1em">{{ message }} </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endwith -%}
+          <div class="form-group">
+             {{ player_form.submit(class='btn btn-primary btn-block btn-flat') }}
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+{% endif %}
+<!-- /container -->
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='fakeLoader/fakeLoader.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='AdminLTE2/plugins/iCheck/icheck.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/tools.js') }}"></script>
+<script>
+  $(document).ready(function () {
+    $("#fakeLoader").fakeLoader({
+      timeToHide: 500,
+      spinner: "spinner1",
+      bgColor: "#333"
+    });
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' // optional
+    });
+    $("button.close").click(function () {
+      $(".alert").slideUp();
+      return false;
+    });
+    $('form').hide().slideDown(1200);
+    $('#playerForm').submit(function () {
+      var name_field = $('#inputName');
+      var stuid_field = $('#inputStuid');
+      var email_field = $('#inputEmail');
+      var phone_field = $('#inputPhone');
+      var major_field = $('#inputMajor');
+      var grade_field = $('#inputGrade');
+      return requiredCheck(name_field, '姓名')
+              && requiredCheck(stuid_field, '学号')
+              && requiredCheck(email_field, '邮箱')
+              && requiredCheck(phone_field, '手机号码')
+              && requiredCheck(major_field, '专业')
+              && requiredCheck(grade_field, '班级');
+    });
+  });
+</script>
+</body>
+</html>
