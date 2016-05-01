@@ -56,10 +56,11 @@
     </div>
   </div>
 {% else %}
-<div class="login-box" style="width: 360px">
+
+<div class="login-box" style="width: 540px;margin-top: 3%;">
   <div class="login-logo" style="font-size: 45px;color: #eee;">
     <a href="{{ url_for('main.index') }}">CUIT <b>ACM</b> Team</a>
-    <h1>第5届校赛报名</h1>
+    <h1>{{ competition_of_year.title }}报名</h1>
   </div>
   <div class="login-box-body">
     <form id="playerForm" method="post">
@@ -105,6 +106,13 @@
               <span class="input-group-addon">邮箱</span>
               {{ player_form.email(class='form-control', id="inputEmail") }}
               <span class="fa fa-envelope-o form-control-feedback"></span>
+            </div>
+          </div>
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <span class="input-group-addon">学校</span>
+              {{ player_form.school(class='form-control required', id="inputSchool") }}
+              <span class="fa fa-university form-control-feedback"></span>
             </div>
           </div>
           <div class="form-group has-feedback">
@@ -157,6 +165,7 @@
     </form>
   </div>
 </div>
+
 {% endif %}
 <!-- /container -->
 <script src="{{ url_for('static', filename='AdminLTE2/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>

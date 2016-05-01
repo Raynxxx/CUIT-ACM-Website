@@ -361,13 +361,23 @@ def cropper():
 
 @admin.route("/admin/manage_competition", methods=['GET'])
 def manage_competition():
-    return render_template('manage_competition.html')
+    return render_template('manage_competition.html',
+                           title = u'校赛管理')
+
+
+@admin.route('/admin/add_competition', methods=['GET'])
+def add_competition():
+    competition_form = form.CompetitionForm()
+    return render_template('add_competition.html',
+                           title = u'添加校赛',
+                           competition_form = competition_form)
 
 
 @admin.route('/admin/competition/<cid>/players', methods=['GET'])
 def manage_player(cid):
     competition = dbCompetition.get_by_id(cid)
     return render_template('manage_player.html',
+                           title = competition.title + u' - 报名学生管理',
                            competition = competition)
 
 

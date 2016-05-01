@@ -1,0 +1,89 @@
+{% extends "admin/base.html" %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-datetimepicker/bootstrap-datetimepicker.css') }}"/>
+{% endblock %}
+
+{% block content_header %}
+  <h1>
+    添加校赛
+    <small>添加新的校赛计划</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('admin.manage_competition') }}"><i class="fa fa-dashboard"></i> 校赛列表</a></li>
+    <li class="active">添加校赛</li>
+  </ol>
+{% endblock %}
+
+{% block content %}
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title"><i class="fa fa-magic"></i> 填写信息</h3>
+    </div>
+    <form id="postForm" class="form-horizontal">
+      <div class="box-body">
+        {{ competition_form.hidden_tag() }}
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="inputTitle"><span class="required-star">* </span>校赛标题</label>
+          <div class="col-sm-9">
+            {{ competition_form.title(class="form-control required",id="inputTitle", placeholder="校赛标题") }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="inputYear"><span class="required-star">* </span>年份</label>
+          <div class="col-sm-9">
+            {{ competition_form.year(class="form-control required",id="inputYear", placeholder="年份") }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="inputEventDate"><span class="required-star">* </span>举办日期</label>
+          <div class="col-sm-9">
+            {{ competition_form.event_date(class="form-control required",id="inputEventDate", placeholder="举办日期") }}
+          </div>
+        </div>
+        <!--<div class="form-group">
+          <label class="control-label col-sm-2" for="inputDescription">详细描述</label>
+          <div class="col-sm-9">
+            {{ competition_form.description(class="form-control required", id="inputDescription",
+                placeholder="详细描述", rows="5") }}
+          </div>
+        </div>-->
+        <div class="form-group">
+          <div class="control-label col-sm-2"></div>
+          <div class="col-sm-9">
+            {{ competition_form.submit(class='btn btn-primary', value='提交') }}
+          </div>
+        </div>
+        <div class="alert alert-info col-sm-offset-2 col-sm-9" id="post-info" style="display: none;">
+          <button type="button" class="close">×</button>
+          <span id="post-info-text"></span>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='bootstrap-datetimepicker/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+<script>
+  $(document).ready(function() {
+    $('#inputEventDate').datetimepicker({format: 'YYYY/MM/DD'});
+    $('#postForm').submit(function () {
+      var data = new FormData($('#postForm')[0]);
+      $.ajax({
+        url: "{{ url_for('ajax.add_competition') }}",
+        type: "POST",
+        data: data,
+        processData: false,
+        contentType: false,
+        success: function (msg) {
+          $("#post-info-text").html(msg);
+          $("#post-info").hide().fadeIn(200);
+        }
+      });
+      return false;
+    });
+  });
+</script>
+{% endblock %}

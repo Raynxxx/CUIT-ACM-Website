@@ -380,7 +380,7 @@ def competition_join(year):
             if feedback[0] != 'OK':
                 flash(feedback[0])
             else:
-                dbCompetition.create_join(competition_of_year, feedback[1])
+                feedback = dbCompetition.create_join(competition_of_year, feedback[1])
                 flash(u'报名成功') if feedback == 'OK' else flash(feedback)
         else:
             feedback = dbCompetition.create_join(competition_of_year, has)

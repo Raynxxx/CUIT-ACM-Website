@@ -1,5 +1,5 @@
 # coding=utf-8
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from dao.db import db
 from dao.dbPlayer import Player
 
@@ -17,6 +17,7 @@ class Competition(db.Model):
     year = db.Column(db.Integer, nullable=False)
     oj_cid = db.Column(db.String(64))
     event_date = db.Column(db.DateTime)
+    description = db.Column(db.Text)
 
     players = db.relationship('Player', secondary=competition_player, lazy='dynamic',
                               backref=db.backref('competitions', lazy='dynamic'))
@@ -73,14 +74,26 @@ def create_competition(competition_form):
     competition.title = competition_form.title.data
     competition.year = competition_form.year.data
     competition.event_date = competition_form.event_date.data
+    competition.description = competition_form.description.data
     competition.players = []
     competition.save()
     return 'OK'
+
+
+def delete_by_id(id):
+    competition = get_by_id(id)
+    competition.delete()
 
 
 def create_join(competition, player):
     if player in competition.players:
         return u'你的报名信息已被采集，请勿重复提交'
     competition.players.append(player)
+    competition.save()
+    return 'OK'
+
+
+def delete_join(competition, player):
+    competition.players.remove(player)
     competition.save()
     return 'OK'

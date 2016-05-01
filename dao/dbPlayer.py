@@ -13,6 +13,7 @@ class Player(db.Model):
     gender = db.Column(db.Boolean)
     phone = db.Column(db.String(64))
     email = db.Column(db.String(512))
+    school = db.Column(db.String(64))
     college = db.Column(db.String(64))
     major = db.Column(db.String(64))
     grade = db.Column(db.String(64))
@@ -32,6 +33,10 @@ class Player(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+
+def get_by_id(id):
+    return Player.query.filter(Player.id == id).first()
 
 
 def get_by_stu_and_name(stu_id, name):
@@ -59,6 +64,7 @@ def create_player(player_form):
     player.gender = True if player_form.gender.data == '1' else False
     player.phone = player_form.phone.data
     player.email = player_form.email.data
+    player.school = player_form.school.data
     player.college = player_form.college.data
     player.major = player_form.major.data
     player.grade = player_form.grade.data

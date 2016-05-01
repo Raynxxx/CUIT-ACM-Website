@@ -948,6 +948,33 @@ def get_competitions():
                    pages=pagination.pages)
 
 
+@ajax.route("/ajax/add_competition", methods = ['POST'])
+@login_required
+def add_competition():
+    competition_form = form.CompetitionForm()
+    if competition_form.validate_on_submit():
+        try:
+            feedback = dbCompetition.create_competition(competition_form)
+            if feedback == 'OK':
+                return '添加成功'
+            else:
+                return feedback
+        except Exception, e:
+            return 'failed'
+    return u'数据填写有误'
+
+
+@ajax.route("/ajax/delete_competition", methods = ['POST'])
+@login_required
+def delete_competition():
+    try:
+        competition_id = request.form.get('competition_id', -1, type=int)
+        dbCompetition.delete_by_id(competition_id)
+        return u'OK'
+    except Exception, e:
+        return u'删除失败'
+
+
 #
 # @brief: ajax html for one player item
 # @allowed user: admin and coach
@@ -984,3 +1011,17 @@ def get_players():
                    page_list=page_list,
                    page=pagination.page,
                    pages=pagination.pages)
+
+
+@ajax.route("/ajax/delete_join", methods = ['POST'])
+@login_required
+def delete_join():
+    try:
+        competition_id = request.form.get('competition_id', -1, type=int)
+        player_id = request.form.get('player_id', -1, type=int)
+        competition = dbCompetition.get_by_id(competition_id)
+        player = dbPlayer.get_by_id(player_id)
+        dbCompetition.delete_join(competition, player)
+        return u'OK'
+    except Exception, e:
+        return u'删除失败'

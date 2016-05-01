@@ -2,7 +2,7 @@
   <td class="list-item-check">
     <label><input type="radio" name="competition" value="{{ competition.id }}"></label>
   </td>
-  <td width="50%" style="font-size: larger;">
+  <td width="40%" style="font-size: larger;">
     <b> {{ competition.title }}</b><br>
     {% if process == 0 %}
     <label class="label label-danger">未开始</label>
@@ -14,7 +14,7 @@
   </td>
   <td style="font-size: larger;"><b>{{ competition.year }}</b></td>
   <td>{{ competition.event_date.strftime('%Y-%m-%d') }}</td>
-  <td>
+  <td width="15%">
     <label class="label bg-blue">{{ competition.players.count() }}</label>
     <a class="btn btn-xs btn-link" href="{{ url_for('admin.manage_player', cid=competition.id) }}">详细列表</a>
   </td>

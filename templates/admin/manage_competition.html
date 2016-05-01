@@ -36,7 +36,7 @@
             <button class="btn btn-default btn-sm edit_competition">
               <i class="fa fa-pencil-square-o"></i> 修改
             </button>
-            <a class="btn btn-default btn-sm" href="{{ url_for('admin.create_user') }}">
+            <a class="btn btn-default btn-sm" href="{{ url_for('admin.add_competition') }}">
               <i class="fa fa-plus"></i> 添加
             </a>
             <button class="btn btn-default btn-sm to_refresh">
@@ -118,7 +118,6 @@
                 page == 0 || page > get_total_page()) {
           return false;
         }
-        console.log(page);
         get_competition_list(page, search);
       });
     }
@@ -177,9 +176,9 @@
         $page_group.empty();
       });
     }
-    function delete_users(checked) {
+    function delete_competition(checked) {
       var data = {'competition_id': checked};
-      $.post("{{ url_for('ajax.delete_user') }}", data).success(function (ret) {
+      $.post("{{ url_for('ajax.delete_competition') }}", data).success(function (ret) {
         $('.closeModal').click();
         if (ret == 'OK') {
           $('#competition' + checked).fadeOut(1200, function(){ $(this).remove(); });
@@ -203,16 +202,16 @@
         get_competition_list(1, search);
       });
 
-      $('.to_delete_user').click(function () {
+      $('.to_delete_competition').click(function () {
         var $check = $('input[name="competition"]:checked');
         if ($check.length <= 0) {
           return false;
         }
       });
 
-      $('.delete_user').click(function () {
+      $('.delete_competition').click(function () {
         var check = $('input[name="competition"]:checked').val();
-        delete_users(check);
+        delete_competition(check);
       });
 
       $('.edit_user').click(function () {

@@ -192,17 +192,20 @@ class CompetitionForm(Form):
     year = SelectField('year', validators=[validators.DataRequired()],
                        choices=[(str(y), y) for y in range(now_year, now_year - 5, -1)],
                        default=now_year)
-    event_date = DateField('event_date', format='%Y/%m/%d')
+    event_date = DateField('event_date', format='%Y/%m/%d', validators=[validators.DataRequired()])
+    description = TextAreaField('description', validators=[validators.Optional()])
+    submit = SubmitField(u'提交')
 
 
 class PlayerForm(Form):
-    stu_id = StringField(u'学号', validators=[validators.DataRequired(), validators.Length(min=10, max=10)])
+    stu_id = StringField(u'学号', validators=[validators.DataRequired(), validators.Length(min=5, max=30)])
     name = StringField(u'姓名', validators=[validators.DataRequired()])
     gender = RadioField(u'gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default='1')
     phone = StringField(u'手机', validators=[validators.DataRequired(), validators.Length(min=7, max=15)])
     email = StringField(u'邮箱', validators=[validators.Optional(), validators.Length(min=1, max=512),
                                              validators.Email(message=u'邮件格式有误')])
 
+    school = StringField(u'学校', validators=[validators.DataRequired()])
     college = SelectField(u'学院', validators=[validators.DataRequired()],
                           choices=[(str(college), SCHOOL_COLLEGE_MAP[college]) for college in SCHOOL_COLLEGE_MAP],
                           default='0')
