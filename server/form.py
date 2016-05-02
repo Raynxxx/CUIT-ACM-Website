@@ -194,7 +194,6 @@ class CompetitionForm(Form):
                        default=now_year)
     event_date = DateField('event_date', format='%Y/%m/%d', validators=[validators.DataRequired()])
     description = TextAreaField('description', validators=[validators.Optional()])
-    submit = SubmitField(u'提交')
 
 
 class PlayerForm(Form):
@@ -205,8 +204,9 @@ class PlayerForm(Form):
     email = StringField(u'邮箱', validators=[validators.Optional(), validators.Length(min=1, max=512),
                                              validators.Email(message=u'邮件格式有误')])
 
-    school = StringField(u'学校', validators=[validators.DataRequired()])
-    college = StringField(u'学院', validators=[validators.DataRequired()])
+    college = SelectField(u'学院', validators=[validators.DataRequired()],
+                          choices=[(str(college), SCHOOL_COLLEGE_MAP[college]) for college in SCHOOL_COLLEGE_MAP],
+                          default='0')
     major = StringField(u'专业', validators=[validators.DataRequired()])
     grade = StringField(u'班级', validators=[validators.DataRequired()])
     shirt_size = SelectField(u'衣服尺码', validators=[validators.DataRequired()],

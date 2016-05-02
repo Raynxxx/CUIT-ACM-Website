@@ -9,7 +9,7 @@
   <td>{{ '男' if player.gender else '女' }}</td>
   <td>{{ player.shirt_size }}</td>
   <td>{{ player.phone }}<br>{{ player.email }}</td>
-  <td>{{ player.school or '' }} {{ college_mapper.get(player.college, '') }}
+  <td>{{ college_mapper.get(player.college, '') }}
     <br>{{ player.major }} {{ player.grade }}</td>
   <td>{{ register_time }}</td>
 </tr>

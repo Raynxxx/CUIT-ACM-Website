@@ -64,7 +64,6 @@ def create_player(player_form):
     player.gender = True if player_form.gender.data == '1' else False
     player.phone = player_form.phone.data
     player.email = player_form.email.data
-    player.school = player_form.school.data
     player.college = player_form.college.data
     player.major = player_form.major.data
     player.grade = player_form.grade.data

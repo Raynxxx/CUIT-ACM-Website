@@ -387,7 +387,7 @@ def export_players(cid):
     results = dbCompetition.get_players(competition)
     title = competition.title + u'报名表'
     headers = [u'姓名', u'学号', u'性别', u'衣服大小', u'手机号码',
-               u'邮箱', u'学校', u'学院', u'专业', u'班级', u'报名时间']
+               u'邮箱', u'学院', u'专业', u'班级', u'报名时间']
     ret = [headers]
     for row in results:
         player = row[0]
@@ -398,7 +398,6 @@ def export_players(cid):
             player.shirt_size,
             player.phone,
             player.email,
-            player.school,
             SCHOOL_COLLEGE_MAP[player.college],
             player.major,
             player.grade,
