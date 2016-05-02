@@ -980,9 +980,10 @@ def delete_competition():
 # @allowed user: admin and coach
 #
 @login_required
-def get_player_list_item(player):
+def get_player_list_item(result):
     return render_template('ajax/player_list_item.html',
-                           player = player,
+                           player = result[0],
+                           register_time = result[1],
                            college_mapper = SCHOOL_COLLEGE_MAP)
 
 
@@ -1005,7 +1006,7 @@ def get_players():
     pagination = dbCompetition.get_players_pageable(competition, page,
                                                     per_page, search=search)
     page_list = list(pagination.iter_pages(left_current=1, right_current=2))
-    return jsonify(items=[get_player_list_item(p) for p in pagination.items],
+    return jsonify(items=[get_player_list_item(res) for res in pagination.items],
                    prev_num=pagination.prev_num,
                    next_num=pagination.next_num,
                    page_list=page_list,

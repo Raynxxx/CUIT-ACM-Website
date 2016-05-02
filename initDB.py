@@ -11,7 +11,7 @@ from dao.dbHonor import Honor
 from dao.dbArticle import  *
 from dao.dbTag import Tag
 from dao.dbNews import News
-from dao.dbCompetition import Competition
+from dao.dbCompetition import Competition, CompetitionPlayer
 from dao.dbPlayer import Player
 
 if __name__ == "__main__":

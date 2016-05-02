@@ -206,9 +206,7 @@ class PlayerForm(Form):
                                              validators.Email(message=u'邮件格式有误')])
 
     school = StringField(u'学校', validators=[validators.DataRequired()])
-    college = SelectField(u'学院', validators=[validators.DataRequired()],
-                          choices=[(str(college), SCHOOL_COLLEGE_MAP[college]) for college in SCHOOL_COLLEGE_MAP],
-                          default='0')
+    college = StringField(u'学院', validators=[validators.DataRequired()])
     major = StringField(u'专业', validators=[validators.DataRequired()])
     grade = StringField(u'班级', validators=[validators.DataRequired()])
     shirt_size = SelectField(u'衣服尺码', validators=[validators.DataRequired()],

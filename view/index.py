@@ -368,8 +368,12 @@ def members():
 # @accepted methods: [get, post]
 # @allowed user: all
 #
+@main.route('/competition/join', methods=['GET', 'POST'])
 @main.route('/competition/join/<year>', methods=['GET', 'POST'])
-def competition_join(year):
+def competition_join(year=None):
+    if not year:
+        from datetime import datetime
+        year = datetime.now().year
     competition_of_year = dbCompetition.get_by_year(year)
     player_form = form.PlayerForm()
     if request.method == 'POST' and player_form.validate_on_submit():

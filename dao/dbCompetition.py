@@ -2,13 +2,28 @@
 from sqlalchemy import or_, and_
 from dao.db import db
 from dao.dbPlayer import Player
+from datetime import datetime
 
-competition_player = db.Table(
-    'competition_player',
-    db.Column('competition_id', db.Integer, db.ForeignKey('competition.id', ondelete="CASCADE")),
-    db.Column('player_id', db.Integer, db.ForeignKey('player.id', ondelete="CASCADE")),
-    info={'bind_key': 'competitions'}
-)
+class CompetitionPlayer(db.Model):
+    __tablename__ = 'competition_player'
+    __bind_key__ = 'competitions'
+    competition_id = db.Column(db.Integer, db.ForeignKey('competition.id', ondelete="CASCADE"),
+                               primary_key=True)
+    player_id = db.Column(db.Integer, db.ForeignKey('player.id', ondelete="CASCADE"),
+                          primary_key=True)
+    time = db.Column(db.DateTime)
+
+    def __init__(self):
+        self.time = datetime.now()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 class Competition(db.Model):
     __bind_key__ = 'competitions'
@@ -19,7 +34,7 @@ class Competition(db.Model):
     event_date = db.Column(db.DateTime)
     description = db.Column(db.Text)
 
-    players = db.relationship('Player', secondary=competition_player, lazy='dynamic',
+    players = db.relationship('Player', secondary='competition_player', lazy='dynamic',
                               backref=db.backref('competitions', lazy='dynamic'))
 
 
@@ -55,12 +70,21 @@ def get_list_pageable(page, per_page, search=None):
                 .paginate(page, per_page)
 
 
-def get_players_pageable(competition, page, per_page, search=None):
-    query = competition.players
+def get_players(competition, search=None):
+    query = competition.players.add_columns(CompetitionPlayer.time)
     if search:
         query = query.filter(or_(Player.stu_id.like("%" + search + "%"),
                                  Player.name.like("%" + search + "%")))
-    return query.order_by(Player.id.desc())\
+    return query.order_by(CompetitionPlayer.time.desc()).all()
+
+
+def get_players_pageable(competition, page, per_page, search=None):
+    query = competition.players.add_columns(CompetitionPlayer.time)
+    if search:
+        query = query.filter(or_(Player.stu_id.like("%" + search + "%"),
+                                 Player.name.like("%" + search + "%")))
+
+    return query.order_by(CompetitionPlayer.time.desc())\
                 .paginate(page, per_page)
 
 
@@ -88,8 +112,10 @@ def delete_by_id(id):
 def create_join(competition, player):
     if player in competition.players:
         return u'你的报名信息已被采集，请勿重复提交'
-    competition.players.append(player)
-    competition.save()
+    cp = CompetitionPlayer()
+    cp.competition_id = competition.id
+    cp.player_id = player.id
+    cp.save()
     return 'OK'
 
 

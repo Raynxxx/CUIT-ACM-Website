@@ -12,7 +12,6 @@ from view.ajax import ajax
 from view.index import main
 from view import mail
 
-
 app = Flask(__name__)
 login_manager = LoginManager()
 flask_resize = Resize()

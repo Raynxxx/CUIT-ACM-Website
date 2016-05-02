@@ -381,4 +381,31 @@ def manage_player(cid):
                            competition = competition)
 
 
+@admin.route('/admin/competition/<cid>/players/export', methods=['GET'])
+def export_players(cid):
+    competition = dbCompetition.get_by_id(cid)
+    results = dbCompetition.get_players(competition)
+    title = competition.title + u'报名表'
+    headers = [u'姓名', u'学号', u'性别', u'衣服大小', u'手机号码',
+               u'邮箱', u'学校', u'学院', u'专业', u'班级', u'报名时间']
+    ret = [headers]
+    for row in results:
+        player = row[0]
+        cur = [
+            player.name,
+            player.stu_id,
+            u'男' if player.gender else u'女',
+            player.shirt_size,
+            player.phone,
+            player.email,
+            player.school,
+            SCHOOL_COLLEGE_MAP[player.college],
+            player.major,
+            player.grade,
+            row[1]
+        ]
+        ret.append(cur)
+    return make_response_from_array(ret, 'xls', file_name=title.decode('latin1'))
+
+
 

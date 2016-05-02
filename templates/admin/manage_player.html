@@ -48,6 +48,10 @@
               <i class="fa fa-refresh"></i> &nbsp; 刷新列表
             </button>
 
+            <a class="btn btn-default btn-sm" href="{{ url_for('admin.export_players', cid=competition.id) }}">
+              <i class="fa fa-file-excel-o"></i> 导出Excel
+            </a>
+
             <div class="pull-right page-box">
               <div class="btn-group page-group">
               </div>
@@ -56,12 +60,12 @@
           <table class="table table-bordered table-hover table-striped list-table">
             <thead>
             <tr><th>选择</th><th>姓名</th><th>学号</th><th>性别</th><th>衣服大小</th>
-              <th>联系方式</th><th>学校院系班级</th></tr>
+              <th>联系方式</th><th>学校院系班级</th><th>报名时间</th></tr>
             </thead>
             <tbody class="list-table-body"></tbody>
             <tfoot>
             <tr><th>选择</th><th>姓名</th><th>学号</th><th>性别</th><th>衣服大小</th>
-              <th>联系方式</th><th>学校院系班级</th></tr>
+              <th>联系方式</th><th>学校院系班级</th><th>报名时间</th></tr>
             </tfoot>
           </table>
         </div>
@@ -164,7 +168,7 @@
         var $list_table = $('.list-table-body');
         $list_table.empty();
         if (length == 0) {
-          $list_table.append('<tr><td colspan="7"><h2>无报名学生</h2></tr>');
+          $list_table.append('<tr><td colspan="8"><h2>无报名学生</h2></tr>');
         } else {
           for (var i = 0; i < length; ++i) {
             $list_table.append(item_list[i]);
@@ -177,7 +181,7 @@
       }).error(function() {
         var $list_table = $('.list-table-body').first();
         $list_table.empty();
-        $list_table.append('<tr><td colspan="7"><h2>加载失败</h2></tr>');
+        $list_table.append('<tr><td colspan="8"><h2>加载失败</h2></tr>');
         $('.list-box > div.overlay').fadeOut(300, make_iCheck);
         $page_group.empty();
       });
