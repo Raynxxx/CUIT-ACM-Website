@@ -8,7 +8,8 @@ from sqlalchemy.exc import IntegrityError
 import os, traceback
 
 
-resource_uploader = UploadSet('resource', DEFAULTS + ARCHIVES, default_dest=lambda app: app.instance_root)
+resource_uploader = UploadSet('resource', DEFAULTS + ARCHIVES,
+                              default_dest=lambda app: app.instance_root)
 
 
 def get_type(file_type):

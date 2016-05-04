@@ -981,7 +981,23 @@ def add_competition():
                 return feedback
         except Exception, e:
             current_app.logger.error(traceback.format_exc())
-            return u'失败'
+            return u'添加失败'
+    return u'数据填写有误'
+
+
+@ajax.route("/ajax/edit_competition", methods = ['POST'])
+@login_required
+def edit_competition():
+    competition_form = form.CompetitionForm()
+    if competition_form.validate_on_submit():
+        try:
+            id = request.form.get('id')
+            feedback = dbCompetition.update_competition(id, competition_form)
+            if feedback == 'OK':
+                return '修改成功'
+        except Exception, e:
+            current_app.logger.error(traceback.format_exc())
+            return u'修改失败'
     return u'数据填写有误'
 
 

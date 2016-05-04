@@ -331,10 +331,10 @@ def manage_resource():
 @admin.route("/admin/manage_poster", methods = ['GET'])
 @login_required
 def manage_poster():
-    file_upload_form = form.FileUploadForm()
     if not current_user.is_admin and not current_user.is_coach:
         return redirect(url_for('main.index'))
     from dao.dbResource import Resource, ResourceUsage
+    file_upload_form = form.FileUploadForm()
     posters = Resource.query.filter(Resource.usage == ResourceUsage.POSTER_RES).all()
     return render_template('manage_poster.html',
                            title=u'首页图片管理',
@@ -373,6 +373,21 @@ def add_competition():
     competition_form = form.CompetitionForm()
     return render_template('add_competition.html',
                            title = u'添加校赛',
+                           competition_form = competition_form)
+
+
+@admin.route('/admin/edit_competition', methods=['GET'])
+@login_required
+def edit_competition():
+    id = request.args.get('id')
+    competition = dbCompetition.get_by_id(id)
+    competition_form = form.CompetitionForm()
+    competition_form.title.data = competition.title
+    competition_form.year.data = competition.year
+    competition_form.event_date.data = competition.event_date
+    return render_template('edit_competition.html',
+                           title = u'修改校赛',
+                           competition = competition,
                            competition_form = competition_form)
 
 

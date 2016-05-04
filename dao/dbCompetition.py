@@ -81,6 +81,16 @@ def create_competition(competition_form):
     return 'OK'
 
 
+def update_competition(id, competition_form):
+    competition = get_by_id(id)
+    competition.title = competition_form.title.data
+    competition.year = competition_form.year.data
+    competition.event_date = competition_form.event_date.data
+    competition.description = competition_form.description.data
+    competition.save()
+    return 'OK'
+
+
 def delete_by_id(id):
     competition = get_by_id(id)
     competition.delete()

@@ -214,12 +214,12 @@
         delete_competition(check);
       });
 
-      $('.edit_user').click(function () {
+      $('.edit_competition').click(function () {
         var $check = $('input[name="competition"]:checked');
         if ($check.length <= 0) {
           return false;
         }
-        var url = "{{ url_for('admin.edit_user', p='') }}";
+        var url = "{{ url_for('admin.edit_competition', id='') }}";
         var id = $check.val();
         window.location.href = url + id;
       });
