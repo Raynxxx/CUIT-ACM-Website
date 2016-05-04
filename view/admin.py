@@ -350,6 +350,7 @@ def manage_poster():
 # @allowed user: self, admin and coach
 #
 @admin.route("/admin/cropper", methods=['GET'])
+@login_required
 def cropper():
     file_upload_form = form.FileUploadForm()
     return render_template('cropper.html',
@@ -360,12 +361,14 @@ def cropper():
 ### about competition
 
 @admin.route("/admin/manage_competition", methods=['GET'])
+@login_required
 def manage_competition():
     return render_template('manage_competition.html',
                            title = u'校赛管理')
 
 
 @admin.route('/admin/add_competition', methods=['GET'])
+@login_required
 def add_competition():
     competition_form = form.CompetitionForm()
     return render_template('add_competition.html',
@@ -374,6 +377,7 @@ def add_competition():
 
 
 @admin.route('/admin/competition/<cid>/players', methods=['GET'])
+@login_required
 def manage_player(cid):
     competition = dbCompetition.get_by_id(cid)
     return render_template('manage_player.html',
@@ -382,15 +386,15 @@ def manage_player(cid):
 
 
 @admin.route('/admin/competition/<cid>/players/export', methods=['GET'])
+@login_required
 def export_players(cid):
     competition = dbCompetition.get_by_id(cid)
-    results = dbCompetition.get_players(competition)
+    players = dbCompetition.get_players(competition)
     title = competition.title + u'报名表'
     headers = [u'姓名', u'学号', u'性别', u'衣服大小', u'手机号码',
                u'邮箱', u'学院', u'专业', u'班级', u'报名时间']
     ret = [headers]
-    for row in results:
-        player = row[0]
+    for player in players:
         cur = [
             player.name,
             player.stu_id,
@@ -401,7 +405,7 @@ def export_players(cid):
             SCHOOL_COLLEGE_MAP[player.college],
             player.major,
             player.grade,
-            row[1]
+            player.time
         ]
         ret.append(cur)
     return make_response_from_array(ret, 'xls', file_name=title.decode('latin1'))

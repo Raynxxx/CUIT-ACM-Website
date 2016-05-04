@@ -122,6 +122,7 @@ def create_user():
                 return u"添加用户成功"
             return u"添加用户失败: " + ret
         except Exception, e:
+            current_app.logger.error(traceback.format_exc())
             return u"添加用户失败: " + e.message
     else:
         #print reg_form.errors
@@ -146,6 +147,7 @@ def create_users():
             ret = user_server.create_many_users(reg_form, current_user)
             return ret
         except Exception, e:
+            current_app.logger.error(traceback.format_exc())
             return u"添加用户失败: " + e.message
     else:
         #print reg_form.errors
@@ -173,6 +175,7 @@ def check_apply():
             function.reply_of_apply(mail, user.serialize, _app_ctx_stack.top, opt)
         return ret
     except Exception:
+        current_app.logger.error(traceback.format_exc())
         return u'操作失败'
 
 
@@ -199,6 +202,7 @@ def edit_user():
                 return u"修改用户成功"
             return u'修改用户失败: ' + ret
         except Exception, e:
+            current_app.logger.error(traceback.format_exc())
             return u"修改用户失败: " + e.message
     else:
         #print user_modify_form.errors
@@ -222,6 +226,7 @@ def edit_user_self():
                 return u"修改用户成功"
             return u'修改用户失败: ' + ret
         except Exception, e:
+            current_app.logger.error(traceback.format_exc())
             return u"修改用户失败: " + e.message
     else:
         #print user_modify_form.errors
@@ -262,7 +267,7 @@ def delete_user():
         user_server.delete_by_id(id)
         return u"OK"
     except Exception, e:
-        print e.message
+        current_app.logger.error(traceback.format_exc())
         return u"FAIL"
 
 
@@ -314,7 +319,7 @@ def delete_news():
         news_server.delete_by_id(news_id)
         return u'OK'
     except Exception, e:
-        print e.message
+        current_app.logger.error(traceback.format_exc())
         return u'FAIL'
 
 #
@@ -335,8 +340,10 @@ def post_news():
             news_server.post(news_form, current_user, is_draft)
             return u"发表成功!"
         except IntegrityError:
+            current_app.logger.error(traceback.format_exc())
             return u"发表新闻失败: 固定链接已存在"
         except Exception, e:
+            current_app.logger.error(traceback.format_exc())
             return u"发表新闻失败: " + e.message
     else:
         return u"发表新闻失败,请检查内容"
@@ -393,8 +400,10 @@ def update_account():
         account_server.update_account_by_id(account_id)
         return u"ok"
     except AccountUpdatingException, e:
+        current_app.logger.error(traceback.format_exc())
         return 'ERROR: ' + e.message
     except:
+        current_app.logger.error(traceback.format_exc())
         return 'ERROR: unknown error'
 
 
@@ -428,10 +437,13 @@ def account_manager():
                 account_server.add_account(profile_user, account_form)
                 return u"ok"
         except AccountUpdatingException, e:
+            current_app.logger.error(traceback.format_exc())
             return 'ERROR: ' + e.message
         except AccountExistException, e:
+            current_app.logger.error(traceback.format_exc())
             return 'ERROR: ' + e.message
         except:
+            current_app.logger.error(traceback.format_exc())
             return 'ERROR: unknown error'
     else:
         return u"添加账号失败"
@@ -459,8 +471,10 @@ def delete_account():
         account_server.delete_account_by_id(profile_user, account_id)
         return u"OK"
     except AccountUpdatingException, e:
+        current_app.logger.error(traceback.format_exc())
         return 'ERROR: ' + e.message
     except:
+        current_app.logger.error(traceback.format_exc())
         return 'ERROR: unknown error'
 
 
@@ -487,6 +501,7 @@ def solution_manager():
             article_server.post(solution_form, profile_user, is_draft)
             return u"发表成功!"
         except Exception, e:
+            current_app.logger.error(traceback.format_exc())
             return u"发表文章失败" + e.message
     else:
         return u"发表文章失败,请检查内容"
@@ -597,6 +612,7 @@ def upload():
             else:
                 return u'上传数据失败'
         except Exception, e:
+            current_app.logger.error(traceback.format_exc())
             return u'错误: ' + e.message
     return u'数据填写有误'
 
@@ -625,6 +641,7 @@ def upload_poster():
             else:
                 return u'上传数据失败'
         except Exception, e:
+            current_app.logger.error(traceback.format_exc())
             return u'错误: ' + e.message
     current_app.logger.error(file_form.errors)
     return u'数据填写有误'
@@ -681,6 +698,7 @@ def delete_resource():
         msg = resource_server.delete_file(resource_id, current_user)
         return msg
     except:
+        current_app.logger.error(traceback.format_exc())
         return u'删除失败'
 
 
@@ -746,7 +764,7 @@ def add_honor():
             msg = honor_server.add_honor(honor_form, resource_list)
             return msg
         except Exception, e:
-            print e
+            current_app.logger.error(traceback.format_exc())
             return 'failed'
     return u'数据填写有误'
 
@@ -802,6 +820,7 @@ def delete_honor():
         msg = honor_server.delete_honor(honor_id)
         return msg
     except:
+        current_app.logger.error(traceback.format_exc())
         return u'FAIL'
 
 
@@ -882,6 +901,7 @@ def delete_article():
         article_server.delete_by_id(article_id)
         return u'删除成功'
     except Exception, e:
+        current_app.logger.error(traceback.format_exc())
         return u'删除失败'
 
 
@@ -914,7 +934,7 @@ def members():
 def get_competition_list_item(competition):
     from datetime import datetime
     diff = (competition.event_date - datetime.today()).days
-    if diff > 30:
+    if diff > 2:
         process = 0
     elif diff > -1:
         process = 1
@@ -960,7 +980,8 @@ def add_competition():
             else:
                 return feedback
         except Exception, e:
-            return 'failed'
+            current_app.logger.error(traceback.format_exc())
+            return u'失败'
     return u'数据填写有误'
 
 
@@ -972,6 +993,7 @@ def delete_competition():
         dbCompetition.delete_by_id(competition_id)
         return u'OK'
     except Exception, e:
+        current_app.logger.error(traceback.format_exc())
         return u'删除失败'
 
 
@@ -980,10 +1002,9 @@ def delete_competition():
 # @allowed user: admin and coach
 #
 @login_required
-def get_player_list_item(result):
+def get_player_list_item(player):
     return render_template('ajax/player_list_item.html',
-                           player = result[0],
-                           register_time = result[1],
+                           player = player,
                            college_mapper = SCHOOL_COLLEGE_MAP)
 
 
@@ -1006,7 +1027,7 @@ def get_players():
     pagination = dbCompetition.get_players_pageable(competition, page,
                                                     per_page, search=search)
     page_list = list(pagination.iter_pages(left_current=1, right_current=2))
-    return jsonify(items=[get_player_list_item(res) for res in pagination.items],
+    return jsonify(items=[get_player_list_item(p) for p in pagination.items],
                    prev_num=pagination.prev_num,
                    next_num=pagination.next_num,
                    page_list=page_list,
@@ -1014,15 +1035,13 @@ def get_players():
                    pages=pagination.pages)
 
 
-@ajax.route("/ajax/delete_join", methods = ['POST'])
+@ajax.route("/ajax/delete_player", methods = ['POST'])
 @login_required
-def delete_join():
+def delete_player():
     try:
-        competition_id = request.form.get('competition_id', -1, type=int)
         player_id = request.form.get('player_id', -1, type=int)
-        competition = dbCompetition.get_by_id(competition_id)
-        player = dbPlayer.get_by_id(player_id)
-        dbCompetition.delete_join(competition, player)
+        dbPlayer.delete_by_id(player_id)
         return u'OK'
     except Exception, e:
+        current_app.logger.error(traceback.format_exc())
         return u'删除失败'

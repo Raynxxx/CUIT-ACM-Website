@@ -150,7 +150,7 @@ class FileUploadForm(Form):
     description = TextAreaField(u'description', validators=[validators.Optional()])
     level = RadioField('level', choices=[('0', u'公开'), ('1', u'共享'), ('2', u'私有')], coerce=str, default=2)
     usage = RadioField('usage',choices=[('1', u'荣誉资源'), ('2', u'新闻资源'),
-                                        ('3',u'题解资源'), ('4',u'其他资源')], coerce=str, default=2)
+                                        ('3',u'题解资源'), ('5',u'其他资源')], coerce=str, default=2)
     upload = FileField(u'file')
     submit = SubmitField(u'提交')
 
@@ -161,7 +161,7 @@ class FileInfoForm(Form):
     description = TextAreaField(u'description', validators=[validators.Optional()])
     level = RadioField('level', choices=[('0', u'公开'), ('1', u'内部共享'), ('2', u'私有')], coerce=str, default=2)
     usage = RadioField('usage',choices=[('1', u'荣誉资源'), ('2', u'新闻资源'),
-                                        ('3',u'题解资源'), ('4',u'其他资源')], coerce=str, default=4)
+                                        ('3',u'题解资源'), ('5',u'其他资源')], coerce=str, default=4)
     submit = SubmitField(u'提交')
 
 
@@ -194,16 +194,20 @@ class CompetitionForm(Form):
                        default=now_year)
     event_date = DateField('event_date', format='%Y/%m/%d', validators=[validators.DataRequired()])
     description = TextAreaField('description', validators=[validators.Optional()])
+    submit = SubmitField(u'提交')
 
 
 class PlayerForm(Form):
-    stu_id = StringField(u'学号', validators=[validators.DataRequired(), validators.Length(min=5, max=30)])
-    name = StringField(u'姓名', validators=[validators.DataRequired()])
+    stu_id = StringField(u'学号', validators=[validators.DataRequired(),
+                                            validators.Length(min=10, max=10, message=u'学号长度不正确')])
+    name = StringField(u'姓名', validators=[validators.DataRequired(),
+                                          validators.Length(min=2, max=5, message=u'姓名长度不正确')])
     gender = RadioField(u'gender', choices=[('1', u'男'), ('0', u'女')], coerce=str, default='1')
-    phone = StringField(u'手机', validators=[validators.DataRequired(), validators.Length(min=7, max=15)])
+    phone = StringField(u'手机', validators=[validators.DataRequired(), validators.Length(min=7, max=11)])
     email = StringField(u'邮箱', validators=[validators.Optional(), validators.Length(min=1, max=512),
                                              validators.Email(message=u'邮件格式有误')])
 
+    #school = StringField(u'学校', validators=[validators.DataRequired()])
     college = SelectField(u'学院', validators=[validators.DataRequired()],
                           choices=[(str(college), SCHOOL_COLLEGE_MAP[college]) for college in SCHOOL_COLLEGE_MAP],
                           default='0')

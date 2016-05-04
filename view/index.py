@@ -371,24 +371,21 @@ def members():
 @main.route('/competition/join', methods=['GET', 'POST'])
 @main.route('/competition/join/<year>', methods=['GET', 'POST'])
 def competition_join(year=None):
+    from datetime import datetime
     if not year:
-        from datetime import datetime
         year = datetime.now().year
     competition_of_year = dbCompetition.get_by_year(year)
     player_form = form.PlayerForm()
+    process = 0
+    if competition_of_year:
+        diff = (competition_of_year.event_date - datetime.today()).days
+        process = 0 if diff > 2 else 1
     if request.method == 'POST' and player_form.validate_on_submit():
-        has = dbPlayer.get_by_stu_and_name(player_form.stu_id.data,
-                                           player_form.name.data)
-        if not has:
-            feedback = dbPlayer.create_player(player_form)
-            if feedback[0] != 'OK':
-                flash(feedback[0])
-            else:
-                feedback = dbCompetition.create_join(competition_of_year, feedback[1])
-                flash(u'报名成功') if feedback == 'OK' else flash(feedback)
+        feedback = dbPlayer.create_player(player_form, competition_of_year)
+        if feedback == 'OK':
+            flash(u'报名成功')
         else:
-            feedback = dbCompetition.create_join(competition_of_year, has)
-            flash(u'报名成功') if feedback == 'OK' else flash(feedback)
+            flash(feedback)
     else:
         for errors in player_form.errors.values():
             for error in  errors:
@@ -397,4 +394,5 @@ def competition_join(year=None):
                            title = u'校赛报名',
                            cur_year = year,
                            competition_of_year = competition_of_year,
+                           process = process,
                            player_form = player_form)

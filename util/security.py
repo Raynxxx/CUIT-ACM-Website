@@ -1,8 +1,9 @@
 import pyDes
 import base64
+from secret import security
 
-key = 'Y3VpdGFj'
-iv = "\x22\x33\x35\x81\xBC\x38\x5A\xE7"
+key = security.key
+iv = security.iv
 
 def encrypt(data):
     k = pyDes.des(key, pyDes.CBC, iv, pad=None, padmode=pyDes.PAD_PKCS5)

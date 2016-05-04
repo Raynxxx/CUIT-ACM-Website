@@ -11,7 +11,6 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url_for('admin.manage_competition') }}"><i class="fa fa-dashboard"></i> 校赛列表</a></li>
-    <li>{{ competition.title }}</li>
     <li class="active">报名学生列表</li>
   </ol>
 {% endblock %}
@@ -187,8 +186,8 @@
       });
     }
     function delete_player(checked) {
-      var data = { 'competition_id': competition_id, 'player_id': checked };
-      $.post("{{ url_for('ajax.delete_join') }}", data).success(function (ret) {
+      var data = { 'player_id': checked };
+      $.post("{{ url_for('ajax.delete_player') }}", data).success(function (ret) {
         $('.closeModal').click();
         if (ret == 'OK') {
           $('#player' + checked).fadeOut(1200, function(){ $(this).remove(); });

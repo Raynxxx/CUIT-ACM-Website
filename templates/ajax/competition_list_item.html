@@ -5,11 +5,11 @@
   <td width="40%" style="font-size: larger;">
     <b> {{ competition.title }}</b><br>
     {% if process == 0 %}
-    <label class="label label-danger">未开始</label>
+    <label class="label label-danger">报名中</label>
     {% elif process == 1 %}
     <label class="label label-success">正在进行</label>
     {% else %}
-    <label class="label label-default">已完成</label>
+    <label class="label label-default">已结束</label>
     {% endif %}
   </td>
   <td style="font-size: larger;"><b>{{ competition.year }}</b></td>

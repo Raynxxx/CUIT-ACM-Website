@@ -43,10 +43,23 @@
 </head>
 <body class="login-page" style="background-color: #333;">
 <div id="fakeLoader"></div>
+
 {% if not competition_of_year %}
   <div class="login-box">
     <div style="color: #eee;">
       <h1>{{ cur_year }} 年校赛未开通</h1>
+      <a href="{{ url_for('main.index') }}">
+        <i class="fa fa-home"></i> 回到主页
+      </a>
+      <a href="{{ url_for('main.join_us') }}">
+        <i class="fa fa-key"></i> 加入校队
+      </a>
+    </div>
+  </div>
+{% elif process != 0 %}
+  <div class="login-box" style="width: 540px;">
+    <div style="color: #eee;">
+      <h1>{{ competition_of_year.title }}报名已截止</h1>
       <a href="{{ url_for('main.index') }}">
         <i class="fa fa-home"></i> 回到主页
       </a>
@@ -108,12 +121,12 @@
               <span class="fa fa-envelope-o form-control-feedback"></span>
             </div>
           </div>
+
           <div class="form-group has-feedback">
             <div class="input-group">
               <span class="input-group-addon">院系</span>
               {{ player_form.college(class='form-control required', id="inputCollege") }}
             </div>
-
           </div>
           <div class="form-group has-feedback">
             <div class="input-group">

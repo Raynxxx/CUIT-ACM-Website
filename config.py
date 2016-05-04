@@ -3,8 +3,7 @@
 #fomate: dialect+driver://username:password@host:port/database
 #mysql format : mysql://scott:tiger@localhost/database_name
 
-SQL_USERNAME = 'root'
-SQL_PASSWORD = '63005610'
+from secret import SQL_USERNAME, SQL_PASSWORD, MAIL_PASSWD
 
 SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@localhost/cuit_acm' % (SQL_USERNAME, SQL_PASSWORD)
 
@@ -31,13 +30,14 @@ SCHOOL_COLLEGE_MAP = {
    '7': u"光电技术学院",
    '8': u"控制工程学院",
    '9': u"大气科学学院",
-   '10':u"外国语学院",
-   '11':u"管理学院",
-   '12':u"政治学院",
-   '13':u"文化艺术学院",
-   '14':u"统计学院",
-   '15':u"商学院",
-   '16':u"物流学院",
+   '10': u"外国语学院",
+   '11': u"管理学院",
+   '12': u"政治学院",
+   '13': u"文化艺术学院",
+   '14': u"统计学院",
+   '15': u"商学院",
+   '16': u"物流学院",
+   '17': u'其它'
 }
 
 HONOR_LEVEL_MAP = {
@@ -89,7 +89,7 @@ HONOR_MANAGE_PER_PAGE = 8
 RESOURCE_MANAGE_PER_PAGE = 12
 SITUATION_PER_PAGE = 25
 RANK_TABLE_PER_PAGE = 15
-COMPETITION_MANAGE_PER_PAGE = 5
+COMPETITION_MANAGE_PER_PAGE = 8
 
 
 #index information
@@ -97,9 +97,9 @@ RECENT_CONTEST_JSON = os.path.split(os.path.realpath(__file__))[0] + '/static/js
 
 RECOMMEND_SITE = {
     u'ACM/ICPC信息站' : 'http://acmicpc.info',
-    'BNU OJ' : 'http://acm.bnu.edu.cn',
+    u'BNU OJ' : 'http://acm.bnu.edu.cn',
     u'ACM-ICPC官网' : 'https://icpc.baylor.edu/',
-    'BestCoder': 'http://bestcoder.acmcoder.com/',
+    u'BestCoder': 'http://bestcoder.acmcoder.com/',
     u'CUIT学校主页': 'http://www.cuit.edu.cn'
 }
 
@@ -110,7 +110,7 @@ MAIL_PORT = 25
 MAIL_USE_TLS = True
 MAIL_USE_SSL = False
 MAIL_USERNAME = "acmicpc@cuit.edu.cn"
-MAIL_PASSWORD = "xbnahn"
+MAIL_PASSWORD = MAIL_PASSWD
 MAIL_DEFAULT_SENDER = "acmicpc@cuit.edu.cn"
 MAIL_DEBUG = True
 
