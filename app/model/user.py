@@ -75,6 +75,11 @@ def find_one(user_id):
     return User.query.get_or_404(user_id)
 
 
+def find_one_by_username(username):
+    return User.query.filter(User.username == username)\
+        .first_or_404()
+
+
 def find_all():
     return User.query.all()
 

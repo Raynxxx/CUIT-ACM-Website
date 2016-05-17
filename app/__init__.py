@@ -19,11 +19,10 @@ def create_app(config_name):
     login_manager.init_app(app)
 
     if not app.debug:
-        import logging
         from logging import FileHandler, Formatter
 
         file_handler = FileHandler(app.config['LOG_DIR'], encoding='utf8')
-        file_handler.setLevel(logging.DEBUG)
+        file_handler.setLevel(app.config['LOG_LEVEL'])
         file_handler.setFormatter(Formatter(
             '[%(asctime)s] %(levelname)s: %(message)s '
             '[in %(pathname)s:%(lineno)d]'))

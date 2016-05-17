@@ -1,45 +1,64 @@
 var path = require('path');
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var env = process.env.WEBPACK_ENV;
 
-module.exports = {
-  entry: {
-    admin: './src/admin/index.jsx',
-    common: ['react', 'react-dom', 'antd']
-  },
+var plugins = [
+    new webpack.optimize.CommonsChunkPlugin("commons", "commons.js"),
+    new ExtractTextPlugin('assets/[name].css'),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new HtmlWebpackPlugin({
+        title: '后台管理',
+        template: path.resolve(__dirname, 'templates/index.html'),
+        inject: 'body'
+    })
+];
 
-  output: {
-    path: path.resolve(__dirname, "../app/static/bundle"),
-    filename: '[name].js'
-  },
+if (env === 'build') {
+    var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+    plugins.push(new UglifyJsPlugin({ minimize: true }));
+    outputFile = '[name].min.js';
+} else {
+    outputFile = '[name].js';
+}
 
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel',
-        exclude: /node_modules/,
-        query: { presets: ['react', 'es2015'] }
-      },
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader',
-            'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
-      }
-    ]
-  },
+var config = {
+    entry: {
+        commons: ['react', 'react-dom'],
+        index: ['./src/index.js']
+    },
 
-  postcss: [
-    require('autoprefixer')({ browsers: ['last 2 versions'] })
-  ],
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: outputFile
+    },
 
-  resolve: {
-    extensions: ['', '.js', '.json', '.jsx']
-  },
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                loaders: ['react-hot', 'babel'],
+                exclude: /node_modules/
+            },
+            {
+                test: /\.css/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+            },
+            {
+                test: /\.less$/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader')
+            }
+        ]
+    },
 
-  plugins: [
-    new ExtractTextPlugin('[name].css'),
-    new webpack.optimize.CommonsChunkPlugin("common", "common.js")
-  ]
+    resolve: {
+        extensions: ['', '.js', '.json', '.jsx']
+    },
+
+    plugins: plugins
 };
+
+module.exports = config;
