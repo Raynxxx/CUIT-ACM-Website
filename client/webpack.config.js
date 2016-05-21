@@ -5,42 +5,47 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var env = process.env.WEBPACK_ENV;
 
+var commons = [
+    'babel-polyfill', 'isomorphic-fetch', 'jwt-decode',
+    'react', 'react-dom', 'redux', 'react-router',
+    'react-redux', 'react-router-redux', 'redux-thunk'
+];
+
 var plugins = [
     new webpack.optimize.CommonsChunkPlugin("commons", "commons.js"),
-    new ExtractTextPlugin('assets/[name].css'),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new HtmlWebpackPlugin({
+    new ExtractTextPlugin('[name].css'),
+    new webpack.NoErrorsPlugin()
+    /*new HtmlWebpackPlugin({
         title: '后台管理',
         template: path.resolve(__dirname, 'templates/index.html'),
         inject: 'body'
-    })
+    })*/
 ];
 
 if (env === 'build') {
     var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+    var OccurrenceOrderPlugin = webpack.optimize.OccurrenceOrderPlugin;
     plugins.push(new UglifyJsPlugin({ minimize: true }));
-    outputFile = '[name].min.js';
-} else {
-    outputFile = '[name].js';
+    plugins.push(new OccurrenceOrderPlugin());
 }
 
 var config = {
     entry: {
-        commons: ['react', 'react-dom'],
+        commons: commons,
         index: ['./src/index.js']
     },
 
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: outputFile
+        path: path.resolve(__dirname, '../app/static'),
+        publicPath: 'static',
+        filename: '[name].js'
     },
 
     module: {
         loaders: [
             {
                 test: /\.jsx?$/,
-                loaders: ['react-hot', 'babel'],
+                loader: 'babel',
                 exclude: /node_modules/
             },
             {
@@ -55,7 +60,7 @@ var config = {
     },
 
     resolve: {
-        extensions: ['', '.js', '.json', '.jsx']
+        extensions: ['', '.js', '.json', '.jsx', '.less', '.css']
     },
 
     plugins: plugins

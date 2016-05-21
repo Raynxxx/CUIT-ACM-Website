@@ -1,5 +1,4 @@
-const APIPrefix = 'http://localhost:5000/api/v1.0';
+const APIPrefix = '/api/v1.0'
 
-export default {
-    login: APIPrefix + '/login'
-}
+export const login      = APIPrefix + '/login'
+export const checkToken = APIPrefix + '/check_token'

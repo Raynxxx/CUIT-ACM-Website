@@ -1,39 +1,59 @@
-import fetch from 'isomorphic-fetch';
-import jwtDecode from 'jwt-decode';
-import { parseJSON } from '../utils/fetch';
-import authAPI from '../api/auth';
+import fetch from 'isomorphic-fetch'
+import jwtDecode from 'jwt-decode'
+import { browserHistory } from 'react-router'
+import { parseJSON } from '../utils/fetch'
+import * as authAPI from '../api/auth'
+import * as types from '../constants/auth'
 
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
-export function loginRequest() {
+function loginRequest() {
     return {
-        type: LOGIN_REQUEST
-    };
+        type: types.LOGIN_REQUEST
+    }
 }
 
-export function loginSuccess(data) {
-    localStorage.setItem('token', token);
+function loginSuccess(data) {
+    localStorage.setItem('token', data.token)
     return {
-        type: LOGIN_SUCCESS,
+        type: types.LOGIN_SUCCESS,
         token: data.token,
         username: data.username
-    };
+    }
+    
 }
 
-export function loginFailure(error) {
-    localStorage.removeItem('token');
+function loginFailure(error) {
+    localStorage.removeItem('token')
     return {
-        type: LOGIN_FAILURE,
-        status: error.status,
-        statusText: error.statusText
-    };
+        type: types.LOGIN_FAILURE,
+        errorText: error
+    }
 }
 
-export function login(username, password, redirect) {
+function checkTokenRequest() {
+    return {
+        type: types.CHECK_TOKEN_REQUEST
+    }
+}
+
+function checkTokenSuccess(data) {
+    return {
+        type: types.CHECK_TOKEN_SUCCESS,
+        username: data.username
+    }
+}
+
+function checkTokenFailure(error) {
+    localStorage.removeItem('token')
+    return {
+        type: types.CHECK_TOKEN_FAILURE,
+        errorText: error
+    }
+}
+
+export function login(username, password, remember) {
     return dispatch => {
-        dispatch(loginRequest());
+        dispatch(loginRequest())
         const options = {
             method: 'POST',
             headers: {
@@ -41,24 +61,50 @@ export function login(username, password, redirect) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username, password
+                username, password, remember
             })
-        };
+        }
         return fetch(authAPI.login, options).then(parseJSON)
             .then(json => {
-                try {
-                    let decoded = jwtDecode(json.token);
-                    console.log(decoded);
+                if (json.error) {
+                    dispatch(loginFailure(json.text))
+                } else {
+                    const decoded = jwtDecode(json.token)
                     dispatch(loginSuccess({
                         token: json.token,
                         username: decoded.username
-                    }));
-                } catch (e) {
-                    console.log(e);
+                    }))
                 }
             })
             .catch(error => {
-                dispatch(loginFailure(error));
-            });
+                console.log(error)
+                dispatch(loginFailure(error))
+            })
+    }
+}
+
+export function checkToken(token) {
+    return dispatch => {
+        dispatch(checkTokenRequest())
+        const options = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token })
+        }
+        return fetch(authAPI.checkToken, options).then(parseJSON)
+            .then(json => {
+                if (json.valid) {
+                    dispatch(checkTokenSuccess(json.data))
+                } else {
+                    dispatch(checkTokenFailure(json.text))
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                dispatch(checkTokenFailure(error))
+            })
     }
 }

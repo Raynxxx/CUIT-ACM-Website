@@ -1,22 +1,17 @@
 from flask import Flask
 from config import config
 from flask.ext.migrate import Migrate
-from flask.ext.login import LoginManager
 from .model import db
 
 
 app = Flask(__name__)
 migrate = Migrate()
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'api.login'
 
 
 def create_app(config_name):
     app.config.from_object(config[config_name])
     db.init_app(app)
     migrate.init_app(app, db)
-    login_manager.init_app(app)
 
     if not app.debug:
         from logging import FileHandler, Formatter

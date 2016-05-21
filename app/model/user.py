@@ -1,7 +1,5 @@
 # coding=utf-8
 from . import db, init_from_dict
-from app import login_manager
-from flask.ext.login import UserMixin, AnonymousUserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
@@ -12,7 +10,7 @@ class Permission:
     Admin = 0x04
 
 
-class User(UserMixin, db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), unique=True, index=True, nullable=False)
     name = db.Column(db.String(25))
@@ -62,22 +60,13 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-class AnonymousUser(AnonymousUserMixin):
-    def is_admin(self):
-        return False
-
-
-login_manager.anonymous_user = AnonymousUser
-
-
-@login_manager.user_loader
 def find_one(user_id):
-    return User.query.get_or_404(user_id)
+    return User.query.get(user_id)
 
 
 def find_one_by_username(username):
     return User.query.filter(User.username == username)\
-        .first_or_404()
+        .first()
 
 
 def find_all():

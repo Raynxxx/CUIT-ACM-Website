@@ -31,13 +31,13 @@ class Config:
 class DevConfig(Config):
     DEBUG = True
     PASSWORD = ''
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:{}@localhost/cuit_acm'.format(PASSWORD)
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:{}@localhost/db_name'.format(PASSWORD)
 
 
 class DeployConfig(Config):
     SECRET_KEY = 'another hard guess string'
     PASSWORD = ''
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:{}@localhost/cuit_acm'.format(PASSWORD)
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:{}@localhost/db_name'.format(PASSWORD)
 
 
 config = {
