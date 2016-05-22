@@ -2,7 +2,7 @@
 from . import api
 from app.util.token import generate_token, verify_token
 from app.util.decorators import verify_json
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 from app.model import user
 
 
